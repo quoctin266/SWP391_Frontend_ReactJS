@@ -1,0 +1,18 @@
+.footer-container {
+    display        : flex;
+    justify-content: center;
+    gap            : 40px;
+    margin         : 30px 0;
+
+    .fb-logo {
+        width: 56px;
+    }
+
+    .google-logo {
+        width: 56px;
+    }
+
+    .youtube-logo {
+        width: 56px;
+    }
+}

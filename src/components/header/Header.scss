@@ -1,0 +1,104 @@
+.header-container {
+    .banner-container {
+        position        : relative;
+        background-color: #9ECE9D;
+        height          : 165px;
+        margin-bottom   : 30px;
+
+        .logo-image {
+            width   : 150px;
+            position: absolute;
+            left    : 0;
+            top     : 0;
+        }
+
+        .signin-button {
+            background-color: #00770c;
+            position        : absolute;
+            border-radius   : 30px;
+            right           : 18%;
+            bottom          : 15px;
+            width           : 120px;
+            height          : 40px;
+            font-size       : 1.1em;
+
+            &:hover {
+                background-color: #224b26;
+            }
+
+            @media screen and (max-width: 500px) {
+                right: 15px;
+            }
+        }
+    }
+
+    .navigation-container {
+        .navigation-bar {
+            background-color: #85c697 !important;
+
+            @media screen and (min-width: 1000px) {
+                height: 60px;
+            }
+
+
+            .container {
+                .navbar-nav {
+
+                    @media screen and (min-width: 1000px) {
+                        display        : flex;
+                        width          : 85%;
+                        justify-content: flex-end;
+
+                    }
+
+                    .nav-link {
+                        color    : #E6EBDB !important;
+                        font-size: 1.3em;
+
+                        &:hover {
+                            color: #13470A !important;
+                        }
+
+                        @media screen and (min-width: 1000px) {
+                            font-style: italic;
+                            width     : 100px;
+                            text-align: center;
+                            height    : 50px;
+
+                            &.active {
+                                background-color: #468C4D;
+                                border-radius   : 10px;
+                            }
+                        }
+                    }
+                }
+
+                .brand-container {
+                    @media screen and (min-width: 1000px) {
+                        width   : 80px;
+                        position: relative;
+                    }
+
+                    .navbar-brand {
+                        font-weight: 600;
+                        color      : #13470A;
+
+                        @media screen and (min-width: 1000px) {
+
+                            background-color: #3CB9C1;
+                            font-size       : 1.5em;
+                            font-style      : italic;
+                            border-radius   : 10px;
+                            padding         : 22px 30px;
+                            position        : absolute;
+                            right           : -8px;
+                            bottom          : -39px;
+                            margin          : 0;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
