@@ -4,4 +4,12 @@ const getAllNews = async () => {
   return await axios.get("api/v1/news");
 };
 
-export { getAllNews };
+const getAllServicesIntro = async () => {
+  return await axios.get("api/v1/services-intro");
+};
+
+const getAllShippingCondition = async () => {
+  return await axios.get("api/v1/shipping-condition");
+};
+
+export { getAllNews, getAllServicesIntro, getAllShippingCondition };

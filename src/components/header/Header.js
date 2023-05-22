@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -11,7 +12,7 @@ const Header = () => {
       <div className="banner-container">
         <img src={logo} alt="page logo" className="logo-image" />
         <Button variant="success" className="signin-button">
-          Sign in
+          Log in
         </Button>
       </div>
       <div className="navigation-container">
@@ -26,11 +27,21 @@ const Header = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#features">Services</Nav.Link>
-                <Nav.Link href="#pricing">Price</Nav.Link>
-                <Nav.Link href="#faq">FAQs</Nav.Link>
-                <Nav.Link href="#about">About us</Nav.Link>
+                <NavLink to="/home" className="nav-link">
+                  Home
+                </NavLink>
+                <NavLink to="/services" className="nav-link">
+                  Services
+                </NavLink>
+                <NavLink to="/price" className="nav-link">
+                  Price
+                </NavLink>
+                <NavLink to="/faqs" className="nav-link">
+                  FAQs
+                </NavLink>
+                <NavLink to="/about-us" className="nav-link">
+                  About us
+                </NavLink>
               </Nav>
             </Navbar.Collapse>
             <div className="brand-container">

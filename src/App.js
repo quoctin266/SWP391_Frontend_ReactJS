@@ -16,10 +16,10 @@ function App() {
         // Duration for hide animation in ms.
         autoHideDuration={200}
       >
-        {/* <TestData /> */}
         <Header />
         <div className="body-container">
           <Outlet />
+          {/* <TestData /> */}
         </div>
         <Footer />
       </Scrollbars>
