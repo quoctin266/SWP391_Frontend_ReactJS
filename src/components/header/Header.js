@@ -24,6 +24,7 @@ const Header = () => {
           className="navigation-bar"
         >
           <Container>
+            <Navbar.Brand href="#home">Bird Travel</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
@@ -43,10 +44,10 @@ const Header = () => {
                   About us
                 </NavLink>
               </Nav>
+              <div className="book-btn-container">
+                <Navbar.Brand href="#book">BOOK NOW</Navbar.Brand>
+              </div>
             </Navbar.Collapse>
-            <div className="brand-container">
-              <Navbar.Brand href="#home">BIRD TRAVEL</Navbar.Brand>
-            </div>
           </Container>
         </Navbar>
       </div>
