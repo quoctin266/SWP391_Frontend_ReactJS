@@ -1,13 +1,10 @@
-import "./App.scss";
-// import TestData from "./components/TestData";
-import Header from "./components/guestAndCustomer/header/Header";
-import Footer from "./components/guestAndCustomer/footer/Footer";
+import StaffHeader from "./header/StaffHeader";
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
 
-function App() {
+const Staff = () => {
   return (
-    <div className="App">
+    <div className="staff-container">
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide
@@ -16,15 +13,13 @@ function App() {
         // Duration for hide animation in ms.
         autoHideDuration={200}
       >
-        <Header />
+        <StaffHeader />
         <div className="body-container">
           <Outlet />
-          {/* <TestData /> */}
         </div>
-        <Footer />
       </Scrollbars>
     </div>
   );
-}
+};
 
-export default App;
+export default Staff;

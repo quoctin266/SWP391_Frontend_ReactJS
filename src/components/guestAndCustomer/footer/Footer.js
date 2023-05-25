@@ -1,8 +1,8 @@
 import { Container } from "react-bootstrap";
 import "./Footer.scss";
-import fb from "../../assets/image/fb_logo.png";
-import google from "../../assets/image/google_logo.jpg";
-import youtube from "../../assets/image/youtube_logo.png";
+import fb from "../../../assets/image/fb_logo.png";
+import google from "../../../assets/image/google_logo.jpg";
+import youtube from "../../../assets/image/youtube_logo.png";
 
 const Footer = () => {
   return (
