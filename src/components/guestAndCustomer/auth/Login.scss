@@ -1,0 +1,45 @@
+.login-container {
+
+    background-color: #85C697;
+    border-radius   : 10px;
+    padding         : 50px;
+    margin-top      : 65px;
+
+    .register-prompt {
+        display        : flex;
+        align-items    : baseline;
+        justify-content: flex-end;
+        margin-bottom  : 40px;
+
+        .title {
+            margin-right: 30px;
+            font-size   : 1.1em;
+        }
+    }
+
+    .login-form {
+        width : 50%;
+        margin: 0 auto;
+
+        .title {
+            text-align   : center;
+            font-size    : 2em;
+            font-weight  : 600;
+            margin-bottom: 30px;
+        }
+
+        .form-text {
+            text-align: right;
+        }
+
+        .login-btn {
+            text-align: center;
+            margin-top: 30px;
+
+            button {
+                width: 100px;
+            }
+        }
+    }
+
+}

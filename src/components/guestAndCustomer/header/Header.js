@@ -1,17 +1,24 @@
 import "./Header.scss";
-import logo from "../../assets/image/logo.jpg";
+import logo from "../../../assets/image/logo.jpg";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="header-container">
       <div className="banner-container">
         <img src={logo} alt="page logo" className="logo-image" />
-        <Button variant="success" className="signin-button">
+        <Button
+          variant="success"
+          className="signin-button"
+          onClick={() => navigate("/login")}
+        >
           Log in
         </Button>
       </div>
@@ -24,7 +31,9 @@ const Header = () => {
           className="navigation-bar"
         >
           <Container>
-            <Navbar.Brand href="#home">Bird Travel</Navbar.Brand>
+            <NavLink to="/" end className="navbar-brand">
+              Bird Travel
+            </NavLink>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
@@ -45,7 +54,9 @@ const Header = () => {
                 </NavLink>
               </Nav>
               <div className="book-btn-container">
-                <Navbar.Brand href="#book">BOOK NOW</Navbar.Brand>
+                <NavLink to="/booking" className="navbar-brand">
+                  BOOK NOW
+                </NavLink>
               </div>
             </Navbar.Collapse>
           </Container>
