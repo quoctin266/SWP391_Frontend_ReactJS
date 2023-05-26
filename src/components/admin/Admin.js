@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
+
 import AdminHeader from "./header/AdminHeader";
+
 
 const Admin = () => {
   return (
@@ -13,7 +15,9 @@ const Admin = () => {
         // Duration for hide animation in ms.
         autoHideDuration={200}
       >
+
         <AdminHeader />
+
         <div className="body-container">
           <Outlet />
         </div>
