@@ -4,8 +4,10 @@ import Row from "react-bootstrap/Row";
 import { Col } from "react-bootstrap";
 import "./Login.scss";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <div style={{ backgroundColor: "#E6EBDB" }}>
       <Scrollbars
@@ -55,6 +57,15 @@ const Login = () => {
                   <Button variant="primary" type="submit">
                     Login
                   </Button>
+                </div>
+                <div className="back-btn">
+                  <span
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  >
+                    &lt;&lt;&lt; Back to Homepage
+                  </span>
                 </div>
               </Form>
             </div>
