@@ -75,10 +75,6 @@ const router = createBrowserRouter([
         path: "view-history",
         element: <ViewHistory />,
       },
-      {
-        path: "reset-password",
-        element: <ResetPassword />,
-      },
     ],
   },
   {
@@ -112,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: "feedback",
         element: <Feedback />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
     ],
   },
