@@ -86,7 +86,7 @@ const Home = () => {
             <div className="title">News</div>
             <hr />
             <Scrollbars
-              style={{ height: "20vh" }}
+              style={{ height: "39vh" }}
               autoHide
               // Hide delay in ms
               autoHideTimeout={1000}
@@ -114,7 +114,7 @@ const Home = () => {
             <div className="title">Bird Shipping Services</div>
             <hr />
             <Scrollbars
-              style={{ height: "20vh" }}
+              style={{ height: "39vh" }}
               autoHide
               // Hide delay in ms
               autoHideTimeout={1000}
@@ -148,7 +148,7 @@ const Home = () => {
             <div className="title">Shipping Condition</div>
             <hr />
             <Scrollbars
-              style={{ height: "20vh" }}
+              style={{ height: "39vh" }}
               autoHide
               // Hide delay in ms
               autoHideTimeout={1000}
