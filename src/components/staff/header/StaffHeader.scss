@@ -3,7 +3,6 @@
         position        : relative;
         background-color: #9ECE9D;
         height          : 165px;
-        margin-bottom   : 30px;
 
         .logo-image {
             width   : 150px;
@@ -14,7 +13,7 @@
 
         .btn-group {
             position: absolute;
-            right   : 18%;
+            right   : 13%;
             bottom  : 15px;
 
             @media screen and (max-width: 500px) {
@@ -29,6 +28,8 @@
                 font-size       : 1.1em;
                 display         : flex;
                 align-items     : center;
+                border          : none;
+                color           : white;
 
                 &:hover {
                     background-color: #224b26;
@@ -39,7 +40,7 @@
                 .profile-icon {
                     color           : black;
                     font-size       : 1.5em;
-                    margin-right    : 23px;
+                    margin-right    : 30px;
                     background-color: white;
                     border-radius   : 30px;
                 }

@@ -1,6 +1,8 @@
 import StaffHeader from "./header/StaffHeader";
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import StaffSidebar from "./sidebar/StaffSidebar";
+import "./Staff.scss";
 
 const Staff = () => {
   return (
@@ -15,6 +17,7 @@ const Staff = () => {
       >
         <StaffHeader />
         <div className="body-container">
+          <StaffSidebar />
           <Outlet />
         </div>
       </Scrollbars>
