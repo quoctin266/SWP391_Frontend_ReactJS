@@ -90,6 +90,10 @@ const router = createBrowserRouter([
     element: <ForgetPassword />,
   },
   {
+    path: "reset-password",
+    element: <ResetPassword />,
+  },
+  {
     path: "/staff",
     element: <Staff />,
     children: [
@@ -108,10 +112,6 @@ const router = createBrowserRouter([
       {
         path: "feedback",
         element: <Feedback />,
-      },
-      {
-        path: "reset-password",
-        element: <ResetPassword />,
       },
     ],
   },
