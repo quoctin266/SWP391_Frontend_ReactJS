@@ -8,14 +8,21 @@ import {
   CDBSidebarMenuItem,
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const StaffSidebar = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="staff-sidebar-container">
       <div style={{ display: "flex", height: "83vh", overflow: "hidden" }}>
         <CDBSidebar textColor="#fff" backgroundColor="#3E363F">
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-            <div className="text-decoration-none" style={{ color: "inherit" }}>
+            <div
+              className="text-decoration-none"
+              style={{ color: "inherit", cursor: "pointer" }}
+              onClick={() => navigate("/staff")}
+            >
               Staff
             </div>
           </CDBSidebarHeader>

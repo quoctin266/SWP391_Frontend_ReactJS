@@ -7,20 +7,20 @@ import "./Staff.scss";
 const Staff = () => {
   return (
     <div className="staff-container">
-      <Scrollbars
-        style={{ height: "100vh" }}
-        autoHide
-        // Hide delay in ms
-        autoHideTimeout={1000}
-        // Duration for hide animation in ms.
-        autoHideDuration={200}
-      >
-        <StaffHeader />
-        <div className="body-container">
-          <StaffSidebar />
+      <StaffHeader />
+      <div className="body-container">
+        <StaffSidebar />
+        <Scrollbars
+          style={{ height: "83vh" }}
+          autoHide
+          // Hide delay in ms
+          autoHideTimeout={1000}
+          // Duration for hide animation in ms.
+          autoHideDuration={200}
+        >
           <Outlet />
-        </div>
-      </Scrollbars>
+        </Scrollbars>
+      </div>
     </div>
   );
 };
