@@ -1,7 +1,7 @@
 import "./App.scss";
 // import TestData from "./components/TestData";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
+import Header from "./components/guestAndCustomer/header/Header";
+import Footer from "./components/guestAndCustomer/footer/Footer";
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
 

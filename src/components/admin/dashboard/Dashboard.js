@@ -1,3 +1,4 @@
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Nav from '../Nav/Nav';
@@ -63,6 +64,10 @@ const Dashboard = () => {
       </div>
     </div>
   </div>;
+
+const Dashboard = () => {
+  return <div className="dashboard-container">dashboard</div>;
+
 };
 
 export default Dashboard;

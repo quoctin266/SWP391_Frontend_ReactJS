@@ -1,3 +1,4 @@
+
 import Nav from "../Nav/Nav";
 import AdminSidebar from "../sidebar/AdminSidebar";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -79,6 +80,10 @@ const ManageAccount = () => {
       </div>
     </div>
   </div >;
+
+const ManageAccount = () => {
+  return <div className="manage-account-container">manage account</div>;
+
 };
 
 export default ManageAccount;

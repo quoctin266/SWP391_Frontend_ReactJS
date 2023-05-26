@@ -1,12 +1,10 @@
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import ManagerHeader from "./header/ManagerHeader";
 
-import AdminHeader from "./header/AdminHeader";
-
-
-const Admin = () => {
+const Manager = () => {
   return (
-    <div className="admin-container">
+    <div className="manager-container">
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide
@@ -15,9 +13,7 @@ const Admin = () => {
         // Duration for hide animation in ms.
         autoHideDuration={200}
       >
-
-        <AdminHeader />
-
+        <ManagerHeader />
         <div className="body-container">
           <Outlet />
         </div>
@@ -26,4 +22,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Manager;

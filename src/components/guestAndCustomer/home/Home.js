@@ -8,7 +8,7 @@ import {
   getAllNews,
   getAllServicesIntro,
   getAllShippingCondition,
-} from "../../service/APIservice";
+} from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { BiNews } from "react-icons/bi";
