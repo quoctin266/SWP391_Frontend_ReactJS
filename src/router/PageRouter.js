@@ -22,6 +22,7 @@ import ManageService from "../components/manager/manageService/ManageService";
 import ManageWebContent from "../components/manager/manageWebContent/ManageWebContent";
 import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTrip";
 import Admin from "../components/admin/Admin";
+import ResetPassword from "../components/guestAndCustomer/auth/ResetPassword";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
 import Dashboard from "../components/admin/dashboard/Dashboard";
 
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "view-history",
         element: <ViewHistory />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
     ],
   },
