@@ -25,7 +25,7 @@ const ManageService = () => {
       <div className="service-body">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           <Accordion.Item eventKey="0" className="manage-payment">
-            <Accordion.Header>Manage payment method</Accordion.Header>
+            <Accordion.Header>Manage Payment Method</Accordion.Header>
             <Accordion.Body>
               <Button
                 variant="primary"
@@ -118,7 +118,7 @@ const ManageService = () => {
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="1" className="manage-transport">
-            <Accordion.Header>Manage transport method</Accordion.Header>
+            <Accordion.Header>Manage Transport Method</Accordion.Header>
             <Accordion.Body>
               <Button
                 variant="primary"
@@ -195,7 +195,7 @@ const ManageService = () => {
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="2" className="manage-price">
-            <Accordion.Header>Manage price</Accordion.Header>
+            <Accordion.Header>Manage Price</Accordion.Header>
             <Accordion.Body>
               <Button
                 variant="primary"
