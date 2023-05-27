@@ -6,14 +6,15 @@ const Price = () => {
   return <div className="price-container">
     <div className="price-info">
       <div className="info">
-        Our air pricing consists of 4 - 6 main components, depending on the service needed:<br />
-        Air Travel Consultation Fee (priced per pet)<br />
-        Ticket Purchase Fee<br />
-        Mailed VIP Pet Packet<br />
-        Pet’s Airfare which is based on their weight in their crate<br />
-        Vet Packet (Hawaii & International travel)<br />
-        Customs Clearance (International travel)<br />
-        To get an estimate for air travel, fill out a pet travel form.<br />
+      This is the base fee that pays<br/> 
+      for our time while we 
+      research, prepare for, and schedule your pet's relocation 
+      from start to finish. It includes your Pet Travel Specialist 
+      working with our trusted drivers to arrange for your pets’ safe 
+      and comfortable ground transportation. This fee does not include 
+      the price of the transport itself, which is based on mileage, or 
+      any additional services needed. 
+      To get an estimate for the travel, fill out a bird travel form.
       </div>
       <div className="price-method">
         <div className="method">
@@ -31,118 +32,102 @@ const Price = () => {
       <table className="table">
         <tbody>
           <tr class="highlight">
-            <td >Ground Travel Consultation</td>
-            <td>1st Pet</td>
-            <td>2nd Pet</td>
-            <td>Each Additional Pet</td>
+            <td>Pick-up area</td>
+            <td>Delivery area</td>
+            <td>Bird Cost</td>
+            <td>Each subsequent bird</td>
           </tr>
           <tr>
-            <td>Tien Giang/ Hue / Dalat</td>
-            <td>$425</td>
-            <td>$325</td>
-            <td>$325</td>
+            <td>District 1</td>
+            <td>Distict 2</td>
+            <td>300,000</td>
+            <td>+100,000</td>
           </tr>
           <tr>
-            <td>Ha Noi</td>
-            <td>$500</td>
-            <td>$400</td>
-            <td>$400</td>
+            <td></td>
+            <td>Distric 3</td>
+            <td>300,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Distric 4</td>
+            <td>350,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Distric 5</td>
+            <td>500,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Distric 6</td>
+            <td>500,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Tan Binh District</td>
+            <td>500,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Phu Nhuan District</td>
+            <td>550,000</td>
+            <td>+100,000</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Bình Thạch District</td>
+            <td>600,000</td>
+            <td>+100,000</td>
           </tr>
         </tbody>
         <tbody>
-          <tr className="highlight">
-            <td >Airfare (per Bird)</td>
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr class="highlight">
+            <td>Pick-up area</td>
+            <td>Delivery area</td>
+            <td>Bird Cost</td>
+            <td>Each subsequent bird</td>
           </tr>
           <tr>
+            <td>Ho Chi Minh City</td>
+            <td>Ha Noi</td>
+            <td>1100,000</td>
+            <td>+200,000</td>
+          </tr>
+          <tr>
+            <td></td>
             <td>Hai Phong</td>
-            <td></td>
-            <td></td>
-            <td>$350 - $1,400</td>
+            <td>900,000</td>
+            <td>+200,000</td>
           </tr>
           <tr>
-            <td>Ha Noi</td>
             <td></td>
-            <td></td>
-            <td>$400 - $1,400</td>
+            <td>Da Nang</td>
+            <td>800,000</td>
+            <td>+200,000</td>
           </tr>
           <tr>
+            <td></td>
+            <td>Nha Trang</td>
+            <td>650,000</td>
+            <td>+200,000</td>
+          </tr>
+          <tr>
+            <td></td>
             <td>Phu Quoc</td>
-            <td></td>
-            <td></td>
-            <td>$500 - $1,900+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Ticket Purchase Fee</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>600,000</td>
+            <td>+200,000</td>
           </tr>
           <tr>
-            <td>Based on Airfare Price</td>
             <td></td>
-            <td></td>
-            <td>$40 - $90</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Mailed VIP Pet Packet</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Subject to Carrier</td>
-            <td></td>
-            <td></td>
-            <td>$50+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Vet Packet/Application (For Hawaii)</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Based on Service Needs</td>
-            <td></td>
-            <td></td>
-            <td>$200+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Customs Clearance Fee</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Based on country of origin and number of pets</td>
-            <td></td>
-            <td></td>
-            <td>$850+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Rush, Weekend &amp; Holiday Fees</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Subject to notice and travel day</td>
-            <td></td>
-            <td></td>
-            <td>$200 - $300</td>
+            <td>Hue</td>
+            <td>700,000</td>
+            <td>+200,000</td>
           </tr>
         </tbody>
       </table>
