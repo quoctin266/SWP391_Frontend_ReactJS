@@ -19,7 +19,7 @@ const Schedule = () => {
   const trips = tripList.map((trip) => {
     return {
       value: trip.trip_id,
-      label: `${trip.trip_id} - ${trip.start_location} - ${trip.end_location} - Limit: ${trip.delivery_limit}`,
+      label: `${trip.trip_id} - ${trip.start_location} - ${trip.end_location} - Slot Remain: ${trip.available_slot}`,
     };
   });
 
@@ -30,6 +30,7 @@ const Schedule = () => {
         start_location: "Cà Mau",
         end_location: "Cần Thơ",
         delivery_limit: "7",
+        available_slot: "3",
         departure_date: "01/06/2023 07:00:00",
         transporter_name: "Hùng",
         transport_method: "ground",
@@ -39,6 +40,7 @@ const Schedule = () => {
         start_location: "Cần Thơ",
         end_location: "Tiền Giang",
         delivery_limit: "5",
+        available_slot: "2",
         departure_date: "03/06/2023 09:00:00",
         transporter_name: "Mạnh",
         transport_method: "ground",
@@ -48,6 +50,7 @@ const Schedule = () => {
         start_location: "Tiền Giang",
         end_location: "Hồ Chí Minh",
         delivery_limit: "3",
+        available_slot: "1",
         departure_date: "04/06/2023 15:00:00",
         transporter_name: "Hải",
         transport_method: "ground",
