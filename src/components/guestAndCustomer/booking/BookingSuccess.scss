@@ -1,0 +1,77 @@
+.booking-success-container {
+    .booking-title {
+        display: flex;
+        background-color: green;
+        margin-left: 60px;
+        margin-right: 500px;
+        margin-top: 50px;
+
+        .cele {
+            width: 80px;
+            margin-left: 20px;
+            margin-right: 20px
+        }
+
+        .title {
+            margin-top: 20px;
+        }
+    }
+
+    .booking-success-info {
+        margin-top: 30px;
+        display: flex;
+        background-color: #a3e681;
+        margin-left: 60px;
+        width: 1350px;
+        height: 500px;
+
+        .id {
+            margin-left: 200px;
+            margin-top: 200px;
+        }
+
+        .Date {
+            margin-top: 200px;
+            margin-left: 150px;
+        }
+
+        .estimated-time {
+            margin-top: 200px;
+            margin-left: 150px;
+        }
+
+        .cargo {
+            width: 150px;
+            height: 150px;
+            margin-top: 200px;
+            margin-left: 150px;
+        }
+    }
+
+    .footer {
+        .footer-bar {
+            margin-top: 20px;
+            margin-left:400px;
+            .nav-link {
+                color: black;
+                font-size: larger;
+                
+                .Home{
+                    background-color:rgb(58, 247, 184);
+                    .home{
+                        color:white;                       
+                    }
+                }
+                .Track{
+                    background-color:rgb(58, 247, 184);
+                    margin-left:300px;
+                    .track{
+                        color:white;                       
+                    }
+                }
+                
+            }
+        }
+
+    }
+}
