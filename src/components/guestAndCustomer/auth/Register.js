@@ -24,8 +24,19 @@ const Register = () => {
       >
         <div className="background-container">
           <div className="register-container">
+            <div className="register-prompt">
+              <div className="title">Already have an account?</div>
+              <Button
+                variant="primary"
+                className="signup-btn"
+                onClick={() => navigate("/login")}
+              >
+                Login now
+              </Button>
+            </div>
             <div className="register-form">
-              <div className="title">Register</div>
+              <div className="page-brand">Bird Travel</div>
+              <div className="title">Create account for free</div>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
                   <Form.Label>Username</Form.Label>
@@ -55,7 +66,7 @@ const Register = () => {
 
                 <div className="register-btn">
                   <Button variant="primary" type="submit">
-                    Register
+                    Sign up
                   </Button>
                 </div>
                 <div className="back-btn">

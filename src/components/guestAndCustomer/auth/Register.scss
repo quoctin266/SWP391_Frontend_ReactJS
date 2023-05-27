@@ -1,100 +1,86 @@
 .background-container {
-    padding: 6% 8%;
-    padding-top: 6%;
-  
-    .register-container {
-      background-color: #85C697;
-      border-radius: 10px;
-      padding: 4%;
-      padding-bottom: 8%;
-  
-      .register-prompt {
-        display: flex;
-        align-items: baseline;
-        justify-content: flex-end;
-        margin-bottom: 5%;
-  
-        .title {
-          margin-right: 30px;
-          font-size: 1.1em;
+
+
+  .register-container {
+    background-color: #85C697;
+    border-radius   : 10px;
+    padding         : 4%;
+
+    .register-prompt {
+      display        : flex;
+      align-items    : baseline;
+      justify-content: flex-end;
+      margin-bottom  : 5%;
+
+      .title {
+        margin-right: 30px;
+        font-size   : 1.1em;
+        font-style  : italic;
+      }
+
+      .signup-btn {
+        background-color: #33CCFF;
+        border          : 1px solid #13c2fc;
+
+        &:hover {
+          background-color: #18a5d4;
         }
-  
-        .signup-btn {
+      }
+    }
+
+    .register-form {
+      width    : 50%;
+      max-width: 600px;
+      min-width: 300px;
+      margin   : 0 auto;
+
+      .page-brand {
+        text-align   : center;
+        font-size    : 2.5em;
+        font-weight  : 600;
+        margin-bottom: 3%;
+      }
+
+      .title {
+        text-align   : center;
+        font-size    : 2em;
+        font-weight  : 600;
+        margin-bottom: 5%;
+      }
+
+      .form-label {
+        font-weight: 600;
+      }
+
+      .register-btn {
+        text-align: center;
+        margin-top: 8%;
+
+        button {
+          width           : 100px;
           background-color: #33CCFF;
-          border: 1px solid #18a5d4;
-  
+          border          : 1px solid #13c2fc;
+
           &:hover {
             background-color: #18a5d4;
           }
         }
       }
-  
-      .register-form {
-        width: 50%;
-        max-width: 600px;
-        min-width: 300px;
-        margin: 0 auto;
-  
-        .title {
-          text-align: center;
-          font-size: 2em;
-          font-weight: 700;
-          margin-bottom: 5%;
-        }
-  
-        .form-label {
-          font-weight: 600;
-        }
-  
-        .checkbox-and-resetpw {
-          display: flex;
-          align-items: baseline;
-  
-          @media screen and (max-width: 768px) {
-            flex-direction: column;
-          }
-  
-          .check-pw {
-            font-weight: 600;
-          }
-  
-          .form-text {
-            text-align: right;
-            font-style: italic;
-            font-size: 1.05em;
+
+      .back-btn {
+        margin-top: 4%;
+        text-align: center;
+        width     : 100%;
+        font-size : 1.1em;
+
+        span {
+          cursor: pointer;
+
+          &:hover {
             font-weight: 600;
           }
         }
-  
-        .register-btn {
-          text-align: center;
-          margin-top: 8%;
-  
-          button {
-            width: 100px;
-            background-color: #33CCFF;
-            border: 1px solid #18a5d4;
-  
-            &:hover {
-              background-color: #18a5d4;
-            }
-          }
-        }
-        .back-btn {
-          margin-top: 4%;
-          text-align: center;
-          width     : 100%;
-          font-size : 1.1em;
-
-          span {
-              cursor: pointer;
-
-              &:hover {
-                  font-weight: 600;
-              }
-          }
-      }
       }
     }
   }
-  
+}

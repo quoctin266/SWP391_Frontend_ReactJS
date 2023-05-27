@@ -18,7 +18,7 @@ const ManageTrip = () => {
         Add new
       </Button>
 
-      <Modal show={show} onHide={handleClose} backdrop="static">
+      <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
         <Modal.Header closeButton>
           <Modal.Title>Add new trip</Modal.Title>
         </Modal.Header>
