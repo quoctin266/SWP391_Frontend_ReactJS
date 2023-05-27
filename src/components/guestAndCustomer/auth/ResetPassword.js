@@ -1,15 +1,15 @@
-import styles from './ResetPassword.module.css'
+import "./ResetPassword.scss"
 
 const ResetPassword = () => {
   return (
-  <div className={styles['reset-password-container']}>
-      <div className={styles.ResetPasswordBox}>
-        <form action="" method="get" className={styles.ResetPasswordForm}>
+  <div className="reset-password-container">
+      <div className="ResetPasswordBox">
+        <form action="" method="get" className="ResetPasswordForm">
           <h1>Reset Password</h1>
-          <div className={styles.Input}><label for="RecentPassword">Recent Password</label><input type="password" name="RecentPassword"/></div>
-          <div className={styles.Input}><label for="NewPassword">New Password</label><input type="password" name="NewPassword"/></div>
-          <div className={styles.Input}><label for="ReEnterNewPassword">Re-Enter New Password</label><input type="password" name="ReEnterNewPassword"/></div>
-          <button className={styles.Confirm}>Confirm</button>
+          <div className="Input"><label for="RecentPassword">Recent Password</label><input type="password" name="RecentPassword"/></div>
+          <div className="Input"><label for="NewPassword">New Password</label><input type="password" name="NewPassword"/></div>
+          <div className="Input"><label for="ReEnterNewPassword">Re-Enter New Password</label><input type="password" name="ReEnterNewPassword"/></div>
+          <button className="Confirm">Confirm</button>
         </form>
       </div>
     </div>
