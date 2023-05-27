@@ -1,0 +1,48 @@
+.list-order-container {
+  margin-top: 30px;
+  width: 100%;
+  padding: 0 2%;
+
+  .title {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 2%;
+  }
+
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2%;
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: 600;
+    }
+  }
+}
+button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #18222d;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #18222d;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

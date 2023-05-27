@@ -22,7 +22,11 @@ const Login = () => {
           <div className="login-container">
             <div className="register-prompt">
               <div className="title">Don't have an account?</div>
-              <Button variant="primary" className="signup-btn">
+              <Button
+                variant="primary"
+                className="signup-bth"
+                onClick={() => navigate("/register")}
+              >
                 Sign up now
               </Button>
             </div>
