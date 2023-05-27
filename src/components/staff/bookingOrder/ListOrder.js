@@ -1,5 +1,70 @@
+import "./ListOrder.scss";
+import Table from "react-bootstrap/Table";
+
 const ListOrder = () => {
-  return <div className="list-order-container">list order</div>;
+  const orderList = [
+    {
+      transaction_id: "transactionID1",
+      fullName: "John Doe",
+      birdcount: "2",
+      departurePoint: "Cà Mau",
+      arrivalPoint: "Tiền Giang",
+      status: "Pending",
+    },
+    {
+      transaction_id: "transactionID2",
+      fullName: "Jane Smith",
+      birdcount: "4",
+      departurePoint: "Đà Nẵng",
+      arrivalPoint: "Huế",
+      status: "Completed",
+    },
+    {
+      transaction_id: "transactionID3",
+      fullName: "Alice Johnson",    
+      birdcount: "1",
+      departurePoint: "Hồ Chí Minh",
+      arrivalPoint: "Đà Lạt",     
+      status: "In Progress",
+    },
+  ];
+
+  return (
+    <div className="list-order-container">
+      <div className="title">List of Orders</div>
+      <div className="order-list">
+        <Table striped bordered hover responsive="sm">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>FullName</th>            
+              <th>Bird Count</th>
+              <th>Departure Point</th>
+              <th>Arrival Point</th>             
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderList.map((order) => (
+              <tr key={order.transaction_id}>
+                <td>{order.transaction_id}</td>
+                <td>{order.fullName}</td>               
+                <td>{order.birdcount}</td>
+                <td>{order.departurePoint}</td>
+                <td>{order.arrivalPoint}</td>             
+                <td>{order.status}</td>
+                <td>
+                  <button >View Details</button>
+                  <button >Edit</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </div>
+  );
 };
 
 export default ListOrder;
