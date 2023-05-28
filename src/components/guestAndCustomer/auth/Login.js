@@ -22,11 +22,16 @@ const Login = () => {
           <div className="login-container">
             <div className="register-prompt">
               <div className="title">Don't have an account?</div>
-              <Button variant="primary" className="signup-btn">
+              <Button
+                variant="primary"
+                className="signup-btn"
+                onClick={() => navigate("/register")}
+              >
                 Sign up now
               </Button>
             </div>
             <div className="login-form">
+              <div className="page-brand">Bird Travel</div>
               <div className="title">Login</div>
               <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -48,7 +53,11 @@ const Login = () => {
                     >
                       <Form.Check type="checkbox" label="Remember me" />
                     </Form.Group>
-                    <Form.Text className="text-muted" as={Col}>
+                    <Form.Text
+                      className="text-muted"
+                      as={Col}
+                      onClick={() => navigate("/forget-password")}
+                    >
                       Forgot password?
                     </Form.Text>
                   </div>

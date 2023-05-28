@@ -1,6 +1,5 @@
 .background-container {
-    padding    : 6% 8%;
-    padding-top: 6%;
+    padding: 3% 8%;
 
     .login-container {
 
@@ -15,14 +14,17 @@
             justify-content: flex-end;
             margin-bottom  : 5%;
 
+
+
             .title {
                 margin-right: 30px;
                 font-size   : 1.1em;
+                font-style  : italic;
             }
 
             .signup-btn {
                 background-color: #33CCFF;
-                border          : 1px solid #18a5d4;
+                border          : 1px solid #13c2fc;
 
                 &:hover {
                     background-color: #18a5d4;
@@ -36,11 +38,18 @@
             min-width: 300px;
             margin   : 0 auto;
 
+            .page-brand {
+                text-align   : center;
+                font-size    : 2.5em;
+                font-weight  : 600;
+                margin-bottom: 3%;
+            }
+
             .title {
                 text-align   : center;
                 font-size    : 2em;
-                font-weight  : 700;
-                margin-bottom: 11%;
+                font-weight  : 600;
+                margin-bottom: 7%;
             }
 
             .form-label {
@@ -57,13 +66,26 @@
 
                 .check-pw {
                     font-weight: 600;
+
+                    .form-check-label {
+                        cursor: pointer;
+                    }
+
+                    .form-check-input {
+                        cursor: pointer;
+                    }
                 }
 
-                .form-text {
+                .text-muted {
                     text-align : right;
                     font-style : italic;
                     font-size  : 1.05em;
-                    font-weight: 600;
+                    font-weight: 500;
+                    cursor     : pointer;
+
+                    &:hover {
+                        color: rgb(136, 136, 136) !important;
+                    }
                 }
             }
 
@@ -75,7 +97,7 @@
                 button {
                     width           : 100px;
                     background-color: #33CCFF;
-                    border          : 1px solid #18a5d4;
+                    border          : 1px solid #13c2fc;
 
                     &:hover {
                         background-color: #18a5d4;
