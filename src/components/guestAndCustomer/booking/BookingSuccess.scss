@@ -1,15 +1,17 @@
 .booking-success-container {
     .booking-title {
-        display: flex;
+        display         : flex;
         background-color: green;
-        margin-left: 60px;
-        margin-right: 500px;
-        margin-top: 50px;
-        border-radius: 60px/60px;
-        color:white;
+        margin-top      : 4%;
+        padding         : 1% 2%;
+        border-radius   : 60px;
+        color           : white;
+        width           : 65vw;
+        margin-left     : 4%;
+
         .cele {
-            width: 80px;
-            margin-left: 20px;
+            width       : 80px;
+            margin-left : 20px;
             margin-right: 20px
         }
 
@@ -19,54 +21,104 @@
     }
 
     .booking-success-info {
-        margin-top: 30px;
-        display: flex;
+        margin-top      : 2%;
+        display         : flex;
         background-color: #a3e681;
-        
-        border-radius:60px/60px;
+        border-radius   : 105px;
+        width           : 95%;
+        margin-left     : 2%;
+        padding         : 2% 0;
+        padding-left    : 6%;
+
         .id {
-            margin-left: 200px;
             margin-top: 25px;
+
+            .transaction-title {
+                font-size    : 1.8em;
+                font-weight  : 600;
+                margin-bottom: 4%;
+            }
+
+            .transaction-info {
+                font-size  : 1.5em;
+                font-weight: 600;
+            }
+
         }
 
         .Date {
-            margin-top: 25px;
-            margin-left: 150px;
+            margin-top : 25px;
+            margin-left: 9%;
+
+            .date-title {
+                font-size    : 1.8em;
+                font-weight  : 600;
+                margin-bottom: 4%;
+            }
+
+            .date-info {
+                font-size  : 1.5em;
+                font-weight: 600;
+            }
+
         }
 
         .estimated-time {
-            margin-top: 25px;
-            margin-left: 150px;
+            margin-top : 25px;
+            margin-left: 9%;
+
+            .estimated-title {
+                font-size    : 1.8em;
+                font-weight  : 600;
+                margin-bottom: 1%;
+            }
+
+            .estimated-info {
+                font-size  : 1.5em;
+                font-weight: 600;
+            }
+
         }
 
         .cargo {
-            width: 100px;
-            height: 100px;
-            margin-top: 50px;
+            width      : 100px;
+            height     : 100px;
+            margin-top : 50px;
             margin-left: 150px;
         }
     }
 
     .footer {
         .footer-bar {
-            margin-top: 20px;
+            margin-top : 20px;
             margin-left: 550px;
 
             .Home {
                 background-color: rgb(58, 247, 184);
-                color: white;
-                width: 200px;
-                text-align: center;
-                border-radius: 60px/60px;
-                height:45px
+                color           : white;
+                width           : 250px;
+                text-align      : center;
+                border-radius   : 60px/60px;
+                height          : 45px;
+                padding         : 2%;
+
+                &:hover {
+                    background-color: rgb(10, 230, 156);
+                }
             }
 
             .Track {
                 background-color: rgb(58, 247, 184);
-                width: 200px;
-                text-align: center;
-                border-radius: 60px/60px;
-                height:45px;
+                width           : 200px;
+                text-align      : center;
+                border-radius   : 60px;
+                height          : 45px;
+                padding         : 2%;
+
+                &:hover {
+                    background-color: rgb(10, 230, 156);
+                }
+
                 .track {
                     color: white;
                 }

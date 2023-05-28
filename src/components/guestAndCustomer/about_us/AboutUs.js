@@ -1,5 +1,4 @@
 import { Container } from "react-bootstrap";
-
 import "./AboutUs.scss";
 
 const AboutUs = () => {
