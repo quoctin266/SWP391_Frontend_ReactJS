@@ -21,7 +21,7 @@ const ManagerSidebar = () => {
             <div
               className="text-decoration-none"
               style={{ color: "inherit", cursor: "pointer" }}
-              onClick={() => navigate("/staff")}
+              onClick={() => navigate("/manager")}
             >
               Manager
             </div>
