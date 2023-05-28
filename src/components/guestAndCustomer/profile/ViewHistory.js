@@ -1,82 +1,102 @@
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
+import { Container } from "react-bootstrap";
+import "./ViewHistory.scss";
+import { useNavigate } from "react-router-dom";
 
 const ViewHistory = () => {
-  return <div className="view-history-container">
-    <div className="Header">
-         <h2 className="title">Your Transaction History</h2>
-    </div>
-    <div className='table'>
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Payment</th>
-          <th>Transportation method</th>
-          <th>Status</th>
-          <th>Transaction code</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2023-05-01</td>
-          <td>Blue Jay Delivery</td>
-          <td>$25.00</td>
-          <td>Car</td>
-          <td>Completed</td>
-          <td>MRX001234</td>
-        </tr>
-        <tr>
-          <td>2023-05-05</td>
-          <td>Parrot Export</td>
-          <td>$50.00</td>
-          <td>Car</td>
-          <td>Completed</td>
-          <td>MRX002234</td>
-        </tr>
-        <tr>
-          <td>2023-05-09</td>
-          <td>Finch Import</td>
-          <td>$75.00</td>
-          <td>Car</td>
-          <td>Completed</td>
-          <td>MRX003234</td>
-        </tr>
-        <tr>
-          <td>2023-05-11</td>
-          <td>Canary Delivery</td>
-          <td>$85.00</td>
-          <td>Car</td>
-          <td>Completed</td>
-          <td>MRX004234</td>
-        </tr>
-        <tr>
-          <td>2023-05-17</td>
-          <td>Hawk Shipment</td>
-          <td>$500.00</td>
-          <td>Train</td>
-          <td>In Progress</td>
-          <td>MRX005234</td>
-        </tr>
-        <tr>
-          <td>2023-05-09</td>
-          <td>Eagle</td>
-          <td>$750.00</td>
-          <td>Train</td>
-          <td>Pending</td>
-          <td>MRX009999</td>
-        </tr>
-      </tbody>
-    </Table>
-    </div>
-    <div className='button'>
-    <>
-      <Button variant="primary">Back to Profile</Button>{' '}
-      <Button variant="success">Back to HomePage</Button>{' '}
-    </>
-    </div>
-  </div>;
+  const navigate = useNavigate();
+
+  return (
+    <Container>
+      <div className="view-history-container">
+        <div className="Header">
+          <h2 className="title">Your Transaction History</h2>
+        </div>
+        <div className="history-table">
+          <Table striped bordered hover style={{ border: "1px solid #bbbbbb" }}>
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Created date</th>
+                <th>Payment method</th>
+                <th>Transportation method</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>01/05/2023</td>
+                <td>COD</td>
+                <td>Ground travel</td>
+                <td>Completed</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>03/03/2023</td>
+                <td>VNPAY/MOMO</td>
+                <td>Ground travel</td>
+                <td>Completed</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>02/07/2022</td>
+                <td>COD</td>
+                <td>Ground travel</td>
+                <td>Completed</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>01/02/2023</td>
+                <td>Paypal</td>
+                <td>Ground travel</td>
+                <td>Completed</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>20/05/2023</td>
+                <td>COD</td>
+                <td>Ground travel</td>
+                <td>In Progress</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>28/05/2023</td>
+                <td>COD</td>
+                <td>Ground travel</td>
+                <td>Pending</td>
+                <td>
+                  <Button variant="secondary">View detail</Button>
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+        <div className="back-button">
+          <Button variant="success" onClick={() => navigate("/account-detail")}>
+            Back to Profile
+          </Button>
+        </div>
+      </div>
+    </Container>
+  );
 };
 
 export default ViewHistory;

@@ -1,21 +1,14 @@
-.Header{
-    max-width: 1300px;
-    margin-left: 80px;
-    text-align: center;
-    border-radius: 10px;
-    background-color: #9ECE9D;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    height: 80px;
-
-    .title{
-        color: white;
+.view-history-container {
+    .Header {
+        text-align      : center;
+        border-radius   : 10px;
+        background-color: #9ECE9D;
+        margin-top      : 30px;
+        margin-bottom   : 30px;
     }
-}
-.table{
-    margin-top: 20px;
-}
-.button{
-    position: absolute;
-    right: 0px;
+
+    .back-button {
+        text-align: center;
+        margin    : 3% 0;
+    }
 }
