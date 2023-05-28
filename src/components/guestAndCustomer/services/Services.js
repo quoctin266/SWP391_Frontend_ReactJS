@@ -13,6 +13,7 @@ const Services = () => {
           <h3 className="contenttitle1">Our Services</h3>
           <h5 className="paragraph">Our service provides a Pet Travel Packet, mailed to the person who will be taking your pet to the airport.</h5>
           <h5 className="paragraph">Relocating birds is a more technical process than you may realize. We specialize in arranging animal freight / animal cargo and provide for your bird’s travel safety and comfort from door to door.</h5>
+          <h5 className="paragraph">We will arrange all the necessary documentation to be completed for the entire animal freight/animal cargo process from start to finish.</h5>
           <h5 className="paragraph">Our services includes: Detailed Relocation Instructions including flight, crate and documentation requirement, free foods and drink for your birds, provide all necessary insurance services during the trip</h5>
         </div>
         <div className="Content2">
