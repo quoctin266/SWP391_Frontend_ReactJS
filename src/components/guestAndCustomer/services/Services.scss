@@ -1,63 +1,61 @@
-.Header{
-    max-width: 1300px;
-    margin-left: 80px;
-    text-align: center;
-    border-radius: 10px;
+.Header {
+    text-align      : center;
+    border-radius   : 10px;
     background-color: #9ECE9D;
-    margin-top: 30px;
-    height: 80px;
-    
-    .title{
-        position: relative;
-        top: 20px;
-    }
+    margin          : 3% 0;
+    font-size       : 2em;
+    font-weight     : 600;
+    padding         : 1% 0;
 }
 
-.Mid{
+.Mid {
     display: flex;
-    flex-wrap: wrap;
-    margin-left: 80px;
-    margin-top: 20px;
-    width: 88%;
-    
-    gap: 4%;
-    
+    gap    : 30px;
 
-    .Content1{
-        padding-bottom: 3%;
-        width: 50%;
-        height: auto;
+
+    .Content1 {
+        padding         : 1%;
+        padding-bottom  : 3%;
+        width           : 70%;
+        height          : auto;
         background-color: #9ECE9D;
-        border-radius: 10px;
-        
+        border-radius   : 10px;
+        text-align      : justify;
 
-        .contenttitle1{
-            max-width: 200px;
+
+        .contenttitle1 {
             background-color: #13470A;
-            text-align: center;
-            color: white;
-            border-radius: 10px;
+            text-align      : center;
+            color           : white;
+            border-radius   : 10px;
+            width           : 23%;
+            padding         : 4px 0;
         }
-        
+
     }
-    .Content2{
-        width: 45%;
-        height: auto;
+
+    .Content2 {
+        padding         : 1%;
+        width           : 30%;
+        height          : auto;
         background-color: #9ECE9D;
-        border-radius: 10px;
-        text-align: center;
-        .contenttitle2{
-            max-width: 250px;
+        border-radius   : 10px;
+        text-align      : justify;
+
+        .contenttitle2 {
             background-color: #13470A;
-            text-align: center;
-            margin-left: 50px;
-            color: white;
-            border-radius: 30px/30px;
+            text-align      : center;
+            color           : white;
+            border-radius   : 10px;
+            margin          : 0 auto;
+            width           : 70%;
+            margin-bottom   : 5%;
+            padding         : 4px 0;
         }
     }
 }
-.paragraph{
+
+.paragraph {
     font-style: italic;
-    
-    padding: 1% 5%;
+    padding   : 1% 5%;
 }
