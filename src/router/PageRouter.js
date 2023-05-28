@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
+
 import Home from "../components/guestAndCustomer/home/Home";
 import Services from "../components/guestAndCustomer/services/Services";
 import Price from "../components/guestAndCustomer/price/Price";
@@ -13,6 +14,7 @@ import ViewHistory from "../components/guestAndCustomer/profile/ViewHistory";
 import Login from "../components/guestAndCustomer/auth/Login";
 import Register from "../components/guestAndCustomer/auth/Register";
 import ForgetPassword from "../components/guestAndCustomer/auth/ForgetPassword";
+import ResetPassword from "../components/guestAndCustomer/auth/ResetPassword";
 import Staff from "../components/staff/Staff";
 import ListOrder from "../components/staff/bookingOrder/ListOrder";
 import Schedule from "../components/staff/schedule/Schedule";
@@ -22,7 +24,6 @@ import ManageService from "../components/manager/manageService/ManageService";
 import ManageWebContent from "../components/manager/manageWebContent/ManageWebContent";
 import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTrip";
 import Admin from "../components/admin/Admin";
-import ResetPassword from "../components/guestAndCustomer/auth/ResetPassword";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
 import Dashboard from "../components/admin/dashboard/Dashboard";
 
@@ -90,7 +91,7 @@ const router = createBrowserRouter([
     element: <ForgetPassword />,
   },
   {
-    path: "reset-password",
+    path: "/reset-password",
     element: <ResetPassword />,
   },
   {
@@ -155,7 +156,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
 ]);
 
 const PageRouter = () => {
