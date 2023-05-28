@@ -117,7 +117,7 @@ const Booking = () => {
           <div className="transport-title">Transport Information</div>
           <Form>
             <Row className="mb-5">
-              <Form.Group as={Col} controlId="formGridTravel">
+              <Form.Group as={Col}>
                 <Form.Label>Bird's Anticipate Travel Date</Form.Label>
                 <Form.Control type="date" className="mb-3" />
                 <Form.Label>Bird's Departure city</Form.Label>
@@ -139,31 +139,31 @@ const Booking = () => {
               </Form.Group>
             </Row>
             <Row>
-              <Form.Group as={Col} controlId="formGridPayment">
+              <Form.Group as={Col}>
                 <Form.Label>Payment method</Form.Label>
                 <Col sm={10}>
                   <Form.Check
                     type="radio"
                     label="COD"
                     name="paymentmethod"
-                    id="method1"
+                    value="method1"
                   />
                   <Form.Check
                     type="radio"
                     label="VNPAY/MOMO"
                     name="paymentmethod"
-                    id="method2"
+                    value="method2"
                   />
                   <Form.Check
                     type="radio"
                     label="Paypal"
                     name="paymentmethod"
-                    id="method3"
+                    value="method3"
                   />
                 </Col>
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridOrder">
+              <Form.Group as={Col}>
                 <Form.Label className="mb-3">Order Summary</Form.Label>
                 <div className="order-summary">
                   <div className="bird-number">

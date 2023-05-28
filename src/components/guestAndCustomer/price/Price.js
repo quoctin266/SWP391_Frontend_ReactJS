@@ -2,154 +2,126 @@ import "./price.scss";
 import momo from "../../../assets/image/momo.png";
 import paypal from "../../../assets/image/paypal.png";
 import vnp from "../../../assets/image/vnp.png";
+import { Container } from "react-bootstrap";
+
 const Price = () => {
-  return <div className="price-container">
-    <div className="price-info">
-      <div className="info">
-        Our air pricing consists of 4 - 6 main components, depending on the service needed:<br />
-        Air Travel Consultation Fee (priced per pet)<br />
-        Ticket Purchase Fee<br />
-        Mailed VIP Pet Packet<br />
-        Pet’s Airfare which is based on their weight in their crate<br />
-        Vet Packet (Hawaii & International travel)<br />
-        Customs Clearance (International travel)<br />
-        To get an estimate for air travel, fill out a pet travel form.<br />
-      </div>
-      <div className="price-method">
-        <div className="method">
-          <h3>Price method</h3>
+  return (
+    <Container>
+      <div className="price-container">
+        <div className="price-info">
+          <div className="info">
+            This is the base fee that pays
+            <br />
+            for our time while we research, prepare for, and schedule your pet's
+            relocation from start to finish. It includes your Pet Travel
+            Specialist working with our trusted drivers to arrange for your
+            pets’ safe and comfortable ground transportation.
+            <br />
+            This fee does not include the price of the transport itself, which
+            is based on mileage, or any additional services needed. To get an
+            estimate for the travel, fill out a bird travel form.
+          </div>
+          <div className="price-method">
+            <div className="method">
+              <h3>Payment method</h3>
+            </div>
+            <div className="pic">
+              <img src={momo} alt="cele icon" className="momo" />
+              <img src={paypal} alt="cele icon" className="paypal" />
+              <img src={vnp} alt="cele icon" className="vnp" />
+            </div>
+          </div>
         </div>
-        <div className="pic">
-          <img src={momo} alt="cele icon" className="momo" />
-          <img src={paypal} alt="cele icon" className="paypal" />
-          <img src={vnp} alt="cele icon" className="vnp" />
+        <div className="price-table">
+          <table className="table">
+            <tbody>
+              <tr className="highlight">
+                <th>Transport method</th>
+                <th>Distance</th>
+                <th>Initial cost</th>
+                <th>Each subsequent bird</th>
+              </tr>
+              <tr>
+                <td>
+                  <b>Ground travel</b>
+                </td>
+                <td>&lt; 100 Km</td>
+                <td>100,000</td>
+                <td>+100,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 200 Km</td>
+                <td>200,000</td>
+                <td>+100,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 300 Km</td>
+                <td>300,000</td>
+                <td>+100,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 400 Km</td>
+                <td>400,000</td>
+                <td>+100,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&gt; 400 Km</td>
+                <td>500,000</td>
+                <td>+100,000</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table className="table">
+            <tbody>
+              <tr className="highlight">
+                <td>Transport method</td>
+                <td>Distance</td>
+                <td>Initial cost</td>
+                <td>Each subsequent bird</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Air travel</b>
+                </td>
+                <td>&lt; 1000 Km</td>
+                <td>1000,000</td>
+                <td>+200,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 1500 Km</td>
+                <td>1,500,000</td>
+                <td>+200,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 2000 Km</td>
+                <td>2,000,000</td>
+                <td>+200,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&lt; 2500 Km</td>
+                <td>2,500,000</td>
+                <td>+200,000</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>&gt; 2500 Km</td>
+                <td>3,000,000</td>
+                <td>+200,000</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
-    <div className="price-table">
-
-      <table className="table">
-        <tbody>
-          <tr class="highlight">
-            <td >Ground Travel Consultation</td>
-            <td>1st Pet</td>
-            <td>2nd Pet</td>
-            <td>Each Additional Pet</td>
-          </tr>
-          <tr>
-            <td>Tien Giang/ Hue / Dalat</td>
-            <td>$425</td>
-            <td>$325</td>
-            <td>$325</td>
-          </tr>
-          <tr>
-            <td>Ha Noi</td>
-            <td>$500</td>
-            <td>$400</td>
-            <td>$400</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Airfare (per Bird)</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Hai Phong</td>
-            <td></td>
-            <td></td>
-            <td>$350 - $1,400</td>
-          </tr>
-          <tr>
-            <td>Ha Noi</td>
-            <td></td>
-            <td></td>
-            <td>$400 - $1,400</td>
-          </tr>
-          <tr>
-            <td>Phu Quoc</td>
-            <td></td>
-            <td></td>
-            <td>$500 - $1,900+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Ticket Purchase Fee</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Based on Airfare Price</td>
-            <td></td>
-            <td></td>
-            <td>$40 - $90</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Mailed VIP Pet Packet</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Subject to Carrier</td>
-            <td></td>
-            <td></td>
-            <td>$50+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Vet Packet/Application (For Hawaii)</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Based on Service Needs</td>
-            <td></td>
-            <td></td>
-            <td>$200+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Customs Clearance Fee</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Based on country of origin and number of pets</td>
-            <td></td>
-            <td></td>
-            <td>$850+</td>
-          </tr>
-        </tbody>
-        <tbody>
-          <tr className="highlight">
-            <td >Rush, Weekend &amp; Holiday Fees</td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Subject to notice and travel day</td>
-            <td></td>
-            <td></td>
-            <td>$200 - $300</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>;
+    </Container>
+  );
 };
 
 export default Price;
-

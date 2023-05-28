@@ -4,32 +4,28 @@ import cargo from "../../../assets/image/cargo.png";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
+
 const BookingSuccess = () => {
-  return <div className="booking-success-container">
-    <container>
+  return (
+    <div className="booking-success-container">
       <div className="booking-title">
         <img src={cele} alt="cele icon" className="cele" />
-        <div className="title"><h2>BOOKING SUCCESS</h2></div>
+        <div className="title">
+          <h2>BOOKING SUCCESS</h2>
+        </div>
       </div>
       <div className="booking-success-info">
         <div className="id">
-          <h3>Transaction ID</h3>
-          <h4>TransactionId1</h4>
-          <h4>TransactionId1</h4>
-          <h4>TransactionId1</h4>
+          <div className="transaction-title">Transaction ID</div>
+          <div className="transaction-info">TransactionId1</div>
         </div>
         <div className="Date">
-          <h3>DATE</h3>
-          <h4>06/06/2023</h4>
-          <h4>25/06/2023</h4>
-          <h4>30/06/2023</h4>
+          <div className="date-title">Date</div>
+          <div className="date-info">06/06/2023</div>
         </div>
         <div className="estimated-time">
-          <h3>Estimated time</h3>
-          <h4>22/06/2023</h4>
-          <h4>20/06/2023</h4>
-          <h4>08/07/2023</h4>
-
+          <div className="estimated-title">Estimated arrival time</div>
+          <div className="estimated-info">22/06/2023</div>
         </div>
         <div className="pic">
           <img src={cargo} alt="cargo icon" className="cargo" />
@@ -45,20 +41,21 @@ const BookingSuccess = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="butt">
               <NavLink to="/home" className="nav-link">
-                <button className="Home"><h3 className="home">Back To Home</h3></button>
-
+                <div className="Home">
+                  <h3 className="home">Back To Home</h3>
+                </div>
               </NavLink>
               <NavLink to="/track" className="nav-link">
-                <button className="Track"> <h3 className="track">Track order</h3></button>
-
+                <div className="Track">
+                  <h3 className="track">Track order</h3>
+                </div>
               </NavLink>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </div>
-
-    </container>
-  </div>;
+    </div>
+  );
 };
 
 export default BookingSuccess;
