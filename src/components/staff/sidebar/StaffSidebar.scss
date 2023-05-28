@@ -1,0 +1,25 @@
+.staff-sidebar-container {
+    margin-right: 30px;
+
+    .sc-bbSZdi {
+        overflow: hidden;
+
+        .sc-hCPjZK {
+            a {
+                .sc-cfxfcM {
+                    margin: 10px 0;
+
+                    &:hover {
+                        background-color: gray;
+                    }
+                }
+
+                &.active {
+                    color: aquamarine;
+                }
+            }
+
+        }
+
+    }
+}

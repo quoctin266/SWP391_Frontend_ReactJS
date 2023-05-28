@@ -1,45 +1,125 @@
-.login-container {
+.background-container {
+    padding: 3% 8%;
 
-    background-color: #85C697;
-    border-radius   : 10px;
-    padding         : 50px;
-    margin-top      : 65px;
+    .login-container {
 
-    .register-prompt {
-        display        : flex;
-        align-items    : baseline;
-        justify-content: flex-end;
-        margin-bottom  : 40px;
+        background-color: #85C697;
+        border-radius   : 10px;
+        padding         : 4%;
+        padding-bottom  : 8%;
 
-        .title {
-            margin-right: 30px;
-            font-size   : 1.1em;
-        }
-    }
+        .register-prompt {
+            display        : flex;
+            align-items    : baseline;
+            justify-content: flex-end;
+            margin-bottom  : 5%;
 
-    .login-form {
-        width : 50%;
-        margin: 0 auto;
 
-        .title {
-            text-align   : center;
-            font-size    : 2em;
-            font-weight  : 600;
-            margin-bottom: 30px;
-        }
 
-        .form-text {
-            text-align: right;
-        }
+            .title {
+                margin-right: 30px;
+                font-size   : 1.1em;
+                font-style  : italic;
+            }
 
-        .login-btn {
-            text-align: center;
-            margin-top: 30px;
+            .signup-btn {
+                background-color: #33CCFF;
+                border          : 1px solid #13c2fc;
 
-            button {
-                width: 100px;
+                &:hover {
+                    background-color: #18a5d4;
+                }
             }
         }
-    }
 
+        .login-form {
+            width    : 50%;
+            max-width: 600px;
+            min-width: 300px;
+            margin   : 0 auto;
+
+            .page-brand {
+                text-align   : center;
+                font-size    : 2.5em;
+                font-weight  : 600;
+                margin-bottom: 3%;
+            }
+
+            .title {
+                text-align   : center;
+                font-size    : 2em;
+                font-weight  : 600;
+                margin-bottom: 7%;
+            }
+
+            .form-label {
+                font-weight: 600;
+            }
+
+            .checkbox-and-resetpw {
+                display    : flex;
+                align-items: baseline;
+
+                @media screen and (max-width: 768px) {
+                    flex-direction: column;
+                }
+
+                .check-pw {
+                    font-weight: 600;
+
+                    .form-check-label {
+                        cursor: pointer;
+                    }
+
+                    .form-check-input {
+                        cursor: pointer;
+                    }
+                }
+
+                .text-muted {
+                    text-align : right;
+                    font-style : italic;
+                    font-size  : 1.05em;
+                    font-weight: 500;
+                    cursor     : pointer;
+
+                    &:hover {
+                        color: rgb(136, 136, 136) !important;
+                    }
+                }
+            }
+
+
+            .login-btn {
+                text-align: center;
+                margin-top: 8%;
+
+                button {
+                    width           : 100px;
+                    background-color: #33CCFF;
+                    border          : 1px solid #13c2fc;
+
+                    &:hover {
+                        background-color: #18a5d4;
+                    }
+                }
+            }
+
+            .back-btn {
+                margin-top: 6%;
+                text-align: center;
+                width     : 100%;
+                font-size : 1.1em;
+
+                span {
+                    cursor: pointer;
+
+                    &:hover {
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+
+    }
 }
