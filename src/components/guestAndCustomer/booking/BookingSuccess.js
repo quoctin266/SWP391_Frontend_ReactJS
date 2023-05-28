@@ -6,7 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 const BookingSuccess = () => {
   return <div className="booking-success-container">
-    <container>
+    
       <div className="booking-title">
         <img src={cele} alt="cele icon" className="cele" />
         <div className="title"><h2>BOOKING SUCCESS</h2></div>
@@ -19,7 +19,7 @@ const BookingSuccess = () => {
           <h4>TransactionId1</h4>
         </div>
         <div className="Date">
-          <h3>DATE</h3>
+          <h3>Date</h3>
           <h4>06/06/2023</h4>
           <h4>25/06/2023</h4>
           <h4>30/06/2023</h4>
@@ -45,11 +45,11 @@ const BookingSuccess = () => {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="butt">
               <NavLink to="/home" className="nav-link">
-                <button className="Home"><h3 className="home">Back To Home</h3></button>
+                <h3 className="Home"><h3 className="home">Back To Home</h3></h3>
 
               </NavLink>
               <NavLink to="/track" className="nav-link">
-                <button className="Track"> <h3 className="track">Track order</h3></button>
+                <h3 className="Track"> <h3 className="track">Track order</h3></h3>
 
               </NavLink>
             </Nav>
@@ -57,7 +57,7 @@ const BookingSuccess = () => {
         </Navbar>
       </div>
 
-    </container>
+    
   </div>;
 };
 

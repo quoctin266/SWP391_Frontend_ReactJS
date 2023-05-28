@@ -7,12 +7,15 @@
         .price-method {
             margin-top: 90px;
             margin-left: 40px;
-            background-color: #a3e681;
+            background-color: #85c697;
             width:400px;
             height:200px;
             text-align: center;
             color:white;
-            border-radius: 60%/60%;
+            border-radius: 60px/60px;
+            .method{
+                margin-top:90px;
+            }
             .pic{
                 display:flex;
                 width:70px;
@@ -36,7 +39,7 @@
         }
         .info{
             margin-left: 40px;
-            background-color: #a3e681;
+            background-color: #85c697;
             width:400px;
             height:350px;
             text-align: center;
@@ -46,13 +49,15 @@
     }
 
     .price-table {
-        background-color: #a3e681;
+        background-color: #85c697;
         margin-left: 200px;
         width: 800px;
-
+        font-size: large;
+        text-align: center;
         .table {
             .highlight {
-                background-color: rgb(0, 194, 0);
+                background-color:black;
+                color:white
             }
         }
     }
