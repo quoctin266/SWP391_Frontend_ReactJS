@@ -1,8 +1,5 @@
 import "./Home.scss";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { Col, Container } from "react-bootstrap";
-import Row from "react-bootstrap/Row";
+import { Container } from "react-bootstrap";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import {
   getAllNews,
@@ -14,6 +11,8 @@ import moment from "moment";
 import { BiNews } from "react-icons/bi";
 import { FaHandPointRight } from "react-icons/fa";
 import { MdLabelImportant } from "react-icons/md";
+
+import GoogleMapSearch from "./GoogleMapSearch";
 
 const Home = () => {
   const [listNews, setListNews] = useState([]);
@@ -50,37 +49,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Container>
-        <div className="search-location-container">
-          <div className="title">Search for Bird Transportation</div>
-          <div className="search-bar">
-            <Form>
-              <Row className="search-row">
-                <Form.Group
-                  className="mb-3"
-                  controlId="formStartPoint"
-                  as={Col}
-                >
-                  <Form.Label>Start Point</Form.Label>
-                  <Form.Control type="text" placeholder="Enter location" />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formEndPoint" as={Col}>
-                  <Form.Label>End Point</Form.Label>
-                  <Form.Control type="text" placeholder="Enter location" />
-                </Form.Group>
-
-                <Button
-                  variant="success"
-                  type="submit"
-                  as={Col}
-                  className="col-1 search-btn"
-                >
-                  Search
-                </Button>
-              </Row>
-            </Form>
-          </div>
-        </div>
+        <GoogleMapSearch />
         <div className="homepage-info-container">
           <div className="news-container">
             <div className="title">News</div>
