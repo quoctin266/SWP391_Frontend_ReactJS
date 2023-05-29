@@ -3,7 +3,7 @@ import "./AboutUs.scss";
 
 const AboutUs = () => {
   return (
-    <Container>
+    <Container className="aboutus-outer">
       <div className="aboutus-container">
         <div className="Header">
           Connecting People, Places, and Possibilities: Your Trusted

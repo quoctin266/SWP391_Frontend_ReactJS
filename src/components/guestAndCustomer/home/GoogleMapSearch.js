@@ -105,13 +105,7 @@ const GoogleMapSearch = () => {
       </div>
       {showMap && (
         <div className="google-map-container" id="googleMapContainer">
-          <div
-            className="google-map"
-            style={{
-              height: "45vh",
-              width: "32vw",
-            }}
-          >
+          <div className="google-map">
             <GoogleMap
               mapContainerStyle={{
                 width: "100%",

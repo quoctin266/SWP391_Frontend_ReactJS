@@ -3,13 +3,15 @@ import momo from "../../../assets/image/momo.png";
 import paypal from "../../../assets/image/paypal.png";
 import vnp from "../../../assets/image/vnp.png";
 import { Container } from "react-bootstrap";
+import { MdLabelImportant } from "react-icons/md";
 
 const Price = () => {
   return (
-    <Container>
+    <Container className="price-outer">
       <div className="price-container">
         <div className="price-info">
           <div className="info">
+            <MdLabelImportant />
             This is the base fee that pays
             <br />
             for our time while we research, prepare for, and schedule your pet's
@@ -17,6 +19,8 @@ const Price = () => {
             Specialist working with our trusted drivers to arrange for your
             pets’ safe and comfortable ground transportation.
             <br />
+            <br />
+            <MdLabelImportant />
             This fee does not include the price of the transport itself, which
             is based on mileage, or any additional services needed. To get an
             estimate for the travel, fill out a bird travel form.

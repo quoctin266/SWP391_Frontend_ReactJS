@@ -1,61 +1,70 @@
-.track-container {
-    .title {
-        font-size       : 1.7em;
-        font-weight     : 600;
-        margin          : 2% 0;
-        background-color: #9ECE9D;
-        border-radius   : 10px;
-        padding         : 1%;
-        width           : 20%;
-        text-align      : center;
-        font-style      : italic;
-    }
+.track-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
+    background-color: #9ECE9D;
+    border-bottom   : 4px solid #087c06;
 
-    .track-body {
-        background   : #9ECE9D;
-        width        : 55%;
-        border-radius: 15px;
-        padding      : 2%;
-        margin-bottom: 4%;
-
-        .orderID-input {
-            background-color: #CBECBC;
-            border-radius   : 15px;
-
-            &:focus {
-                background-color: #CBECBC;
-
-            }
-        }
-
-        label {
-            font-weight: 600;
-        }
-
-        .track-btn {
-            height          : 57px;
-            width           : 6.5vw;
-            max-width       : 100px;
-            background-color: #CBECBC;
-            color           : black;
-            border-radius   : 15px;
-            border          : 1px solid #b6e3a1;
+    .track-container {
+        .title {
+            font-size       : 1.7em;
             font-weight     : 600;
-            font-size       : 1.2em;
+            margin          : 2% 0;
+            background-color: #499d47;
+            border-radius   : 38px;
+            padding         : 1%;
+            width           : 20%;
+            text-align      : center;
+            font-style      : italic;
+            margin-left     : 2%;
+            color           : antiquewhite;
+        }
 
-            &:hover {
-                background-color: #76a85f;
-                border          : 1px solid #6e965c;
+        .track-body {
+            background   : #9ECE9D;
+            width        : 55%;
+            border-radius: 15px;
+            padding      : 2%;
+            margin-bottom: 4%;
+
+            .orderID-input {
+                background-color: #CBECBC;
+                border-radius   : 15px;
+
+                &:focus {
+                    background-color: #CBECBC;
+
+                }
+            }
+
+            label {
+                font-weight: 600;
+            }
+
+            .track-btn {
+                height          : 57px;
+                width           : 6.5vw;
+                max-width       : 100px;
+                background-color: #CBECBC;
+                color           : black;
+                border-radius   : 15px;
+                border          : 1px solid #b6e3a1;
+                font-weight     : 600;
+                font-size       : 1.2em;
+
+                &:hover {
+                    background-color: #76a85f;
+                    border          : 1px solid #6e965c;
+                }
+            }
+
+            .order-status {
+                height          : 30vh;
+                background-color: #CBECBC;
+                border-radius   : 15px;
+                width           : 96%;
+                margin-left     : 2%;
             }
         }
 
-        .order-status {
-            height          : 30vh;
-            background-color: #CBECBC;
-            border-radius   : 15px;
-            width           : 96%;
-            margin-left     : 2%;
-        }
     }
-
 }

@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 
 const Track = () => {
   return (
-    <Container>
+    <Container className="track-outer">
       <div className="track-container">
         <div className="title">Order Tracking</div>
         <div className="track-body">

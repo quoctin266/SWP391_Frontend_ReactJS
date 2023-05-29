@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 
 const FAQs = () => {
   return (
-    <Container>
+    <Container className="faqs-outer">
       <div className="faqs-container">
         <div className="faq-header">
           <h2 className="title">Frequently Asked Questions</h2>
