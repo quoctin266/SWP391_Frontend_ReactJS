@@ -5,7 +5,7 @@
         border-radius   : 15px;
         background-color: #BAE1A7;
         padding         : 40px 70px;
-        padding-bottom  : 80px;
+        padding-bottom  : 4%;
 
         .title {
             color        : #BB4242;
@@ -43,6 +43,22 @@
                 }
             }
 
+        }
+
+        .google-map-container {
+            margin-top      : 2%;
+            width           : 75%;
+            background-color: #85c697;
+            padding         : 2%;
+            border-radius   : 15px;
+            display         : flex;
+            gap             : 30px;
+
+            .distance-duration {
+                .form-label {
+                    font-weight: 600;
+                }
+            }
         }
     }
 
