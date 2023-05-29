@@ -1,9 +1,9 @@
 .header-container {
+
     .banner-container {
         position        : relative;
         background-color: #9ECE9D;
         height          : 17vh;
-        margin-bottom   : 30px;
 
         .logo-image {
             height  : 15vh;
@@ -33,32 +33,42 @@
     }
 
     .navigation-container {
-        .navigation-bar {
-            background-color: #85c697 !important;
 
-            @media screen and (min-width: 1000px) {
-                height: 60px;
-            }
+        .container {
+            padding: 0;
+
+            .navigation-bar {
+                background-color: #85c697 !important;
+
+                @media screen and (min-width: 1000px) {
+                    height: 60px;
+                }
 
 
-            .container {
                 .navbar-brand {
                     color      : #525c53;
                     font-weight: 600;
                     font-size  : 1.5em;
                     margin     : 0;
+                    margin-left: 3%;
 
                     &:hover {
                         color: black;
                     }
                 }
 
+                .navbar-toggler {
+                    margin-right: 3%;
+                }
+
                 .navbar-collapse {
+                    margin-left: 3%;
+
                     .navbar-nav {
 
                         @media screen and (min-width: 1000px) {
                             display        : flex;
-                            width          : 80%;
+                            width          : 77%;
                             justify-content: flex-end;
 
                         }
@@ -94,6 +104,8 @@
                         .navbar-brand {
                             font-weight: 600;
                             color      : #464646;
+                            z-index    : 1;
+                            margin-left: 0;
 
                             &:hover {
                                 color: rgb(0, 0, 0);
@@ -107,7 +119,7 @@
                                 border-radius   : 10px;
                                 padding         : 22px 30px;
                                 position        : absolute;
-                                right           : -8px;
+                                right           : 11px;
                                 bottom          : -39px;
                                 margin          : 0;
 
@@ -119,9 +131,11 @@
                         }
                     }
                 }
-
-
             }
+
+
+
         }
+
     }
 }

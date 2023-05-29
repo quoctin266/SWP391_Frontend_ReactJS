@@ -1,13 +1,31 @@
-.faqs-container {
-    .faq-header {
-        .title {
-            margin: 3% 0;
-        }
-    }
+.faqs-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
+    background-color: #9ECE9D;
+    border-bottom   : 4px solid #087c06;
 
-    .faq-body {
-        .accordion-item {
-            background-color: azure;
+    .faqs-container {
+        .faq-header {
+            .title {
+                text-align      : center;
+                border-radius   : 10px;
+                background-color: #1d5a1c;
+                margin          : 3%;
+                font-size       : 2em;
+                font-weight     : 600;
+                padding         : 1% 0;
+                color           : antiquewhite;
+                width           : 45%;
+            }
+        }
+
+        .faq-body {
+            width : 90%;
+            margin: 0 auto;
+
+            .accordion-item {
+                background-color: azure;
+            }
         }
     }
 }

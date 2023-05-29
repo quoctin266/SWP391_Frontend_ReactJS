@@ -1,61 +1,69 @@
-.Header {
-    text-align: center;
-    border-radius: 10px;
+.service-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
     background-color: #9ECE9D;
-    margin: 3% 0;
-    font-size: 2em;
-    font-weight: 600;
-    padding: 1% 0;
-}
+    border-bottom   : 4px solid #087c06;
 
-.Mid {
-    display: flex;
-    gap: 30px;
-
-
-    .Content1 {
-        padding: 1%;
-        padding-bottom: 3%;
-        width: 50%;
-        height: auto;
-        background-color: #9ECE9D;
-        border-radius: 10px;
-        text-align: justify;
-
-
-        .contenttitle1 {
-            background-color: #13470A;
-            text-align: center;
-            color: white;
-            border-radius: 10px;
-            width: 20%;
-            padding: 4px 0;
-        }
-
+    .Header {
+        text-align      : center;
+        border-radius   : 10px;
+        background-color: #1d5a1c;
+        margin          : 3% 0;
+        font-size       : 2em;
+        font-weight     : 600;
+        padding         : 1% 0;
+        color           : antiquewhite;
     }
 
-    .Content2 {
-        padding: 1%;
-        width: 50%;
-        height: auto;
-        background-color: #9ECE9D;
-        border-radius: 10px;
-        text-align: justify;
+    .Mid {
+        display: flex;
+        gap    : 30px;
 
-        .contenttitle2 {
-            background-color: #13470A;
-            text-align: center;
-            color: white;
-            border-radius: 10px;
-            margin: 0 auto;
-            width: 70%;
-            margin-bottom: 5%;
-            padding: 4px 0;
+
+        .Content1 {
+            padding         : 1%;
+            padding-bottom  : 3%;
+            width           : 50%;
+            height          : auto;
+            background-color: #BAE1A7;
+            border-radius   : 10px;
+            text-align      : justify;
+
+
+            .contenttitle1 {
+                background-color: #13470A;
+                text-align      : center;
+                color           : white;
+                border-radius   : 10px;
+                width           : 40%;
+                padding         : 4px 0;
+            }
+
+        }
+
+        .Content2 {
+            padding         : 1%;
+            width           : 50%;
+            height          : auto;
+            background-color: #BAE1A7;
+            border-radius   : 10px;
+            text-align      : justify;
+
+            .contenttitle2 {
+                background-color: #13470A;
+                text-align      : center;
+                color           : white;
+                border-radius   : 10px;
+                margin          : 0 auto;
+                width           : 70%;
+                margin-bottom   : 5%;
+                padding         : 4px 0;
+            }
         }
     }
-}
 
-.paragraph {
-    font-style: italic;
-    padding: 1% 5%;
+    .paragraph {
+        font-style: italic;
+        padding   : 1% 5%;
+    }
 }

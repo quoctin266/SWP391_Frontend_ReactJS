@@ -12,25 +12,27 @@ const Header = () => {
 
   return (
     <div className="header-container">
-      <div className="banner-container">
-        <img src={logo} alt="page logo" className="logo-image" />
-        <Button
-          variant="success"
-          className="signin-button"
-          onClick={() => navigate("/login")}
-        >
-          Log in
-        </Button>
-      </div>
+      <Container style={{ padding: "0" }}>
+        <div className="banner-container">
+          <img src={logo} alt="page logo" className="logo-image" />
+          <Button
+            variant="success"
+            className="signin-button"
+            onClick={() => navigate("/login")}
+          >
+            Log in
+          </Button>
+        </div>
+      </Container>
       <div className="navigation-container">
-        <Navbar
-          collapseOnSelect
-          expand="lg"
-          bg="dark"
-          variant="dark"
-          className="navigation-bar"
-        >
-          <Container>
+        <Container>
+          <Navbar
+            collapseOnSelect
+            expand="lg"
+            bg="dark"
+            variant="dark"
+            className="navigation-bar"
+          >
             <NavLink to="/" end className="navbar-brand">
               Bird Travel
             </NavLink>
@@ -62,8 +64,8 @@ const Header = () => {
                 </NavLink>
               </div>
             </Navbar.Collapse>
-          </Container>
-        </Navbar>
+          </Navbar>
+        </Container>
       </div>
     </div>
   );

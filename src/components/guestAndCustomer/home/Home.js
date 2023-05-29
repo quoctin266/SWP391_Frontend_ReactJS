@@ -1,5 +1,5 @@
 import "./Home.scss";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import {
   getAllNews,
@@ -11,10 +11,13 @@ import moment from "moment";
 import { BiNews } from "react-icons/bi";
 import { FaHandPointRight } from "react-icons/fa";
 import { MdLabelImportant } from "react-icons/md";
-
+import banner from "../../../assets/image/banner.jpg";
+import Image from "react-bootstrap/Image";
 import GoogleMapSearch from "./GoogleMapSearch";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [listNews, setListNews] = useState([]);
   const [listServicesIntro, setListServicesIntro] = useState([]);
   const [listCondition, setListCondition] = useState([]);
@@ -48,7 +51,22 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Container>
+      <Container className="home-content">
+        <div className="banner-container">
+          <Image src={banner} rounded className="banner-image" />
+          <div className="banner-title">
+            Looking To Relocate Your Bird?
+            <br />
+            We Are Here For You.
+            <br />
+            Your Bird's Comfort Is Our Top Priority!
+            <div className="signup-btn">
+              <Button variant="dark" onClick={() => navigate("/register")}>
+                Join us now
+              </Button>
+            </div>
+          </div>
+        </div>
         <GoogleMapSearch />
         <div className="homepage-info-container">
           <div className="news-container">
