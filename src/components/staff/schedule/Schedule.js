@@ -74,68 +74,72 @@ const Schedule = () => {
     <div className="schedule-container">
       <div className="title">Schedule transportation</div>
       <div className="schedule-body">
-        <div className="route-title">Available routes</div>
-        <div className="route-list">
-          <Select
-            defaultValue={selectedRoute}
-            onChange={setSelectedRoute}
-            options={routes}
-          />
-        </div>
-        <div className="trip-title">Trips included</div>
+        <div className="route-and-trip">
+          <div className="route-title">Available routes</div>
+          <div className="route-list">
+            <Select
+              defaultValue={selectedRoute}
+              onChange={setSelectedRoute}
+              options={routes}
+            />
+          </div>
+          <div className="trip-title">Trips included</div>
 
-        <div className="trip-list">
-          <Table striped bordered hover responsive="sm">
-            <thead>
-              <tr>
-                <th>Trip ID</th>
-                <th>Start Location</th>
-                <th>End Location</th>
-                <th>Departure Date</th>
-                <th>Delivery Limit</th>
-                <th>Transporter Name</th>
-                <th>Transport Method</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tripList &&
-                tripList.length > 0 &&
-                tripList.map((trip) => {
-                  return (
-                    <tr key={trip.trip_id}>
-                      <td>{trip.trip_id}</td>
-                      <td>{trip.start_location}</td>
-                      <td>{trip.end_location}</td>
-                      <td>{trip.departure_date}</td>
-                      <td>{trip.delivery_limit}</td>
-                      <td>{trip.transporter_name}</td>
-                      <td>{trip.transport_method}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </Table>
+          <div className="trip-list">
+            <Table striped bordered hover responsive="sm">
+              <thead>
+                <tr>
+                  <th>Trip ID</th>
+                  <th>Start Location</th>
+                  <th>End Location</th>
+                  <th>Departure Date</th>
+                  <th>Delivery Limit</th>
+                  <th>Transporter Name</th>
+                  <th>Transport Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tripList &&
+                  tripList.length > 0 &&
+                  tripList.map((trip) => {
+                    return (
+                      <tr key={trip.trip_id}>
+                        <td>{trip.trip_id}</td>
+                        <td>{trip.start_location}</td>
+                        <td>{trip.end_location}</td>
+                        <td>{trip.departure_date}</td>
+                        <td>{trip.delivery_limit}</td>
+                        <td>{trip.transporter_name}</td>
+                        <td>{trip.transport_method}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </Table>
+          </div>
         </div>
-        <div className="assign-title">Assign booking order to trip</div>
-        <div className="select-trip-title">Select a trip</div>
-        <div className="select-trip">
-          <Select
-            defaultValue={selectedTrip}
-            onChange={setSelectedTrip}
-            options={trips}
-          />
+        <div className="assign-container">
+          <div className="assign-title">Assign booking order to trip</div>
+          <div className="select-trip-title">Select a trip</div>
+          <div className="select-trip">
+            <Select
+              defaultValue={selectedTrip}
+              onChange={setSelectedTrip}
+              options={trips}
+            />
+          </div>
+          <div className="select-order-title">Select an order</div>
+          <div className="select-order">
+            <Select
+              defaultValue={selectedOrder}
+              onChange={setSelectedOrder}
+              options={orders}
+            />
+          </div>
+          <Button variant="success" className="confirm-btn">
+            Confirm
+          </Button>
         </div>
-        <div className="select-order-title">Select an order</div>
-        <div className="select-order">
-          <Select
-            defaultValue={selectedOrder}
-            onChange={setSelectedOrder}
-            options={orders}
-          />
-        </div>
-        <Button variant="success" className="confirm-btn">
-          Confirm
-        </Button>
       </div>
     </div>
   );
