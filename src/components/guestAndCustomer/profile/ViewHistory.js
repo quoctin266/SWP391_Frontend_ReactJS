@@ -8,13 +8,13 @@ const ViewHistory = () => {
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <Container className="history-outer">
       <div className="view-history-container">
         <div className="Header">
           <h2 className="title">Your Transaction History</h2>
         </div>
         <div className="history-table">
-          <Table striped bordered hover style={{ border: "1px solid #bbbbbb" }}>
+          <Table striped hover>
             <thead>
               <tr>
                 <th>Order ID</th>

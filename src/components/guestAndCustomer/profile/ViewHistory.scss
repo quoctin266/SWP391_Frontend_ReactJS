@@ -1,14 +1,41 @@
-.view-history-container {
-    .Header {
-        text-align      : center;
-        border-radius   : 10px;
-        background-color: #9ECE9D;
-        margin-top      : 30px;
-        margin-bottom   : 30px;
-    }
+.history-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
+    background-color: #9ECE9D;
+    border-bottom   : 4px solid #087c06;
 
-    .back-button {
-        text-align: center;
-        margin    : 3% 0;
+    .view-history-container {
+        padding   : 0 4%;
+        margin-top: 5%;
+
+        .Header {
+            text-align      : center;
+            border-radius   : 15px;
+            background-color: #13470A;
+            padding         : 1% 0;
+            color           : antiquewhite;
+            margin          : 2% auto;
+        }
+
+        .history-table {
+            background-color: #eaffe0;
+            margin-top      : 5%;
+            border-radius   : 15px;
+
+            table {
+                tbody {
+                    tr {
+                        &:last-child {
+                            border-bottom-color: #9ECE9D;
+                        }
+                    }
+                }
+            }
+        }
+
+        .back-button {
+            text-align: center;
+            margin    : 3% 0;
+        }
     }
 }

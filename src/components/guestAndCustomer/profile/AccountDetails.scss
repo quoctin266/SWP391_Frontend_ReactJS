@@ -1,66 +1,72 @@
-.account-detail-container{
-    display: flex;
-    margin: 2rem 3rem;
-    background-color: #CBECBC;
-    padding: 2rem;
+.account-detail-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
+    background-color: #9ECE9D;
+    border-bottom   : 4px solid #087c06;
 
-    img{
-        width: 50%;
-        border-radius:50%;
-        margin: 0.5rem;
-    }
+    .account-detail-container {
+        display         : flex;
+        margin          : 2rem 3rem;
+        background-color: #CBECBC;
+        padding         : 2rem;
+        margin-top      : 6%;
 
-    .ProfileOptions{
-        width: 25rem;
-        display: flex;
-        flex-direction: column;
-        align-items: left;
-        padding-left: 5rem;
-
-        button{
-            width: 10rem;
-            border: none;
-            margin: 0.5rem;
-            border-radius: 2rem;
-            padding: 0.2rem 2rem;
-        }
-    }
-
-    .ProfileForm{
-        .Input{
-            display: flex;
-            align-items: center;
-            margin: .8rem;
-
-            label{
-                width:5rem;
-            }
-
-            input{
-                width: 30rem;
-                padding: .5rem;
-                margin-left: 2rem;
-                border-radius: 1rem;
-                border: 0;
-            }
-
+        img {
+            width        : 50%;
+            border-radius: 50%;
+            margin       : 0.5rem;
         }
 
-        .ProfileFormSave{
-            margin-top: 2rem;
-            display: flex;
-            justify-content: right;
+        .ProfileOptions {
+            width         : 25rem;
+            display       : flex;
+            flex-direction: column;
+            align-items   : left;
+            padding-left  : 5rem;
 
-            a{
-                width: 8%;
+            button {
+                width        : 10rem;
+                border       : none;
+                margin       : 0.5rem;
+                border-radius: 2rem;
+                padding      : 0.2rem 2rem;
+            }
+        }
+
+        .ProfileForm {
+            .Input {
+                display    : flex;
+                align-items: center;
+                margin     : .8rem;
+
+                label {
+                    width: 5rem;
+                }
+
+                input {
+                    width        : 30rem;
+                    padding      : .5rem;
+                    margin-left  : 2rem;
+                    border-radius: 1rem;
+                    border       : 0;
+                }
+
             }
 
-            img{
-                width: 50%;
-            }
+            .ProfileFormSave {
+                margin-top     : 2rem;
+                display        : flex;
+                justify-content: right;
 
+                a {
+                    width: 8%;
+                }
+
+                img {
+                    width: 50%;
+                }
+
+            }
         }
     }
 }
-
-

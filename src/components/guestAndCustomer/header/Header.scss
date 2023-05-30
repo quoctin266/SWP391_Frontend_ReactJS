@@ -74,8 +74,9 @@
                         }
 
                         .nav-link {
-                            color    : #E6EBDB !important;
-                            font-size: 1.3em;
+                            color        : #E6EBDB !important;
+                            font-size    : 1.3em;
+                            border-radius: 10px;
 
                             &:hover {
                                 color: #13470A !important;
@@ -89,7 +90,6 @@
 
                                 &.active {
                                     background-color: #468C4D;
-                                    border-radius   : 10px;
                                 }
                             }
                         }
