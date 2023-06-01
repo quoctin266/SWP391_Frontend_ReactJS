@@ -2,6 +2,7 @@ import Nav from "../Nav/Nav";
 import AdminSidebar from "../sidebar/AdminSidebar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Button } from "react-bootstrap";
 
 const ManageAccount = () => {
   return (
@@ -40,12 +41,10 @@ const ManageAccount = () => {
                       <td>Customer</td>
                       <td>Enable</td>
                       <td>
-                        <button type="button" className="btn btn-primary">
-                          Update
-                        </button>
-                        <button type="button" className="btn btn-primary">
-                          Delete
-                        </button>
+                      <Button className="btn btn-primary">Edit</Button>
+                      <Button variant="danger" className="btn btn-primary mx-2">
+                        Delete
+                      </Button>
                       </td>
                     </tr>
                     <tr>
@@ -57,12 +56,10 @@ const ManageAccount = () => {
                       <td>Customer</td>
                       <td>Enable</td>
                       <td>
-                        <button type="button" className="btn btn-primary">
-                          Update
-                        </button>
-                        <button type="button" className="btn btn-primary">
-                          Delete
-                        </button>
+                      <Button className="btn btn-primary">Edit</Button>
+                      <Button variant="danger" className="btn btn-primary mx-2">
+                        Delete
+                      </Button>
                       </td>
                     </tr>
                     <tr>
@@ -74,12 +71,10 @@ const ManageAccount = () => {
                       <td>Staff</td>
                       <td>Enable</td>
                       <td>
-                        <button type="button" className="btn btn-primary">
-                          Update
-                        </button>
-                        <button type="button" className="btn btn-primary">
-                          Delete
-                        </button>
+                      <Button className="btn btn-primary">Edit</Button>
+                      <Button variant="danger" className="btn btn-primary mx-2">
+                        Delete
+                      </Button>
                       </td>
                     </tr>
                   </tbody>

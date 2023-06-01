@@ -11,11 +11,19 @@ export default function AdminSidebar() {
                 </div>
                 <hr />
                 <div className='list-group list-group-flush'>
-                    <NavLink to="/admin/dashboard" className="list-group-item py-2">
+                    <NavLink to="/admin/dashboard" className="list-group-item py-2"
+                    style={({ isActive }) => ({
+                        color: isActive ? '#fff' : 'black',
+                        background: isActive ? '#85C697' : 'white',
+                      })}>
                         <i className="bi bi-bar-chart fs-5 me-3"></i>
                         <span>Dashboard</span>
                     </NavLink>
-                    <NavLink to="/admin/manage-account" className="list-group-item py-2">
+                    <NavLink to="/admin/manage-account" className="list-group-item py-2"
+                    style={({ isActive }) => ({
+                        color: isActive ? '#fff' : 'black',
+                        background: isActive ? '#85C697' : 'white',
+                      })}>
                         <i className="bi bi-people fs-5 me-3"></i>
                         <span>Accounts</span>
                     </NavLink>
