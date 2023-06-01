@@ -72,10 +72,10 @@ const Schedule = () => {
 
   return (
     <div className="schedule-container">
-      <div className="title">Schedule transportation</div>
+      <div className="title">Schedule Transportation</div>
       <div className="schedule-body">
         <div className="route-and-trip">
-          <div className="route-title">Available routes</div>
+          <div className="route-title">Available Routes</div>
           <div className="route-list">
             <Select
               defaultValue={selectedRoute}
@@ -119,7 +119,7 @@ const Schedule = () => {
           </div>
         </div>
         <div className="assign-container">
-          <div className="assign-title">Assign booking order to trip</div>
+          <div className="assign-title">Assign Booking Order To Trip</div>
           <div className="select-trip-title">Select a trip</div>
           <div className="select-trip">
             <Select

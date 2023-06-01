@@ -7,7 +7,7 @@ import AssignTrip from "./detailManagement/AssignTrip";
 const ManageRouteTrip = () => {
   return (
     <div className="manage-routetrip-container">
-      <div className="title">Manage route and trip</div>
+      <div className="title">Manage Route And Trip</div>
       <div className="route-trip-body">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           <Accordion.Item eventKey="0" className="manage-route">
