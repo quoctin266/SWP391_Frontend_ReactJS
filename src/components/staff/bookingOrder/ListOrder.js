@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 const ListOrder = () => {
   const orderList = [
     {
-      transaction_id: "transactionID1",
+      order_id: "1",
       fullName: "John Doe",
       birdcount: "2",
       departurePoint: "Cà Mau",
@@ -13,7 +13,7 @@ const ListOrder = () => {
       status: "Pending",
     },
     {
-      transaction_id: "transactionID2",
+      order_id: "2",
       fullName: "Jane Smith",
       birdcount: "4",
       departurePoint: "Đà Nẵng",
@@ -21,7 +21,7 @@ const ListOrder = () => {
       status: "Completed",
     },
     {
-      transaction_id: "transactionID3",
+      order_id: "3",
       fullName: "Alice Johnson",
       birdcount: "1",
       departurePoint: "Hồ Chí Minh",
@@ -37,7 +37,7 @@ const ListOrder = () => {
         <Table striped hover responsive="sm">
           <thead>
             <tr>
-              <th>Transaction ID</th>
+              <th>Order ID</th>
               <th>FullName</th>
               <th>Departure Point</th>
               <th>Arrival Point</th>
@@ -48,8 +48,8 @@ const ListOrder = () => {
           </thead>
           <tbody>
             {orderList.map((order) => (
-              <tr key={order.transaction_id}>
-                <td>{order.transaction_id}</td>
+              <tr key={order.order_id}>
+                <td>{order.order_id}</td>
                 <td>{order.fullName}</td>
                 <td>{order.departurePoint}</td>
                 <td>{order.arrivalPoint}</td>
@@ -57,7 +57,7 @@ const ListOrder = () => {
                 <td>{order.status}</td>
                 <td>
                   <Button variant="dark" className="mx-2">
-                    View detail
+                    Detail
                   </Button>
                   <Button variant="dark">Edit</Button>
                 </td>

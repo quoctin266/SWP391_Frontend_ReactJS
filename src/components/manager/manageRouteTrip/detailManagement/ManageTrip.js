@@ -26,7 +26,7 @@ const ManageTrip = () => {
           <Form>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridStart">
-                <Form.Label>Staring location</Form.Label>
+                <Form.Label>Starting location</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter departure location"
@@ -85,12 +85,12 @@ const ManageTrip = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive="md">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Departure location</th>
-            <th>Arrival location</th>
+            <th>Origin</th>
+            <th>Destination</th>
             <th>Departure date</th>
             <th>Transport method</th>
             <th>Actions</th>
