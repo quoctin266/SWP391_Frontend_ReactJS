@@ -14,9 +14,7 @@ const AccountDetail = () => {
         <div className="ProfileOptions">
           <img src={ProfilePic} alt="profile" />
           <button>Edit Profile</button>
-          <button onClick={() => navigate("/view-history")}>
-            View History
-          </button>
+          <button onClick={() => navigate("/view-history")}>View Orders</button>
         </div>
         <form action="" method="get" className="ProfileForm">
           <div className="Input">

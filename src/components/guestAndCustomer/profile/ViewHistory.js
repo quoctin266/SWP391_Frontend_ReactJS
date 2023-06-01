@@ -11,7 +11,7 @@ const ViewHistory = () => {
     <Container className="history-outer">
       <div className="view-history-container">
         <div className="Header">
-          <h2 className="title">Your Transaction History</h2>
+          <h2 className="title">Your Orders</h2>
         </div>
         <div className="history-table">
           <Table striped hover>
@@ -84,6 +84,9 @@ const ViewHistory = () => {
                 <td>Pending</td>
                 <td>
                   <Button variant="secondary">View detail</Button>
+                  <Button variant="danger" className="mx-2">
+                    Cancel
+                  </Button>
                 </td>
               </tr>
             </tbody>

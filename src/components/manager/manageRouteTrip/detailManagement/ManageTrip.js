@@ -20,7 +20,7 @@ const ManageTrip = () => {
 
       <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add new trip</Modal.Title>
+          <Modal.Title>Add New Trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -104,10 +104,11 @@ const ManageTrip = () => {
             <td>01/06/2023 07:00:00</td>
             <td>Ground Travel</td>
             <td>
-              <Button variant="secondary" className="mx-2">
-                View detail
+              <Button variant="secondary">Detail</Button>
+              <Button variant="warning" className="mx-2">
+                Edit
               </Button>
-              <Button variant="warning">Edit</Button>
+              <Button variant="danger">Delete</Button>
             </td>
           </tr>
           <tr>
@@ -117,10 +118,11 @@ const ManageTrip = () => {
             <td>03/06/2023 09:00:00</td>
             <td>Ground Travel</td>
             <td>
-              <Button variant="secondary" className="mx-2">
-                View detail
+              <Button variant="secondary">Detail</Button>
+              <Button variant="warning" className="mx-2">
+                Edit
               </Button>
-              <Button variant="warning">Edit</Button>
+              <Button variant="danger">Delete</Button>
             </td>
           </tr>
           <tr>
@@ -130,10 +132,11 @@ const ManageTrip = () => {
             <td>03/06/2023 15:00:00</td>
             <td>Ground Travel</td>
             <td>
-              <Button variant="secondary" className="mx-2">
-                View detail
+              <Button variant="secondary">Detail</Button>
+              <Button variant="warning" className="mx-2">
+                Edit
               </Button>
-              <Button variant="warning">Edit</Button>
+              <Button variant="danger">Delete</Button>
             </td>
           </tr>
         </tbody>

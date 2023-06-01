@@ -52,5 +52,23 @@
                 }
             }
         }
+
+        .manage-package {
+            .accordion-button {
+                font-size  : 0.8em;
+                font-weight: 600;
+                color      : rgb(62, 54, 63);
+            }
+
+            .accordion-body {
+                .add-btn {
+                    margin: 2% 0;
+                }
+
+                .table {
+                    text-align: center;
+                }
+            }
+        }
     }
 }

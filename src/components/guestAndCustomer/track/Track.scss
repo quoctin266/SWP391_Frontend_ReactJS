@@ -20,51 +20,99 @@
         }
 
         .track-body {
-            background   : #9ECE9D;
-            width        : 55%;
-            border-radius: 15px;
-            padding      : 2%;
-            margin-bottom: 4%;
+            display: flex;
 
-            .orderID-input {
-                background-color: #CBECBC;
-                border-radius   : 15px;
+            .track-form {
+                background    : #9ECE9D;
+                width         : 55%;
+                border-radius : 15px;
+                padding       : 2%;
+                padding-bottom: 0;
 
-                &:focus {
+                .orderID-input {
                     background-color: #CBECBC;
+                    border-radius   : 15px;
 
+                    &:focus {
+                        background-color: #CBECBC;
+
+                    }
+                }
+
+                label {
+                    font-weight: 600;
+                }
+
+                .track-btn {
+                    height          : 57px;
+                    width           : 6.5vw;
+                    max-width       : 100px;
+                    background-color: #CBECBC;
+                    color           : black;
+                    border-radius   : 15px;
+                    border          : 1px solid #b6e3a1;
+                    font-weight     : 600;
+                    font-size       : 1.2em;
+
+                    &:hover {
+                        background-color: #76a85f;
+                        border          : 1px solid #6e965c;
+                    }
+                }
+
+                .order-status {
+                    height          : 30vh;
+                    background-color: #CBECBC;
+                    border-radius   : 15px;
+                    width           : 96%;
+                    margin-left     : 2%;
+                    padding         : 3% 5%;
+
+                    .condition-title {
+                        font-size    : 1.1em;
+                        font-weight  : 500;
+                        margin-bottom: 2%;
+                    }
+
+                    .condition-detail {
+                        margin-bottom: 2%;
+                    }
                 }
             }
 
-            label {
-                font-weight: 600;
-            }
-
-            .track-btn {
-                height          : 57px;
-                width           : 6.5vw;
-                max-width       : 100px;
+            .track-list {
+                margin-left     : 3%;
+                margin-top      : 2%;
                 background-color: #CBECBC;
-                color           : black;
                 border-radius   : 15px;
-                border          : 1px solid #b6e3a1;
-                font-weight     : 600;
-                font-size       : 1.2em;
+                padding         : 2% 3%;
 
-                &:hover {
-                    background-color: #76a85f;
-                    border          : 1px solid #6e965c;
+                .begin-date {
+                    display    : flex;
+                    align-items: center;
+                    gap        : 10px;
+                    color      : #4c3f3f;
+                    font-weight: 500;
                 }
-            }
 
-            .order-status {
-                height          : 30vh;
-                background-color: #CBECBC;
-                border-radius   : 15px;
-                width           : 96%;
-                margin-left     : 2%;
+                .bar-unit {
+                    .border-left {
+                        border-left: 5px solid #4c3f3f;
+                        margin-left: 5px;
+                        color      : #CBECBC;
+                    }
+
+                    .date-info {
+                        display    : flex;
+                        align-items: center;
+                        gap        : 10px;
+                        color      : #4c3f3f;
+                        font-weight: 500;
+                    }
+                }
             }
         }
+
 
     }
 }

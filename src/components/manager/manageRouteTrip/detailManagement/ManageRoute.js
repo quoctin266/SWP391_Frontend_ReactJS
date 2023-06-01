@@ -18,7 +18,7 @@ const ManageRoute = () => {
 
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Add new route</Modal.Title>
+          <Modal.Title>Add New Route</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
