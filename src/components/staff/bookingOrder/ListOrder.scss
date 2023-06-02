@@ -4,6 +4,7 @@
   padding   : 0 2%;
 
   .title {
+
     font-size       : 2em;
     font-weight     : 600;
     margin-bottom   : 2%;
@@ -22,6 +23,7 @@
     background-color: #a4a8a0;
     padding         : 2%;
     border-radius   : 15px;
+
   }
 
   table {
@@ -29,6 +31,7 @@
     border-collapse : collapse;
     margin-top      : 2%;
     background-color: #fff;
+    border          : 1px solid #cfcdcd;
 
     th,
     td {

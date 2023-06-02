@@ -1,4 +1,5 @@
 .schedule-container {
+
     width           : 95%;
     padding         : 2%;
     border-radius   : 15px;
@@ -8,7 +9,7 @@
 
 
     .title {
-        font-size       : 2em;
+        font-size       : 2.5em;
         font-weight     : 600;
         margin-bottom   : 2%;
         background-color: #426e2b;
@@ -18,6 +19,7 @@
         width           : 39%;
         min-width       : 400px;
         text-align      : center;
+
     }
 
     .schedule-body {
@@ -30,7 +32,8 @@
             padding         : 2%;
 
             .route-title {
-                font-size       : 1.5em;
+
+                font-size       : 1.7em;
                 font-weight     : 600;
                 margin-bottom   : 2%;
                 background-color: #515e4a;
@@ -50,6 +53,18 @@
                 .css-13cymwt-control {
                     border-radius: 20px;
                 }
+
+                .detail-title {
+                    font-size  : 1.3em;
+                    font-weight: 600;
+                    margin     : 3% 0;
+                }
+
+                .route-detail {
+                    .table {
+                        background-color: white;
+                    }
+                }
             }
 
             .trip-title {
@@ -59,8 +74,11 @@
             }
 
             .trip-list {
-                background-color: white;
+                width: 80%;
 
+                .table {
+                    background-color: white;
+                }
             }
         }
 
@@ -71,7 +89,8 @@
             margin-top      : 3%;
 
             .assign-title {
-                font-size       : 1.5em;
+
+                font-size       : 1.7em;
                 font-weight     : 600;
                 margin-bottom   : 2%;
                 background-color: #515e4a;
@@ -81,6 +100,7 @@
                 width           : 35%;
                 min-width       : 330px;
                 text-align      : center;
+
             }
 
             .select-trip-title {
@@ -112,6 +132,18 @@
 
                 .css-13cymwt-control {
                     border-radius: 20px;
+                }
+
+                .detail-title {
+                    font-size  : 1.3em;
+                    font-weight: 600;
+                    margin     : 3% 0;
+                }
+
+                .order-detail {
+                    .table {
+                        background-color: white;
+                    }
                 }
             }
 

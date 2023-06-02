@@ -11,15 +11,18 @@ const Schedule = () => {
   const [tripList, setTripList] = useState([]);
 
   const routes = [
-    { value: "routeID1", label: "Cà Mau - Hồ Chí Minh" },
-    { value: "routeID2", label: "Vũng Tàu - Khánh Hòa" },
-    { value: "routeID3", label: "Đak Lak - Huế" },
+    {
+      value: "routeID1",
+      label: "Cà Mau - Cần Thơ - Hồ Chí Minh - Đồng Nai - Lâm Đồng",
+    },
+    { value: "routeID2", label: "Bình Định - Quảng Nam - Quảng Trị - Hà Tĩnh" },
+    { value: "routeID3", label: "Hà Nội - Tuyên Quang - Lào Cai - Sơn La" },
   ];
 
   const trips = tripList.map((trip) => {
     return {
       value: trip.trip_id,
-      label: `${trip.trip_id} - ${trip.start_location} - ${trip.end_location} - Slot Remain: ${trip.available_slot}`,
+      label: `${trip.trip_id} - ${trip.departure_date} - ${trip.transporter_name}`,
     };
   });
 
@@ -27,33 +30,18 @@ const Schedule = () => {
     setTripList([
       {
         trip_id: 1,
-        start_location: "Cà Mau",
-        end_location: "Cần Thơ",
-        delivery_limit: "7",
-        available_slot: "3",
         departure_date: "01/06/2023 07:00:00",
         transporter_name: "Hùng",
-        transport_method: "ground",
       },
       {
         trip_id: 2,
-        start_location: "Cần Thơ",
-        end_location: "Tiền Giang",
-        delivery_limit: "5",
-        available_slot: "2",
         departure_date: "03/06/2023 09:00:00",
         transporter_name: "Mạnh",
-        transport_method: "ground",
       },
       {
         trip_id: 3,
-        start_location: "Tiền Giang",
-        end_location: "Hồ Chí Minh",
-        delivery_limit: "3",
-        available_slot: "1",
-        departure_date: "04/06/2023 15:00:00",
+        departure_date: "05/06/2023 15:00:00",
         transporter_name: "Hải",
-        transport_method: "ground",
       },
     ]);
   }, []);
@@ -61,12 +49,15 @@ const Schedule = () => {
   const orders = [
     {
       value: "orderID1",
-      label: `1 - Cà Mau - Tiền Giang - ground - 2 bird(s)`,
+      label: `1 - Hà Nội - Lào Cai - Departing: 01/06/2023`,
     },
-    { value: "orderID2", label: `2 - Đà Nẵng - Huế - ground - 1 bird(s)` },
+    {
+      value: "orderID2",
+      label: `2 - Tuyên Quang - Sơn La - Departing: 01/06/2023`,
+    },
     {
       value: "orderID3",
-      label: `3 - Hồ chí Minh - Đà Lạt - ground - 1 bird(s)`,
+      label: `3 - Lào Cai - Sơn La - Departing: 06/06/2023`,
     },
   ];
 
@@ -82,20 +73,51 @@ const Schedule = () => {
               onChange={setSelectedRoute}
               options={routes}
             />
+            <div className="detail-title">Route detail</div>
+            <div className="route-detail">
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Station</th>
+                    <th>Driving time</th>
+                    <th>Distance from origin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hà Nội</td>
+                    <td>0 hours</td>
+                    <td>0 Km</td>
+                  </tr>
+                  <tr>
+                    <td>Tuyên Quang</td>
+                    <td>5 hours</td>
+                    <td>15 Km</td>
+                  </tr>
+                  <tr>
+                    <td>Lào Cai</td>
+                    <td>10 hours</td>
+                    <td>20 Km</td>
+                  </tr>
+                  <tr>
+                    <td>Sơn La</td>
+                    <td>15 hours</td>
+                    <td>25 Km</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
           </div>
-          <div className="trip-title">Trips included</div>
+          <div className="trip-title">Trips available</div>
 
           <div className="trip-list">
             <Table striped bordered hover responsive="sm">
               <thead>
                 <tr>
                   <th>Trip ID</th>
-                  <th>Start Location</th>
-                  <th>End Location</th>
                   <th>Departure Date</th>
-                  <th>Delivery Limit</th>
                   <th>Transporter Name</th>
-                  <th>Transport Method</th>
+                  <th>Vehicle</th>
                 </tr>
               </thead>
               <tbody>
@@ -105,12 +127,11 @@ const Schedule = () => {
                     return (
                       <tr key={trip.trip_id}>
                         <td>{trip.trip_id}</td>
-                        <td>{trip.start_location}</td>
-                        <td>{trip.end_location}</td>
                         <td>{trip.departure_date}</td>
-                        <td>{trip.delivery_limit}</td>
                         <td>{trip.transporter_name}</td>
-                        <td>{trip.transport_method}</td>
+                        <td>
+                          <Button variant="secondary">View detail</Button>
+                        </td>
                       </tr>
                     );
                   })}
@@ -119,7 +140,7 @@ const Schedule = () => {
           </div>
         </div>
         <div className="assign-container">
-          <div className="assign-title">Assign Booking Order To Trip</div>
+          <div className="assign-title">Assign Order To Trip</div>
           <div className="select-trip-title">Select a trip</div>
           <div className="select-trip">
             <Select
@@ -135,6 +156,32 @@ const Schedule = () => {
               onChange={setSelectedOrder}
               options={orders}
             />
+            <div className="detail-title">Order detail</div>
+            <div className="order-detail">
+              <Table striped bordered hover responsive="md">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Bird quantity</th>
+                    <th>Departure date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Hà Nội</td>
+                    <td>Lào Cai</td>
+                    <td>2</td>
+                    <td>01/06/2023</td>
+                    <td>
+                      <Button variant="secondary">View more</Button>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
           </div>
           <Button className="confirm-btn">
             Confirm

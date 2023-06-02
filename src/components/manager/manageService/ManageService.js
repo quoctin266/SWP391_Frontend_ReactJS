@@ -11,15 +11,11 @@ import { FcCheckmark } from "react-icons/fc";
 
 const ManageService = () => {
   const [showPayment, setShowPayment] = useState(false);
-  const [showTransport, setShowTransport] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
   const [showPackage, setShowPackage] = useState(false);
 
   const handleClosePayment = () => setShowPayment(false);
   const handleShowPayment = () => setShowPayment(true);
-
-  const handleCloseTransport = () => setShowTransport(false);
-  const handleShowTransport = () => setShowTransport(true);
 
   const handleClosePrice = () => setShowPrice(false);
   const handleShowPrice = () => setShowPrice(true);
@@ -136,90 +132,7 @@ const ManageService = () => {
               </Table>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="1" className="manage-transport">
-            <Accordion.Header>Manage Transport Method</Accordion.Header>
-            <Accordion.Body>
-              <Button
-                variant="primary"
-                onClick={handleShowTransport}
-                className="add-btn"
-              >
-                Add new
-              </Button>
-
-              <Modal
-                show={showTransport}
-                onHide={handleCloseTransport}
-                backdrop="static"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Add New Transport Method</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Form.Group className="mb-3" controlId="formBasicName">
-                      <Form.Label>Transport method name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter name of the transport method"
-                      />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicStatus">
-                      <Form.Label>Status</Form.Label>
-                      <Form.Select aria-label="transport status select">
-                        <option value="Active">Active</option>
-                        <option value="Disable">Disable</option>
-                      </Form.Select>
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleCloseTransport}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleCloseTransport}>
-                    Confirm
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Transport method</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Air travel</td>
-                    <td>Disable</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Ground travel</td>
-                    <td>Active</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="2" className="manage-price">
+          <Accordion.Item eventKey="1" className="manage-price">
             <Accordion.Header>Manage Price</Accordion.Header>
             <Accordion.Body>
               <Button
@@ -339,7 +252,7 @@ const ManageService = () => {
               </Table>
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="3" className="manage-package">
+          <Accordion.Item eventKey="2" className="manage-package">
             <Accordion.Header>Manage Package</Accordion.Header>
             <Accordion.Body>
               <Button
