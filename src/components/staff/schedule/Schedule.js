@@ -108,8 +108,8 @@ const Schedule = () => {
               </Table>
             </div>
           </div>
-          <div className="trip-title">Trips available</div>
 
+          <div className="trip-title">Trips available</div>
           <div className="trip-list">
             <Table striped bordered hover responsive="sm">
               <thead>

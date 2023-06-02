@@ -5,15 +5,70 @@ import { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import Select from "react-select";
 
 const ManageTrip = () => {
   const [show, setShow] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const routes = [
+    {
+      value: "routeID1",
+      label: "Cà Mau - Cần Thơ - Hồ Chí Minh - Đồng Nai - Lâm Đồng",
+    },
+    { value: "routeID2", label: "Bình Định - Quảng Nam - Quảng Trị - Hà Tĩnh" },
+    { value: "routeID3", label: "Hà Nội - Tuyên Quang - Lào Cai - Sơn La" },
+  ];
+
   return (
     <>
+      <div className="route-title">Select Route</div>
+      <div className="route-list">
+        <Select
+          defaultValue={selectedRoute}
+          onChange={setSelectedRoute}
+          options={routes}
+        />
+        <div className="detail-title">Route detail</div>
+        <div className="route-detail">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Station</th>
+                <th>Driving time</th>
+                <th>Distance from origin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hà Nội</td>
+                <td>0 hours</td>
+                <td>0 Km</td>
+              </tr>
+              <tr>
+                <td>Tuyên Quang</td>
+                <td>5 hours</td>
+                <td>15 Km</td>
+              </tr>
+              <tr>
+                <td>Lào Cai</td>
+                <td>10 hours</td>
+                <td>20 Km</td>
+              </tr>
+              <tr>
+                <td>Sơn La</td>
+                <td>15 hours</td>
+                <td>25 Km</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      </div>
+
+      <div className="trip-title">Current Trips</div>
       <Button variant="primary" onClick={handleShow} className="add-btn">
         Add new
       </Button>
@@ -24,24 +79,6 @@ const ManageTrip = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridStart">
-                <Form.Label>Starting location</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter departure location"
-                />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridEnd">
-                <Form.Label>Arrival location</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter arrival location"
-                />
-              </Form.Group>
-            </Row>
-
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridLimit">
                 <Form.Label>Delivery limit</Form.Label>
@@ -85,62 +122,63 @@ const ManageTrip = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Table striped bordered hover responsive="md">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Origin</th>
-            <th>Destination</th>
-            <th>Departure date</th>
-            <th>Transport method</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Cà Mau</td>
-            <td>Cần Thơ</td>
-            <td>01/06/2023 07:00:00</td>
-            <td>Ground Travel</td>
-            <td>
-              <Button variant="secondary">Detail</Button>
-              <Button variant="warning" className="mx-2">
-                Edit
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Cần Thơ</td>
-            <td>Tiền Giang</td>
-            <td>03/06/2023 09:00:00</td>
-            <td>Ground Travel</td>
-            <td>
-              <Button variant="secondary">Detail</Button>
-              <Button variant="warning" className="mx-2">
-                Edit
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Tiền Giang</td>
-            <td>Hồ Chí Minh</td>
-            <td>03/06/2023 15:00:00</td>
-            <td>Ground Travel</td>
-            <td>
-              <Button variant="secondary">Detail</Button>
-              <Button variant="warning" className="mx-2">
-                Edit
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      <div className="trip-list">
+        <Table striped bordered hover responsive="md">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Departure date</th>
+              <th>Driver</th>
+              <th>Vehicle</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>01/06/2023 07:00:00</td>
+              <td>Hùng</td>
+              <th>
+                <Button variant="secondary">View</Button>
+              </th>
+              <td>
+                <Button variant="warning" className="mx-2">
+                  Edit
+                </Button>
+                <Button variant="danger">Delete</Button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>03/06/2023 09:00:00</td>
+              <td>Mạnh</td>
+              <td>
+                <Button variant="secondary">View</Button>
+              </td>
+              <td>
+                <Button variant="warning" className="mx-2">
+                  Edit
+                </Button>
+                <Button variant="danger">Delete</Button>
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>05/06/2023 15:00:00</td>
+              <td>Hải</td>
+              <td>
+                <Button variant="secondary">View</Button>
+              </td>
+              <td>
+                <Button variant="warning" className="mx-2">
+                  Edit
+                </Button>
+                <Button variant="danger">Delete</Button>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 };

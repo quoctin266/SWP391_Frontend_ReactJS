@@ -11,6 +11,7 @@
 
     .route-trip-body {
         .manage-route {
+
             .accordion-button {
                 font-size  : 0.8em;
                 font-weight: 600;
@@ -35,6 +36,45 @@
                 .add-btn {
                     margin: 2% 0;
                 }
+            }
+
+            .route-title {
+                font-size    : 1.7em;
+                font-weight  : 600;
+                margin-bottom: 1%;
+                margin-top   : 2%;
+            }
+
+            .route-list {
+                width        : 50%;
+                min-width    : 300px;
+                margin-bottom: 4%;
+
+                .css-13cymwt-control {
+                    border-radius: 20px;
+                }
+
+                .detail-title {
+                    font-size  : 1.3em;
+                    font-weight: 600;
+                    margin     : 3% 0;
+                }
+
+                .route-detail {
+                    .table {
+                        background-color: white;
+                    }
+                }
+            }
+
+            .trip-title {
+                font-size  : 1.3em;
+                font-weight: 600;
+            }
+
+            .trip-list {
+                width    : 70%;
+                min-width: 300px;
             }
         }
 

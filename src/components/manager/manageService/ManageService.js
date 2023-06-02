@@ -52,15 +52,15 @@ const ManageService = () => {
                       <Form.Label>Payment method name</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter name of the payment method"
+                        placeholder="Enter payment method name"
                       />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicStatus">
-                      <Form.Label>Status</Form.Label>
-                      <Form.Select aria-label="payment status select">
-                        <option value="Active">Active</option>
-                        <option value="Disable">Disable</option>
+                    <Form.Group className="mb-3" controlId="formBasicType">
+                      <Form.Label>Payment Type</Form.Label>
+                      <Form.Select aria-label="payment type select">
+                        <option value="COD">COD</option>
+                        <option value="Online">Online</option>
                       </Form.Select>
                     </Form.Group>
                   </Form>
@@ -79,15 +79,15 @@ const ManageService = () => {
                   <tr>
                     <th>No</th>
                     <th>Payment method</th>
-                    <th>Status</th>
+                    <th>Payment type</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>1</td>
+                    <td>Cash</td>
                     <td>COD</td>
-                    <td>Active</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -97,8 +97,8 @@ const ManageService = () => {
                   </tr>
                   <tr>
                     <td>2</td>
-                    <td>VNPAY/MOMO</td>
-                    <td>Active</td>
+                    <td>MOMO</td>
+                    <td>COD</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -109,7 +109,7 @@ const ManageService = () => {
                   <tr>
                     <td>3</td>
                     <td>Paypal</td>
-                    <td>Active</td>
+                    <td>Online</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -120,7 +120,18 @@ const ManageService = () => {
                   <tr>
                     <td>4</td>
                     <td>Visa</td>
-                    <td>Disable</td>
+                    <td>Online</td>
+                    <td>
+                      <Button variant="warning">Edit</Button>
+                      <Button variant="danger" className="mx-2">
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>MOMO</td>
+                    <td>Online</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -147,31 +158,54 @@ const ManageService = () => {
                 show={showPrice}
                 onHide={handleClosePrice}
                 backdrop="static"
+                size="lg"
               >
                 <Modal.Header closeButton>
                   <Modal.Title>Add New Price</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    <Form.Group className="mb-3" controlId="formBasicMethod">
-                      <Form.Label>Transport method</Form.Label>
-                      <Form.Select aria-label="method select">
-                        <option value="TransportMethodID1">Air Travel</option>
-                        <option value="TransportMethodID2">
-                          Ground Travel
-                        </option>
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicDistance">
-                      <Form.Label>Distance</Form.Label>
+                    <Row>
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicMin"
+                        as={Col}
+                      >
+                        <Form.Label>Min Distance</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Enter min distance in Kilometer"
+                          min="0"
+                        />
+                      </Form.Group>
+
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicMax"
+                        as={Col}
+                      >
+                        <Form.Label>Max Distance</Form.Label>
+                        <Form.Control
+                          type="number"
+                          placeholder="Enter max distance in Kilometer"
+                          min="0"
+                        />
+                      </Form.Group>
+                    </Row>
+
+                    <Form.Group className="mb-3" controlId="formBasicCost">
+                      <Form.Label>Initial Cost</Form.Label>
                       <Form.Control
                         type="number"
-                        placeholder="Enter distance in Kilometer"
+                        placeholder="Enter cost in VND"
                         min="0"
                       />
                     </Form.Group>
-                    <Form.Group className="mb-3" controlId="formBasicCost">
-                      <Form.Label>Cost</Form.Label>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="formBasicAdditionalCost"
+                    >
+                      <Form.Label>Additional Bird Cost</Form.Label>
                       <Form.Control
                         type="number"
                         placeholder="Enter cost in VND"
@@ -193,18 +227,18 @@ const ManageService = () => {
                 <thead>
                   <tr>
                     <th>No</th>
-                    <th>Transport method</th>
                     <th>Distance</th>
-                    <th>Cost</th>
+                    <th>Initial Cost</th>
+                    <th>Each Additional Bird Cost</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>1</td>
-                    <td>Air travel</td>
-                    <td> &lt; 1000 Km</td>
-                    <td>1000000 Dong</td>
+                    <td> 0 - 100 Km</td>
+                    <td>100,000 VND</td>
+                    <td>100,000 VND</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -214,9 +248,9 @@ const ManageService = () => {
                   </tr>
                   <tr>
                     <td>2</td>
-                    <td>Air travel</td>
-                    <td> &lt; 2000 Km</td>
-                    <td>2000000 Dong</td>
+                    <td> 100 - 200 Km</td>
+                    <td>200,000 VND</td>
+                    <td>100,000 VND</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -226,9 +260,9 @@ const ManageService = () => {
                   </tr>
                   <tr>
                     <td>3</td>
-                    <td>Ground travel</td>
-                    <td> &lt; 500 Km</td>
-                    <td>500000 Dong</td>
+                    <td> 200 - 300 Km</td>
+                    <td>300,000 VND</td>
+                    <td>100,000 VND</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
@@ -238,9 +272,21 @@ const ManageService = () => {
                   </tr>
                   <tr>
                     <td>4</td>
-                    <td>Ground travel</td>
-                    <td> &lt; 700 Km</td>
-                    <td>700000 Dong</td>
+                    <td> 300 - 400 Km</td>
+                    <td>400,000 VND</td>
+                    <td>100,000 VND</td>
+                    <td>
+                      <Button variant="warning">Edit</Button>
+                      <Button variant="danger" className="mx-2">
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td> From 400 Km</td>
+                    <td>500,000 VND</td>
+                    <td>100,000 VND</td>
                     <td>
                       <Button variant="warning">Edit</Button>
                       <Button variant="danger" className="mx-2">
