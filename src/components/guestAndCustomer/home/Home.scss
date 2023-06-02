@@ -1,9 +1,9 @@
 .home-container {
 
     .home-content {
-        border          : 1px solid #9ECE9D;
+        border          : 1px solid #ffffff;
         padding-bottom  : 8%;
-        background-color: #9ECE9D;
+        background-color: #ffffff;
         border-bottom   : 4px solid #087c06;
 
         .banner-container {
@@ -46,12 +46,12 @@
 
         .search-location-container {
             border-radius   : 15px;
-            background-color: #BAE1A7;
+            background-color: #9ECE9D;
             padding         : 40px 70px;
             padding-bottom  : 4%;
 
             .title {
-                color        : #BB4242;
+                color        : #a30b0b;
                 font-size    : 1.7em;
                 font-weight  : 700;
                 margin-bottom: 50px;
@@ -81,7 +81,8 @@
                         margin-left: 30px;
                         width      : 100px;
                         font-size  : 1.2em;
-                        color      : black;
+                        color      : rgb(0, 0, 0);
+                        background-color: #4c9b4c;
                         font-weight: 600;
                     }
                 }

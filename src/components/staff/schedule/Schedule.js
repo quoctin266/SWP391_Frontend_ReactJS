@@ -136,7 +136,7 @@ const Schedule = () => {
               options={orders}
             />
           </div>
-          <Button variant="success" className="confirm-btn">
+          <Button className="confirm-btn">
             Confirm
           </Button>
         </div>

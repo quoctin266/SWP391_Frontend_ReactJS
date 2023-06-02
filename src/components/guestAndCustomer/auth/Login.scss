@@ -3,7 +3,7 @@
 
     .login-container {
 
-        background-color: #85C697;
+        background-color: #CBECBC;
         border-radius   : 10px;
         padding         : 4%;
         padding-bottom  : 8%;
@@ -27,7 +27,7 @@
                 border          : 1px solid #13c2fc;
 
                 &:hover {
-                    background-color: #18a5d4;
+                    background-color: #0ca4d6;
                 }
             }
         }
@@ -37,17 +37,18 @@
             max-width: 600px;
             min-width: 300px;
             margin   : 0 auto;
+            
 
             .page-brand {
                 text-align   : center;
-                font-size    : 2.5em;
+                font-size    : 3.7em;
                 font-weight  : 600;
                 margin-bottom: 3%;
             }
 
             .title {
                 text-align   : center;
-                font-size    : 2em;
+                font-size    : 2.5em;
                 font-weight  : 600;
                 margin-bottom: 7%;
             }
@@ -100,7 +101,7 @@
                     border          : 1px solid #13c2fc;
 
                     &:hover {
-                        background-color: #18a5d4;
+                        background-color: #0ca4d6;
                     }
                 }
             }
