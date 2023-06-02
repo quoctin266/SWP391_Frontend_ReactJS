@@ -40,85 +40,34 @@ const Price = () => {
           <table className="table">
             <tbody>
               <tr className="highlight">
-                <th>Transport method</th>
                 <th>Distance</th>
                 <th>Initial cost</th>
                 <th>Each subsequent bird</th>
               </tr>
               <tr>
-                <td>
-                  <b>Ground travel</b>
-                </td>
                 <td>&lt; 100 Km</td>
                 <td>100,000</td>
                 <td>+100,000</td>
               </tr>
               <tr>
-                <td></td>
                 <td>&lt; 200 Km</td>
                 <td>200,000</td>
                 <td>+100,000</td>
               </tr>
               <tr>
-                <td></td>
                 <td>&lt; 300 Km</td>
                 <td>300,000</td>
                 <td>+100,000</td>
               </tr>
               <tr>
-                <td></td>
                 <td>&lt; 400 Km</td>
                 <td>400,000</td>
                 <td>+100,000</td>
               </tr>
               <tr>
-                <td></td>
-                <td>&gt; 400 Km</td>
+                <td>From 400 Km</td>
                 <td>500,000</td>
                 <td>+100,000</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table className="table">
-            <tbody>
-              <tr className="highlight">
-                <td>Transport method</td>
-                <td>Distance</td>
-                <td>Initial cost</td>
-                <td>Each subsequent bird</td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Air travel</b>
-                </td>
-                <td>&lt; 1000 Km</td>
-                <td>1000,000</td>
-                <td>+200,000</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>&lt; 1500 Km</td>
-                <td>1,500,000</td>
-                <td>+200,000</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>&lt; 2000 Km</td>
-                <td>2,000,000</td>
-                <td>+200,000</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>&lt; 2500 Km</td>
-                <td>2,500,000</td>
-                <td>+200,000</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>&gt; 2500 Km</td>
-                <td>3,000,000</td>
-                <td>+200,000</td>
               </tr>
             </tbody>
           </table>
