@@ -31,7 +31,7 @@ const StaffSidebar = () => {
             <CDBSidebarMenu>
               <NavLink to="/staff/list-order">
                 <CDBSidebarMenuItem icon="columns">
-                  Booking order
+                  Order List
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/staff/schedule">

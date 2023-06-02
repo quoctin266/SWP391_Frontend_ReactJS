@@ -34,7 +34,7 @@ const ListOrder = () => {
     <div className="list-order-container">
       <div className="title">List Of Orders</div>
       <div className="order-list">
-        <Table striped hover responsive="sm">
+        <Table striped hover bordered responsive="sm">
           <thead>
             <tr>
               <th>Order ID</th>
