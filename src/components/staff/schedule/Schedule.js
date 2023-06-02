@@ -183,7 +183,7 @@ const Schedule = () => {
               </Table>
             </div>
           </div>
-          <Button variant="success" className="confirm-btn">
+          <Button className="confirm-btn">
             Confirm
           </Button>
         </div>
