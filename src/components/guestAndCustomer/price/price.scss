@@ -1,7 +1,7 @@
 .price-outer {
     border          : 1px solid #9ECE9D;
     padding-bottom  : 8%;
-    background-color: #9ECE9D;
+    background-color: #fff;
     border-bottom   : 4px solid #087c06;
 
     .price-container {
@@ -14,7 +14,7 @@
 
             .price-method {
                 margin-top      : 9%;
-                background-color: #85c697;
+                background-color: #CBECBC;
                 text-align      : center;
                 color           : white;
                 border-radius   : 30px;
@@ -45,7 +45,7 @@
             }
 
             .info {
-                background-color: #85c697;
+                background-color: #CBECBC;
                 text-align      : justify;
                 font-size       : 1.2em;
                 border-radius   : 30px;
@@ -56,15 +56,16 @@
         }
 
         .price-table {
-            background-color: #85c697;
+            background-color:  #CBECBC;
             margin-left     : 3%;
             width           : 65%;
             font-size       : large;
             text-align      : center;
+            
 
             .table {
                 .highlight {
-                    background-color: black;
+                    background-color: #85c697;
                     color           : white;
                     font-weight     : 700;
                 }

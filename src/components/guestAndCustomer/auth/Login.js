@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   return (
-    <div style={{ backgroundColor: "#E6EBDB" }}>
+    <div style={{ backgroundColor: "#fff" }}>
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide
