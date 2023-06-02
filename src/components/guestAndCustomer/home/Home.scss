@@ -1,9 +1,9 @@
 .home-container {
-
+    
     .home-content {
         border          : 1px solid #9ECE9D;
         padding-bottom  : 8%;
-        background-color: #9ECE9D;
+        background-color: white;
         border-bottom   : 4px solid #087c06;
 
         .banner-container {
@@ -45,8 +45,9 @@
         }
 
         .search-location-container {
+            border: 1px solid #9ECE9D;
             border-radius   : 15px;
-            background-color: #BAE1A7;
+            background-color: white;
             padding         : 40px 70px;
             padding-bottom  : 4%;
 
@@ -133,8 +134,9 @@
             }
 
             .news-container {
+                border: 1px solid #9ECE9D;
                 width           : 32%;
-                background-color: #BAE1A7;
+                background-color: white;
                 border-radius   : 15px;
 
                 @media screen and (max-width: 990px) {
@@ -166,8 +168,9 @@
             }
 
             .shipping-services-container {
+                border: 1px solid #9ECE9D;
                 width           : 32%;
-                background-color: #BAE1A7;
+                background-color: white;
                 border-radius   : 15px;
 
                 @media screen and (max-width: 990px) {
@@ -208,8 +211,9 @@
             }
 
             .shipping-condition-container {
+                border: 1px solid #9ECE9D;
                 width           : 32%;
-                background-color: #BAE1A7;
+                background-color: white;
                 border-radius   : 15px;
 
                 @media screen and (max-width: 990px) {

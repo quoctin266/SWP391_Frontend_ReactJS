@@ -1,11 +1,12 @@
 .track-outer {
     border          : 1px solid #9ECE9D;
     padding-bottom  : 8%;
-    background-color: #9ECE9D;
+    background-color: white;
     border-bottom   : 4px solid #087c06;
 
     .track-container {
         .title {
+            border: 1px solid #9ECE9D;
             font-size       : 1.7em;
             font-weight     : 600;
             margin          : 2% 0;
@@ -23,18 +24,20 @@
             display: flex;
 
             .track-form {
-                background    : #9ECE9D;
+                border: 1px solid #9ECE9D;
+                background    : white;
                 width         : 55%;
                 border-radius : 15px;
                 padding       : 2%;
                 padding-bottom: 0;
 
                 .orderID-input {
-                    background-color: #CBECBC;
+                    border: 1px solid #9ECE9D;
+                    background-color: white;
                     border-radius   : 15px;
 
                     &:focus {
-                        background-color: #CBECBC;
+                        background-color: white;
 
                     }
                 }
@@ -47,7 +50,7 @@
                     height          : 57px;
                     width           : 6.5vw;
                     max-width       : 100px;
-                    background-color: #CBECBC;
+                    background-color: white;
                     color           : black;
                     border-radius   : 15px;
                     border          : 1px solid #b6e3a1;
@@ -61,8 +64,9 @@
                 }
 
                 .order-status {
+                    border: 1px solid #9ECE9D;
                     height          : 30vh;
-                    background-color: #CBECBC;
+                    background-color: white;
                     border-radius   : 15px;
                     width           : 96%;
                     margin-left     : 2%;
@@ -81,9 +85,10 @@
             }
 
             .track-list {
+                border: 1px solid #9ECE9D;
                 margin-left     : 3%;
                 margin-top      : 2%;
-                background-color: #CBECBC;
+                background-color:white;
                 border-radius   : 15px;
                 padding         : 2% 3%;
 
@@ -99,7 +104,8 @@
                     .border-left {
                         border-left: 5px solid #4c3f3f;
                         margin-left: 5px;
-                        color      : #CBECBC;
+                        color      : black;
+                        font-style: italic;
                     }
 
                     .date-info {

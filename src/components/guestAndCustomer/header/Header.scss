@@ -38,8 +38,8 @@
             padding: 0;
 
             .navigation-bar {
-                background-color: #85c697 !important;
-
+                background-color: white !important;
+                border: 1px solid #9ECE9D;
                 @media screen and (min-width: 1000px) {
                     height: 60px;
                 }
@@ -70,11 +70,10 @@
                             display        : flex;
                             width          : 77%;
                             justify-content: flex-end;
-
                         }
 
                         .nav-link {
-                            color        : #E6EBDB !important;
+                            color        : black !important;
                             font-size    : 1.3em;
                             border-radius: 10px;
 
