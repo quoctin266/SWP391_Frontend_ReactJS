@@ -1,6 +1,7 @@
 import "./Home.scss";
 import { Button, Container } from "react-bootstrap";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import ReactPlayer from "react-player";
 import {
   getAllNews,
   getAllServicesIntro,
@@ -126,7 +127,7 @@ const Home = () => {
           <img
             src={Mirror}
             style={{ width: "25%", borderRadius: "50%" }}
-            alt="pic1"
+            alt="pic2"
           />
           <Typography className="WhereMove-Text">
             <h1>Where do we move bird</h1>
@@ -142,6 +143,19 @@ const Home = () => {
             </p>
           </Typography>
         </Container>
+        <Container className="video">
+          {" "}
+          <ReactPlayer url="https://youtu.be/aTvmJg2AzqM" />
+          <Typography className="video-text">
+            <p>
+              👈🎬Transporting a bird on the ground requires careful planning
+              and attention to ensure the safety and comfort of your feathered
+              friend. Here are some essential steps to follow when transporting
+              a bird by road or other ground transportation methods:
+            </p>
+          </Typography>
+        </Container>
+
         <Typography className="Board-Title">
           See your bird’s destination
         </Typography>

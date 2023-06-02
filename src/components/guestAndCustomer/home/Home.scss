@@ -124,8 +124,26 @@
             color      : #235936;
             font-size  : 4rem;
             font-weight: bold;
+            
         }
-
+        .video {
+            display: grid;
+            grid-gap: 50px;
+            align-items: center;
+            padding-bottom: 50px;
+          
+               
+          .video-text {
+            
+            grid-column: 2;
+            font-weight: bold;
+            text-align: center;
+            background-color: #85c697;
+            font-size: 1.3rem;
+            border-radius: 0.5rem;
+            padding-inline: 5rem;
+          }
+        }
         .search-location-container {
             border-radius   : 15px;
             background-color: #9ECE9D;
