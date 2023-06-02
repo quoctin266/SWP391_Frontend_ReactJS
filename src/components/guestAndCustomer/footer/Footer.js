@@ -12,22 +12,22 @@ const Footer = () => {
           <div className="footer-column-heading">About Us</div>
           <ul className="contact-info">
             <li>
-              <a href="#">FAQ</a>
+              <a href="/">FAQ</a>
             </li>
             <li>
-              <a href="#">Help Center</a>
+              <a href="/">Help Center</a>
             </li>
             <li>
-              <a href="#">Account</a>
+              <a href="/">Account</a>
             </li>
             <li>
-              <a href="#">Media Center</a>
+              <a href="/">Media Center</a>
             </li>
             <li>
-              <a href="#">Contact Us</a>
+              <a href="/">Contact Us</a>
             </li>
             <li>
-              <a href="#">Terms of Service</a>
+              <a href="/">Terms of Service</a>
             </li>
           </ul>
         </div>
@@ -35,22 +35,22 @@ const Footer = () => {
           <div className="footer-column-heading">Services</div>
           <ul className="contact-info">
             <li>
-              <a href="#">Legal Notices</a>
+              <a href="/">Legal Notices</a>
             </li>
             <li>
-              <a href="#">Report an Issue</a>
+              <a href="/">Report an Issue</a>
             </li>
             <li>
-              <a href="#">Affiliate Program</a>
+              <a href="/">Affiliate Program</a>
             </li>
             <li>
-              <a href="#">Terms of Use</a>
+              <a href="/">Terms of Use</a>
             </li>
             <li>
-              <a href="#">Privacy</a>
+              <a href="/">Privacy</a>
             </li>
             <li>
-              <a href="#">Cookie Preferences</a>
+              <a href="/">Cookie Preferences</a>
             </li>
           </ul>
         </div>
@@ -58,19 +58,19 @@ const Footer = () => {
           <div className="footer-column-heading">Contact Info</div>
           <ul className="contact-info">
             <li>
-              <a href="#">Corporate Information</a>
+              <a href="/">Corporate Information</a>
             </li>
             <li>
-              <a href="#">Feedback</a>
+              <a href="/">Feedback</a>
             </li>
             <li>
-              <a href="#">Corporate Accounts</a>
+              <a href="/">Corporate Accounts</a>
             </li>
             <li>
-              <a href="#">Legal Notices</a>
+              <a href="/">Legal Notices</a>
             </li>
             <li>
-              <a href="#">Accessibility</a>
+              <a href="/">Accessibility</a>
             </li>
           </ul>
         </div>
