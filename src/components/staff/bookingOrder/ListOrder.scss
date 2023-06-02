@@ -4,20 +4,33 @@
   padding   : 0 2%;
 
   .title {
-    font-size  : 2em;
-    font-weight: 600;
-    padding    : 1%;
+
+    font-size       : 2em;
+    font-weight     : 600;
+    margin-bottom   : 2%;
+    background-color: #426e2b;
+    color           : #fff;
+    border-radius   : 45px;
+    padding         : 1%;
+    width           : 30%;
+    min-width       : 250px;
+    text-align      : center;
   }
 
   .order-list {
-    width  : 90%;
-    padding: 2%;
+    width           : 90%;
+    width           : 90%;
+    background-color: #a4a8a0;
+    padding         : 2%;
+    border-radius   : 15px;
+
   }
 
   table {
     width           : 100%;
     border-collapse : collapse;
-    background-color: #efefef;
+    margin-top      : 2%;
+    background-color: #fff;
     border          : 1px solid #cfcdcd;
 
     th,

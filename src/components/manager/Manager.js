@@ -1,17 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import ManagerHeader from "./header/ManagerHeader";
 import ManagerSidebar from "./sidebar/ManagerSidebar";
 import "./Manager.scss";
 
 const Manager = () => {
   return (
     <div className="manager-container">
-      <ManagerHeader />
-      <div className="body-container">
+            <div className="body-container">
         <ManagerSidebar />
         <Scrollbars
-          style={{ height: "83vh" }}
+          style={{ height: "100vh" }}
           autoHide
           // Hide delay in ms
           autoHideTimeout={1000}

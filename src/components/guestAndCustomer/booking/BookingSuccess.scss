@@ -1,13 +1,13 @@
 .booking-success-outer {
     border          : 1px solid #9ECE9D;
     padding-bottom  : 8%;
-    background-color: #9ECE9D;
+    background-color: #fff;
     border-bottom   : 4px solid #087c06;
 
     .booking-success-container {
         .booking-title {
             display         : flex;
-            background-color: green;
+            background-color: #4c9b4c;
             margin-top      : 4%;
             padding         : 1% 2%;
             border-radius   : 60px;
@@ -29,7 +29,7 @@
         .booking-success-info {
             margin-top      : 2%;
             display         : flex;
-            background-color: #a3e681;
+            background-color: #CBECBC;
             border-radius   : 105px;
             width           : 95%;
             margin-left     : 2%;
@@ -100,7 +100,7 @@
                 margin-left: 550px;
 
                 .Home {
-                    background-color: rgb(58, 247, 184);
+                    background-color: #13c1fc;
                     color           : white;
                     width           : 250px;
                     text-align      : center;
@@ -109,12 +109,12 @@
                     padding         : 2%;
 
                     &:hover {
-                        background-color: rgb(10, 230, 156);
+                        background-color: #2cadd8;
                     }
                 }
 
                 .Track {
-                    background-color: rgb(58, 247, 184);
+                    background-color: #13c1fc;
                     width           : 200px;
                     text-align      : center;
                     border-radius   : 60px;
@@ -122,7 +122,7 @@
                     padding         : 2%;
 
                     &:hover {
-                        background-color: rgb(10, 230, 156);
+                        background-color: #2cadd8;
                     }
 
                     .track {

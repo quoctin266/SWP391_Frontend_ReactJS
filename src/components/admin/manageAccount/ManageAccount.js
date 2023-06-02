@@ -18,7 +18,6 @@ const ManageAccount = () => {
               <div className="row g-3 my-2">
                 <table className="table caption-top bg-white rounded mt-2">
                   <caption className="text-white fs-4">Manage Account</caption>
-
                   <thead>
                     <tr>
                       <th scope="col">No</th>
