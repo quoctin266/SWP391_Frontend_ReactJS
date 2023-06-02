@@ -80,36 +80,35 @@ const ManageTrip = () => {
         <Modal.Body>
           <Form>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridLimit">
-                <Form.Label>Delivery limit</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Enter delivery limit"
-                  min="0"
-                />
-              </Form.Group>
-
-              <Form.Group as={Col} controlId="formGridName">
-                <Form.Label>Transporter</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter transporter's name"
-                />
-              </Form.Group>
-            </Row>
-
-            <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridDate">
                 <Form.Label>Departure date</Form.Label>
                 <Form.Control type="date" placeholder="Enter departure date" />
               </Form.Group>
-              <Form.Group as={Col} controlId="formGridMethod">
-                <Form.Label>Transport Method</Form.Label>
-                <Form.Select aria-label="transport method select">
-                  <option value="TransportMethodID1">Air Travel</option>
-                  <option value="TransportMethodID2">Ground Travel</option>
+
+              <Form.Group as={Col} controlId="formGridDriver">
+                <Form.Label>Driver</Form.Label>
+                <Form.Control type="text" placeholder="Enter driver name" />
+              </Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group controlId="formGridVehicle" as={Col}>
+                <Form.Label>Select vehicle</Form.Label>
+                <Form.Select aria-label="vehicle select">
+                  <option value="VehicleID1">International ProStar</option>
+                  <option value="VehicleID2">Western Star</option>
+                  <option value="VehicleID3">Kenworth W900</option>
                 </Form.Select>
               </Form.Group>
+
+              <Form.Group as={Col}></Form.Group>
+            </Row>
+            <Row className="mb-3">
+              <Form.Group controlId="formGridCarryLimit" as={Col}>
+                <Form.Label>Carry Limit</Form.Label>
+                <Form.Control type="text" value="30" disabled />
+              </Form.Group>
+
+              <Form.Group as={Col}></Form.Group>
             </Row>
           </Form>
         </Modal.Body>
