@@ -41,9 +41,7 @@ const StaffSidebar = () => {
                 <CDBSidebarMenuItem icon="user">Feedback</CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
-                <CDBSidebarMenuItem icon="export">
-                  Logout
-                </CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="power-off">Logout</CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>
           </CDBSidebarContent>
