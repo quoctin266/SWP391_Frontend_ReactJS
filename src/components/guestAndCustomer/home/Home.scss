@@ -5,6 +5,7 @@
         padding-bottom  : 8%;
         background-color: #9ECE9D;
         border-bottom   : 4px solid #087c06;
+        display         : grid;
 
         .banner-container {
             margin-bottom: 1%;
@@ -42,6 +43,81 @@
                     }
                 }
             }
+        }
+
+        .About{
+            text-align      : center;
+            color           : #235936;
+            width           : 100%;
+            justify-self    : center;
+            font-weight     : bold;
+            margin-bottom   : 10rem;
+            margin-top      : 1rem;
+            background-color: #85c697;
+            padding         : 2rem;
+            border-radius   : 2rem;
+            h1{
+                font-weight  : bolder;
+                margin-bottom: 3rem;
+            }
+        }
+
+        .MoveBird{
+            display      : flex;
+            align-items  : center;
+            color        : #235936;
+            margin-bottom: 8rem;
+            background-color: #85c697;
+            padding         : 2rem;
+            border-radius   : 2rem;
+            
+            img{
+                margin-right: 2rem;
+            }
+            .MoveBird-Text{
+
+            h1{
+                font-weight: bolder;
+            }
+
+            h2{
+                font-size  :2rem;
+                font-weight: bold;
+            }
+            p{
+                font-weight  : bold;
+                margin-bottom: 0.5rem;
+            }
+            }
+        }
+
+        .WhereMove{
+            display    : flex;
+            align-items: center;
+            color      : #235936;
+            margin-bottom: 8rem;
+            background-color: #85c697;
+            padding         : 2rem;
+            border-radius   : 2rem;
+            img{
+                margin-right: 2rem;
+            }
+            .WhereMove-Text{
+                h1{
+                    font-weight: bolder;
+                }
+                p{
+                    font-weight  : bold;
+                    margin-bottom: 0.5rem;
+                }
+            }
+        }
+
+        .Board-Title{
+            text-align : center;
+            color      : #235936;
+            font-size  : 4rem;
+            font-weight: bold;
         }
 
         .search-location-container {
