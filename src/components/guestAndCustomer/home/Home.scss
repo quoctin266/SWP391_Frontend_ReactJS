@@ -3,8 +3,8 @@
     .home-content {
         border          : 1px solid #9ECE9D;
         padding-bottom  : 8%;
-        background-color: #9ECE9D;
-        border-bottom   : 4px solid #087c06;
+        background-color: white;
+        border-bottom   : 4px solid white;
         display         : grid;
 
         .banner-container {
@@ -118,8 +118,26 @@
             color      : #235936;
             font-size  : 4rem;
             font-weight: bold;
+            
         }
-
+        .video {
+            display: grid;
+            grid-gap: 50px;
+            align-items: center;
+            padding-bottom: 50px;
+          
+               
+          .video-text {
+            
+            grid-column: 2;
+            font-weight: bold;
+            text-align: center;
+            background-color: #85c697;
+            font-size: 1.3rem;
+            border-radius: 0.5rem;
+            padding-inline: 5rem;
+          }
+        }
         .search-location-container {
             border-radius   : 15px;
             background-color: #BAE1A7;
