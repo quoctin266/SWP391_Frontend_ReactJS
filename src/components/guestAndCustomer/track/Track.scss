@@ -1,7 +1,7 @@
 .track-outer {
-    border          : 1px solid #9ECE9D;
+    border          : 1px solid white;
     padding-bottom  : 8%;
-    background-color: white;
+    background-color: #9ECE9D;
     border-bottom   : 4px solid #087c06;
 
     .track-container {
@@ -10,34 +10,32 @@
             font-size       : 1.7em;
             font-weight     : 600;
             margin          : 2% 0;
-            background-color: #499d47;
+            background-color: #4c9b4c;
             border-radius   : 38px;
             padding         : 1%;
             width           : 20%;
             text-align      : center;
             font-style      : italic;
             margin-left     : 2%;
-            color           : antiquewhite;
+            color           : white;
         }
 
         .track-body {
             display: flex;
 
             .track-form {
-                border: 3px solid #9ECE9D;
-                background    : white;
+                background    : #9ECE9D;
                 width         : 55%;
                 border-radius : 15px;
                 padding       : 2%;
                 padding-bottom: 0;
 
                 .orderID-input {
-                    border: 3px solid #9ECE9D;
-                    background-color: white;
+                    background-color: #CBECBC;
                     border-radius   : 15px;
 
                     &:focus {
-                        background-color: white;
+                        background-color: #CBECBC;
 
                     }
                 }
@@ -50,7 +48,7 @@
                     height          : 57px;
                     width           : 6.5vw;
                     max-width       : 100px;
-                    background-color: white;
+                    background-color: #CBECBC;
                     color           : black;
                     border-radius   : 15px;
                     border          : 1px solid #b6e3a1;

@@ -12,7 +12,7 @@ import "./Feedback.scss";
 const Feedback = () => {
   return (
     <div className="feedback-container">
-      <h1>Feedback</h1>
+      <div className="feedback-title">Feedback</div>
       <div className="Box">
         <TableContainer component={Paper} sx={{ borderRadius: "2rem" }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">

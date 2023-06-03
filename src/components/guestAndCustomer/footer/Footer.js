@@ -8,13 +8,71 @@ const Footer = () => {
   return (
     <Container>
       <div className="footer-container">
-        <div className="contact-info">
-          &copy; 2023 Bird Travel. All rights reserved.
-          <br />
-          Call Bird Travel: 222-333-4444
-          <br />
-          Email Bird Travel: BirdTravel@gmail.com <br />
-          Site designed and built by Group 5.
+        <div className="footer-column">
+          <div className="footer-column-heading">About Us</div>
+          <ul className="contact-info">
+            <li>
+              <a href="/">FAQ</a>
+            </li>
+            <li>
+              <a href="/">Help Center</a>
+            </li>
+            <li>
+              <a href="/">Account</a>
+            </li>
+            <li>
+              <a href="/">Media Center</a>
+            </li>
+            <li>
+              <a href="/">Contact Us</a>
+            </li>
+            <li>
+              <a href="/">Terms of Service</a>
+            </li>
+          </ul>
+        </div>
+        <div className="footer-column">
+          <div className="footer-column-heading">Services</div>
+          <ul className="contact-info">
+            <li>
+              <a href="/">Legal Notices</a>
+            </li>
+            <li>
+              <a href="/">Report an Issue</a>
+            </li>
+            <li>
+              <a href="/">Affiliate Program</a>
+            </li>
+            <li>
+              <a href="/">Terms of Use</a>
+            </li>
+            <li>
+              <a href="/">Privacy</a>
+            </li>
+            <li>
+              <a href="/">Cookie Preferences</a>
+            </li>
+          </ul>
+        </div>
+        <div className="footer-column">
+          <div className="footer-column-heading">Contact Info</div>
+          <ul className="contact-info">
+            <li>
+              <a href="/">Corporate Information</a>
+            </li>
+            <li>
+              <a href="/">Feedback</a>
+            </li>
+            <li>
+              <a href="/">Corporate Accounts</a>
+            </li>
+            <li>
+              <a href="/">Legal Notices</a>
+            </li>
+            <li>
+              <a href="/">Accessibility</a>
+            </li>
+          </ul>
         </div>
         <div className="find-us">Find Us On:</div>
         <div className="footer-icon-container">
