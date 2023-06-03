@@ -13,8 +13,8 @@
         font-size       : 2em;
         font-weight     : 600;
         padding         : 1% 0;
-
         color           : #fff;
+    }
 
     .Mid {
         display: flex;
@@ -22,20 +22,17 @@
 
 
         .Content1 {
-            border: 3px solid #9ECE9D;
             padding         : 1%;
             padding-bottom  : 3%;
             width           : 70%;
             height          : auto;
-
             background-color: #CBECBC;
-
             border-radius   : 10px;
             text-align      : justify;
 
 
             .contenttitle1 {
-                background-color: #9ece9d;
+                background-color: #13470A;
                 text-align      : center;
                 color           : white;
                 border-radius   : 10px;
@@ -46,18 +43,15 @@
         }
 
         .Content2 {
-            border: 3px solid #9ECE9D;
             padding         : 1%;
             width           : 30%;
             height          : auto;
-
             background-color: #CBECBC;
-
             border-radius   : 10px;
             text-align      : justify;
 
             .contenttitle2 {
-                background-color: #9ece9d;
+                background-color: #13470A;
                 text-align      : center;
                 color           : white;
                 border-radius   : 10px;
@@ -73,4 +67,4 @@
         font-style: italic;
         padding   : 1% 5%;
     }
-}}
+}
