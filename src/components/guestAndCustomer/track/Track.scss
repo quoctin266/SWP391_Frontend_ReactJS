@@ -1,7 +1,7 @@
 .track-outer {
     border          : 1px solid #9ECE9D;
     padding-bottom  : 8%;
-    background-color: #9ECE9D;
+    background-color: #88BDBC;
     border-bottom   : 4px solid #087c06;
 
     .track-container {
@@ -9,21 +9,21 @@
             font-size       : 1.7em;
             font-weight     : 600;
             margin          : 2% 0;
-            background-color: #499d47;
+            background-color: #2B7A78;
             border-radius   : 38px;
             padding         : 1%;
             width           : 20%;
             text-align      : center;
             font-style      : italic;
             margin-left     : 2%;
-            color           : antiquewhite;
+            color           : white;
         }
 
         .track-body {
             display: flex;
 
             .track-form {
-                background    : #9ECE9D;
+                background    : white;
                 width         : 55%;
                 border-radius : 15px;
                 padding       : 2%;
