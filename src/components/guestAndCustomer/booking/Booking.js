@@ -271,9 +271,6 @@ const Booking = () => {
                     <div className="route">
                       Route: <span>HCM to HN</span>
                     </div>
-                    <div className="transport-method">
-                      Transport method: <span>Ground travel</span>
-                    </div>
                     <div className="package">
                       Package: <span>VIP</span>
                     </div>

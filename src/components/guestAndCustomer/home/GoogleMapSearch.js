@@ -7,7 +7,6 @@ import {
   GoogleMap,
   useJsApiLoader,
   Marker,
-  Autocomplete,
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { useState, useRef } from "react";
@@ -71,24 +70,20 @@ const GoogleMapSearch = () => {
           <Row className="search-row">
             <Form.Group className="mb-3" controlId="formStartPoint" as={Col}>
               <Form.Label>Start Point</Form.Label>
-              <Autocomplete>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter origin"
-                  ref={originRef}
-                />
-              </Autocomplete>
+              <Form.Select aria-label="origin select" ref={originRef}>
+                <option value="Ca Mau">Ca Mau</option>
+                <option value="Ho Chi Minh">Ho Chi Minh</option>
+                <option value="Ha Noi">Ha Noi</option>
+              </Form.Select>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formEndPoint" as={Col}>
               <Form.Label>End Point</Form.Label>
-              <Autocomplete>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter destination"
-                  ref={destinationRef}
-                />
-              </Autocomplete>
+              <Form.Select aria-label="origin select" ref={destinationRef}>
+                <option value="Ca Mau">Ca Mau</option>
+                <option value="Ho Chi Minh">Ho Chi Minh</option>
+                <option value="Ha Noi">Ha Noi</option>
+              </Form.Select>
             </Form.Group>
 
             <Button
