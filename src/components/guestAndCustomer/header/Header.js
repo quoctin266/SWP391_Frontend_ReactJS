@@ -15,6 +15,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const role = useSelector((state) => state.auth.role);
   const username = useSelector((state) => state.auth.username);
 
   const handleLogout = () => {
@@ -91,9 +92,15 @@ const Header = () => {
                 </NavLink>
               </Nav>
               <div className="book-btn-container">
-                <NavLink to="/booking" className="navbar-brand">
-                  BOOK NOW
-                </NavLink>
+                {role === "customer" || role === "" ? (
+                  <NavLink to="/booking" className="navbar-brand">
+                    BOOK NOW
+                  </NavLink>
+                ) : (
+                  <NavLink to={`/${role}`} className="navbar-brand">
+                    WORKSPACE
+                  </NavLink>
+                )}
               </div>
             </Navbar.Collapse>
           </Navbar>

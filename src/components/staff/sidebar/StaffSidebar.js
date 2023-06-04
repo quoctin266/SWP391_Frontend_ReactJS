@@ -9,9 +9,18 @@ import {
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 
 const StaffSidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <div className="staff-sidebar-container">
@@ -41,7 +50,9 @@ const StaffSidebar = () => {
                 <CDBSidebarMenuItem icon="user">Feedback</CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
-                <CDBSidebarMenuItem icon="power-off">Logout</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
+                  Logout
+                </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>
           </CDBSidebarContent>
@@ -52,7 +63,10 @@ const StaffSidebar = () => {
                 padding: "20px 5px",
               }}
             >
-              Bird Travel
+              <span className="sidebar-footer" onClick={() => navigate("/")}>
+                <AiOutlineHome />
+                Bird Travel
+              </span>
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>

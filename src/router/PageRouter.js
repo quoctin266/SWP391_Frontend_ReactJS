@@ -27,6 +27,9 @@ import ManageAccount from "../components/admin/manageAccount/ManageAccount";
 import Dashboard from "../components/admin/dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "../components/private-route/PrivateRoute";
+import LimitedAccess from "../components/private-route/LimitedAccess";
+import NotFound from "../components/private-route/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -59,11 +62,19 @@ const router = createBrowserRouter([
       },
       {
         path: "booking",
-        element: <Booking />,
+        element: (
+          <PrivateRoute>
+            <Booking />
+          </PrivateRoute>
+        ),
       },
       {
         path: "booking-success",
-        element: <BookingSuccess />,
+        element: (
+          <PrivateRoute>
+            <BookingSuccess />
+          </PrivateRoute>
+        ),
       },
       {
         path: "track",
@@ -71,11 +82,19 @@ const router = createBrowserRouter([
       },
       {
         path: "account-detail",
-        element: <AccountDetail />,
+        element: (
+          <PrivateRoute>
+            <AccountDetail />
+          </PrivateRoute>
+        ),
       },
       {
         path: "view-history",
-        element: <ViewHistory />,
+        element: (
+          <PrivateRoute>
+            <ViewHistory />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -97,7 +116,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/staff",
-    element: <Staff />,
+    element: (
+      <PrivateRoute>
+        <Staff />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -119,7 +142,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/manager",
-    element: <Manager />,
+    element: (
+      <PrivateRoute>
+        <Manager />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -141,7 +168,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin />,
+    element: (
+      <PrivateRoute>
+        <Admin />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -156,6 +187,14 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: "/access-not-allowed",
+    element: <LimitedAccess />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

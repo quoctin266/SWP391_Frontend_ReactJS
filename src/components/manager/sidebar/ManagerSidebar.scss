@@ -1,25 +1,49 @@
 .manager-sidebar-container {
     margin-right: 30px;
 
-    .sc-bbSZdi {
-        overflow: hidden;
+    .pro-sidebar {
+        .sc-bbSZdi {
+            overflow: hidden;
 
-        .sc-hCPjZK {
-            a {
-                .sc-cfxfcM {
-                    margin: 10px 0;
+            .sc-hCPjZK {
+                a {
+                    .sc-cfxfcM {
+                        margin: 10px 0;
 
-                    &:hover {
-                        background-color: gray;
+                        &:hover {
+                            background-color: gray;
+                        }
+                    }
+
+                    &.active {
+                        color: aquamarine;
                     }
                 }
 
-                &.active {
-                    color: aquamarine;
-                }
+            }
+
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
             }
 
         }
 
+        &.toggled {
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
+                flex-direction : column-reverse;
+            }
+        }
     }
+
 }
