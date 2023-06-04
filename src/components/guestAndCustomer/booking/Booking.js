@@ -7,9 +7,50 @@ import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { FcCheckmark } from "react-icons/fc";
+import { useState, useRef } from "react";
+import Modal from "react-bootstrap/Modal";
+import { useJsApiLoader } from "@react-google-maps/api";
+
+const libraries = ["places"];
 
 const Booking = () => {
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyCuqONgc2cx1SjnrYO4s9AZayDyqMHauZ4",
+    libraries: libraries,
+  });
+
   const navigate = useNavigate();
+  const originRef = useRef();
+  const destinationRef = useRef();
+  const [distance, setDistance] = useState("");
+  const [showSummary, setShowSummary] = useState(false);
+
+  const handleCloseSummary = () => setShowSummary(false);
+  const handleShowSummary = () => {
+    calculateRoute();
+    setTimeout(() => {
+      setShowSummary(true);
+    }, 1000);
+  };
+
+  const calculateRoute = async (event) => {
+    if (!originRef.current.value || !destinationRef.current.value) {
+      return;
+    }
+    // eslint-disable-next-line no-undef
+    const directionService = new google.maps.DirectionsService();
+    const results = await directionService.route({
+      origin: originRef.current.value,
+      destination: destinationRef.current.value,
+      // eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.DRIVING,
+    });
+    setDistance(results.routes[0].legs[0].distance.text);
+  };
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container className="booking-outer">
@@ -213,29 +254,33 @@ const Booking = () => {
             <div className="transport-title">Transport Information</div>
             <Form>
               <Row className="mb-5">
-                <Form.Group as={Col}>
+                <Form.Group as={Col} className="col-6">
                   <Form.Label>Bird's Anticipate Travel Date</Form.Label>
                   <Form.Control type="date" className="mb-3" />
-                  <Form.Label>Bird's Departure city</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter departure city"
-                    className="mb-3"
-                  />
-                  <Form.Label>Bird's Arrival city</Form.Label>
-                  <Form.Control type="text" placeholder="Enter arrival city" />
-                </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridTransport">
-                  <Form.Label>Transport Method</Form.Label>
-                  <Form.Select aria-label="Default select example">
-                    <option value="TransportMethodID1">Ground Travel</option>
-                    <option value="TransportMethodID2">Air Travel</option>
+                  <Form.Label>Bird's Departure city</Form.Label>
+                  <Form.Select
+                    aria-label="depart select"
+                    className="mb-3"
+                    ref={originRef}
+                  >
+                    <option value="Ca Mau">Ca Mau</option>
+                    <option value="Ho Chi Minh">Ho Chi Minh</option>
+                    <option value="Ha Noi">Ha Noi</option>
+                  </Form.Select>
+
+                  <Form.Label>Bird's Arrival city</Form.Label>
+                  <Form.Select
+                    aria-label="destination select"
+                    ref={destinationRef}
+                  >
+                    <option value="Ca Mau">Ca Mau</option>
+                    <option value="Ho Chi Minh">Ho Chi Minh</option>
+                    <option value="Ha Noi">Ha Noi</option>
                   </Form.Select>
                 </Form.Group>
-              </Row>
-              <Row>
-                <Form.Group as={Col}>
+
+                <Form.Group as={Col} className="col-4">
                   <Form.Label>Payment method</Form.Label>
                   <Col sm={10}>
                     <Form.Check
@@ -261,9 +306,13 @@ const Booking = () => {
                     />
                   </Col>
                 </Form.Group>
+              </Row>
 
-                <Form.Group as={Col}>
-                  <Form.Label className="mb-3">Order Summary</Form.Label>
+              <Modal show={showSummary} onHide={handleCloseSummary}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Order Summary</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                   <div className="order-summary">
                     <div className="bird-number">
                       Numbers of Bird: <span>1</span>
@@ -271,8 +320,8 @@ const Booking = () => {
                     <div className="route">
                       Route: <span>HCM to HN</span>
                     </div>
-                    <div className="transport-method">
-                      Transport method: <span>Ground travel</span>
+                    <div className="distance">
+                      Distance: <span>{distance}</span>
                     </div>
                     <div className="package">
                       Package: <span>VIP</span>
@@ -281,14 +330,22 @@ const Booking = () => {
                       Total cost: <span>500,000 VND</span>
                     </div>
                   </div>
-                </Form.Group>
-              </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleCloseSummary}>
+                    Back
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => navigate("/booking-success")}
+                  >
+                    Confirm
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </Form>
-            <Button
-              className="confirm-order-btn"
-              onClick={() => navigate("/booking-success")}
-            >
-              Confirm
+            <Button className="confirm-order-btn" onClick={handleShowSummary}>
+              Next
             </Button>
           </div>
         </div>

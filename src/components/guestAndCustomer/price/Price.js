@@ -45,68 +45,82 @@ const Price = () => {
           </div>
         </div>
         <div className="price-table">
-          <table className="table">
-          <TableContainer component={Paper} sx={{ borderRadius: "2rem" }} className="table-container">
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow sx={{ backgroundColor: "#839e77" }}>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
-                >
-                  Distance
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
-                >
-                  Initial cost&nbsp;
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
-                >
-                  Each subsequent bird&nbsp;
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {price.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
+          <TableContainer
+            component={Paper}
+            sx={{ borderRadius: "2rem" }}
+            className="table-container"
+          >
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "#839e77" }}>
                   <TableCell
-                    component="th"
-                    scope="row"
                     align="center"
-                    width={5}
-                    sx={{ border: "0", fontWeight: "bolder", backgroundColor: '#CBECBC'}}
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    {row.distance}
+                    Distance
                   </TableCell>
                   <TableCell
                     align="center"
-                    width={3}
-                    className="Name"
-                    sx={{ border: "0", fontWeight: "bolder",  backgroundColor: '#CBECBC'}}
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    {row.cost}
+                    Initial cost&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
-                    width={3}
-                    className="Feedback"
-                    sx={{ border: "0", fontWeight: "bolder", backgroundColor: '#CBECBC' }}
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    {row.bird}
+                    Each subsequent bird&nbsp;
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-          </table>
+              </TableHead>
+              <TableBody>
+                {price.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      width={5}
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.distance}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="Name"
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.cost}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="Feedback"
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.bird}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </Container>
