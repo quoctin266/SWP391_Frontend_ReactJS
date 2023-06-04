@@ -19,9 +19,13 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import Parrot from "../../../assets/image/Parrot.png";
 import Mirror from "../../../assets/image/BirdvsMirror.png";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const role = useSelector((state) => state.auth.role);
+
   const [listNews, setListNews] = useState([]);
   const [listServicesIntro, setListServicesIntro] = useState([]);
   const [listCondition, setListCondition] = useState([]);
@@ -64,11 +68,19 @@ const Home = () => {
             We Are Here For You.
             <br />
             Your Bird's Comfort Is Our Top Priority!
-            <div className="signup-btn">
-              <Button variant="dark" onClick={() => navigate("/register")}>
-                Join us now
-              </Button>
-            </div>
+            {(role === "customer" || role === "") && (
+              <div className="signup-btn">
+                {isAuthenticated ? (
+                  <Button variant="dark" onClick={() => navigate("/booking")}>
+                    Start booking
+                  </Button>
+                ) : (
+                  <Button variant="dark" onClick={() => navigate("/register")}>
+                    Join us now
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <Typography className="About">

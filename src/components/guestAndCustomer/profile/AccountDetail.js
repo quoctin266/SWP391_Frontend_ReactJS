@@ -4,9 +4,11 @@ import RedCross from "../../../assets/image/Red-X.jpg";
 import "./AccountDetails.scss";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const AccountDetail = () => {
   const navigate = useNavigate();
+  const role = useSelector((state) => state.auth.role);
 
   return (
     <Container className="account-detail-outer">
@@ -14,7 +16,11 @@ const AccountDetail = () => {
         <div className="ProfileOptions">
           <img src={ProfilePic} alt="profile" />
           <button>Edit Profile</button>
-          <button onClick={() => navigate("/view-history")}>View Orders</button>
+          {role === "customer" && (
+            <button onClick={() => navigate("/view-history")}>
+              View Orders
+            </button>
+          )}
         </div>
         <form action="" method="get" className="ProfileForm">
           <div className="Input">
