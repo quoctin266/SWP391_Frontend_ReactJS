@@ -12,4 +12,12 @@ const getAllShippingCondition = async () => {
   return await axios.get("api/v1/shipping-condition");
 };
 
-export { getAllNews, getAllServicesIntro, getAllShippingCondition };
+const postLogin = async (email, password) => {
+  return await axios.post("api/v1/login", {
+    email: email,
+    password: password,
+    delay: 1000,
+  });
+};
+
+export { getAllNews, getAllServicesIntro, getAllShippingCondition, postLogin };

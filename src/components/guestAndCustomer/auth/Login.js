@@ -5,13 +5,77 @@ import { Col } from "react-bootstrap";
 import "./Login.scss";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { postLogin } from "../../../service/APIservice";
+import { toast } from "react-toastify";
+import { validateEmail } from "../../../utils/reuseFunction";
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/slices/authSlice";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [invalidEmail, setInvalidEmail] = useState(false); //  controlling whether to display empty email warning or not
+  const [invalidPassword, setInvalidPassword] = useState(false); //  controlling whether to display empty password warning or not
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleOnchangeEmail = (event) => {
+    setEmail(event.target.value);
+    setInvalidEmail(false); // stop displaying warning after typing something
+  };
+
+  const handleOnchangePassword = (event) => {
+    setPassword(event.target.value);
+    setInvalidPassword(false); // stop displaying warning after typing something
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    if (!email) {
+      setInvalidEmail(true);
+      toast.error("Email must not be empty.");
+      return;
+    }
+
+    if (!password) {
+      setInvalidPassword(true);
+      toast.error("Password must not be empty");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast.error("Invalid email format.");
+      return;
+    }
+
+    setLoading(true); //start loading when calling API
+    let data = await postLogin(email, password);
+    if (data && data.EC === 0) {
+      let dataPayload = {
+        ...data.DT,
+        isAuthenticated: true,
+      };
+      dispatch(login(dataPayload)); //send user info to redux
+
+      toast.success(data.EM);
+      setLoading(false);
+      navigate("/");
+    } else {
+      toast.error(data.EM);
+      setLoading(false);
+    }
+  };
+
   return (
-    <div style={{ backgroundColor: "#fff" }}>
+    <div className="login-background">
       <Scrollbars
-        style={{ height: "100vh" }}
+        style={{
+          height: "100vh",
+        }}
         autoHide
         // Hide delay in ms
         autoHideTimeout={1000}
@@ -19,9 +83,10 @@ const Login = () => {
         autoHideDuration={200}
       >
         <div className="background-container">
+          {/* <Image src={background} /> */}
           <div className="login-container">
             <div className="register-prompt">
-              <div className="title">Don't have an account?</div>
+              <div className="title">Don't have an account yet?</div>
               <Button
                 variant="primary"
                 className="signup-btn"
@@ -33,15 +98,27 @@ const Login = () => {
             <div className="login-form">
               <div className="page-brand">Bird Travel</div>
               <div className="title">Login</div>
-              <Form>
+              <Form onSubmit={(event) => handleLogin(event)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    isInvalid={invalidEmail}
+                    onChange={(e) => handleOnchangeEmail(e)}
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    isInvalid={invalidPassword}
+                    onChange={(e) => handleOnchangePassword(e)}
+                  />
                 </Form.Group>
 
                 <Row>
@@ -63,7 +140,7 @@ const Login = () => {
                   </div>
                 </Row>
                 <div className="login-btn">
-                  <Button variant="primary" type="submit">
+                  <Button variant="primary" type="submit" disabled={loading}>
                     Login
                   </Button>
                 </div>

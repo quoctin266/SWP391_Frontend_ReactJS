@@ -13,7 +13,7 @@ const Register = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#fff" }}>
+    <div className="register-background">
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide

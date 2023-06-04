@@ -141,7 +141,7 @@
                 }
 
                 .col {
-                    margin-right: 30px;
+                    margin-right: 5%;
 
                     .form-check-input {
                         margin-right: 25px;
@@ -159,41 +159,12 @@
                     font-size  : 1.1em;
                 }
 
-                .order-summary {
-                    background-color: white;
-                    border-radius   : 10px;
-                    padding         : 8%;
-                    font-size       : 1.1em;
 
-                    .bird-number {
-                        display        : flex;
-                        justify-content: space-between;
-                        margin-bottom  : 5%;
-                    }
-
-                    .route {
-                        display        : flex;
-                        justify-content: space-between;
-                        margin-bottom  : 5%;
-                    }
-
-                    .package {
-                        display        : flex;
-                        justify-content: space-between;
-                        margin-bottom  : 5%;
-                    }
-
-                    .handling-fee {
-                        display        : flex;
-                        justify-content: space-between;
-                        margin-bottom  : 5%;
-                    }
-                }
 
                 .confirm-order-btn {
                     background-color: #33CCFF;
                     border          : 1px solid #13c1fc;
-                    margin-top      : 10%;
+                    margin-top      : 5%;
                     float           : right;
                     border-radius   : 30px;
                     width           : 100px;

@@ -27,23 +27,23 @@ const Home = () => {
   const [listCondition, setListCondition] = useState([]);
 
   const fetchAllNews = async () => {
-    let res = await getAllNews();
-    if (res?.data && res.data.length > 0) {
-      setListNews(res.data);
+    let data = await getAllNews();
+    if (data && data.length > 0) {
+      setListNews(data);
     }
   };
 
   const fetchAllServicesIntro = async () => {
-    let res = await getAllServicesIntro();
-    if (res?.data && res.data.length > 0) {
-      setListServicesIntro(res.data);
+    let data = await getAllServicesIntro();
+    if (data && data.length > 0) {
+      setListServicesIntro(data);
     }
   };
 
   const fetchAllShippingCondition = async () => {
-    let res = await getAllShippingCondition();
-    if (res?.data && res.data.length > 0) {
-      setListCondition(res.data);
+    let data = await getAllShippingCondition();
+    if (data && data.length > 0) {
+      setListCondition(data);
     }
   };
 

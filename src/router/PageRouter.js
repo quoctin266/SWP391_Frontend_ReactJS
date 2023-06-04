@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
-
 import Home from "../components/guestAndCustomer/home/Home";
 import Services from "../components/guestAndCustomer/services/Services";
 import Price from "../components/guestAndCustomer/price/Price";
@@ -26,6 +25,8 @@ import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTr
 import Admin from "../components/admin/Admin";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
 import Dashboard from "../components/admin/dashboard/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter([
   {
@@ -159,7 +160,23 @@ const router = createBrowserRouter([
 ]);
 
 const PageRouter = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
+  );
 };
 
 export default PageRouter;

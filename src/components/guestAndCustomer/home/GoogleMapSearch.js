@@ -15,7 +15,7 @@ const libraries = ["places"];
 
 const GoogleMapSearch = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
+    googleMapsApiKey: "AIzaSyCuqONgc2cx1SjnrYO4s9AZayDyqMHauZ4",
     libraries: libraries,
   });
 
@@ -29,7 +29,6 @@ const GoogleMapSearch = () => {
   const destinationRef = useRef();
 
   const calculateRoute = async (event) => {
-    event.preventDefault();
     if (!originRef.current.value || !destinationRef.current.value) {
       return;
     }
