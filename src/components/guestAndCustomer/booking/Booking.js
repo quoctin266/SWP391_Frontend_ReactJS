@@ -137,24 +137,7 @@ const Booking = () => {
                     <Form.Control as="textarea" rows={5} />
                   </Form.Group>
 
-                  <Form.Group as={Col} className="mb-3">
-                    <Form.Label>
-                      Do you have travel crates for your bird?
-                    </Form.Label>
-                    <Col sm={10}>
-                      <Form.Check
-                        type="radio"
-                        label="Yes"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios1"
-                      />
-                      <Form.Check
-                        type="radio"
-                        label="No"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios2"
-                      />
-                    </Col>
+                  <Form.Group as={Col} className="mb-3 btn-outer">
                     <Button className="add-bird-btn">Add another bird</Button>
                   </Form.Group>
                 </Row>
@@ -167,7 +150,6 @@ const Booking = () => {
               <thead>
                 <tr>
                   <th>Package</th>
-                  <th>Crate</th>
                   <th>Water</th>
                   <th>Food</th>
                   <th>Healthcare</th>
@@ -181,9 +163,6 @@ const Booking = () => {
                   <td>
                     <FcCheckmark />
                   </td>
-                  <td>
-                    <FcCheckmark />
-                  </td>
                   <td>Regular</td>
                   <td></td>
                   <td></td>
@@ -191,9 +170,6 @@ const Booking = () => {
                 </tr>
                 <tr>
                   <td>VIP</td>
-                  <td>
-                    <FcCheckmark />
-                  </td>
                   <td>
                     <FcCheckmark />
                   </td>
@@ -206,9 +182,6 @@ const Booking = () => {
                 </tr>
                 <tr>
                   <td>Luxury</td>
-                  <td>
-                    <FcCheckmark />
-                  </td>
                   <td>
                     <FcCheckmark />
                   </td>
