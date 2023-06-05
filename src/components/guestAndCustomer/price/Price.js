@@ -35,7 +35,7 @@ const Price = () => {
           </div>
           <div className="price-method">
             <div className="method">
-              <h3>Payment method</h3>
+              <h3 style={{color:'#13470A'}}>Payment method</h3>
             </div>
             <div className="pic">
               <img src={momo} alt="cele icon" className="momo" />

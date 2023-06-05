@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { validateEmail } from "../../../utils/reuseFunction";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/slices/authSlice";
+import Background from '../../../assets/image/background.jpg'; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -71,7 +72,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-background">
+    <div className="login-background" style={{backgroundImage:`url(${Background})`}}>
       <Scrollbars
         style={{
           height: "100vh",

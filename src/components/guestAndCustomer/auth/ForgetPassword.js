@@ -4,12 +4,13 @@ import Form from "react-bootstrap/Form";
 import "./ForgetPassword.scss";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { useNavigate } from "react-router-dom";
+import Background from '../../../assets/image/ForgetPassword-Background.jpg'
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ backgroundColor: "#E6EBDB" }}>
+    <div style={{ backgroundImage:`url(${Background})`}}>
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide

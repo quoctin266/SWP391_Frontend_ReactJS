@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import "./Register.scss";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { useNavigate } from "react-router-dom";
+import Background from '../../../assets/image/Register-Background.jpg'
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Register = () => {
   };
 
   return (
-    <div className="register-background">
+    <div className="register-background" style={{backgroundImage:`url(${Background})`}}>
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide
