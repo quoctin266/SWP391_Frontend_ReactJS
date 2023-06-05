@@ -24,7 +24,7 @@
         .Content1 {
             padding         : 1%;
             padding-bottom  : 3%;
-            width           : 70%;
+            width           : 60%;
             height          : auto;
             background-color: #CBECBC;
             border-radius   : 10px;
@@ -38,26 +38,28 @@
                 border-radius   : 10px;
                 width           : 23%;
                 padding         : 4px 0;
+                margin-top      : -24px;
             }
 
         }
 
         .Content2 {
             padding         : 1%;
-            width           : 30%;
+            width           : 40%;
             height          : auto;
             background-color: #CBECBC;
             border-radius   : 10px;
             text-align      : justify;
 
             .contenttitle2 {
+                margin-top      :-24px;
                 background-color: #13470A;
                 text-align      : center;
                 color           : white;
                 border-radius   : 10px;
-                margin          : 0 auto;
+                text-align      : center;
                 width           : 70%;
-                margin-bottom   : 5%;
+                margin-bottom   : 10%;
                 padding         : 4px 0;
             }
         }
