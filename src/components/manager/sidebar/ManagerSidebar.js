@@ -9,10 +9,18 @@ import {
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../redux/slices/authSlice";
 
 const ManagerSidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
   return (
     <div className="manager-sidebar-container">
       <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
@@ -36,7 +44,7 @@ const ManagerSidebar = () => {
               </NavLink>
               <NavLink to="/manager/manage-route-trip">
                 <CDBSidebarMenuItem icon="road">
-                  Manage route and trip
+                  Manage transportation
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/manager/manage-web-content">
@@ -45,7 +53,9 @@ const ManagerSidebar = () => {
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
-                <CDBSidebarMenuItem icon="power-off">Logout</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
+                  Logout
+                </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>
           </CDBSidebarContent>
@@ -56,7 +66,10 @@ const ManagerSidebar = () => {
                 padding: "20px 5px",
               }}
             >
-              Bird Travel
+              <span className="sidebar-footer" onClick={() => navigate("/")}>
+                <AiOutlineHome />
+                Bird Travel
+              </span>
             </div>
           </CDBSidebarFooter>
         </CDBSidebar>

@@ -19,11 +19,13 @@ const Schedule = () => {
     { value: "routeID3", label: "Hà Nội - Tuyên Quang - Lào Cai - Sơn La" },
   ];
 
-  const trips = tripList.map((trip) => {
-    return {
-      value: trip.trip_id,
-      label: `${trip.trip_id} - ${trip.departure_date} - ${trip.transporter_name}`,
-    };
+  const trips = [];
+  tripList.forEach((trip) => {
+    if (trip.status === "Standby")
+      trips.push({
+        value: trip.trip_id,
+        label: `${trip.trip_id} - ${trip.departure_date} - ${trip.transporter_name}`,
+      });
   });
 
   useEffect(() => {
@@ -31,16 +33,43 @@ const Schedule = () => {
       {
         trip_id: 1,
         departure_date: "01/06/2023 07:00:00",
+        progress: "Driving to Sơn La",
+        status: "Departed",
         transporter_name: "Hùng",
       },
       {
         trip_id: 2,
         departure_date: "03/06/2023 09:00:00",
+        progress: "Currently in Tuyên Quang",
+        status: "Departed",
         transporter_name: "Mạnh",
       },
       {
         trip_id: 3,
         departure_date: "05/06/2023 15:00:00",
+        progress: "Driving to Tuyên Quang",
+        status: "Departed",
+        transporter_name: "Hải",
+      },
+      {
+        trip_id: 4,
+        departure_date: "07/06/2023 07:00:00",
+        progress: "N/A",
+        status: "Standby",
+        transporter_name: "Hùng",
+      },
+      {
+        trip_id: 5,
+        departure_date: "08/06/2023 07:00:00",
+        progress: "N/A",
+        status: "Standby",
+        transporter_name: "Mạnh",
+      },
+      {
+        trip_id: 6,
+        departure_date: "09/06/2023 07:00:00",
+        progress: "N/A",
+        status: "Standby",
         transporter_name: "Hải",
       },
     ]);
@@ -109,15 +138,18 @@ const Schedule = () => {
             </div>
           </div>
 
-          <div className="trip-title">Trips available</div>
+          <div className="trip-title">Current Trips</div>
           <div className="trip-list">
             <Table striped bordered hover responsive="sm">
               <thead>
                 <tr>
                   <th>Trip ID</th>
                   <th>Departure Date</th>
-                  <th>Transporter Name</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Driver</th>
                   <th>Vehicle</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,9 +160,17 @@ const Schedule = () => {
                       <tr key={trip.trip_id}>
                         <td>{trip.trip_id}</td>
                         <td>{trip.departure_date}</td>
+                        <td>{trip.progress}</td>
+                        <td>{trip.status}</td>
                         <td>{trip.transporter_name}</td>
                         <td>
-                          <Button variant="secondary">View detail</Button>
+                          <Button variant="secondary">View</Button>
+                        </td>
+                        <td>
+                          <Button variant="secondary">Detail</Button>
+                          <Button variant="warning" className="mx-2">
+                            Update
+                          </Button>
                         </td>
                       </tr>
                     );
@@ -183,9 +223,7 @@ const Schedule = () => {
               </Table>
             </div>
           </div>
-          <Button className="confirm-btn">
-            Confirm
-          </Button>
+          <Button className="confirm-btn">Confirm</Button>
         </div>
       </div>
     </div>

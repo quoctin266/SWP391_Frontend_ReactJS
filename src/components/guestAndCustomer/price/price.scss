@@ -56,20 +56,16 @@
         }
 
         .price-table {
-            background-color:  #CBECBC;
-            margin-left     : 3%;
-            width           : 65%;
-            font-size       : large;
-            text-align      : center;
-            
 
-            .table {
-                .highlight {
-                    background-color: #85c697;
-                    color           : white;
-                    font-weight     : 700;
-                }
+            margin-left: 3%;
+            width      : 65%;
+            font-size  : large;
+            text-align : center;
+
+            .table-container {
+                margin-top: 5rem;
             }
+
         }
     }
 }

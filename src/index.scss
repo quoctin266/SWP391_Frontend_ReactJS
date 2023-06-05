@@ -14,3 +14,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.order-summary {
+  background-color: white;
+  border-radius   : 10px;
+  padding         : 3%;
+  font-size       : 1.1em;
+
+  .bird-number {
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 5%;
+  }
+
+  .route {
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 5%;
+  }
+
+  .distance {
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 5%;
+  }
+
+  .package {
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 5%;
+  }
+
+  .handling-fee {
+    display        : flex;
+    justify-content: space-between;
+    margin-bottom  : 5%;
+  }
+}

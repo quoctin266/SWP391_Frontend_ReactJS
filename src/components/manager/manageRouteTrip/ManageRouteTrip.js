@@ -2,12 +2,13 @@ import "./ManageRouteTrip.scss";
 import Accordion from "react-bootstrap/Accordion";
 import ManageRoute from "./detailManagement/ManageRoute";
 import ManageTrip from "./detailManagement/ManageTrip";
-import AssignTrip from "./detailManagement/AssignTrip";
+import ManageVehicle from "./detailManagement/ManageVehicle";
+import ManageStation from "./detailManagement/ManageStation";
 
 const ManageRouteTrip = () => {
   return (
     <div className="manage-routetrip-container">
-      <div className="title">Manage Route And Trip</div>
+      <div className="title">Manage Transportation</div>
       <div className="route-trip-body">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           <Accordion.Item eventKey="0" className="manage-route">
@@ -22,10 +23,16 @@ const ManageRouteTrip = () => {
               <ManageTrip />
             </Accordion.Body>
           </Accordion.Item>
-          <Accordion.Item eventKey="2" className="assign-trip">
-            <Accordion.Header>Assign Trip to Route</Accordion.Header>
+          <Accordion.Item eventKey="2" className="manage-vehicle">
+            <Accordion.Header>Manage Vehicle</Accordion.Header>
             <Accordion.Body>
-              <AssignTrip />
+              <ManageVehicle />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="3" className="manage-station">
+            <Accordion.Header>Manage Station</Accordion.Header>
+            <Accordion.Body>
+              <ManageStation />
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

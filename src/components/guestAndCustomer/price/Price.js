@@ -4,6 +4,14 @@ import paypal from "../../../assets/image/paypal.png";
 import vnp from "../../../assets/image/vnp.png";
 import { Container } from "react-bootstrap";
 import { MdLabelImportant } from "react-icons/md";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { price } from "./PriceMap";
 
 const Price = () => {
   return (
@@ -37,40 +45,82 @@ const Price = () => {
           </div>
         </div>
         <div className="price-table">
-          <table className="table">
-            <tbody>
-              <tr className="highlight">
-                <th>Distance</th>
-                <th>Initial cost</th>
-                <th>Each subsequent bird</th>
-              </tr>
-              <tr>
-                <td>&lt; 100 Km</td>
-                <td>100,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 200 Km</td>
-                <td>200,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 300 Km</td>
-                <td>300,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 400 Km</td>
-                <td>400,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>From 400 Km</td>
-                <td>500,000</td>
-                <td>+100,000</td>
-              </tr>
-            </tbody>
-          </table>
+          <TableContainer
+            component={Paper}
+            sx={{ borderRadius: "2rem" }}
+            className="table-container"
+          >
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "#839e77" }}>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Distance
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Initial cost&nbsp;
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Each subsequent bird&nbsp;
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {price.map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      width={5}
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.distance}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="Name"
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.cost}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="Feedback"
+                      sx={{
+                        border: "0",
+                        fontWeight: "bolder",
+                        backgroundColor: "#CBECBC",
+                      }}
+                    >
+                      {row.bird}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </Container>

@@ -19,31 +19,35 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import Parrot from "../../../assets/image/Parrot.png";
 import Mirror from "../../../assets/image/BirdvsMirror.png";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const role = useSelector((state) => state.auth.role);
+
   const [listNews, setListNews] = useState([]);
   const [listServicesIntro, setListServicesIntro] = useState([]);
   const [listCondition, setListCondition] = useState([]);
 
   const fetchAllNews = async () => {
-    let res = await getAllNews();
-    if (res?.data && res.data.length > 0) {
-      setListNews(res.data);
+    let data = await getAllNews();
+    if (data && data.length > 0) {
+      setListNews(data);
     }
   };
 
   const fetchAllServicesIntro = async () => {
-    let res = await getAllServicesIntro();
-    if (res?.data && res.data.length > 0) {
-      setListServicesIntro(res.data);
+    let data = await getAllServicesIntro();
+    if (data && data.length > 0) {
+      setListServicesIntro(data);
     }
   };
 
   const fetchAllShippingCondition = async () => {
-    let res = await getAllShippingCondition();
-    if (res?.data && res.data.length > 0) {
-      setListCondition(res.data);
+    let data = await getAllShippingCondition();
+    if (data && data.length > 0) {
+      setListCondition(data);
     }
   };
 
@@ -64,11 +68,19 @@ const Home = () => {
             We Are Here For You.
             <br />
             Your Bird's Comfort Is Our Top Priority!
-            <div className="signup-btn">
-              <Button variant="dark" onClick={() => navigate("/register")}>
-                Join us now
-              </Button>
-            </div>
+            {(role === "customer" || role === "") && (
+              <div className="signup-btn">
+                {isAuthenticated ? (
+                  <Button variant="dark" onClick={() => navigate("/booking")}>
+                    Start booking
+                  </Button>
+                ) : (
+                  <Button variant="dark" onClick={() => navigate("/register")}>
+                    Join us now
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <Typography className="About">
