@@ -50,6 +50,14 @@ const putUpdateProfile = async (
   });
 };
 
+const putResetPassword = async (account_id, oldPassword, newPassword) => {
+  return await axios.put("api/v1/reset-password", {
+    account_id: account_id,
+    oldPassword: oldPassword,
+    newPassword: newPassword,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -58,4 +66,5 @@ export {
   postSignup,
   getAllStation,
   putUpdateProfile,
+  putResetPassword,
 };

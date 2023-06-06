@@ -51,10 +51,13 @@ export const authSlice = createSlice({
       state.phone = action.payload.phone ? action.payload.phone : "";
       state.address = action.payload.address ? action.payload.address : "";
     },
+    updatePassword: (state, action) => {
+      state.password = action.payload.password;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, update } = authSlice.actions;
+export const { login, logout, update, updatePassword } = authSlice.actions;
 
 export default authSlice.reducer;
