@@ -20,7 +20,6 @@ import { Typography } from "@mui/material";
 import Parrot from "../../../assets/image/Parrot.png";
 import Mirror from "../../../assets/image/BirdvsMirror.png";
 import { useSelector } from "react-redux";
-import Background from '../../../assets/image/Main-Background.png'
 
 const Home = () => {
   const navigate = useNavigate();

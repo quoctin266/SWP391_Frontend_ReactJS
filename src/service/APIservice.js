@@ -20,4 +20,42 @@ const postLogin = async (email, password) => {
   });
 };
 
-export { getAllNews, getAllServicesIntro, getAllShippingCondition, postLogin };
+const postSignup = async (email, username, password) => {
+  return await axios.post("api/v1/register", {
+    email: email,
+    username: username,
+    password: password,
+  });
+};
+
+const getAllStation = async () => {
+  return await axios.get("api/v1/station");
+};
+
+const putUpdateProfile = async (
+  account_id,
+  email,
+  username,
+  birthday,
+  phone,
+  address
+) => {
+  return await axios.put("api/v1/update-profile", {
+    account_id: account_id,
+    email: email,
+    username: username,
+    birthday: birthday,
+    phone: phone,
+    address: address,
+  });
+};
+
+export {
+  getAllNews,
+  getAllServicesIntro,
+  getAllShippingCondition,
+  postLogin,
+  postSignup,
+  getAllStation,
+  putUpdateProfile,
+};
