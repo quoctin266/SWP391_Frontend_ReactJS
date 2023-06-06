@@ -29,7 +29,7 @@
                 border       : none;
                 margin       : 0.5rem;
                 border-radius: 2rem;
-                padding      : 0.2rem 2rem;
+                padding      : 0.2rem 1rem;
             }
         }
 
@@ -54,12 +54,15 @@
             }
 
             .ProfileFormSave {
-                margin-top     : 2rem;
+                margin-top     : 3rem;
                 display        : flex;
                 justify-content: right;
 
-                a {
-                    width: 8%;
+                button {
+                    width           : 70px;
+                    border          : none;
+                    cursor          : pointer;
+                    background-color: #CBECBC;
                 }
 
                 img {

@@ -16,6 +16,7 @@ const libraries = ["places"];
 const Booking = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyCuqONgc2cx1SjnrYO4s9AZayDyqMHauZ4",
+    // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
 

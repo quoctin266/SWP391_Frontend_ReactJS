@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { validateEmail } from "../../../utils/reuseFunction";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/slices/authSlice";
-import Background from '../../../assets/image/background.jpg'; 
+import Background from "../../../assets/image/background.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -56,11 +56,7 @@ const Login = () => {
     setLoading(true); //start loading when calling API
     let data = await postLogin(email, password);
     if (data && data.EC === 0) {
-      let dataPayload = {
-        ...data.DT,
-        isAuthenticated: true,
-      };
-      dispatch(login(dataPayload)); //send user info to redux
+      dispatch(login(data.DT)); //send user info to redux
 
       toast.success(data.EM);
       setLoading(false);
@@ -72,7 +68,10 @@ const Login = () => {
   };
 
   return (
-    <div className="login-background" style={{backgroundImage:`url(${Background})`}}>
+    <div
+      className="login-background"
+      style={{ backgroundImage: `url(${Background})` }}
+    >
       <Scrollbars
         style={{
           height: "100vh",
