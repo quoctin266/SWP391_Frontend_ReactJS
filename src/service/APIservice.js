@@ -38,16 +38,18 @@ const putUpdateProfile = async (
   username,
   birthday,
   phone,
-  address
+  address,
+  avatar
 ) => {
-  return await axios.put("api/v1/update-profile", {
-    account_id: account_id,
-    email: email,
-    username: username,
-    birthday: birthday,
-    phone: phone,
-    address: address,
-  });
+  const data = new FormData();
+  data.append("account_id", account_id);
+  data.append("email", email);
+  data.append("username", username);
+  data.append("birthday", birthday);
+  data.append("phone", phone);
+  data.append("address", address);
+  data.append("avatar", avatar);
+  return await axios.put("api/v1/update-profile", data);
 };
 
 const putResetPassword = async (account_id, oldPassword, newPassword) => {
