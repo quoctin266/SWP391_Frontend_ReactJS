@@ -10,6 +10,7 @@ const initialState = {
   birthday: "",
   phone: "",
   address: "",
+  avatar: "",
   rememberLogin: false,
   isAuthenticated: false,
 };
@@ -28,6 +29,7 @@ export const authSlice = createSlice({
       state.birthday = action.payload.birthday ? action.payload.birthday : "";
       state.phone = action.payload.phone ? action.payload.phone : "";
       state.address = action.payload.address ? action.payload.address : "";
+      state.avatar = action.payload.avatar ? action.payload.avatar : "";
       state.rememberLogin = false;
       state.isAuthenticated = true;
     },
@@ -41,6 +43,7 @@ export const authSlice = createSlice({
       state.birthday = "";
       state.phone = "";
       state.address = "";
+      state.avatar = "";
       state.rememberLogin = false;
       state.isAuthenticated = false;
     },
@@ -50,6 +53,7 @@ export const authSlice = createSlice({
       state.birthday = action.payload.birthday ? action.payload.birthday : "";
       state.phone = action.payload.phone ? action.payload.phone : "";
       state.address = action.payload.address ? action.payload.address : "";
+      state.avatar = action.payload.avatar ? action.payload.avatar : "";
     },
     updatePassword: (state, action) => {
       state.password = action.payload.password;

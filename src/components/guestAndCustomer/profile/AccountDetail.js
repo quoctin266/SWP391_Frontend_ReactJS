@@ -10,6 +10,9 @@ import { validateEmail } from "../../../utils/reuseFunction";
 import { toast } from "react-toastify";
 import { putUpdateProfile } from "../../../service/APIservice";
 import { update } from "../../../redux/slices/authSlice";
+import Image from "react-bootstrap/Image";
+import Form from "react-bootstrap/Form";
+import { toBase64 } from "../../../utils/reuseFunction";
 
 const AccountDetail = () => {
   const navigate = useNavigate();
@@ -22,12 +25,14 @@ const AccountDetail = () => {
   const currentBirthday = useSelector((state) => state.auth.birthday);
   const currentPhone = useSelector((state) => state.auth.phone);
   const currentAddress = useSelector((state) => state.auth.address);
+  const currentAvatar = useSelector((state) => state.auth.avatar);
 
   const [email, setEmail] = useState(currentEmail);
   const [username, setUsername] = useState(currentUsername);
   const [birthday, setBirthday] = useState(currentBirthday);
   const [phone, setPhone] = useState(currentPhone);
   const [address, setAddress] = useState(currentAddress);
+  const [avatar, setAvatar] = useState(currentAvatar);
 
   const handleOnchangeEmail = (event) => {
     setEmail(event.target.value);
@@ -35,6 +40,14 @@ const AccountDetail = () => {
 
   const handleOnchangeUsername = (event) => {
     setUsername(event.target.value);
+  };
+
+  const handleChangeImg = async (event) => {
+    let base64img = "";
+    if (event.target.files[0]) {
+      base64img = await toBase64(event.target.files[0]);
+      setAvatar(base64img);
+    }
   };
 
   const handleConfirm = async (event) => {
@@ -60,7 +73,8 @@ const AccountDetail = () => {
       username,
       birthday,
       phone,
-      address
+      address,
+      avatar
     );
 
     if (data?.DT) {
@@ -81,7 +95,16 @@ const AccountDetail = () => {
     <Container className="account-detail-outer">
       <div className="account-detail-container">
         <div className="ProfileOptions">
-          <img src={ProfilePic} alt="profile" />
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>
+              <Image
+                src={avatar ? avatar : ProfilePic}
+                alt="profile"
+                roundedCircle
+              />
+            </Form.Label>
+            <Form.Control type="file" onChange={(e) => handleChangeImg(e)} />
+          </Form.Group>
           <button onClick={() => navigate("/reset-password")}>
             Change Password
           </button>
