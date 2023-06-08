@@ -64,6 +64,10 @@ const getAllFAQ = async () => {
   return await axios.get("api/v1/faq");
 };
 
+const getAllService = async () => {
+  return await axios.get("api/v1/service");
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -74,4 +78,5 @@ export {
   putUpdateProfile,
   putResetPassword,
   getAllFAQ,
+  getAllService,
 };
