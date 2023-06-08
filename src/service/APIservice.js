@@ -60,6 +60,10 @@ const putResetPassword = async (account_id, oldPassword, newPassword) => {
   });
 };
 
+const getAllFAQ = async () => {
+  return await axios.get("api/v1/faq");
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -69,4 +73,5 @@ export {
   getAllStation,
   putUpdateProfile,
   putResetPassword,
+  getAllFAQ,
 };
