@@ -18,7 +18,7 @@ const libraries = ["places"];
 const GoogleMapSearch = () => {
   // set up google map
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCuqONgc2cx1SjnrYO4s9AZayDyqMHauZ4",
+    googleMapsApiKey: "AIzaSyD-_t4hHvsqjXc1J-TAimnjUbgd02EyqOs",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });

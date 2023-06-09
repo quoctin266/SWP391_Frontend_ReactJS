@@ -64,6 +64,38 @@ const getAllFAQ = async () => {
   return await axios.get("api/v1/faq");
 };
 
+const getAllService = async () => {
+  return await axios.get("api/v1/service");
+};
+
+const getAllCage = async () => {
+  return await axios.get("api/v1/cage");
+};
+
+const getAllPackage = async () => {
+  return await axios.get("api/v1/package");
+};
+
+const getAllPayment = async () => {
+  return await axios.get("api/v1/payment");
+};
+
+const getTotalCost = async (data) => {
+  return await axios.post("api/v1/total-cost", data);
+};
+
+const postCreateOrder = async (data) => {
+  return await axios.post("api/v1/create-order", data);
+};
+
+const getTransportStatus = async (orderID) => {
+  return await axios.get(`api/v1/transport-status/${orderID}`);
+};
+
+const getPricing = async () => {
+  return await axios.get("api/v1/price");
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -74,4 +106,12 @@ export {
   putUpdateProfile,
   putResetPassword,
   getAllFAQ,
+  getAllService,
+  getAllCage,
+  getAllPackage,
+  getAllPayment,
+  getTotalCost,
+  postCreateOrder,
+  getTransportStatus,
+  getPricing,
 };

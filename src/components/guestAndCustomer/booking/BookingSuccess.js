@@ -3,10 +3,12 @@ import cele from "../../../assets/image/cele.png";
 import cargo from "../../../assets/image/cargo.png";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 const BookingSuccess = () => {
+  const location = useLocation();
+
   return (
     <Container className="booking-success-outer">
       <div className="booking-success-container">
@@ -19,15 +21,21 @@ const BookingSuccess = () => {
         <div className="booking-success-info">
           <div className="id">
             <div className="transaction-title">Transaction ID</div>
-            <div className="transaction-info">TransactionId1</div>
+            <div className="transaction-info">
+              {location?.state?.orderRes?.orderID}
+            </div>
           </div>
           <div className="Date">
-            <div className="date-title">Date</div>
-            <div className="date-info">06/06/2023</div>
+            <div className="date-title">Created Time</div>
+            <div className="date-info">
+              {location?.state?.orderRes?.created}
+            </div>
           </div>
           <div className="estimated-time">
             <div className="estimated-title">Estimated arrival time</div>
-            <div className="estimated-info">22/06/2023</div>
+            <div className="estimated-info">
+              {location?.state?.orderRes?.estimate}
+            </div>
           </div>
           <div className="pic">
             <img src={cargo} alt="cargo icon" className="cargo" />
