@@ -68,6 +68,26 @@ const getAllService = async () => {
   return await axios.get("api/v1/service");
 };
 
+const getAllCage = async () => {
+  return await axios.get("api/v1/cage");
+};
+
+const getAllPackage = async () => {
+  return await axios.get("api/v1/package");
+};
+
+const getAllPayment = async () => {
+  return await axios.get("api/v1/payment");
+};
+
+const getTotalCost = async (data) => {
+  return await axios.post("api/v1/total-cost", data);
+};
+
+const postCreateOrder = async (data) => {
+  return await axios.post("api/v1/total-cost", data);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -79,4 +99,9 @@ export {
   putResetPassword,
   getAllFAQ,
   getAllService,
+  getAllCage,
+  getAllPackage,
+  getAllPayment,
+  getTotalCost,
+  postCreateOrder,
 };

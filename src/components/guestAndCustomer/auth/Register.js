@@ -58,6 +58,7 @@ const Register = () => {
     }
 
     if (!validateEmail(email)) {
+      setInvalidEmail(true);
       toast.error("Invalid email format.");
       return;
     }
