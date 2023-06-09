@@ -26,9 +26,9 @@ const BookingSuccess = () => {
             </div>
           </div>
           <div className="Date">
-            <div className="date-title">Date</div>
+            <div className="date-title">Created Time</div>
             <div className="date-info">
-              {location?.state?.orderRes?.currentTime}
+              {location?.state?.orderRes?.created}
             </div>
           </div>
           <div className="estimated-time">

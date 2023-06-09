@@ -24,6 +24,9 @@ import {
 } from "../../../service/APIservice";
 import { useSelector } from "react-redux";
 import { validateEmail } from "../../../utils/reuseFunction";
+import nprogress from "nprogress";
+
+nprogress.configure({ showSpinner: false, trickleSpeed: 40 });
 
 const libraries = ["places"];
 
@@ -31,7 +34,7 @@ const Booking = () => {
   let currentTime = moment().format("YYYY-MM-DD").toString();
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCuqONgc2cx1SjnrYO4s9AZayDyqMHauZ4",
+    googleMapsApiKey: "AIzaSyD-_t4hHvsqjXc1J-TAimnjUbgd02EyqOs",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
@@ -126,7 +129,6 @@ const Booking = () => {
   // google API
   const originRef = useRef(); // may change in future
   const destinationRef = useRef(); // may change in future
-  const [distance, setDistance] = useState("");
   const [showSummary, setShowSummary] = useState(false);
 
   const handleCloseSummary = () => setShowSummary(false);
@@ -226,17 +228,31 @@ const Booking = () => {
       return;
     }
 
+    if (!originRef?.current?.value) {
+      setInvalidDeparture(true);
+      toast.error("Please choose departure location.");
+      return;
+    }
+
+    if (!destinationRef?.current?.value) {
+      setInvalidArrival(true);
+      toast.error("Please choose destination.");
+      return;
+    }
+
     if (!paymentID) {
       setInvalidPayment(true);
       toast.error("Please choose a payment option.");
       return;
     }
 
-    calculateRoute();
+    if (!calculateRoute()) return;
 
+    nprogress.start();
     setTimeout(() => {
       setShowSummary(true);
     }, 1000);
+    nprogress.done();
   };
 
   const calculateRoute = async (event) => {
@@ -253,25 +269,29 @@ const Booking = () => {
         //    eslint-disable-next-line no-undef
         travelMode: google.maps.TravelMode.DRIVING,
       });
-      setDistance(results.routes[0].legs[0].distance.text);
 
       let anticipateTime = moment(anticipate);
       let estimateTime = moment(anticipateTime).add(
-        results.routes[0].legs[0].duration.value * 2,
+        results.routes[0].legs[0].duration.value * 3,
         "seconds"
       );
       estimateTime = estimateTime.format("YYYY-MM-DD").toString();
       setEstimate(estimateTime);
 
+      let kmDistance = results.routes[0].legs[0].distance.value / 1000;
       let dataSummary = {
         birdList: birdList,
         packageID: packageID,
-        distance: results.routes[0].legs[0].distance.text,
+        distance: kmDistance,
       };
       let res = await getTotalCost(dataSummary);
+      console.log("check", dataSummary);
       if (res && res.EC === 0) {
         setTotalCost(res.DT.totalCost);
-        console.log("check cost", res.DT.totalCost);
+        return true;
+      } else {
+        toast.warning(res.EM);
+        return false;
       }
     } catch {
       toast.error("API key usage limit exceeded.");
@@ -408,10 +428,10 @@ const Booking = () => {
         paymentID: paymentID,
         packageID: packageID,
       },
-      distance: distance,
+      totalCost: totalCost,
     };
+
     let data = await postCreateOrder(dataOrder);
-    console.log("check", data);
     if (data && data.EC === 0) {
       navigate("/booking-success", {
         state: { orderRes: data.DT },
@@ -718,6 +738,7 @@ const Booking = () => {
                     className="mb-3"
                     ref={originRef}
                     isInvalid={invalidDeparture}
+                    onChange={() => setInvalidDeparture(false)}
                   >
                     <option value="" disabled hidden>
                       Choose departure
@@ -739,6 +760,7 @@ const Booking = () => {
                     aria-label="destination select"
                     ref={destinationRef}
                     isInvalid={invalidArrival}
+                    onChange={() => setInvalidArrival(false)}
                   >
                     <option value="" disabled hidden>
                       Choose destination

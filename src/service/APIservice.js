@@ -85,7 +85,15 @@ const getTotalCost = async (data) => {
 };
 
 const postCreateOrder = async (data) => {
-  return await axios.post("api/v1/total-cost", data);
+  return await axios.post("api/v1/create-order", data);
+};
+
+const getTransportStatus = async (orderID) => {
+  return await axios.get(`api/v1/transport-status/${orderID}`);
+};
+
+const getPricing = async () => {
+  return await axios.get("api/v1/price");
 };
 
 export {
@@ -104,4 +112,6 @@ export {
   getAllPayment,
   getTotalCost,
   postCreateOrder,
+  getTransportStatus,
+  getPricing,
 };
