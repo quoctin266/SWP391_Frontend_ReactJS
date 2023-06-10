@@ -1,15 +1,16 @@
 .track-outer {
     border          : 1px solid white;
     padding-bottom  : 8%;
-    background-color: #9ECE9D;
-    border-bottom   : 4px solid #087c06;
+    background-color: white;
+    border-bottom   : 4px solid white;
+
 
     .track-container {
         .title {
             font-size       : 1.7em;
             font-weight     : 600;
             margin          : 2% 0;
-            background-color: #499d47;
+            background-color: #4c9b4c;
             border-radius   : 38px;
             padding         : 1%;
             width           : 20%;
@@ -23,7 +24,7 @@
             display: flex;
 
             .track-form {
-                background    : #9ECE9D;
+                background    : #CBECBC;
                 width         : 55%;
                 border-radius : 15px;
                 padding       : 2%;
