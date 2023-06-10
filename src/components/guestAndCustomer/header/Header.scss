@@ -33,17 +33,17 @@
 
         .profile-button {
             background-color: #00770c;
-            position: absolute;
-            border-radius: 30px;
-            right: 22%;
-            bottom: 15px;
-            width: 170px;
-            height: 40px;
-            font-size: 1.1em;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 9px;
+            position        : absolute;
+            border-radius   : 30px;
+            right           : 23%;
+            bottom          : 15px;
+            width           : 170px;
+            height          : 40px;
+            font-size       : 1.1em;
+            border          : none;
+            display         : flex;
+            align-items     : center;
+            gap             : 15px;
 
             svg {
                 background-color: black;

@@ -51,8 +51,9 @@
 
                 .bird-info {
                     background-color: #CBECBC;
-                    border-radius: 10px;
-                    padding: 2% 7%;
+                    border-radius   : 10px;
+                    padding         : 2% 7%;
+                    margin-bottom   : 3%;
 
                     .bird-title {
                         text-align: center;
@@ -69,24 +70,48 @@
                             font-weight: 600;
                             font-size: 1.1em;
                         }
+
+                        &.btn-outer {
+                            display       : flex;
+                            flex-direction: column;
+                        }
+
+                        &.btn-outer {
+                            display       : flex;
+                            flex-direction: column;
+                        }
                     }
+
 
                     .form-label {
                         font-weight: 600;
                         font-size: 1.1em;
                     }
 
-                    .add-bird-btn {
-                        background-color: #33CCFF;
-                        border: 1px solid #13c1fc;
-                        margin-top: 13%;
-                        float: right;
-                        border-radius: 30px;
+                    .btn-group-bird {
+                        display        : flex;
+                        justify-content: flex-end;
+                        gap            : 10px;
 
-                        &:hover {
-                            background-color: #0ca4d6;
+                        .remove-bird-btn {
+                            margin-top   : 13%;
+                            border-radius: 30px;
+
+                        }
+
+                        .add-bird-btn {
+                            background-color: #33CCFF;
+                            border          : 1px solid #13c1fc;
+                            margin-top      : 13%;
+                            border-radius   : 30px;
+
+
+                            &:hover {
+                                background-color: #0ca4d6;
+                            }
                         }
                     }
+
                 }
             }
 

@@ -104,6 +104,14 @@ const ManageRoute = () => {
                 </tbody>
               </Table>
             )}
+            <Form.Group
+              className="mt-5 mb-3"
+              controlId="formBasicDescription"
+              as={Col}
+            >
+              <Form.Label>Description</Form.Label>
+              <Form.Control type="text" placeholder="Enter route description" />
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -122,7 +130,7 @@ const ManageRoute = () => {
             <th>ID</th>
             <th>Starting point</th>
             <th>End point</th>
-            <th>Course</th>
+            <th>Description</th>
             <th>Actions</th>
           </tr>
         </thead>

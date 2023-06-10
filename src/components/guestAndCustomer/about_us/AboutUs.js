@@ -41,12 +41,7 @@ const AboutUs = () => {
           <div className="Content2">
             <h3 className="contenttitle2">Our Company</h3>
             <h5 className="paragraph">
-              Welcome to Bird Transportation Company, your premier
-              transportation provider committed to delivering exceptional
-              services and exceeding your expectations. As a trusted name in the
-              industry, we take pride in our comprehensive range of
-              transportation solutions designed to meet your diverse needs.
-            </h5>
+            Welcome to Bird Transportation Company, your trusted provider of exceptional ground transportation services. With our comprehensive range of solutions, we specialize in delivering seamless and reliable transportation experiences. Our meticulously maintained fleet of ground vehicles, equipped with top-of-the-line amenities, ensures your comfort and satisfaction throughout your journey. Our professional chauffeurs are highly skilled and committed to providing safe and efficient transportation services. Trust Bird Transportation Company for all your ground transportation needs, and experience the difference in our exceptional service.           </h5>
           </div>
         </div>
       </div>

@@ -1,8 +1,29 @@
 import { Container } from "react-bootstrap";
 import "./Services.scss";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
+import { getAllService } from "../../../service/APIservice";
+import { useEffect, useState } from "react";
 
 const Services = () => {
+  const [serviceList, setServiceList] = useState([]);
+  const [serviceTitle, setServiceTitle] = useState("");
+  const [policyList, setPolicyList] = useState([]);
+  const [policyTitle, setPolicyTitle] = useState("");
+
+  const fetchAllService = async () => {
+    let data = await getAllService();
+    if (data && data.EC === 0) {
+      setServiceList(data.DT[0].description);
+      setServiceTitle(data.DT[0].title);
+      setPolicyList(data.DT[1].description);
+      setPolicyTitle(data.DT[0].title);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllService();
+  }, []);
+
   return (
     <Container className="service-outer">
       <div className="services-container">
@@ -14,48 +35,28 @@ const Services = () => {
         </div>
         <div className="Mid">
           <div className="Content1">
-            <h3 className="contenttitle1">Our Services</h3>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> Our service provides a Pet Travel
-              Packet, mailed to the person who will be taking your pet to the
-              airport.
-            </h5>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> Relocating birds is a more technical
-              process than you may realize. We specialize in arranging animal
-              freight / animal cargo and provide for your bird’s travel safety
-              and comfort from door to door.
-            </h5>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> We will arrange all the necessary
-              documentation to be completed for the entire animal freight/animal
-              cargo process from start to finish.
-            </h5>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> Our services includes: Detailed
-              Relocation Instructions including flight, crate and documentation
-              requirement, free foods and drink for your birds, provide all
-              necessary insurance services during the trip
-            </h5>
+            <h3 className="contenttitle1">{serviceTitle}</h3>
+            {serviceList &&
+              serviceList.length > 0 &&
+              serviceList.map((item) => {
+                return (
+                  <h5 className="paragraph" key={item.id}>
+                    <VscDebugBreakpointLog /> {item.content}
+                  </h5>
+                );
+              })}
           </div>
           <div className="Content2">
-            <h3 className="contenttitle2">Our policy</h3>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> If you cancel within 24 hours of
-              submitting your signed contract, we will refund your fee minus a
-              150,000vnd administration fee.
-            </h5>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> No refunds will be given more than 24
-              hours after submitting your signed contract and no refunds will be
-              given for rush services.
-            </h5>
-            <h5 className="paragraph">
-              <VscDebugBreakpointLog /> After the 24-hour period, should there
-              be any circumstances that preclude the planned shipment of your
-              birds, we will extend our service agreement for six months from
-              the date of receiving your signed contract.
-            </h5>
+            <h3 className="contenttitle2">{policyTitle}</h3>
+            {policyList &&
+              policyList.length > 0 &&
+              policyList.map((item) => {
+                return (
+                  <h5 className="paragraph" key={item.id}>
+                    <VscDebugBreakpointLog /> {item.content}
+                  </h5>
+                );
+              })}
           </div>
         </div>
       </div>

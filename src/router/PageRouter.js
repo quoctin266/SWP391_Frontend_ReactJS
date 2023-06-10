@@ -112,7 +112,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/reset-password",
-    element: <ResetPassword />,
+    element: (
+      <PrivateRoute>
+        <ResetPassword />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/staff",
