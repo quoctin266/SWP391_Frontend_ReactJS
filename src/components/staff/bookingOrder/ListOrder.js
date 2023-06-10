@@ -1,6 +1,7 @@
 import "./ListOrder.scss";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 const ListOrder = () => {
   const orderList = [
@@ -34,6 +35,19 @@ const ListOrder = () => {
     <div className="list-order-container">
       <div className="title">List Of Orders</div>
       <div className="order-list">
+        <Form.Group controlId="formGridStatus">
+          <Form.Label className="filter-title">
+            Filter by order status
+          </Form.Label>
+          <Form.Select defaultValue="" aria-label="Default select example">
+            <option value="" disabled hidden>
+              Select status
+            </option>
+            <option value="Pending">Pending</option>
+            <option value="Delivering">Delivering</option>
+            <option value="Completed">Completed</option>
+          </Form.Select>
+        </Form.Group>
         <Table striped hover bordered responsive="sm">
           <thead>
             <tr>
