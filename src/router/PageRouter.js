@@ -1,6 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "../App";
-
 import Home from "../components/guestAndCustomer/home/Home";
 import Services from "../components/guestAndCustomer/services/Services";
 import Price from "../components/guestAndCustomer/price/Price";
@@ -26,6 +25,11 @@ import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTr
 import Admin from "../components/admin/Admin";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
 import Dashboard from "../components/admin/dashboard/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import PrivateRoute from "../components/private-route/PrivateRoute";
+import LimitedAccess from "../components/private-route/LimitedAccess";
+import NotFound from "../components/private-route/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -58,11 +62,19 @@ const router = createBrowserRouter([
       },
       {
         path: "booking",
-        element: <Booking />,
+        element: (
+          <PrivateRoute>
+            <Booking />
+          </PrivateRoute>
+        ),
       },
       {
         path: "booking-success",
-        element: <BookingSuccess />,
+        element: (
+          <PrivateRoute>
+            <BookingSuccess />
+          </PrivateRoute>
+        ),
       },
       {
         path: "track",
@@ -70,11 +82,19 @@ const router = createBrowserRouter([
       },
       {
         path: "account-detail",
-        element: <AccountDetail />,
+        element: (
+          <PrivateRoute>
+            <AccountDetail />
+          </PrivateRoute>
+        ),
       },
       {
         path: "view-history",
-        element: <ViewHistory />,
+        element: (
+          <PrivateRoute>
+            <ViewHistory />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -92,11 +112,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/reset-password",
-    element: <ResetPassword />,
+    element: (
+      <PrivateRoute>
+        <ResetPassword />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/staff",
-    element: <Staff />,
+    element: (
+      <PrivateRoute>
+        <Staff />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -118,7 +146,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/manager",
-    element: <Manager />,
+    element: (
+      <PrivateRoute>
+        <Manager />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -140,7 +172,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin />,
+    element: (
+      <PrivateRoute>
+        <Admin />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",
@@ -156,10 +192,34 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/access-not-allowed",
+    element: <LimitedAccess />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
+  },
 ]);
 
 const PageRouter = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
+  );
 };
 
 export default PageRouter;

@@ -4,16 +4,97 @@ import Form from "react-bootstrap/Form";
 import "./Register.scss";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { useNavigate } from "react-router-dom";
+import Background from "../../../assets/image/Register-Background.jpg";
+import { postSignup } from "../../../service/APIservice";
+import { useState } from "react";
+import { validateEmail } from "../../../utils/reuseFunction";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPW, setConfirmPW] = useState("");
 
-  const handleBackClick = () => {
-    navigate("/home");
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [invalidUsername, setInvalidUsername] = useState(false);
+  const [invalidConfirmPW, setInvalidConfirmPW] = useState(false);
+
+  const handleOnchangeEmail = (event) => {
+    setEmail(event.target.value);
+    setInvalidEmail(false);
+  };
+
+  const handleOnchangePassword = (event) => {
+    setPassword(event.target.value);
+    setInvalidPassword(false);
+  };
+
+  const handleOnchangeUsername = (event) => {
+    setUsername(event.target.value);
+    setInvalidUsername(false);
+  };
+
+  const handleOnchangeConfirmPW = (event) => {
+    setConfirmPW(event.target.value);
+    setInvalidConfirmPW(false);
+  };
+
+  const handleRegister = async (event) => {
+    event.preventDefault();
+
+    if (!username) {
+      setInvalidUsername(true);
+      toast.error("Username must not be empty.");
+      return;
+    }
+
+    if (!email) {
+      setInvalidEmail(true);
+      toast.error("Email must not be empty.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setInvalidEmail(true);
+      toast.error("Invalid email format.");
+      return;
+    }
+
+    if (!password) {
+      setInvalidPassword(true);
+      toast.error("Password must not be empty");
+      return;
+    }
+
+    if (!confirmPW) {
+      setInvalidConfirmPW(true);
+      toast.error("Must confirm password.");
+      return;
+    }
+
+    if (confirmPW !== password) {
+      setInvalidConfirmPW(true);
+      toast.error("Confirm password and password must be the same.");
+      return;
+    }
+
+    let data = await postSignup(email, username, password);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      navigate("/login");
+    } else {
+      toast.error(data.EM);
+    }
   };
 
   return (
-    <div style={{ backgroundColor: "#fff" }}>
+    <div
+      className="register-background"
+      style={{ backgroundImage: `url(${Background})` }}
+    >
       <Scrollbars
         style={{ height: "100vh" }}
         autoHide
@@ -37,20 +118,40 @@ const Register = () => {
             <div className="register-form">
               <div className="page-brand">Bird Travel</div>
               <div className="title">Create account for free</div>
-              <Form>
+              <Form onSubmit={(e) => handleRegister(e)}>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
                   <Form.Label>Username</Form.Label>
-                  <Form.Control type="text" placeholder="Enter username" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter username"
+                    onChange={(e) => handleOnchangeUsername(e)}
+                    value={username}
+                    isInvalid={invalidUsername}
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    onChange={(e) => handleOnchangeEmail(e)}
+                    value={email}
+                    isInvalid={invalidEmail}
+                  />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter password"
+                    onChange={(e) => handleOnchangePassword(e)}
+                    value={password}
+                    isInvalid={invalidPassword}
+                    pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-]).{8,}$"
+                    title="Must contain at least one digit, one letter, one special character and at least 8 characters, spacing is not allowed"
+                  />
                 </Form.Group>
 
                 <Form.Group
@@ -61,6 +162,9 @@ const Register = () => {
                   <Form.Control
                     type="password"
                     placeholder="Confirm password"
+                    onChange={(e) => handleOnchangeConfirmPW(e)}
+                    value={confirmPW}
+                    isInvalid={invalidConfirmPW}
                   />
                 </Form.Group>
 
@@ -70,7 +174,7 @@ const Register = () => {
                   </Button>
                 </div>
                 <div className="back-btn">
-                  <span onClick={handleBackClick}>
+                  <span onClick={() => navigate("/")}>
                     &lt;&lt;&lt; Back to Homepage
                   </span>
                 </div>

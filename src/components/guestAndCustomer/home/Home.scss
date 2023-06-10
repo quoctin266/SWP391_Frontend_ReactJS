@@ -5,7 +5,6 @@
         padding-bottom  : 8%;
         background-color: #ffffff;
         border-bottom   : 4px solid #087c06;
-        display         : grid;
 
         .banner-container {
             margin-bottom: 1%;
@@ -124,26 +123,29 @@
             color      : #235936;
             font-size  : 4rem;
             font-weight: bold;
-            
+
         }
+
         .video {
-            display: grid;
-            grid-gap: 50px;
-            align-items: center;
+            display       : grid;
+            grid-gap      : 50px;
+            align-items   : center;
             padding-bottom: 50px;
-          
-               
-          .video-text {
-            
-            grid-column: 2;
-            font-weight: bold;
-            text-align: center;
-            background-color: #85c697;
-            font-size: 1.3rem;
-            border-radius: 0.5rem;
-            padding-inline: 5rem;
-          }
+
+
+            .video-text {
+
+                grid-column     : 2;
+                font-weight     : bold;
+                text-align      : center;
+                background-color: #85c697;
+                font-size       : 1.3rem;
+                border-radius   : 0.5rem;
+                padding-inline  : 5rem;
+                padding         : 2rem;
+            }
         }
+
         .search-location-container {
             border-radius   : 15px;
             background-color: #9ECE9D;

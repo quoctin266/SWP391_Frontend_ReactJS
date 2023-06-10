@@ -30,6 +30,59 @@
                 right: 15px;
             }
         }
+
+        .profile-button {
+            background-color: #00770c;
+            position        : absolute;
+            border-radius   : 30px;
+            right           : 23%;
+            bottom          : 15px;
+            width           : 170px;
+            height          : 40px;
+            font-size       : 1.1em;
+            border          : none;
+            display         : flex;
+            align-items     : center;
+            gap             : 15px;
+
+            svg {
+                background-color: black;
+                border-radius   : 15px;
+                font-size       : 1.5em;
+                color           : white;
+            }
+
+            .username {
+                color: white;
+            }
+
+            &:hover {
+                background-color: #224b26;
+            }
+
+            @media screen and (max-width: 500px) {
+                right: 140px;
+            }
+        }
+
+        .logout-button {
+            background-color: #00770c;
+            position        : absolute;
+            border-radius   : 30px;
+            right           : 12%;
+            bottom          : 15px;
+            width           : 120px;
+            height          : 40px;
+            font-size       : 1.1em;
+
+            &:hover {
+                background-color: #224b26;
+            }
+
+            @media screen and (max-width: 500px) {
+                right: 15px;
+            }
+        }
     }
 
     .navigation-container {

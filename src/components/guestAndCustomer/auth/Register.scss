@@ -1,63 +1,31 @@
-.background-container {
+.register-background {
+  background-position: center;
+  background-repeat  : no-repeat;
+  background-size    : cover;
 
+  .background-container {
+    .register-container {
+      background-color: rgb(203, 236, 188, 0.8);
+      border-radius   : 10px;
+      padding         : 4% 2%;
+      padding-top     : 2%;
+      width           : 30%;
+      min-width       : 450px;
+      margin          : 5% auto;
 
-  .register-container {
-    background-color: #CBECBC;
-    border-radius   : 10px;
-    padding         : 4%;
+      .register-prompt {
+        display        : flex;
+        align-items    : baseline;
+        justify-content: flex-end;
+        margin-bottom  : 5%;
 
-    .register-prompt {
-      display        : flex;
-      align-items    : baseline;
-      justify-content: flex-end;
-      margin-bottom  : 5%;
-
-      .title {
-        margin-right: 30px;
-        font-size   : 1.1em;
-        font-style  : italic;
-      }
-
-      .signup-btn {
-        background-color: #33CCFF;
-        border          : 1px solid #13c2fc;
-
-        &:hover {
-          background-color: #18a5d4;
+        .title {
+          margin-right: 15px;
+          font-size   : 1.1em;
+          font-style  : italic;
         }
-      }
-    }
 
-    .register-form {
-      width    : 50%;
-      max-width: 600px;
-      min-width: 300px;
-      margin   : 0 auto;
-
-      .page-brand {
-        text-align   : center;
-        font-size    : 3.7em;
-        font-weight  : 600;
-        margin-bottom: 3%;
-      }
-
-      .title {
-        text-align   : center;
-        font-size    : 2.5em;
-        font-weight  : 600;
-        margin-bottom: 5%;
-      }
-
-      .form-label {
-        font-weight: 600;
-      }
-
-      .register-btn {
-        text-align: center;
-        margin-top: 8%;
-
-        button {
-          width           : 100px;
+        .signup-btn {
           background-color: #33CCFF;
           border          : 1px solid #13c2fc;
 
@@ -67,17 +35,57 @@
         }
       }
 
-      .back-btn {
-        margin-top: 4%;
-        text-align: center;
-        width     : 100%;
-        font-size : 1.1em;
+      .register-form {
+        width    : 85%;
+        max-width: 600px;
+        min-width: 300px;
+        margin   : 0 auto;
 
-        span {
-          cursor: pointer;
+        .page-brand {
+          text-align   : center;
+          font-size    : 3em;
+          font-weight  : 600;
+          margin-bottom: 3%;
+        }
 
-          &:hover {
-            font-weight: 600;
+        .title {
+          text-align   : center;
+          font-size    : 2em;
+          font-weight  : 600;
+          margin-bottom: 5%;
+        }
+
+        .form-label {
+          font-weight: 600;
+        }
+
+        .register-btn {
+          text-align: center;
+          margin-top: 20%;
+
+          button {
+            width           : 100px;
+            background-color: #33CCFF;
+            border          : 1px solid #13c2fc;
+
+            &:hover {
+              background-color: #18a5d4;
+            }
+          }
+        }
+
+        .back-btn {
+          margin-top: 4%;
+          text-align: center;
+          width     : 100%;
+          font-size : 1.1em;
+
+          span {
+            cursor: pointer;
+
+            &:hover {
+              font-weight: 600;
+            }
           }
         }
       }

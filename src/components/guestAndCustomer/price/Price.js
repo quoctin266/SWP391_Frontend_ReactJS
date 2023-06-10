@@ -4,8 +4,31 @@ import paypal from "../../../assets/image/paypal.png";
 import vnp from "../../../assets/image/vnp.png";
 import { Container } from "react-bootstrap";
 import { MdLabelImportant } from "react-icons/md";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { getPricing } from "../../../service/APIservice";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Price = () => {
+  const [priceList, setPriceList] = useState();
+
+  const fetchAllPrice = async () => {
+    let data = await getPricing();
+    if (data && data.EC === 0) {
+      setPriceList(data.DT);
+    } else toast.error(data.EM);
+  };
+
+  useEffect(() => {
+    fetchAllPrice();
+  }, []);
+
   return (
     <Container className="price-outer">
       <div className="price-container">
@@ -21,13 +44,13 @@ const Price = () => {
             <br />
             <br />
             <MdLabelImportant />
-            This fee does not include the price of the transport itself, which
-            is based on mileage, or any additional services needed. To get an
+            This fee does not include the price of the service package, which
+            includes the basic service and other additional services. To get an
             estimate for the travel, fill out a bird travel form.
           </div>
           <div className="price-method">
             <div className="method">
-              <h3>Payment method</h3>
+              <h3 style={{ color: "#13470A" }}>Payment method</h3>
             </div>
             <div className="pic">
               <img src={momo} alt="cele icon" className="momo" />
@@ -37,40 +60,109 @@ const Price = () => {
           </div>
         </div>
         <div className="price-table">
-          <table className="table">
-            <tbody>
-              <tr className="highlight">
-                <th>Distance</th>
-                <th>Initial cost</th>
-                <th>Each subsequent bird</th>
-              </tr>
-              <tr>
-                <td>&lt; 100 Km</td>
-                <td>100,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 200 Km</td>
-                <td>200,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 300 Km</td>
-                <td>300,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>&lt; 400 Km</td>
-                <td>400,000</td>
-                <td>+100,000</td>
-              </tr>
-              <tr>
-                <td>From 400 Km</td>
-                <td>500,000</td>
-                <td>+100,000</td>
-              </tr>
-            </tbody>
-          </table>
+          <TableContainer
+            component={Paper}
+            sx={{ borderRadius: "2rem" }}
+            className="table-container"
+          >
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow sx={{ backgroundColor: "#839e77" }}>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Distance
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Initial cost&nbsp;
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Each subsequent bird&nbsp;
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                  >
+                    Cost/Capacity unit&nbsp;
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {priceList &&
+                  priceList.length > 0 &&
+                  priceList.map((item) => {
+                    return (
+                      <TableRow
+                        key={item.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          align="center"
+                          width={5}
+                          sx={{
+                            border: "0",
+                            fontWeight: "bolder",
+                            backgroundColor: "#CBECBC",
+                          }}
+                        >
+                          {item.max_distance
+                            ? `${item.min_distance} - ${item.max_distance}`
+                            : `From ${item.min_distance}`}{" "}
+                          Km
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          width={3}
+                          className="Name"
+                          sx={{
+                            border: "0",
+                            fontWeight: "bolder",
+                            backgroundColor: "#CBECBC",
+                          }}
+                        >
+                          {item.initial_cost} VND
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          width={3}
+                          className="Feedback"
+                          sx={{
+                            border: "0",
+                            fontWeight: "bolder",
+                            backgroundColor: "#CBECBC",
+                          }}
+                        >
+                          +{item.additional_bird_cost} VND
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          width={3}
+                          className="Feedback"
+                          sx={{
+                            border: "0",
+                            fontWeight: "bolder",
+                            backgroundColor: "#CBECBC",
+                          }}
+                        >
+                          {item.unit_cost} VND
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       </div>
     </Container>

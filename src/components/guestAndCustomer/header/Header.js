@@ -6,22 +6,55 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
+import { logout } from "../../../redux/slices/authSlice";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const role = useSelector((state) => state.auth.role);
+  const username = useSelector((state) => state.auth.username);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   return (
     <div className="header-container">
       <Container style={{ padding: "0" }}>
         <div className="banner-container">
           <img src={logo} alt="page logo" className="logo-image" />
-          <Button
-            variant="success"
-            className="signin-button"
-            onClick={() => navigate("/login")}
-          >
-            Log in
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <button
+                variant="success"
+                className="profile-button"
+                onClick={() => navigate("/account-detail")}
+              >
+                <FaUserCircle />
+                <span className="username">{username}</span>
+              </button>
+              <Button
+                variant="success"
+                className="logout-button"
+                onClick={handleLogout}
+              >
+                Log out
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="success"
+              className="signin-button"
+              onClick={() => navigate("/login")}
+            >
+              Log in
+            </Button>
+          )}
         </div>
       </Container>
       <div className="navigation-container">
@@ -59,9 +92,15 @@ const Header = () => {
                 </NavLink>
               </Nav>
               <div className="book-btn-container">
-                <NavLink to="/booking" className="navbar-brand">
-                  BOOK NOW
-                </NavLink>
+                {role === "customer" || role === "" ? (
+                  <NavLink to="/booking" className="navbar-brand">
+                    BOOK NOW
+                  </NavLink>
+                ) : (
+                  <NavLink to={`/${role}`} className="navbar-brand">
+                    WORKSPACE
+                  </NavLink>
+                )}
               </div>
             </Navbar.Collapse>
           </Navbar>

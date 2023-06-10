@@ -11,25 +11,33 @@
         padding         : 2rem;
         margin-top      : 6%;
 
-        img {
-            width        : 50%;
-            border-radius: 50%;
-            margin       : 0.5rem;
-        }
-
         .ProfileOptions {
-            width         : 25rem;
+            width         : 20rem;
             display       : flex;
             flex-direction: column;
-            align-items   : left;
-            padding-left  : 5rem;
+            align-items   : baseline;
+            padding-left  : 2rem;
+
+            img {
+                width : 90%;
+                margin: 0.5rem;
+            }
+
+            .form-label {
+                width : 55%;
+                cursor: pointer;
+            }
+
+            .form-control {
+                display: none;
+            }
 
             button {
                 width        : 10rem;
                 border       : none;
                 margin       : 0.5rem;
                 border-radius: 2rem;
-                padding      : 0.2rem 2rem;
+                padding      : 0.2rem 1rem;
             }
         }
 
@@ -54,16 +62,20 @@
             }
 
             .ProfileFormSave {
-                margin-top     : 2rem;
+                margin-top     : 3rem;
                 display        : flex;
                 justify-content: right;
 
-                a {
-                    width: 8%;
+                button {
+                    width           : 70px;
+                    border          : none;
+                    cursor          : pointer;
+                    background-color: #CBECBC;
                 }
 
                 img {
-                    width: 50%;
+                    width        : 50%;
+                    border-radius: 50%;
                 }
 
             }
