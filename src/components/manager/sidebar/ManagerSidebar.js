@@ -15,7 +15,7 @@ const ManagerSidebar = () => {
 
   return (
     <div className="manager-sidebar-container">
-      <div style={{ display: "flex", height: "83vh", overflow: "hidden" }}>
+      <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
         <CDBSidebar textColor="#fff" backgroundColor="#3E363F">
           <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <div
@@ -43,6 +43,9 @@ const ManagerSidebar = () => {
                 <CDBSidebarMenuItem icon="folder">
                   Manage web content
                 </CDBSidebarMenuItem>
+              </NavLink>
+              <NavLink to="/login">
+                <CDBSidebarMenuItem icon="power-off">Logout</CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>
           </CDBSidebarContent>

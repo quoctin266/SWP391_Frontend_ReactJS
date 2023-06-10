@@ -1,4 +1,3 @@
-import StaffHeader from "./header/StaffHeader";
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import StaffSidebar from "./sidebar/StaffSidebar";
@@ -7,11 +6,10 @@ import "./Staff.scss";
 const Staff = () => {
   return (
     <div className="staff-container">
-      <StaffHeader />
-      <div className="body-container">
+           <div className="body-container">
         <StaffSidebar />
         <Scrollbars
-          style={{ height: "83vh" }}
+          style={{ height: "100vh" }}
           autoHide
           // Hide delay in ms
           autoHideTimeout={1000}

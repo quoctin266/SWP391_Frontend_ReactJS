@@ -1,17 +1,25 @@
 .schedule-container {
-    width         : 95%;
-    padding       : 2%;
-    border-radius : 15px;
-    margin-bottom : 4%;
-    margin-top    : 2%;
-    padding-bottom: 0;
+
+    width           : 95%;
+    padding         : 2%;
+    border-radius   : 15px;
+    margin-bottom   : 4%;
+    margin-top      : 2%;
+    padding-bottom  : 0;
 
 
     .title {
-        font-size    : 2.5em;
-        font-weight  : 600;
-        margin-bottom: 2%;
-        padding      : 1%;
+        font-size       : 2.5em;
+        font-weight     : 600;
+        margin-bottom   : 2%;
+        background-color: #426e2b;
+        color           : #fff;
+        border-radius   : 45px;
+        padding         : 1%;
+        width           : 39%;
+        min-width       : 400px;
+        text-align      : center;
+
     }
 
     .schedule-body {
@@ -19,15 +27,22 @@
         padding-bottom: 8%;
 
         .route-and-trip {
-            background-color: #BAE1A7;
+            background-color: #a4a8a0;
             border-radius   : 15px;
             padding         : 2%;
 
             .route-title {
-                font-size    : 1.7em;
-                font-weight  : 600;
-                margin-bottom: 2%;
-                padding      : 1%;
+
+                font-size       : 1.7em;
+                font-weight     : 600;
+                margin-bottom   : 2%;
+                background-color: #515e4a;
+                color           : white;
+                padding         : 1%;
+                border-radius   : 15px;
+                width           : 20%;
+                min-width       : 215px;
+                text-align      : center;
             }
 
             .route-list {
@@ -68,16 +83,24 @@
         }
 
         .assign-container {
-            background-color: #BAE1A7;
+            background-color: #a4a8a0;
             border-radius   : 15px;
             padding         : 2%;
             margin-top      : 3%;
 
             .assign-title {
-                font-size    : 1.7em;
-                font-weight  : 600;
-                margin-bottom: 2%;
-                padding      : 1%;
+
+                font-size       : 1.7em;
+                font-weight     : 600;
+                margin-bottom   : 2%;
+                background-color: #515e4a;
+                color           : white;
+                padding         : 1%;
+                border-radius   : 15px;
+                width           : 35%;
+                min-width       : 330px;
+                text-align      : center;
+
             }
 
             .select-trip-title {
@@ -126,6 +149,12 @@
 
             .confirm-btn {
                 margin-top: 4%;
+                background-color: #33CCFF;
+                border          : 1px solid #13c2fc;
+
+                &:hover {
+                    background-color: #0ca4d6;
+                }
             }
         }
 
