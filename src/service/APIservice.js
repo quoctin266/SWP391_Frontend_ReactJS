@@ -96,6 +96,58 @@ const getPricing = async () => {
   return await axios.get("api/v1/price");
 };
 
+const getListOrder = async (status) => {
+  return await axios.get(`api/v1/list-order/${status}`);
+};
+
+const getCustomer = async (orderID) => {
+  return await axios.get(`api/v1/customer/${orderID}`);
+};
+
+const getBirdList = async (orderID) => {
+  return await axios.get(`api/v1/bird/${orderID}`);
+};
+
+const putUpdateOrderStatus = async (orderID, status, departDate) => {
+  return await axios.put("api/v1/update-order-status", {
+    orderID: orderID,
+    status: status,
+    departDate: departDate,
+  });
+};
+
+const postCreateTransportStatus = async (
+  orderID,
+  orderStatus,
+  birdCondition,
+  date
+) => {
+  return await axios.post("api/v1/create-transport-status", {
+    orderID: orderID,
+    orderStatus: orderStatus,
+    birdCondition: birdCondition,
+    date: date,
+  });
+};
+
+const deleteTransportStatus = async (id) => {
+  return await axios.delete(`api/v1/delete-order-status/${id}`);
+};
+
+const putUpdateTransportStatus = async (
+  id,
+  orderStatus,
+  birdCondition,
+  date
+) => {
+  return await axios.put("api/v1/update-transport-status", {
+    id: id,
+    orderStatus: orderStatus,
+    birdCondition: birdCondition,
+    date: date,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -114,4 +166,11 @@ export {
   postCreateOrder,
   getTransportStatus,
   getPricing,
+  getListOrder,
+  getCustomer,
+  getBirdList,
+  putUpdateOrderStatus,
+  postCreateTransportStatus,
+  deleteTransportStatus,
+  putUpdateTransportStatus,
 };

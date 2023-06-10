@@ -57,3 +57,53 @@ code {
     margin-bottom  : 5%;
   }
 }
+
+.form-label {
+  font-weight: 500;
+}
+
+.add-new-status {
+  background-color: aliceblue;
+  border-radius   : 15px;
+  padding         : 2%;
+  border          : 1px solid rgb(193, 218, 240);
+  margin-top      : 4%;
+
+  .add-status-title {
+    font-weight  : 500;
+    font-size    : 1.1em;
+    margin-bottom: 1%;
+  }
+}
+
+.delete-confirm {
+  background-color: aliceblue;
+  border-radius   : 15px;
+  padding         : 2%;
+  border          : 1px solid rgb(193, 218, 240);
+  margin-top      : 3%;
+
+  .delete-title {
+    font-weight  : 500;
+    font-size    : 1.1em;
+    margin-bottom: 1%;
+  }
+
+  .timestamp {
+    margin-bottom: 2%;
+  }
+}
+
+.edit-status {
+  background-color: aliceblue;
+  border-radius   : 15px;
+  padding         : 2%;
+  border          : 1px solid rgb(193, 218, 240);
+  margin          : 4% 0;
+
+  .edit-status-title {
+    font-weight  : 500;
+    font-size    : 1.1em;
+    margin-bottom: 1%;
+  }
+}
