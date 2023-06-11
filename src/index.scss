@@ -72,7 +72,7 @@ code {
   .add-status-title {
     font-weight  : 500;
     font-size    : 1.1em;
-    margin-bottom: 1%;
+    margin-bottom: 2%;
   }
 }
 
@@ -104,6 +104,34 @@ code {
   .edit-status-title {
     font-weight  : 500;
     font-size    : 1.1em;
-    margin-bottom: 1%;
+    margin-bottom: 2%;
+  }
+}
+
+.add-new-progress {
+  background-color: aliceblue;
+  border-radius   : 15px;
+  padding         : 2%;
+  border          : 1px solid rgb(193, 218, 240);
+  margin-top      : 4%;
+
+  .add-progress-title {
+    font-weight  : 500;
+    font-size    : 1.1em;
+    margin-bottom: 2%;
+  }
+}
+
+.edit-progress {
+  background-color: aliceblue;
+  border-radius   : 15px;
+  padding         : 2%;
+  border          : 1px solid rgb(193, 218, 240);
+  margin          : 4% 0;
+
+  .edit-progress-title {
+    font-weight  : 500;
+    font-size    : 1.1em;
+    margin-bottom: 2%;
   }
 }

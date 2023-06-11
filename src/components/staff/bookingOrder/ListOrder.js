@@ -99,6 +99,10 @@ const ListOrder = () => {
     setShowUpdate(false);
     setShowEdit(false);
     setShowDelete(false);
+    setInvalidEditStatus(false);
+    setInvalidEditStatusDate(false);
+    setInvalidNewStatus(false);
+    setInvalidStatusDate(false);
   };
   const handleShowUpdate = async (orderID) => {
     let cloneOrderList = _.cloneDeep(listOrder);
@@ -207,13 +211,16 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchTransportStatus();
+      setNewStatus("");
+      setBirdCondition("");
+      setStatusDate("");
     } else toast.error(data.EM);
   };
 
   const handleClickDelete = (item) => {
     setDeleteStatus(item);
     setShowDelete(true);
-    setShowEdit(false);
+    handleCloseEdit();
   };
 
   const handleDeleteStatus = async () => {
@@ -236,7 +243,11 @@ const ListOrder = () => {
     setShowEdit(true);
     setShowDelete(false);
   };
-
+  const handleCloseEdit = () => {
+    setInvalidEditStatus(false);
+    setInvalidEditStatusDate(false);
+    setShowEdit(false);
+  };
   const handleChangeEditStatus = (e) => {
     setEditStatus(e.target.value);
     setInvalidEditStatus(false);
@@ -659,6 +670,7 @@ const ListOrder = () => {
                         })}
                     </tbody>
                   </Table>
+
                   <div className="add-new-status">
                     <div className="add-status-title">Create New Status</div>
                     <Form onSubmit={(e) => handleCreateNewStatus(e)}>
@@ -704,6 +716,7 @@ const ListOrder = () => {
                       </Button>
                     </Form>
                   </div>
+
                   {showDelete && (
                     <div className="delete-confirm">
                       <div className="delete-title">
@@ -724,6 +737,7 @@ const ListOrder = () => {
                       </Button>
                     </div>
                   )}
+
                   {showEdit && (
                     <div className="edit-status">
                       <div className="edit-status-title">
@@ -742,7 +756,7 @@ const ListOrder = () => {
                             />
                           </Form.Group>
 
-                          <Form.Group as={Col} controlId="EditDepartureDate">
+                          <Form.Group as={Col} controlId="EditBirdCondition">
                             <Form.Label>Bird Condition</Form.Label>
                             <Form.Control
                               type="text"
@@ -775,7 +789,7 @@ const ListOrder = () => {
                         <Button
                           variant="secondary"
                           className="mx-2"
-                          onClick={() => setShowEdit(false)}
+                          onClick={() => handleCloseEdit()}
                         >
                           Cancel
                         </Button>
