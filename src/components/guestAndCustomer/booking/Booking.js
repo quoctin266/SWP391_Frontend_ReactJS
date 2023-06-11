@@ -272,7 +272,7 @@ const Booking = () => {
 
       let anticipateTime = moment(anticipate);
       let estimateTime = moment(anticipateTime).add(
-        results.routes[0].legs[0].duration.value * 3,
+        results.routes[0].legs[0].duration.value * 5,
         "seconds"
       );
       estimateTime = estimateTime.format("YYYY-MM-DD").toString();
