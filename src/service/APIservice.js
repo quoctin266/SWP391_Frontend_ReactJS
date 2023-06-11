@@ -64,6 +64,90 @@ const getAllFAQ = async () => {
   return await axios.get("api/v1/faq");
 };
 
+const getAllService = async () => {
+  return await axios.get("api/v1/service");
+};
+
+const getAllCage = async () => {
+  return await axios.get("api/v1/cage");
+};
+
+const getAllPackage = async () => {
+  return await axios.get("api/v1/package");
+};
+
+const getAllPayment = async () => {
+  return await axios.get("api/v1/payment");
+};
+
+const getTotalCost = async (data) => {
+  return await axios.post("api/v1/total-cost", data);
+};
+
+const postCreateOrder = async (data) => {
+  return await axios.post("api/v1/create-order", data);
+};
+
+const getTransportStatus = async (orderID) => {
+  return await axios.get(`api/v1/transport-status/${orderID}`);
+};
+
+const getPricing = async () => {
+  return await axios.get("api/v1/price");
+};
+
+const getListOrder = async (status) => {
+  return await axios.get(`api/v1/list-order/${status}`);
+};
+
+const getCustomer = async (orderID) => {
+  return await axios.get(`api/v1/customer/${orderID}`);
+};
+
+const getBirdList = async (orderID) => {
+  return await axios.get(`api/v1/bird/${orderID}`);
+};
+
+const putUpdateOrderStatus = async (orderID, status, departDate) => {
+  return await axios.put("api/v1/update-order-status", {
+    orderID: orderID,
+    status: status,
+    departDate: departDate,
+  });
+};
+
+const postCreateTransportStatus = async (
+  orderID,
+  orderStatus,
+  birdCondition,
+  date
+) => {
+  return await axios.post("api/v1/create-transport-status", {
+    orderID: orderID,
+    orderStatus: orderStatus,
+    birdCondition: birdCondition,
+    date: date,
+  });
+};
+
+const deleteTransportStatus = async (id) => {
+  return await axios.delete(`api/v1/delete-order-status/${id}`);
+};
+
+const putUpdateTransportStatus = async (
+  id,
+  orderStatus,
+  birdCondition,
+  date
+) => {
+  return await axios.put("api/v1/update-transport-status", {
+    id: id,
+    orderStatus: orderStatus,
+    birdCondition: birdCondition,
+    date: date,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -74,4 +158,19 @@ export {
   putUpdateProfile,
   putResetPassword,
   getAllFAQ,
+  getAllService,
+  getAllCage,
+  getAllPackage,
+  getAllPayment,
+  getTotalCost,
+  postCreateOrder,
+  getTransportStatus,
+  getPricing,
+  getListOrder,
+  getCustomer,
+  getBirdList,
+  putUpdateOrderStatus,
+  postCreateTransportStatus,
+  deleteTransportStatus,
+  putUpdateTransportStatus,
 };

@@ -18,6 +18,17 @@
   }
 
   .order-list {
+    .filter-title {
+      font-size    : 1.3em;
+      font-weight  : 600;
+      margin-bottom: 2%;
+    }
+
+    .form-select {
+      width        : 30%;
+      margin-bottom: 3%;
+    }
+
     width           : 90%;
     width           : 90%;
     background-color: #a4a8a0;
