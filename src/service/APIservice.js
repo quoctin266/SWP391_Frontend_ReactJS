@@ -148,6 +148,82 @@ const putUpdateTransportStatus = async (
   });
 };
 
+const getAllRoute = async () => {
+  return await axios.get(`api/v1/all-route`);
+};
+
+const getRouteDetail = async (routeID) => {
+  return await axios.get(`api/v1/route/${routeID}`);
+};
+
+const getTripList = async (routeID) => {
+  return await axios.get(`api/v1/trips/${routeID}`);
+};
+
+const getVehicle = async (vehicleID) => {
+  return await axios.get(`api/v1/vehicle/${vehicleID}`);
+};
+
+const getDriverList = async (tripID) => {
+  return await axios.get(`api/v1/drivers/${tripID}`);
+};
+
+const getProgressList = async (tripID) => {
+  return await axios.get(`api/v1/progress/${tripID}`);
+};
+
+const postCreateProgress = async (tripID, description, date) => {
+  return await axios.post("api/v1/create-progress", {
+    tripID: tripID,
+    description: description,
+    date: date,
+  });
+};
+
+const deleteProgressInfo = async (progressID) => {
+  return await axios.delete(`api/v1/delete-progress/${progressID}`);
+};
+
+const putUpdateProgress = async (progressID, description, date) => {
+  return await axios.put("api/v1/update-progress", {
+    progressID: progressID,
+    description: description,
+    date: date,
+  });
+};
+
+const getOrderCapacity = async (tripID) => {
+  return await axios.get(`api/v1/order/${tripID}`);
+};
+
+const putUpdateTripStatus = async (tripID, status) => {
+  return await axios.put("api/v1/update-trip-status", {
+    tripID: tripID,
+    status: status,
+  });
+};
+
+const putRemoveOrder = async (orderID) => {
+  return await axios.put("api/v1/remove-order", {
+    orderID: orderID,
+  });
+};
+
+const getPendingOrder = async () => {
+  return await axios.get(`api/v1/pending-order`);
+};
+
+const putAssignOrder = async (orderID, tripID) => {
+  return await axios.put("api/v1/assign-order", {
+    orderID: orderID,
+    tripID: tripID,
+  });
+};
+
+const getOrderByTrip = async (tripID) => {
+  return await axios.get(`api/v1/order-by-trip/${tripID}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -173,4 +249,19 @@ export {
   postCreateTransportStatus,
   deleteTransportStatus,
   putUpdateTransportStatus,
+  getAllRoute,
+  getRouteDetail,
+  getTripList,
+  getVehicle,
+  getDriverList,
+  getProgressList,
+  postCreateProgress,
+  deleteProgressInfo,
+  putUpdateProgress,
+  getOrderCapacity,
+  putUpdateTripStatus,
+  putRemoveOrder,
+  getPendingOrder,
+  putAssignOrder,
+  getOrderByTrip,
 };

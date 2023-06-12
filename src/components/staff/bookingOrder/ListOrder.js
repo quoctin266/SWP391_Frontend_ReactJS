@@ -13,6 +13,7 @@ import {
   postCreateTransportStatus,
   deleteTransportStatus,
   putUpdateTransportStatus,
+  getOrderByTrip,
 } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -28,6 +29,8 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 const ListOrder = () => {
   const [status, setStatus] = useState("all");
   const [listOrder, setListOrder] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [invalidSearchValue, setInvalidSearchValue] = useState(false);
 
   const [showCustomer, setShowCustomer] = useState(false);
   const [customer, setCustomer] = useState("");
@@ -99,6 +102,10 @@ const ListOrder = () => {
     setShowUpdate(false);
     setShowEdit(false);
     setShowDelete(false);
+    setInvalidEditStatus(false);
+    setInvalidEditStatusDate(false);
+    setInvalidNewStatus(false);
+    setInvalidStatusDate(false);
   };
   const handleShowUpdate = async (orderID) => {
     let cloneOrderList = _.cloneDeep(listOrder);
@@ -207,13 +214,16 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchTransportStatus();
+      setNewStatus("");
+      setBirdCondition("");
+      setStatusDate("");
     } else toast.error(data.EM);
   };
 
   const handleClickDelete = (item) => {
     setDeleteStatus(item);
     setShowDelete(true);
-    setShowEdit(false);
+    handleCloseEdit();
   };
 
   const handleDeleteStatus = async () => {
@@ -236,7 +246,11 @@ const ListOrder = () => {
     setShowEdit(true);
     setShowDelete(false);
   };
-
+  const handleCloseEdit = () => {
+    setInvalidEditStatus(false);
+    setInvalidEditStatusDate(false);
+    setShowEdit(false);
+  };
   const handleChangeEditStatus = (e) => {
     setEditStatus(e.target.value);
     setInvalidEditStatus(false);
@@ -278,6 +292,28 @@ const ListOrder = () => {
     } else toast.error(data.EM);
   };
 
+  const handleChangeSearch = (e) => {
+    setSearchValue(e.target.value);
+    setInvalidSearchValue(false);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!searchValue) {
+      toast.error("Please enter trip ID.");
+      setInvalidSearchValue(true);
+    }
+
+    let data = await getOrderByTrip(searchValue);
+    if (data && data.EC === 0) {
+      setListOrder(data.DT);
+    } else {
+      setListOrder([]);
+      toast.error(data.EM);
+    }
+  };
+
   return (
     <div className="list-order-container">
       <div className="title">List Of Orders</div>
@@ -300,6 +336,24 @@ const ListOrder = () => {
             <option value="Canceled">Canceled</option>
           </Form.Select>
         </Form.Group>
+        <Form onSubmit={(e) => handleSearch(e)}>
+          <Form.Group className="mb-3" controlId="searchOrder">
+            <Form.Label className="search-title">Search By Trip ID</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter trip ID"
+              min={1}
+              className="search-order"
+              value={searchValue}
+              isInvalid={invalidSearchValue}
+              onChange={(e) => handleChangeSearch(e)}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Search
+          </Button>
+        </Form>
+
         <Table striped hover bordered responsive="sm">
           <thead>
             <tr>
@@ -352,6 +406,7 @@ const ListOrder = () => {
             )}
           </tbody>
         </Table>
+
         <Modal
           show={showCustomer}
           onHide={handleCloseCustomer}
@@ -659,6 +714,7 @@ const ListOrder = () => {
                         })}
                     </tbody>
                   </Table>
+
                   <div className="add-new-status">
                     <div className="add-status-title">Create New Status</div>
                     <Form onSubmit={(e) => handleCreateNewStatus(e)}>
@@ -704,6 +760,7 @@ const ListOrder = () => {
                       </Button>
                     </Form>
                   </div>
+
                   {showDelete && (
                     <div className="delete-confirm">
                       <div className="delete-title">
@@ -724,6 +781,7 @@ const ListOrder = () => {
                       </Button>
                     </div>
                   )}
+
                   {showEdit && (
                     <div className="edit-status">
                       <div className="edit-status-title">
@@ -742,7 +800,7 @@ const ListOrder = () => {
                             />
                           </Form.Group>
 
-                          <Form.Group as={Col} controlId="EditDepartureDate">
+                          <Form.Group as={Col} controlId="EditBirdCondition">
                             <Form.Label>Bird Condition</Form.Label>
                             <Form.Control
                               type="text"
@@ -775,7 +833,7 @@ const ListOrder = () => {
                         <Button
                           variant="secondary"
                           className="mx-2"
-                          onClick={() => setShowEdit(false)}
+                          onClick={() => handleCloseEdit()}
                         >
                           Cancel
                         </Button>
