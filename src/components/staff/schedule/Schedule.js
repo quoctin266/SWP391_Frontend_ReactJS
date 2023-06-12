@@ -111,8 +111,7 @@ const Schedule = () => {
     let data = await getProgressList(trip.trip_id);
     if (data && data.EC === 0) {
       setProgressList(data.DT);
-      setShowProgress(true);
-    } else toast.error(data.EM);
+    } else toast.warning(data.EM);
 
     let cloneTrip = _.cloneDeep(trip);
     cloneTrip.departure_date = moment(
@@ -122,6 +121,7 @@ const Schedule = () => {
       .format("YYYY-MM-DD[T]HH:mm")
       .toString();
 
+    setShowProgress(true);
     setTrip(cloneTrip);
   };
 
@@ -244,12 +244,13 @@ const Schedule = () => {
     setShowTripDetail(false);
   };
   const handleShowDetailTrip = async (trip) => {
+    let cloneRoute = _.cloneDeep(routeDetail);
+    let sumDropOff = 0;
+    let sumCapacity = 0;
+
     let data = await getOrderCapacity(trip.trip_id);
     if (data && data.EC === 0) {
-      let sumDropOff = 0;
-      let sumCapacity = 0;
       let cloneList = _.cloneDeep(data.DT);
-      let cloneRoute = _.cloneDeep(routeDetail);
       cloneRoute.forEach((station, index) => {
         station.dropOff = 0;
         if (index !== 0 && index !== cloneRoute.length - 1) {
@@ -265,15 +266,20 @@ const Schedule = () => {
       data.DT.forEach((item) => {
         sumCapacity += +item.total_capacity;
       });
-
-      setTrip(trip);
-      setStatusUpdate(trip.status);
-      setSumFreeup(sumDropOff);
-      setTotalCapacity(sumCapacity);
-      setRouteDetail(cloneRoute);
       setListOrder(data.DT);
-      setShowTripDetail(true);
-    } else toast.error(data.EM);
+    } else {
+      cloneRoute.forEach((station, index) => {
+        station.dropOff = 0;
+        sumDropOff += station.dropOff;
+      });
+      setListOrder([]);
+    }
+    setTrip(trip);
+    setStatusUpdate(trip.status);
+    setSumFreeup(sumDropOff);
+    setTotalCapacity(sumCapacity);
+    setRouteDetail(cloneRoute);
+    setShowTripDetail(true);
   };
 
   const handleUpdateStatus = async (e) => {
@@ -294,6 +300,7 @@ const Schedule = () => {
     let data = await putRemoveOrder(removeOrder.order_id);
     if (data && data.EC === 0) {
       handleShowDetailTrip(trip);
+      fetchPendingOrder();
       toast.success(data.EM);
       setShowRemove(false);
     } else toast.error(data.EM);
@@ -358,7 +365,10 @@ const Schedule = () => {
       });
       setOrderOption(orderOption);
       setPendingOrderList(data.DT);
-    } else toast.error(data.EM);
+    } else {
+      setPendingOrderList([]);
+      setOrderOption([]);
+    }
   };
 
   useEffect(() => {
@@ -374,7 +384,7 @@ const Schedule = () => {
     });
   };
 
-  const handleAssign = async () => {
+  const handleAssign = async (e) => {
     if (!selectedTrip) {
       toast.error("Must select a trip.");
       return;
@@ -389,6 +399,7 @@ const Schedule = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchPendingOrder();
+      setSelectedOrder(null);
     } else toast.error(data.EM);
   };
 
@@ -800,14 +811,12 @@ const Schedule = () => {
                             <td>{sumFreeup}</td>
                           </tr>
                         )}
-                        {listOrder && listOrder.length > 0 && (
-                          <tr>
-                            <td colSpan={2} style={{ textAlign: "center" }}>
-                              <b>Total Capacity</b>
-                            </td>
-                            <td>{totalCapacity}</td>
-                          </tr>
-                        )}
+                        <tr>
+                          <td colSpan={2} style={{ textAlign: "center" }}>
+                            <b>Total Capacity</b>
+                          </td>
+                          <td>{totalCapacity}</td>
+                        </tr>
                       </tbody>
                     </Table>
                     <div style={{ marginTop: "5%" }}>
@@ -947,9 +956,10 @@ const Schedule = () => {
           <div className="select-order-title">Select Order</div>
           <div className="select-order">
             <Select
-              defaultValue={selectedOrder}
+              value={selectedOrder}
               onChange={handleChangeOrder}
               options={orderOption}
+              isClearable={true}
             />
             <div className="detail-title">Order Detail</div>
             <div className="order-detail">

@@ -23,7 +23,6 @@ import {
   postCreateOrder,
 } from "../../../service/APIservice";
 import { useSelector } from "react-redux";
-import { validateEmail } from "../../../utils/reuseFunction";
 import nprogress from "nprogress";
 
 nprogress.configure({ showSpinner: false, trickleSpeed: 40 });
@@ -95,20 +94,12 @@ const Booking = () => {
 
   //data for API
   const [birdList, setBirdList] = useState(initBird);
-  const [customerName, setCustomerName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [packageID, setPackageID] = useState("");
   const [anticipate, setAnticipate] = useState("");
   const [estimate, setEstimate] = useState("");
   const [paymentID, setPaymentID] = useState("");
   const account_id = useSelector((state) => state.auth.account_id);
 
-  const [invalidName, setInvalidName] = useState(false);
-  const [invalidAddress, setInvalidAddress] = useState(false);
-  const [invalidEmail, setInvalidEmail] = useState(false);
-  const [invalidPhone, setInvalidPhone] = useState(false);
   const [invalidPackage, setInvalidPackage] = useState(false);
   const [invalidAnticipate, setInvalidAnticipate] = useState(false);
   const [invalidDeparture, setInvalidDeparture] = useState(false); // for future usage
@@ -135,36 +126,6 @@ const Booking = () => {
   const handleShowSummary = (event) => {
     event.preventDefault();
     let birdClone = _.cloneDeep(birdList);
-
-    if (!customerName) {
-      setInvalidName(true);
-      toast.error("Please fill in your name.");
-      return;
-    }
-
-    if (!address) {
-      setInvalidAddress(true);
-      toast.error("Please fill in your address.");
-      return;
-    }
-
-    if (!email) {
-      setInvalidEmail(true);
-      toast.error("Please fill in your email.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setInvalidEmail(true);
-      toast.error("Invalid email format.");
-      return;
-    }
-
-    if (!phone) {
-      setInvalidPhone(true);
-      toast.error("Please fill in your phone number.");
-      return;
-    }
 
     let validGender = birdClone.every((bird) => {
       if (!bird.gender) {
@@ -373,26 +334,6 @@ const Booking = () => {
     }
   };
 
-  const handleChangeName = (e) => {
-    setCustomerName(e.target.value);
-    setInvalidName(false);
-  };
-
-  const handleChangeAddress = (e) => {
-    setAddress(e.target.value);
-    setInvalidAddress(false);
-  };
-
-  const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
-    setInvalidEmail(false);
-  };
-
-  const handleChangePhone = (e) => {
-    setPhone(e.target.value);
-    setInvalidPhone(false);
-  };
-
   const handleCheckPackage = (e, packageName) => {
     setPackageID(e.target.value);
     setPackageName(packageName);
@@ -417,11 +358,7 @@ const Booking = () => {
   const handleCreateOrder = async () => {
     let dataOrder = {
       customerInfo: {
-        name: customerName,
-        address: address,
-        email: email,
-        phone: phone,
-        accountID: account_id,
+        // customerID: customerID
       },
       birdList: birdList,
       generalInfo: {
@@ -457,54 +394,39 @@ const Booking = () => {
               <div className="customer-title">Your Information</div>
               <Form>
                 <Row className="mb-3">
+                  <Form.Group as={Col} controlId="selectSender">
+                    <Form.Label>Select Sender Info</Form.Label>
+                    <Form.Select defaultValue="" aria-label="Default example">
+                      <option value="" disabled hidden>
+                        Select sender
+                      </option>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridName">
                     <Form.Label>Full name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter your name"
-                      value={customerName}
-                      onChange={(e) => handleChangeName(e)}
-                      isInvalid={invalidName}
-                    />
+                    <Form.Control type="text" disabled />
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridAddress">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="1234 street..."
-                      value={address}
-                      onChange={(e) => handleChangeAddress(e)}
-                      isInvalid={invalidAddress}
-                    />
+                    <Form.Control type="text" disabled />
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter email"
-                      value={email}
-                      onChange={(e) => handleChangeEmail(e)}
-                      isInvalid={invalidEmail}
-                    />
-                  </Form.Group>
-
                   <Form.Group as={Col} controlId="formGridPhone">
                     <Form.Label>Phone number</Form.Label>
-                    <Form.Control
-                      type="tel"
-                      placeholder="xxxx-xxx-xxx"
-                      pattern="[0][0-9]{3}-[0-9]{3}-[0-9]{3}"
-                      value={phone}
-                      onChange={(e) => handleChangePhone(e)}
-                      isInvalid={invalidPhone}
-                    />
+                    <Form.Control type="text" disabled />
                   </Form.Group>
+
+                  <Col></Col>
                 </Row>
               </Form>
             </div>
+
             {birdList &&
               birdList.length > 0 &&
               birdList.map((bird) => {

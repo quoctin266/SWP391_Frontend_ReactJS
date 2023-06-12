@@ -1,43 +1,29 @@
 import React, { useState } from "react";
-import styles from './Banner.module.css';
+import styles from "./Banner.module.css";
 import { useEffect } from "react";
 
-const Carousel = ({Images}) => {
+const Carousel = ({ Images }) => {
   const images = Images;
   const [currentImage, setCurrentImage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  
-  const toImage = (imgNum) => {
-    setCurrentImage(imgNum);
-  };
-
-  const nextImage = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentImage((currentImage + 1) % images.length);
-        setIsTransitioning(false);
-      }, 300); // Adjust the delay time as needed
-    }
-  };
-
-  const prevImage = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentImage((currentImage - 1 + images.length) % images.length);
-        setIsTransitioning(false);
-      }, 300); // Adjust the delay time as needed
-    }
-  };
 
   useEffect(() => {
+    const nextImage = () => {
+      if (!isTransitioning) {
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setCurrentImage((currentImage + 1) % images.length);
+          setIsTransitioning(false);
+        }, 300); // Adjust the delay time as needed
+      }
+    };
+
     const interval = setInterval(() => {
-nextImage()
+      nextImage();
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [currentImage, images.length]);
+  }, [currentImage, images.length, isTransitioning]);
 
   return (
     <div className={styles.carousel}>
@@ -54,7 +40,9 @@ nextImage()
                 src={`${image.src}`}
                 alt={`${image.id}`}
                 className={
-                  parseInt(index) === parseInt(currentImage) ? `${styles.active}` : ""
+                  parseInt(index) === parseInt(currentImage)
+                    ? `${styles.active}`
+                    : ""
                 }
               />
             </div>
