@@ -12,8 +12,6 @@ import moment from "moment";
 import { BiNews } from "react-icons/bi";
 import { FaHandPointRight } from "react-icons/fa";
 import { MdLabelImportant } from "react-icons/md";
-import banner from "../../../assets/image/banner.jpg";
-import Image from "react-bootstrap/Image";
 import GoogleMapSearch from "./GoogleMapSearch";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
@@ -74,11 +72,11 @@ const Home = () => {
               <div className="signup-btn">
                 {isAuthenticated ? (
                   <Button variant="dark" onClick={() => navigate("/booking")}>
-                    Start booking
+                    Start Booking
                   </Button>
                 ) : (
                   <Button variant="dark" onClick={() => navigate("/register")}>
-                    Join us now
+                    Join Us Now
                   </Button>
                 )}
               </div>

@@ -1,6 +1,6 @@
 import ProfilePic from "../../../assets/image/User_Icon.jpg";
-import GreenCheck from "../../../assets/image/Green-Check.jpg";
-import RedCross from "../../../assets/image/Red-X.jpg";
+import GreenCheck from "../../../assets/image/Green-Check.png";
+import RedCross from "../../../assets/image/Red-X.png";
 import "./AccountDetails.scss";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
