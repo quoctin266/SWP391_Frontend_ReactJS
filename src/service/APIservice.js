@@ -220,6 +220,10 @@ const putAssignOrder = async (orderID, tripID) => {
   });
 };
 
+const getOrderByTrip = async (tripID) => {
+  return await axios.get(`api/v1/order-by-trip/${tripID}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -259,4 +263,5 @@ export {
   putRemoveOrder,
   getPendingOrder,
   putAssignOrder,
+  getOrderByTrip,
 };
