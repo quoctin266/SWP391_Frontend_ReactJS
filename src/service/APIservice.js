@@ -224,6 +224,10 @@ const getOrderByTrip = async (tripID) => {
   return await axios.get(`api/v1/order-by-trip/${tripID}`);
 };
 
+const getCustomerByAccount = async (accountID) => {
+  return await axios.get(`api/v1/customers/${accountID}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -264,4 +268,5 @@ export {
   getPendingOrder,
   putAssignOrder,
   getOrderByTrip,
+  getCustomerByAccount,
 };

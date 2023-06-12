@@ -21,6 +21,7 @@ import {
   getAllPayment,
   getTotalCost,
   postCreateOrder,
+  getCustomerByAccount,
 } from "../../../service/APIservice";
 import { useSelector } from "react-redux";
 import nprogress from "nprogress";
@@ -31,6 +32,7 @@ const libraries = ["places"];
 
 const Booking = () => {
   let currentTime = moment().format("YYYY-MM-DD").toString();
+  const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyD-_t4hHvsqjXc1J-TAimnjUbgd02EyqOs",
@@ -67,6 +69,17 @@ const Booking = () => {
   };
 
   useEffect(() => {
+    const fetchCustomers = async () => {
+      let data = await getCustomerByAccount(account_id);
+      if (data && data.EC === 0) {
+        setCustomerList(data.DT);
+      }
+    };
+
+    fetchCustomers();
+  }, [account_id]);
+
+  useEffect(() => {
     fetchAllCage();
     fetchAllPackage();
     fetchAllStation();
@@ -98,7 +111,6 @@ const Booking = () => {
   const [anticipate, setAnticipate] = useState("");
   const [estimate, setEstimate] = useState("");
   const [paymentID, setPaymentID] = useState("");
-  const account_id = useSelector((state) => state.auth.account_id);
 
   const [invalidPackage, setInvalidPackage] = useState(false);
   const [invalidAnticipate, setInvalidAnticipate] = useState(false);
@@ -107,6 +119,8 @@ const Booking = () => {
   const [invalidPayment, setInvalidPayment] = useState(false);
 
   //data from API
+  const [customerList, setCustomerList] = useState([]);
+  const [customer, setCustomer] = useState("");
   const [servicePackage, setServicePackage] = useState([]);
   const [cageList, setCageList] = useState([]);
   const [stationList, setStationList] = useState([]);
@@ -121,6 +135,11 @@ const Booking = () => {
   const originRef = useRef(); // may change in future
   const destinationRef = useRef(); // may change in future
   const [showSummary, setShowSummary] = useState(false);
+
+  const handleChangeCustomer = (e) => {
+    setCustomer(e.target.value);
+    console.log("check", e.target.value);
+  };
 
   const handleCloseSummary = () => setShowSummary(false);
   const handleShowSummary = (event) => {
@@ -396,12 +415,24 @@ const Booking = () => {
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="selectSender">
                     <Form.Label>Select Sender Info</Form.Label>
-                    <Form.Select defaultValue="" aria-label="Default example">
+                    <Form.Select
+                      defaultValue=""
+                      aria-label="Default example"
+                      onChange={(e) => handleChangeCustomer(e)}
+                    >
                       <option value="" disabled hidden>
                         Select sender
                       </option>
-                      <option value="M">Male</option>
-                      <option value="F">Female</option>
+                      {customerList &&
+                        customerList.length > 0 &&
+                        customerList.map((customer) => {
+                          return (
+                            <option value={customer} key={customer.customer_id}>
+                              {customer.full_name} - {customer.address} -{" "}
+                              {customer.phone_number}
+                            </option>
+                          );
+                        })}
                     </Form.Select>
                   </Form.Group>
                 </Row>
