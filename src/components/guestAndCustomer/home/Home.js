@@ -72,11 +72,11 @@ const Home = () => {
               <div className="signup-btn">
                 {isAuthenticated ? (
                   <Button variant="dark" onClick={() => navigate("/booking")}>
-                    Start booking
+                    Start Booking
                   </Button>
                 ) : (
                   <Button variant="dark" onClick={() => navigate("/register")}>
-                    Join us now
+                    Join Us Now
                   </Button>
                 )}
               </div>
