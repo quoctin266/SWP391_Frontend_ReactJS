@@ -46,7 +46,7 @@
             }
 
             .route-list {
-                width        : 50%;
+                width        : 60%;
                 min-width    : 300px;
                 margin-bottom: 4%;
 
@@ -103,48 +103,61 @@
 
             }
 
-            .select-trip-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin-top : 2%;
-            }
+            .select-container {
+                display      : flex;
+                gap          : 30px;
+                margin-bottom: 5%;
+                align-items  : flex-end;
 
-            .select-trip {
-                margin-top: 1%;
-                width     : 50%;
-                min-width : 300px;
+                .select-trip-content {
+                    width: 40%;
 
-                .css-13cymwt-control {
-                    border-radius: 20px;
-                }
-            }
-
-            .select-order-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin-top : 2%;
-            }
-
-            .select-order {
-                margin-top: 1%;
-                width     : 90%;
-                min-width : 300px;
-
-                .css-13cymwt-control {
-                    border-radius: 20px;
-                    width        : 55.5%;
-                }
-
-                .detail-title {
-                    font-size  : 1.3em;
-                    font-weight: 600;
-                    margin     : 3% 0;
-                }
-
-                .order-detail {
-                    .table {
-                        background-color: white;
+                    .select-trip-title {
+                        font-size  : 1.3em;
+                        font-weight: 600;
+                        margin-top : 2%;
                     }
+
+                    .select-trip {
+                        margin-top: 1%;
+                        min-width : 300px;
+
+                        .css-13cymwt-control {
+                            border-radius: 20px;
+                        }
+                    }
+                }
+
+                .select-order-content {
+                    width: 40%;
+
+                    .select-order-title {
+                        font-size  : 1.3em;
+                        font-weight: 600;
+                        margin-top : 2%;
+                    }
+
+                    .select-order {
+                        margin-top: 1%;
+                        min-width : 300px;
+
+                        .css-13cymwt-control {
+                            border-radius: 20px;
+                        }
+
+                    }
+                }
+            }
+
+            .detail-title {
+                font-size  : 1.3em;
+                font-weight: 600;
+                margin     : 1% 0;
+            }
+
+            .order-detail {
+                .table {
+                    background-color: white;
                 }
             }
 

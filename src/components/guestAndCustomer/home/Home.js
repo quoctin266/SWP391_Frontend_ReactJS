@@ -18,7 +18,7 @@ import { Typography } from "@mui/material";
 import Parrot from "../../../assets/image/Parrot.png";
 import Mirror from "../../../assets/image/BirdvsMirror.png";
 import { useSelector } from "react-redux";
-import Banner from '../banner/Banner';
+import Banner from "../banner/Banner";
 import { HomeBanner } from "../banner/HomeBanner";
 
 const Home = () => {
@@ -61,7 +61,7 @@ const Home = () => {
     <div className="home-container">
       <Container className="home-content">
         <div className="banner-container">
-          <Banner Images={HomeBanner}/>
+          <Banner Images={HomeBanner} />
           <div className="banner-title">
             Looking To Relocate Your Bird?
             <br />

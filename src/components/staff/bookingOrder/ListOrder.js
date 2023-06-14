@@ -236,7 +236,7 @@ const ListOrder = () => {
   };
 
   const handleClickEdit = (item) => {
-    let dateFormat = moment(new Date(item.date))
+    let dateFormat = moment(item.date, "DD-MM-YYYY HH:mm:ss")
       .format("YYYY-MM-DD[T]HH:mm")
       .toString();
     setEditStatusDate(dateFormat);
@@ -436,11 +436,6 @@ const ListOrder = () => {
               </Row>
 
               <Row className="mb-3">
-                <Form.Group as={Col} controlId="formGridCustomerEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="text" value={customer.email} disabled />
-                </Form.Group>
-
                 <Form.Group as={Col} controlId="formGridCustomerPhone">
                   <Form.Label>Phone Number</Form.Label>
                   <Form.Control
@@ -449,6 +444,8 @@ const ListOrder = () => {
                     disabled
                   />
                 </Form.Group>
+
+                <Col></Col>
               </Row>
             </Form>
           </Modal.Body>
@@ -632,7 +629,6 @@ const ListOrder = () => {
                     <Form.Group as={Col} controlId="StatusUpdate">
                       <Form.Label>Status</Form.Label>
                       <Form.Select
-                        type="text"
                         defaultValue={statusUpdate}
                         onChange={(e) => setStatusUpdate(e.target.value)}
                       >

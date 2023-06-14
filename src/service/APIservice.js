@@ -224,6 +224,42 @@ const getOrderByTrip = async (tripID) => {
   return await axios.get(`api/v1/order-by-trip/${tripID}`);
 };
 
+const getCustomerByAccount = async (accountID) => {
+  return await axios.get(`api/v1/customers/${accountID}`);
+};
+
+const postCreateRoute = async (routeDetail, description) => {
+  return await axios.post("api/v1/create-route", {
+    routeDetail: routeDetail,
+    description: description,
+  });
+};
+
+const putUpdateRoute = async (routeDetail, description, routeID) => {
+  return await axios.put("api/v1/update-route", {
+    routeDetail: routeDetail,
+    description: description,
+    routeID: routeID,
+  });
+};
+
+const getAllVehicle = async () => {
+  return await axios.get(`api/v1/allvehicle`);
+};
+
+const getAllDriver = async () => {
+  return await axios.get(`api/v1/alldriver`);
+};
+
+const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
+  return await axios.post("api/v1/create-trip", {
+    routeID: routeID,
+    driverInfo: driverInfo,
+    depart: depart,
+    vehicleID: vehicleID,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -264,4 +300,10 @@ export {
   getPendingOrder,
   putAssignOrder,
   getOrderByTrip,
+  getCustomerByAccount,
+  postCreateRoute,
+  putUpdateRoute,
+  getAllVehicle,
+  getAllDriver,
+  postCreateTrip,
 };

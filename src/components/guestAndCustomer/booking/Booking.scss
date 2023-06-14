@@ -45,6 +45,21 @@
                         font-weight: 600;
                         font-size  : 1.1em;
                     }
+
+                    .add-sender {
+                        margin-bottom: 3%;
+
+                        span {
+                            font-style: italic;
+                            color     : rgb(150, 150, 150);
+                            font-size : 1.1em;
+                            cursor    : pointer;
+
+                            &:hover {
+                                color: rgb(80, 80, 80);
+                            }
+                        }
+                    }
                 }
 
                 .bird-info {

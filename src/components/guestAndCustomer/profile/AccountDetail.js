@@ -109,9 +109,12 @@ const AccountDetail = () => {
             Change Password
           </button>
           {role === "customer" && (
-            <button onClick={() => navigate("/view-history")}>
-              View Orders
-            </button>
+            <>
+              <button onClick={() => navigate("/view-history")}>
+                View Orders
+              </button>
+              <button>Add Sender</button>
+            </>
           )}
         </div>
         <form className="ProfileForm" onSubmit={(e) => handleConfirm(e)}>
