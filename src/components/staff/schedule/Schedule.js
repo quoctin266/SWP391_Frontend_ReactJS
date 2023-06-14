@@ -289,6 +289,23 @@ const Schedule = () => {
     let data = await putUpdateTripStatus(trip.trip_id, statusUpdate);
     if (data && data.EC === 0) {
       toast.success(data.EM);
+      let dataNew = await getTripList(selectedRoute.value);
+      if (dataNew && dataNew.EC === 0) {
+        let tripOption = [];
+
+        dataNew.DT.forEach((trip) => {
+          if (trip.status === "Standby")
+            tripOption.push({
+              value: trip.trip_id,
+              label: `Trip ID: ${trip.trip_id} >>> Depart on: ${trip.departure_date}`,
+            });
+        });
+        setTripOption(tripOption);
+        setTripList(dataNew.DT);
+      } else if (dataNew && dataNew.EC === 107) {
+        setTripList([]);
+        setTripOption([]);
+      }
     } else toast.error(data.EM);
   };
 
@@ -352,6 +369,9 @@ const Schedule = () => {
         });
         setTripOption(tripOption);
         setTripList(data.DT);
+      } else if (data && data.EC === 107) {
+        setTripList([]);
+        setTripOption([]);
       }
     };
     fetchRouteDetail();
@@ -406,6 +426,8 @@ const Schedule = () => {
       toast.success(data.EM);
       fetchPendingOrder();
       setSelectedOrder(null);
+      setSelectedTrip(null);
+      setDetailSelectedOrder("");
     } else toast.error(data.EM);
   };
 
@@ -951,53 +973,61 @@ const Schedule = () => {
 
         <div className="assign-container">
           <div className="assign-title">Assign Order To Trip</div>
-          <div className="select-trip-title">Select Trip</div>
-          <div className="select-trip">
-            <Select
-              defaultValue={selectedTrip}
-              onChange={setSelectedTrip}
-              options={tripOption}
-            />
-          </div>
-          <div className="select-order-title">Select Order</div>
-          <div className="select-order">
-            <Select
-              value={selectedOrder}
-              onChange={handleChangeOrder}
-              options={orderOption}
-              isClearable={true}
-            />
-            <div className="detail-title">Order Detail</div>
-            <div className="order-detail">
-              <Table striped hover responsive="md">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Departure</th>
-                    <th>Destination</th>
-                    <th>Ancicipate Date</th>
-                    <th>Bird Quantity</th>
-                    <th>Capacity Unit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {detailSelectedOrder && !_.isEmpty(detailSelectedOrder) ? (
-                    <tr>
-                      <td>{detailSelectedOrder.order_id}</td>
-                      <td>{detailSelectedOrder.departure_location}</td>
-                      <td>{detailSelectedOrder.arrival_location}</td>
-                      <td>{detailSelectedOrder.anticipate_date}</td>
-                      <td>{detailSelectedOrder.bird_quantity}</td>
-                      <td>{detailSelectedOrder.total_capacity}</td>
-                    </tr>
-                  ) : (
-                    <tr>
-                      <td colSpan={6}>Select an order...</td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
+          <div className="select-container">
+            <div className="select-trip-content">
+              <div className="select-trip-title">Select Trip</div>
+              <div className="select-trip">
+                <Select
+                  value={selectedTrip}
+                  onChange={setSelectedTrip}
+                  options={tripOption}
+                  isClearable={true}
+                />
+              </div>
             </div>
+            <div className="select-order-content">
+              <div className="select-order-title">Select Order</div>
+              <div className="select-order">
+                <Select
+                  value={selectedOrder}
+                  onChange={handleChangeOrder}
+                  options={orderOption}
+                  isClearable={true}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="detail-title">Order Detail</div>
+          <div className="order-detail">
+            <Table striped hover responsive="md">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Departure</th>
+                  <th>Destination</th>
+                  <th>Ancicipate Date</th>
+                  <th>Bird Quantity</th>
+                  <th>Capacity Unit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {detailSelectedOrder && !_.isEmpty(detailSelectedOrder) ? (
+                  <tr>
+                    <td>{detailSelectedOrder.order_id}</td>
+                    <td>{detailSelectedOrder.departure_location}</td>
+                    <td>{detailSelectedOrder.arrival_location}</td>
+                    <td>{detailSelectedOrder.anticipate_date}</td>
+                    <td>{detailSelectedOrder.bird_quantity}</td>
+                    <td>{detailSelectedOrder.total_capacity}</td>
+                  </tr>
+                ) : (
+                  <tr>
+                    <td colSpan={6}>Select an order...</td>
+                  </tr>
+                )}
+              </tbody>
+            </Table>
           </div>
           <Button className="confirm-btn" onClick={handleAssign}>
             Confirm

@@ -7,10 +7,14 @@ import Table from "react-bootstrap/Table";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import _ from "lodash";
-import { getAllStation } from "../../../../../service/APIservice";
+import {
+  getAllStation,
+  putUpdateRoute,
+} from "../../../../../service/APIservice";
 import { useEffect } from "react";
 import { toMinutes, toTime } from "../../../../../utils/reuseFunction";
 import EditPoint from "./EditPoint";
+import DeletePoint from "./DeletePoint";
 
 const EditRoute = (props) => {
   const [showAdd, setShowAdd] = useState(false);
@@ -41,6 +45,14 @@ const EditRoute = (props) => {
   const [distanceN, setDistanceN] = useState("");
   const [invalidDistanceN, setInvalidDistanceN] = useState(false);
 
+  const [isFirst, setIsFirst] = useState(false);
+  const [isLast, setIsLast] = useState(false);
+  const [firstStation, setFirstStation] = useState(false);
+  const [description, setDescription] = useState("");
+  const [invalidDescription, setInvalidDescription] = useState(false);
+
+  const [showCancel, setShowCancel] = useState(false);
+
   const handleCloseAdd = () => {
     setAddNextStation("");
     setAddPreStation("");
@@ -54,6 +66,9 @@ const EditRoute = (props) => {
     setDistance("");
     setDistanceN("");
     setShowAdd(false);
+    setIsFirst(false);
+    setIsLast(false);
+    setFirstStation(false);
   };
   const handleShowAdd = () => setShowAdd(true);
 
@@ -62,6 +77,12 @@ const EditRoute = (props) => {
   const handleCancel = () => {
     props.setShowEdit(false);
   };
+
+  const handleCloseCancel = () => setShowCancel(false);
+
+  useEffect(() => {
+    setDescription(props.route.description);
+  }, [props.route.description]);
 
   useEffect(() => {
     const fetchAllStation = async () => {
@@ -115,9 +136,33 @@ const EditRoute = (props) => {
   };
 
   const handleChangeAddPre = (value) => {
+    setDistanceN("");
+    setDayN("");
+    setHourN("");
+    setMinuteN("");
+    setDistance("");
+    setDay("");
+    setHour("");
+    setMinute("");
     if (value === "none") {
+      setIsFirst(true);
+      setIsLast(false);
+      setDistance(0);
+      setDay(0);
+      setHour(0);
+      setMinute(0);
+
       setAddPreStation(preOption[0]);
-      setAddNextStation(preOption[1]);
+      if (preOption.length > 1) {
+        setAddNextStation(preOption[1]);
+      } else {
+        setDayN(0);
+        setHourN(0);
+        setMinuteN(0);
+        setDistanceN(0);
+        setFirstStation(true);
+        setAddNextStation("");
+      }
       setInvalidAddPre(false);
       return;
     }
@@ -126,8 +171,18 @@ const EditRoute = (props) => {
       if (station.stationID === +value) {
         setAddPreStation(station);
         if (station.index === preOption.length - 1) {
+          setIsLast(true);
+          setIsFirst(false);
+          setDistanceN(0);
+          setDayN(0);
+          setHourN(0);
+          setMinuteN(0);
           setAddNextStation(preOption[0]);
-        } else setAddNextStation(preOption[sIndex + 1]);
+        } else {
+          setAddNextStation(preOption[sIndex + 1]);
+          setIsLast(false);
+          setIsFirst(false);
+        }
       }
     });
     setInvalidAddPre(false);
@@ -277,28 +332,30 @@ const EditRoute = (props) => {
         preDistance: distance,
       });
 
-      for (let i = 0; i < cloneList.length; i++) {
-        if (cloneList[i].station_id === addNextStation.stationID) {
-          newRouteDetail.push({
-            station_id: cloneList[i].station_id,
-            name: cloneList[i].name,
-            station_index: cloneList[i].station_index + 1,
-            driving_time: nextMinutes + preMinutes,
-            preDrivingTime: nextMinutes,
-            distance: distance + distanceN,
-            preDistance: distanceN,
-          });
-        } else
-          newRouteDetail.push({
-            station_id: cloneList[i].station_id,
-            name: cloneList[i].name,
-            station_index: cloneList[i].station_index + 1,
-            driving_time:
-              newRouteDetail[i].driving_time + cloneList[i].preDrivingTime,
-            preDrivingTime: cloneList[i].preDrivingTime,
-            distance: newRouteDetail[i].distance + cloneList[i].preDistance,
-            preDistance: cloneList[i].preDistance,
-          });
+      if (addNextStation) {
+        for (let i = 0; i < cloneList.length; i++) {
+          if (cloneList[i].station_id === addNextStation.stationID) {
+            newRouteDetail.push({
+              station_id: cloneList[i].station_id,
+              name: cloneList[i].name,
+              station_index: cloneList[i].station_index + 1,
+              driving_time: nextMinutes + preMinutes,
+              preDrivingTime: nextMinutes,
+              distance: distance + distanceN,
+              preDistance: distanceN,
+            });
+          } else
+            newRouteDetail.push({
+              station_id: cloneList[i].station_id,
+              name: cloneList[i].name,
+              station_index: cloneList[i].station_index + 1,
+              driving_time:
+                newRouteDetail[i].driving_time + cloneList[i].preDrivingTime,
+              preDrivingTime: cloneList[i].preDrivingTime,
+              distance: newRouteDetail[i].distance + cloneList[i].preDistance,
+              preDistance: cloneList[i].preDistance,
+            });
+        }
       }
     }
 
@@ -355,7 +412,32 @@ const EditRoute = (props) => {
     });
 
     props.setRouteDetail(newRouteDetail);
+    toast.success("Changes have been saved.");
     handleCloseAdd();
+  };
+
+  const handleChangeDes = (value) => {
+    setDescription(value);
+    setInvalidDescription(false);
+  };
+
+  const handleSaveChange = async () => {
+    if (!description) {
+      toast.error("Description must not be empty.");
+      setInvalidDescription(true);
+      return;
+    }
+
+    let data = await putUpdateRoute(
+      routeDetail,
+      description,
+      props.route.route_id
+    );
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      props.setShowEdit(false);
+      props.fetchAllRoute();
+    } else toast.error(data.EM);
   };
 
   return (
@@ -394,10 +476,13 @@ const EditRoute = (props) => {
                         routeDetail={routeDetail}
                         station={station}
                         stationList={stationList}
+                        setRouteDetail={props.setRouteDetail}
                       />
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
+                      <DeletePoint
+                        routeDetail={routeDetail}
+                        station={station}
+                        setRouteDetail={props.setRouteDetail}
+                      />
                     </td>
                   </tr>
                 );
@@ -409,6 +494,22 @@ const EditRoute = (props) => {
             )}
           </tbody>
         </Table>
+
+        <Row className="mb-3" style={{ marginTop: "4%" }}>
+          <Col>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              placeholder="Description"
+              isInvalid={invalidDescription}
+              value={description}
+              onChange={(e) => handleChangeDes(e.target.value)}
+            />
+          </Col>
+
+          <Col></Col>
+        </Row>
 
         <Modal
           show={showAdd}
@@ -500,6 +601,7 @@ const EditRoute = (props) => {
                         type="number"
                         placeholder="Days"
                         min="0"
+                        disabled={isFirst}
                         value={day}
                         isInvalid={invalidDay}
                         onChange={(e) => handleChangeDay(e.target.value)}
@@ -512,6 +614,7 @@ const EditRoute = (props) => {
                         placeholder="Hours"
                         min="0"
                         max="24"
+                        disabled={isFirst}
                         isInvalid={invalidHour}
                         value={hour}
                         onChange={(e) => handleChangeHour(e.target.value)}
@@ -524,6 +627,7 @@ const EditRoute = (props) => {
                         placeholder="Minutes"
                         min="0"
                         max="60"
+                        disabled={isFirst}
                         isInvalid={invalidMinute}
                         value={minute}
                         onChange={(e) => handleChangeMinute(e.target.value)}
@@ -534,7 +638,7 @@ const EditRoute = (props) => {
 
                 <Form.Group
                   className="mb-3"
-                  controlId="formPreDistance"
+                  controlId="formPreDistanceAdd"
                   as={Col}
                 >
                   <Form.Label>Distance From Previous Station</Form.Label>
@@ -543,6 +647,7 @@ const EditRoute = (props) => {
                     placeholder="Distance from previous station in Km"
                     min="0"
                     step="0.1"
+                    disabled={isFirst}
                     value={distance}
                     isInvalid={invalidDistance}
                     onChange={(e) => handleChangeDistance(e.target.value)}
@@ -559,6 +664,7 @@ const EditRoute = (props) => {
                         type="number"
                         placeholder="Days"
                         min="0"
+                        disabled={isLast || firstStation}
                         value={dayN}
                         isInvalid={invalidDayN}
                         onChange={(e) => handleChangeDayN(e.target.value)}
@@ -571,6 +677,7 @@ const EditRoute = (props) => {
                         placeholder="Hours"
                         min="0"
                         max="24"
+                        disabled={isLast || firstStation}
                         isInvalid={invalidHourN}
                         value={hourN}
                         onChange={(e) => handleChangeHourN(e.target.value)}
@@ -583,6 +690,7 @@ const EditRoute = (props) => {
                         placeholder="Minutes"
                         min="0"
                         max="60"
+                        disabled={isLast || firstStation}
                         isInvalid={invalidMinuteN}
                         value={minuteN}
                         onChange={(e) => handleChangeMinuteN(e.target.value)}
@@ -593,7 +701,7 @@ const EditRoute = (props) => {
 
                 <Form.Group
                   className="mb-3"
-                  controlId="formNextDistance"
+                  controlId="formNextDistanceAdd"
                   as={Col}
                 >
                   <Form.Label>Distance To Next Station</Form.Label>
@@ -602,6 +710,7 @@ const EditRoute = (props) => {
                     placeholder="Distance to next station in Km"
                     min="0"
                     step="0.1"
+                    disabled={isLast || firstStation}
                     value={distanceN}
                     isInvalid={invalidDistanceN}
                     onChange={(e) => handleChangeDistanceN(e.target.value)}
@@ -614,22 +723,45 @@ const EditRoute = (props) => {
                 Close
               </Button>
               <Button variant="primary" type="submit">
-                Add
+                Add Station
               </Button>
             </Modal.Footer>
           </Form>
         </Modal>
 
-        <Button variant="primary" className="mt-3">
+        <Button variant="primary" className="mt-3" onClick={handleSaveChange}>
           Confirm
         </Button>
         <Button
           variant="secondary"
           className="mx-2 mt-3"
-          onClick={() => handleCancel()}
+          onClick={() => setShowCancel(true)}
         >
           Cancel
         </Button>
+
+        <Modal
+          show={showCancel}
+          onHide={handleCancel}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Cancel</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure to cancel the current operation? <br />
+            All the changes you made will be lost and can't be recovered.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseCancel}>
+              No, Go back
+            </Button>
+            <Button variant="primary" onClick={handleCancel}>
+              Yes, Continue
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

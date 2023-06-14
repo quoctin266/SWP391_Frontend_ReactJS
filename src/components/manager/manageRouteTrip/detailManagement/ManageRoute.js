@@ -14,7 +14,7 @@ const ManageRoute = () => {
   const [routeList, setRouteList] = useState([]);
   const [routeDetail, setRouteDetail] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
-  const [routeID, setRouteID] = useState("");
+  const [route, setRoute] = useState("");
 
   const fetchAllRoute = async () => {
     let data = await getAllRoute();
@@ -27,8 +27,8 @@ const ManageRoute = () => {
     fetchAllRoute();
   }, []);
 
-  const handleClickEdit = async (routeID) => {
-    let data = await getRouteDetail(routeID);
+  const handleClickEdit = async (route) => {
+    let data = await getRouteDetail(route.route_id);
     if (data && data.EC === 0) {
       let cloneList = _.cloneDeep(data.DT);
       cloneList.forEach((item) => {
@@ -37,8 +37,11 @@ const ManageRoute = () => {
         item.driving_time_text = `${timeObj.day} Days ${timeObj.hour} Hours ${timeObj.minute} Minutes`;
         item.distance = +item.distance.toFixed(1);
       });
+      cloneList.sort(function (a, b) {
+        return a.station_index - b.station_index;
+      });
       setShowEdit(true);
-      setRouteID(routeID);
+      setRoute(route);
       setRouteDetail(cloneList);
     } else toast.error(data.EM);
   };
@@ -72,7 +75,7 @@ const ManageRoute = () => {
                     <Button
                       variant="warning"
                       className="mx-2"
-                      onClick={() => handleClickEdit(route.route_id)}
+                      onClick={() => handleClickEdit(route)}
                     >
                       Edit
                     </Button>
@@ -95,7 +98,8 @@ const ManageRoute = () => {
           setRouteDetail={setRouteDetail}
           setShowEdit={setShowEdit}
           handleClickEdit={handleClickEdit}
-          routeID={routeID}
+          route={route}
+          fetchAllRoute={fetchAllRoute}
         />
       )}
     </>

@@ -235,6 +235,31 @@ const postCreateRoute = async (routeDetail, description) => {
   });
 };
 
+const putUpdateRoute = async (routeDetail, description, routeID) => {
+  return await axios.put("api/v1/update-route", {
+    routeDetail: routeDetail,
+    description: description,
+    routeID: routeID,
+  });
+};
+
+const getAllVehicle = async () => {
+  return await axios.get(`api/v1/allvehicle`);
+};
+
+const getAllDriver = async () => {
+  return await axios.get(`api/v1/alldriver`);
+};
+
+const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
+  return await axios.post("api/v1/create-trip", {
+    routeID: routeID,
+    driverInfo: driverInfo,
+    depart: depart,
+    vehicleID: vehicleID,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -277,4 +302,8 @@ export {
   getOrderByTrip,
   getCustomerByAccount,
   postCreateRoute,
+  putUpdateRoute,
+  getAllVehicle,
+  getAllDriver,
+  postCreateTrip,
 };
