@@ -228,6 +228,13 @@ const getCustomerByAccount = async (accountID) => {
   return await axios.get(`api/v1/customers/${accountID}`);
 };
 
+const postCreateRoute = async (routeDetail, description) => {
+  return await axios.post("api/v1/create-route", {
+    routeDetail: routeDetail,
+    description: description,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -269,4 +276,5 @@ export {
   putAssignOrder,
   getOrderByTrip,
   getCustomerByAccount,
+  postCreateRoute,
 };

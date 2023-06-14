@@ -30,6 +30,7 @@ import _ from "lodash";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { toTime } from "../../../utils/reuseFunction";
 
 const Schedule = () => {
   const [routeList, setRouteList] = useState([]);
@@ -328,6 +329,11 @@ const Schedule = () => {
         let sortedArr = data.DT.toSorted(
           (a, b) => a.station_index - b.station_index
         );
+        sortedArr.forEach((item) => {
+          let timeobj = toTime(item.driving_time);
+          item.driving_time_text = `${timeobj.day} Days ${timeobj.hour} Hours ${timeobj.minute} Minutes`;
+          item.distance = +item.distance.toFixed(1);
+        });
         setRouteDetail(sortedArr);
       }
     };
@@ -378,7 +384,7 @@ const Schedule = () => {
   const handleChangeOrder = (selectedOrder) => {
     setSelectedOrder(selectedOrder);
     pendingOrderList.forEach((order) => {
-      if (order.order_id === selectedOrder.value) {
+      if (order.order_id === selectedOrder?.value) {
         setDetailSelectedOrder(order);
       }
     });
@@ -422,8 +428,8 @@ const Schedule = () => {
                   <tr>
                     <th>Index</th>
                     <th>Station</th>
-                    <th>Driving time</th>
-                    <th>Distance from departure point</th>
+                    <th>Driving time from departure</th>
+                    <th>Distance from departure</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -434,7 +440,7 @@ const Schedule = () => {
                         <tr key={item.station_id}>
                           <td>{item.station_index}</td>
                           <td>{item.name}</td>
-                          <td>{item.driving_time} Hours</td>
+                          <td>{item.driving_time_text}</td>
                           <td>{item.distance} Km</td>
                         </tr>
                       );

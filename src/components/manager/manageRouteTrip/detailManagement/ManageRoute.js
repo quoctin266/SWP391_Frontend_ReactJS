@@ -1,168 +1,103 @@
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import { useState } from "react";
+import AddRoute from "./RouteCRUD/AddRoute";
+import ViewRoute from "./RouteCRUD/ViewRoute";
+import { getAllRoute, getRouteDetail } from "../../../../service/APIservice";
+import { useEffect } from "react";
+import _ from "lodash";
+import { toTime } from "../../../../utils/reuseFunction";
+import { toast } from "react-toastify";
+import EditRoute from "./RouteCRUD/EditRoute";
 
 const ManageRoute = () => {
-  const [show, setShow] = useState(false);
-  const [showCourse, setShowCourse] = useState(false);
+  const [routeList, setRouteList] = useState([]);
+  const [routeDetail, setRouteDetail] = useState([]);
+  const [showEdit, setShowEdit] = useState(false);
+  const [routeID, setRouteID] = useState("");
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const fetchAllRoute = async () => {
+    let data = await getAllRoute();
+    if (data && data.EC === 0) {
+      setRouteList(data.DT);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllRoute();
+  }, []);
+
+  const handleClickEdit = async (routeID) => {
+    let data = await getRouteDetail(routeID);
+    if (data && data.EC === 0) {
+      let cloneList = _.cloneDeep(data.DT);
+      cloneList.forEach((item) => {
+        let timeObj = toTime(item.driving_time);
+
+        item.driving_time_text = `${timeObj.day} Days ${timeObj.hour} Hours ${timeObj.minute} Minutes`;
+        item.distance = +item.distance.toFixed(1);
+      });
+      setShowEdit(true);
+      setRouteID(routeID);
+      setRouteDetail(cloneList);
+    } else toast.error(data.EM);
+  };
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className="add-btn">
-        Add new
-      </Button>
-
-      <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Route</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicStation">
-              <Form.Label>Add Station</Form.Label>
-              <Form.Select aria-label="select station">
-                <option value="stationID1">Cà Mau</option>
-                <option value="stationID2">Cần Thơ</option>
-                <option value="stationID3">Hồ Chí Minh</option>
-                <option value="stationID4">Đồng Nai</option>
-                <option value="stationID5">Lâm Đồng</option>
-                <option>...</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Row>
-              <Form.Group
-                className="mb-3"
-                controlId="formBasicDrivingTime"
-                as={Col}
-              >
-                <Form.Label>Driving Time</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Time needed to reach from origin in hours"
-                  min="0"
-                />
-              </Form.Group>
-
-              <Form.Group
-                className="mb-3"
-                controlId="formBasicDistance"
-                as={Col}
-              >
-                <Form.Label>Distance</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder="Distance from origin in Km"
-                  min="0"
-                  step="0.1"
-                />
-              </Form.Group>
-            </Row>
-            <Button
-              variant="warning"
-              className="mb-4"
-              onClick={() => setShowCourse(true)}
-            >
-              Add station
-            </Button>
-            {showCourse && (
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Note</th>
-                    <th>Station</th>
-                    <th>Driving Time</th>
-                    <th>Distance</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Origin</td>
-                    <td>Hồ Chí Minh</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td>Đồng Nai</td>
-                    <td>8 Hours</td>
-                    <td>8 Km</td>
-                  </tr>
-                  <tr>
-                    <td>Destination</td>
-                    <td>Lâm Đồng</td>
-                    <td>18 Hours</td>
-                    <td>18 Km</td>
-                  </tr>
-                </tbody>
-              </Table>
-            )}
-            <Form.Group
-              className="mt-5 mb-3"
-              controlId="formBasicDescription"
-              as={Col}
-            >
-              <Form.Label>Description</Form.Label>
-              <Form.Control type="text" placeholder="Enter route description" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Confirm
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddRoute fetchAllRoute={fetchAllRoute} />
 
       <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Starting point</th>
-            <th>End point</th>
+            <th>Departure</th>
+            <th>Destination</th>
             <th>Description</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Cà Mau</td>
-            <td>Hồ Chí Minh</td>
-            <td>Cà Mau - Cần Thơ - Hồ Chí Minh</td>
-            <td>
-              <Button variant="secondary">Detail</Button>
-              <Button variant="warning" className="mx-2">
-                Edit
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Đak Lak</td>
-            <td>Quảng Trị</td>
-            <td>Đak Lak - Bình Định - Quảng Nam - Quảng Trị</td>
-            <td>
-              <Button variant="secondary">Detail</Button>
-              <Button variant="warning" className="mx-2">
-                Edit
-              </Button>
-              <Button variant="danger">Delete</Button>
-            </td>
-          </tr>
+          {routeList &&
+            routeList.length > 0 &&
+            routeList.map((route) => {
+              return (
+                <tr key={route.route_id}>
+                  <td>{route.route_id}</td>
+                  <td>{route.departure}</td>
+                  <td>{route.destination}</td>
+                  <td>{route.description}</td>
+                  <td>
+                    <ViewRoute route_id={route.route_id} />
+                    <Button
+                      variant="warning"
+                      className="mx-2"
+                      onClick={() => handleClickEdit(route.route_id)}
+                    >
+                      Edit
+                    </Button>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+              );
+            })}
+          {routeList && routeList.length === 0 && (
+            <tr>
+              <td colSpan={5}>List is empty...</td>
+            </tr>
+          )}
         </tbody>
       </Table>
+
+      {showEdit && (
+        <EditRoute
+          routeDetail={routeDetail}
+          setRouteDetail={setRouteDetail}
+          setShowEdit={setShowEdit}
+          handleClickEdit={handleClickEdit}
+          routeID={routeID}
+        />
+      )}
     </>
   );
 };

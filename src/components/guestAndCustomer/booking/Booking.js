@@ -35,7 +35,7 @@ const Booking = () => {
   const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyD-_t4hHvsqjXc1J-TAimnjUbgd02EyqOs",
+    googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
@@ -121,6 +121,7 @@ const Booking = () => {
   //data from API
   const [customerList, setCustomerList] = useState([]);
   const [customer, setCustomer] = useState("");
+  const [invalidSender, setInvalidSender] = useState(false);
   const [servicePackage, setServicePackage] = useState([]);
   const [cageList, setCageList] = useState([]);
   const [stationList, setStationList] = useState([]);
@@ -137,14 +138,26 @@ const Booking = () => {
   const [showSummary, setShowSummary] = useState(false);
 
   const handleChangeCustomer = (e) => {
-    setCustomer(e.target.value);
-    console.log("check", e.target.value);
+    setInvalidSender(false);
+    if (customerList.length > 0) {
+      customerList.forEach((item) => {
+        if (item.customer_id === +e.target.value) {
+          setCustomer(item);
+        }
+      });
+    }
   };
 
   const handleCloseSummary = () => setShowSummary(false);
   const handleShowSummary = (event) => {
     event.preventDefault();
     let birdClone = _.cloneDeep(birdList);
+
+    if (!customer) {
+      toast.error("Must select a sender.");
+      setInvalidSender(true);
+      return;
+    }
 
     let validGender = birdClone.every((bird) => {
       if (!bird.gender) {
@@ -376,9 +389,7 @@ const Booking = () => {
 
   const handleCreateOrder = async () => {
     let dataOrder = {
-      customerInfo: {
-        // customerID: customerID
-      },
+      customerID: customer.customer_id,
       birdList: birdList,
       generalInfo: {
         departure: originRef.current.value, //may change in future
@@ -418,6 +429,7 @@ const Booking = () => {
                     <Form.Select
                       defaultValue=""
                       aria-label="Default example"
+                      isInvalid={invalidSender}
                       onChange={(e) => handleChangeCustomer(e)}
                     >
                       <option value="" disabled hidden>
@@ -427,30 +439,53 @@ const Booking = () => {
                         customerList.length > 0 &&
                         customerList.map((customer) => {
                           return (
-                            <option value={customer} key={customer.customer_id}>
-                              {customer.full_name} - {customer.address} -{" "}
-                              {customer.phone_number}
+                            <option
+                              value={customer.customer_id}
+                              key={customer.customer_id}
+                            >
+                              {customer.full_name} -{" "}
+                              {customer.address ? customer.address : "N/A"} -{" "}
+                              {customer.phone_number
+                                ? customer.phone_number
+                                : "N/A"}
                             </option>
                           );
                         })}
                     </Form.Select>
                   </Form.Group>
                 </Row>
+                <div className="add-sender">
+                  <span onClick={() => navigate("/account-detail")}>
+                    Add new/Update sender info here
+                  </span>
+                </div>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridName">
                     <Form.Label>Full name</Form.Label>
-                    <Form.Control type="text" disabled />
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={customer.full_name ? customer.full_name : ""}
+                    />
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridAddress">
                     <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" disabled />
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={customer.address ? customer.address : ""}
+                    />
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridPhone">
                     <Form.Label>Phone number</Form.Label>
-                    <Form.Control type="text" disabled />
+                    <Form.Control
+                      type="text"
+                      disabled
+                      value={customer.phone_number ? customer.phone_number : ""}
+                    />
                   </Form.Group>
 
                   <Col></Col>

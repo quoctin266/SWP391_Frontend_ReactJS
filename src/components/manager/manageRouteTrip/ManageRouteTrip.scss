@@ -22,6 +22,27 @@
                 .add-btn {
                     margin: 2% 0;
                 }
+
+                .edit-route {
+                    margin-top      : 5%;
+                    width           : 75%;
+                    background-color: aliceblue;
+                    border-radius   : 15px;
+                    padding         : 2%;
+                    border          : 1px solid rgb(193, 218, 240);
+
+                    .edit-route-title {
+                        font-weight  : 500;
+                        font-size    : 1.4em;
+                        margin-bottom: 2%;
+                    }
+
+                    .edit-body {
+                        .add-station-btn {
+                            margin-bottom: 2%;
+                        }
+                    }
+                }
             }
         }
 
