@@ -86,7 +86,7 @@ const GoogleMapSearch = () => {
 
   return (
     <div className="search-location-container">
-      <div className="title">Search for Bird Transportation</div>
+      <div className="title">Get Your Quote</div>
       <div className="search-bar">
         <Form>
           <Row className="search-row">

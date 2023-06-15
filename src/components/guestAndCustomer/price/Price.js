@@ -117,8 +117,14 @@ const Price = () => {
                           }}
                         >
                           {item.max_distance
-                            ? `${item.min_distance} - ${item.max_distance}`
-                            : `From ${item.min_distance}`}{" "}
+                            ? `${new Intl.NumberFormat().format(
+                                item.min_distance
+                              )} - ${new Intl.NumberFormat().format(
+                                item.max_distance
+                              )}`
+                            : `From ${new Intl.NumberFormat().format(
+                                item.min_distance
+                              )}`}{" "}
                           Km
                         </TableCell>
                         <TableCell
@@ -131,7 +137,8 @@ const Price = () => {
                             backgroundColor: "#CBECBC",
                           }}
                         >
-                          {item.initial_cost} VND
+                          {new Intl.NumberFormat().format(item.initial_cost)}{" "}
+                          VND
                         </TableCell>
                         <TableCell
                           align="center"
@@ -143,7 +150,11 @@ const Price = () => {
                             backgroundColor: "#CBECBC",
                           }}
                         >
-                          +{item.additional_bird_cost} VND
+                          +
+                          {new Intl.NumberFormat().format(
+                            item.additional_bird_cost
+                          )}{" "}
+                          VND
                         </TableCell>
                         <TableCell
                           align="center"
@@ -155,7 +166,7 @@ const Price = () => {
                             backgroundColor: "#CBECBC",
                           }}
                         >
-                          {item.unit_cost} VND
+                          {new Intl.NumberFormat().format(item.unit_cost)} VND
                         </TableCell>
                       </TableRow>
                     );

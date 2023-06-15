@@ -378,6 +378,54 @@ const Schedule = () => {
     fetchTripsList();
   }, [selectedRoute]);
 
+  useEffect(() => {
+    const fetchPendingOrder = async () => {
+      let data = await getPendingOrder();
+      if (data && data.EC === 0) {
+        let cloneRouteDetail = _.cloneDeep(routeDetail);
+        tripList.forEach((trip) => {
+          if (trip.trip_id === selectedTrip?.value) {
+            cloneRouteDetail.forEach((station) => {
+              let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+                .add(station.driving_time, "minutes")
+                .format("DD-MM-YYYY");
+              station.estimate_depart = estimate;
+            });
+          }
+        });
+
+        let cloneOrder = _.cloneDeep(data.DT);
+        let cloneOrder2 = [];
+        for (let i = 0; i < cloneRouteDetail.length - 1; i++) {
+          cloneOrder.forEach((order) => {
+            if (order.departure_location === cloneRouteDetail[i].name) {
+              if (
+                order.anticipate_date === cloneRouteDetail[i].estimate_depart
+              ) {
+                cloneOrder2.push(order);
+              }
+            }
+          });
+        }
+
+        let orderOption = [];
+        cloneOrder2.forEach((order) => {
+          orderOption.push({
+            value: order.order_id,
+            label: `Order ID: ${order.order_id} >>> ${order.departure_location} - ${order.arrival_location} - Anticipate: ${order.anticipate_date}`,
+          });
+        });
+
+        setOrderOption(orderOption);
+        setPendingOrderList(cloneOrder2);
+      } else {
+        setPendingOrderList([]);
+        setOrderOption([]);
+      }
+    };
+    fetchPendingOrder();
+  }, [routeDetail, selectedTrip, tripList]);
+
   const fetchPendingOrder = async () => {
     let data = await getPendingOrder();
     if (data && data.EC === 0) {
@@ -389,6 +437,19 @@ const Schedule = () => {
           label: `Order ID: ${order.order_id} >>> ${order.departure_location} - ${order.arrival_location} - Anticipate: ${order.anticipate_date}`,
         });
       });
+
+      let cloneRouteDetail = _.cloneDeep(routeDetail);
+      tripList.forEach((trip) => {
+        if (trip.trip_id === selectedTrip?.value) {
+          cloneRouteDetail.forEach((station) => {
+            station.estimate_depart = moment(trip.departure_date).add(
+              station.driving_time,
+              "minutes"
+            );
+          });
+        }
+      });
+      console.log("check", cloneRouteDetail);
       setOrderOption(orderOption);
       setPendingOrderList(data.DT);
     } else {
@@ -396,10 +457,6 @@ const Schedule = () => {
       setOrderOption([]);
     }
   };
-
-  useEffect(() => {
-    fetchPendingOrder();
-  }, []);
 
   const handleChangeOrder = (selectedOrder) => {
     setSelectedOrder(selectedOrder);
@@ -424,7 +481,6 @@ const Schedule = () => {
     let data = await putAssignOrder(selectedOrder.value, selectedTrip.value);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      fetchPendingOrder();
       setSelectedOrder(null);
       setSelectedTrip(null);
       setDetailSelectedOrder("");
