@@ -21,9 +21,9 @@ import {
   getAllPayment,
   getTotalCost,
   postCreateOrder,
+  getCustomerByAccount,
 } from "../../../service/APIservice";
 import { useSelector } from "react-redux";
-import { validateEmail } from "../../../utils/reuseFunction";
 import nprogress from "nprogress";
 
 nprogress.configure({ showSpinner: false, trickleSpeed: 40 });
@@ -32,9 +32,10 @@ const libraries = ["places"];
 
 const Booking = () => {
   let currentTime = moment().format("YYYY-MM-DD").toString();
+  const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyD-_t4hHvsqjXc1J-TAimnjUbgd02EyqOs",
+    googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
@@ -68,6 +69,17 @@ const Booking = () => {
   };
 
   useEffect(() => {
+    const fetchCustomers = async () => {
+      let data = await getCustomerByAccount(account_id);
+      if (data && data.EC === 0) {
+        setCustomerList(data.DT);
+      }
+    };
+
+    fetchCustomers();
+  }, [account_id]);
+
+  useEffect(() => {
     fetchAllCage();
     fetchAllPackage();
     fetchAllStation();
@@ -95,20 +107,11 @@ const Booking = () => {
 
   //data for API
   const [birdList, setBirdList] = useState(initBird);
-  const [customerName, setCustomerName] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [packageID, setPackageID] = useState("");
   const [anticipate, setAnticipate] = useState("");
   const [estimate, setEstimate] = useState("");
   const [paymentID, setPaymentID] = useState("");
-  const account_id = useSelector((state) => state.auth.account_id);
 
-  const [invalidName, setInvalidName] = useState(false);
-  const [invalidAddress, setInvalidAddress] = useState(false);
-  const [invalidEmail, setInvalidEmail] = useState(false);
-  const [invalidPhone, setInvalidPhone] = useState(false);
   const [invalidPackage, setInvalidPackage] = useState(false);
   const [invalidAnticipate, setInvalidAnticipate] = useState(false);
   const [invalidDeparture, setInvalidDeparture] = useState(false); // for future usage
@@ -116,6 +119,9 @@ const Booking = () => {
   const [invalidPayment, setInvalidPayment] = useState(false);
 
   //data from API
+  const [customerList, setCustomerList] = useState([]);
+  const [customer, setCustomer] = useState("");
+  const [invalidSender, setInvalidSender] = useState(false);
   const [servicePackage, setServicePackage] = useState([]);
   const [cageList, setCageList] = useState([]);
   const [stationList, setStationList] = useState([]);
@@ -131,38 +137,25 @@ const Booking = () => {
   const destinationRef = useRef(); // may change in future
   const [showSummary, setShowSummary] = useState(false);
 
+  const handleChangeCustomer = (e) => {
+    setInvalidSender(false);
+    if (customerList.length > 0) {
+      customerList.forEach((item) => {
+        if (item.customer_id === +e.target.value) {
+          setCustomer(item);
+        }
+      });
+    }
+  };
+
   const handleCloseSummary = () => setShowSummary(false);
   const handleShowSummary = (event) => {
     event.preventDefault();
     let birdClone = _.cloneDeep(birdList);
 
-    if (!customerName) {
-      setInvalidName(true);
-      toast.error("Please fill in your name.");
-      return;
-    }
-
-    if (!address) {
-      setInvalidAddress(true);
-      toast.error("Please fill in your address.");
-      return;
-    }
-
-    if (!email) {
-      setInvalidEmail(true);
-      toast.error("Please fill in your email.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setInvalidEmail(true);
-      toast.error("Invalid email format.");
-      return;
-    }
-
-    if (!phone) {
-      setInvalidPhone(true);
-      toast.error("Please fill in your phone number.");
+    if (!customer) {
+      toast.error("Must select a sender.");
+      setInvalidSender(true);
       return;
     }
 
@@ -272,7 +265,7 @@ const Booking = () => {
 
       let anticipateTime = moment(anticipate);
       let estimateTime = moment(anticipateTime).add(
-        results.routes[0].legs[0].duration.value * 3,
+        results.routes[0].legs[0].duration.value * 5,
         "seconds"
       );
       estimateTime = estimateTime.format("YYYY-MM-DD").toString();
@@ -373,26 +366,6 @@ const Booking = () => {
     }
   };
 
-  const handleChangeName = (e) => {
-    setCustomerName(e.target.value);
-    setInvalidName(false);
-  };
-
-  const handleChangeAddress = (e) => {
-    setAddress(e.target.value);
-    setInvalidAddress(false);
-  };
-
-  const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
-    setInvalidEmail(false);
-  };
-
-  const handleChangePhone = (e) => {
-    setPhone(e.target.value);
-    setInvalidPhone(false);
-  };
-
   const handleCheckPackage = (e, packageName) => {
     setPackageID(e.target.value);
     setPackageName(packageName);
@@ -404,21 +377,19 @@ const Booking = () => {
     setInvalidAnticipate(false);
   };
 
-  const handleChangePayment = (e, paymentName) => {
+  const handleChangePayment = (e, item) => {
     setPaymentID(e.target.value);
+    let paymentName;
+    if (item.method_name) {
+      paymentName = `${item.payment_type} - ${item.method_name}`;
+    } else paymentName = `${item.payment_type}`;
     setPaymentName(paymentName);
     setInvalidPayment(false);
   };
 
   const handleCreateOrder = async () => {
     let dataOrder = {
-      customerInfo: {
-        name: customerName,
-        address: address,
-        email: email,
-        phone: phone,
-        accountID: account_id,
-      },
+      customerID: customer.customer_id,
       birdList: birdList,
       generalInfo: {
         departure: originRef.current.value, //may change in future
@@ -453,14 +424,48 @@ const Booking = () => {
               <div className="customer-title">Your Information</div>
               <Form>
                 <Row className="mb-3">
+                  <Form.Group as={Col} controlId="selectSender">
+                    <Form.Label>Select Sender Info</Form.Label>
+                    <Form.Select
+                      defaultValue=""
+                      aria-label="Default example"
+                      isInvalid={invalidSender}
+                      onChange={(e) => handleChangeCustomer(e)}
+                    >
+                      <option value="" disabled hidden>
+                        Select sender
+                      </option>
+                      {customerList &&
+                        customerList.length > 0 &&
+                        customerList.map((customer) => {
+                          return (
+                            <option
+                              value={customer.customer_id}
+                              key={customer.customer_id}
+                            >
+                              {customer.full_name} -{" "}
+                              {customer.address ? customer.address : "N/A"} -{" "}
+                              {customer.phone_number
+                                ? customer.phone_number
+                                : "N/A"}
+                            </option>
+                          );
+                        })}
+                    </Form.Select>
+                  </Form.Group>
+                </Row>
+                <div className="add-sender">
+                  <span onClick={() => navigate("/account-detail")}>
+                    Add new/Update sender info here
+                  </span>
+                </div>
+                <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridName">
                     <Form.Label>Full name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter your name"
-                      value={customerName}
-                      onChange={(e) => handleChangeName(e)}
-                      isInvalid={invalidName}
+                      disabled
+                      value={customer.full_name ? customer.full_name : ""}
                     />
                   </Form.Group>
 
@@ -468,39 +473,26 @@ const Booking = () => {
                     <Form.Label>Address</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="1234 street..."
-                      value={address}
-                      onChange={(e) => handleChangeAddress(e)}
-                      isInvalid={invalidAddress}
+                      disabled
+                      value={customer.address ? customer.address : ""}
                     />
                   </Form.Group>
                 </Row>
                 <Row className="mb-3">
-                  <Form.Group as={Col} controlId="formGridEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Enter email"
-                      value={email}
-                      onChange={(e) => handleChangeEmail(e)}
-                      isInvalid={invalidEmail}
-                    />
-                  </Form.Group>
-
                   <Form.Group as={Col} controlId="formGridPhone">
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control
-                      type="tel"
-                      placeholder="xxxx-xxx-xxx"
-                      pattern="[0][0-9]{3}-[0-9]{3}-[0-9]{3}"
-                      value={phone}
-                      onChange={(e) => handleChangePhone(e)}
-                      isInvalid={invalidPhone}
+                      type="text"
+                      disabled
+                      value={customer.phone_number ? customer.phone_number : ""}
                     />
                   </Form.Group>
+
+                  <Col></Col>
                 </Row>
               </Form>
             </div>
+
             {birdList &&
               birdList.length > 0 &&
               birdList.map((bird) => {
@@ -682,7 +674,7 @@ const Booking = () => {
                   servicePackage.map((item) => {
                     return (
                       <tr key={item.package_id}>
-                        <td>{item.name}</td>
+                        <td>{item.package_name}</td>
                         <td>
                           <FcCheckmark />
                         </td>
@@ -704,12 +696,14 @@ const Booking = () => {
                     return (
                       <Form.Check
                         type="radio"
-                        label={item.name}
+                        label={item.package_name}
                         name="servicePackage"
                         value={item.package_id}
                         id={`package_${item.package_id}`}
                         key={item.package_id}
-                        onChange={(e) => handleCheckPackage(e, item.name)}
+                        onChange={(e) =>
+                          handleCheckPackage(e, item.package_name)
+                        }
                         isInvalid={invalidPackage}
                       />
                     );
@@ -786,17 +780,16 @@ const Booking = () => {
                         return (
                           <Form.Check
                             type="radio"
-                            label={`${item.payment_type} - ${item.name}`}
+                            label={
+                              item.method_name
+                                ? `${item.payment_type} - ${item.method_name}`
+                                : `${item.payment_type}`
+                            }
                             name="paymentType"
                             value={item.id}
                             id={`type_${item.id}`}
                             key={item.id}
-                            onChange={(e) =>
-                              handleChangePayment(
-                                e,
-                                `${item.payment_type} - ${item.name}`
-                              )
-                            }
+                            onChange={(e) => handleChangePayment(e, item)}
                             isInvalid={invalidPayment}
                           />
                         );
