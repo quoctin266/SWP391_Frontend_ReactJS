@@ -272,7 +272,7 @@ const Booking = () => {
 
       let anticipateTime = moment(anticipate);
       let estimateTime = moment(anticipateTime).add(
-        results.routes[0].legs[0].duration.value * 3,
+        results.routes[0].legs[0].duration.value * 5,
         "seconds"
       );
       estimateTime = estimateTime.format("YYYY-MM-DD").toString();
@@ -404,8 +404,12 @@ const Booking = () => {
     setInvalidAnticipate(false);
   };
 
-  const handleChangePayment = (e, paymentName) => {
+  const handleChangePayment = (e, item) => {
     setPaymentID(e.target.value);
+    let paymentName;
+    if (item.method_name) {
+      paymentName = `${item.payment_type} - ${item.method_name}`;
+    } else paymentName = `${item.payment_type}`;
     setPaymentName(paymentName);
     setInvalidPayment(false);
   };
@@ -682,7 +686,7 @@ const Booking = () => {
                   servicePackage.map((item) => {
                     return (
                       <tr key={item.package_id}>
-                        <td>{item.name}</td>
+                        <td>{item.package_name}</td>
                         <td>
                           <FcCheckmark />
                         </td>
@@ -704,12 +708,14 @@ const Booking = () => {
                     return (
                       <Form.Check
                         type="radio"
-                        label={item.name}
+                        label={item.package_name}
                         name="servicePackage"
                         value={item.package_id}
                         id={`package_${item.package_id}`}
                         key={item.package_id}
-                        onChange={(e) => handleCheckPackage(e, item.name)}
+                        onChange={(e) =>
+                          handleCheckPackage(e, item.package_name)
+                        }
                         isInvalid={invalidPackage}
                       />
                     );
@@ -786,17 +792,16 @@ const Booking = () => {
                         return (
                           <Form.Check
                             type="radio"
-                            label={`${item.payment_type} - ${item.name}`}
+                            label={
+                              item.method_name
+                                ? `${item.payment_type} - ${item.method_name}`
+                                : `${item.payment_type}`
+                            }
                             name="paymentType"
                             value={item.id}
                             id={`type_${item.id}`}
                             key={item.id}
-                            onChange={(e) =>
-                              handleChangePayment(
-                                e,
-                                `${item.payment_type} - ${item.name}`
-                              )
-                            }
+                            onChange={(e) => handleChangePayment(e, item)}
                             isInvalid={invalidPayment}
                           />
                         );

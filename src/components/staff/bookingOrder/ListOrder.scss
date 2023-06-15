@@ -18,6 +18,27 @@
   }
 
   .order-list {
+    .filter-title {
+      font-size    : 1.3em;
+      font-weight  : 600;
+      margin-bottom: 1%;
+    }
+
+    .form-select {
+      width        : 30%;
+      margin-bottom: 3%;
+    }
+
+    .search-title {
+      font-size    : 1.3em;
+      font-weight  : 600;
+      margin-bottom: 1%;
+    }
+
+    .search-order {
+      width: 30%;
+    }
+
     width           : 90%;
     width           : 90%;
     background-color: #a4a8a0;
