@@ -18,6 +18,7 @@ import {
   putRemoveOrder,
   getPendingOrder,
   putAssignOrder,
+  getAllStation,
 } from "../../../service/APIservice";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
@@ -31,6 +32,8 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { toTime } from "../../../utils/reuseFunction";
+import { MdAddCircle } from "react-icons/md";
+import { MdRemoveCircle } from "react-icons/md";
 
 const Schedule = () => {
   const [routeList, setRouteList] = useState([]);
@@ -39,6 +42,7 @@ const Schedule = () => {
     label: "Select...",
   });
   const [routeDetail, setRouteDetail] = useState([]);
+  const [stationList, setStationList] = useState([]);
 
   const [selectedTrip, setSelectedTrip] = useState("");
   const [tripList, setTripList] = useState([]);
@@ -52,8 +56,6 @@ const Schedule = () => {
   const [showProgress, setShowProgress] = useState(false);
   const [progressList, setProgressList] = useState([]);
 
-  const [newProgressDes, setNewProgressDes] = useState("");
-  const [invalidNewProgressDes, setInvalidNewProgressDes] = useState(false);
   const [newProgressDate, setNewProgressDate] = useState("");
   const [InvalidNewProgressDate, setInvalidNewProgressDate] = useState(false);
 
@@ -68,7 +70,6 @@ const Schedule = () => {
   const [showEdit, setShowEdit] = useState(false);
 
   const [showTripDetail, setShowTripDetail] = useState(false);
-  const [sumFreeup, setSumFreeup] = useState("");
   const [totalCapacity, setTotalCapacity] = useState("");
   const [statusUpdate, setStatusUpdate] = useState("");
   const [listOrder, setListOrder] = useState([]);
@@ -80,6 +81,15 @@ const Schedule = () => {
   const [orderOption, setOrderOption] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState("");
   const [detailSelectedOrder, setDetailSelectedOrder] = useState("");
+
+  const [routeEstimate, setRouteEstimate] = useState([]);
+  const [assignOrders, setAssignOrders] = useState([]);
+  const [manageRouteDetail, setManageRouteDetail] = useState([]);
+
+  const [temp1, setTemp1] = useState("");
+  const [temp2, setTemp2] = useState("");
+  const [temp3, setTemp3] = useState("");
+  const [temp4, setTemp4] = useState("");
 
   const handleCloseVehicle = () => setShowVehicle(false);
   const handleViewVehicle = async (vehicle_id) => {
@@ -106,7 +116,6 @@ const Schedule = () => {
     setInvalidEditProgressDate(false);
     setInvalidEditProgressDes(false);
     setInvalidNewProgressDate(false);
-    setInvalidNewProgressDes(false);
   };
   const handleViewProgress = async (trip) => {
     let data = await getProgressList(trip.trip_id);
@@ -131,11 +140,6 @@ const Schedule = () => {
     setInvalidNewProgressDate(false);
   };
 
-  const handleChangeNewDescription = (e) => {
-    setNewProgressDes(e.target.value);
-    setInvalidNewProgressDes(false);
-  };
-
   const fetchProgressList = async () => {
     let data = await getProgressList(trip.trip_id);
     if (data && data.EC === 0) {
@@ -151,9 +155,9 @@ const Schedule = () => {
       return;
     }
 
+    let newProgressDes = `${temp1}${temp2}.${temp3}${temp4}`;
     if (!newProgressDes) {
-      setInvalidNewProgressDes(true);
-      toast.error("Please fill in description.");
+      toast.error("Description must not be empty.");
       return;
     }
 
@@ -168,8 +172,11 @@ const Schedule = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchProgressList();
-      setNewProgressDes("");
       setNewProgressDate("");
+      setTemp1("");
+      setTemp2("");
+      setTemp3("");
+      setTemp4("");
     } else toast.error(data.EM);
   };
 
@@ -246,22 +253,28 @@ const Schedule = () => {
   };
   const handleShowDetailTrip = async (trip) => {
     let cloneRoute = _.cloneDeep(routeDetail);
-    let sumDropOff = 0;
     let sumCapacity = 0;
 
     let data = await getOrderCapacity(trip.trip_id);
     if (data && data.EC === 0) {
-      let cloneList = _.cloneDeep(data.DT);
       cloneRoute.forEach((station, index) => {
-        station.dropOff = 0;
-        if (index !== 0 && index !== cloneRoute.length - 1) {
-          cloneList.forEach((order) => {
-            if (order.arrival_location === station.name) {
-              station.dropOff += +order.total_capacity;
-            }
-          });
-        }
-        sumDropOff += station.dropOff;
+        data.DT.forEach((order) => {
+          if (station.name === order.departure_location) {
+            station.pickup += order.total_capacity;
+          }
+          if (station.name === order.arrival_location) {
+            station.dropoff += order.total_capacity;
+          }
+        });
+        if (index !== 0) {
+          let sumPickup = 0;
+          let sumDropoff = 0;
+          for (let i = 0; i < index + 1; i++) {
+            sumPickup += cloneRoute[i].pickup;
+            sumDropoff += cloneRoute[i].dropoff;
+          }
+          station.totalUnit = sumPickup - sumDropoff;
+        } else station.totalUnit = station.pickup;
       });
 
       data.DT.forEach((item) => {
@@ -269,17 +282,12 @@ const Schedule = () => {
       });
       setListOrder(data.DT);
     } else {
-      cloneRoute.forEach((station, index) => {
-        station.dropOff = 0;
-        sumDropOff += station.dropOff;
-      });
       setListOrder([]);
     }
     setTrip(trip);
     setStatusUpdate(trip.status);
-    setSumFreeup(sumDropOff);
     setTotalCapacity(sumCapacity);
-    setRouteDetail(cloneRoute);
+    setManageRouteDetail(cloneRoute);
     setShowTripDetail(true);
   };
 
@@ -306,6 +314,7 @@ const Schedule = () => {
         setTripList([]);
         setTripOption([]);
       }
+      setSelectedTrip(null);
     } else toast.error(data.EM);
   };
 
@@ -335,8 +344,16 @@ const Schedule = () => {
     } else toast.error(data.EM);
   };
 
+  const fetchAllStation = async () => {
+    let data = await getAllStation();
+    if (data && data.EC === 0) {
+      setStationList(data.DT);
+    }
+  };
+
   useEffect(() => {
     fetchAllRoute();
+    fetchAllStation();
   }, []);
 
   useEffect(() => {
@@ -350,6 +367,9 @@ const Schedule = () => {
           let timeobj = toTime(item.driving_time);
           item.driving_time_text = `${timeobj.day} Days ${timeobj.hour} Hours ${timeobj.minute} Minutes`;
           item.distance = +item.distance.toFixed(1);
+          item.totalUnit = 0;
+          item.dropoff = 0;
+          item.pickup = 0;
         });
         setRouteDetail(sortedArr);
       }
@@ -380,20 +400,55 @@ const Schedule = () => {
 
   useEffect(() => {
     const fetchPendingOrder = async () => {
+      // initiate route detail of the selected trip
+      let cloneRouteDetail = _.cloneDeep(routeDetail);
+      tripList.forEach((trip) => {
+        if (trip.trip_id === selectedTrip?.value) {
+          cloneRouteDetail.forEach((station) => {
+            let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY");
+
+            let estimate_time = moment(
+              trip.departure_date,
+              "DD-MM-YYYY HH:mm:ss"
+            )
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY HH:mm:ss");
+
+            station.estimate_depart = estimate;
+            station.estimate_time = estimate_time;
+          });
+        }
+      });
+
+      // calculate current capacity of each station of the trip
+      let dataOrder = await getOrderCapacity(selectedTrip?.value);
+      if (dataOrder && dataOrder.EC === 0) {
+        cloneRouteDetail.forEach((station, index) => {
+          dataOrder.DT.forEach((order) => {
+            if (station.name === order.departure_location) {
+              station.pickup += order.total_capacity;
+            }
+            if (station.name === order.arrival_location) {
+              station.dropoff += order.total_capacity;
+            }
+          });
+          if (index !== 0) {
+            let sumPickup = 0;
+            let sumDropoff = 0;
+            for (let i = 0; i < index + 1; i++) {
+              sumPickup += cloneRouteDetail[i].pickup;
+              sumDropoff += cloneRouteDetail[i].dropoff;
+            }
+            station.totalUnit = sumPickup - sumDropoff;
+          } else station.totalUnit = station.pickup;
+        });
+      }
+
+      // check departure and date to filter order
       let data = await getPendingOrder();
       if (data && data.EC === 0) {
-        let cloneRouteDetail = _.cloneDeep(routeDetail);
-        tripList.forEach((trip) => {
-          if (trip.trip_id === selectedTrip?.value) {
-            cloneRouteDetail.forEach((station) => {
-              let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
-                .add(station.driving_time, "minutes")
-                .format("DD-MM-YYYY");
-              station.estimate_depart = estimate;
-            });
-          }
-        });
-
         let cloneOrder = _.cloneDeep(data.DT);
         let cloneOrder2 = [];
         for (let i = 0; i < cloneRouteDetail.length - 1; i++) {
@@ -408,6 +463,7 @@ const Schedule = () => {
           });
         }
 
+        // format order selection
         let orderOption = [];
         cloneOrder2.forEach((order) => {
           orderOption.push({
@@ -422,48 +478,106 @@ const Schedule = () => {
         setPendingOrderList([]);
         setOrderOption([]);
       }
+      setRouteEstimate(cloneRouteDetail);
+      setAssignOrders([]);
+      setSelectedOrder(null);
+      setDetailSelectedOrder("");
     };
+
     fetchPendingOrder();
   }, [routeDetail, selectedTrip, tripList]);
 
   const fetchPendingOrder = async () => {
+    // initiate route detail of the selected trip
+    let cloneRouteDetail = _.cloneDeep(routeDetail);
+    tripList.forEach((trip) => {
+      if (trip.trip_id === selectedTrip?.value) {
+        cloneRouteDetail.forEach((station) => {
+          let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+            .add(station.driving_time, "minutes")
+            .format("DD-MM-YYYY");
+
+          let estimate_time = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+            .add(station.driving_time, "minutes")
+            .format("DD-MM-YYYY HH:mm:ss");
+
+          station.estimate_depart = estimate;
+          station.estimate_time = estimate_time;
+        });
+      }
+    });
+
+    // calculate current capacity of each station of the trip
+    let dataOrder = await getOrderCapacity(selectedTrip?.value);
+    if (dataOrder && dataOrder.EC === 0) {
+      cloneRouteDetail.forEach((station, index) => {
+        dataOrder.DT.forEach((order) => {
+          if (station.name === order.departure_location) {
+            station.pickup += order.total_capacity;
+          }
+          if (station.name === order.arrival_location) {
+            station.dropoff += order.total_capacity;
+          }
+        });
+        if (index !== 0) {
+          let sumPickup = 0;
+          let sumDropoff = 0;
+          for (let i = 0; i < index + 1; i++) {
+            sumPickup += cloneRouteDetail[i].pickup;
+            sumDropoff += cloneRouteDetail[i].dropoff;
+          }
+          station.totalUnit = sumPickup - sumDropoff;
+        } else station.totalUnit = station.pickup;
+      });
+    }
+
+    // check departure and date to filter order
     let data = await getPendingOrder();
     if (data && data.EC === 0) {
-      let orderOption = [];
+      let cloneOrder = _.cloneDeep(data.DT);
+      let cloneOrder2 = [];
+      for (let i = 0; i < cloneRouteDetail.length - 1; i++) {
+        cloneOrder.forEach((order) => {
+          if (order.departure_location === cloneRouteDetail[i].name) {
+            if (order.anticipate_date === cloneRouteDetail[i].estimate_depart) {
+              let validOrder = assignOrders.every((item) => {
+                if (item.order_id === order.order_id) return false;
+                return true;
+              });
+              if (validOrder) cloneOrder2.push(order);
+            }
+          }
+        });
+      }
 
-      data.DT.forEach((order) => {
+      // format order selection
+      let orderOption = [];
+      cloneOrder2.forEach((order) => {
         orderOption.push({
           value: order.order_id,
           label: `Order ID: ${order.order_id} >>> ${order.departure_location} - ${order.arrival_location} - Anticipate: ${order.anticipate_date}`,
         });
       });
 
-      let cloneRouteDetail = _.cloneDeep(routeDetail);
-      tripList.forEach((trip) => {
-        if (trip.trip_id === selectedTrip?.value) {
-          cloneRouteDetail.forEach((station) => {
-            station.estimate_depart = moment(trip.departure_date).add(
-              station.driving_time,
-              "minutes"
-            );
-          });
-        }
-      });
-      console.log("check", cloneRouteDetail);
       setOrderOption(orderOption);
-      setPendingOrderList(data.DT);
+      setPendingOrderList(cloneOrder2);
     } else {
       setPendingOrderList([]);
       setOrderOption([]);
     }
+    setRouteEstimate(cloneRouteDetail);
+    setSelectedOrder(null);
+    setDetailSelectedOrder("");
   };
 
   const handleChangeOrder = (selectedOrder) => {
     setSelectedOrder(selectedOrder);
-    pendingOrderList.forEach((order) => {
+    pendingOrderList.every((order) => {
       if (order.order_id === selectedOrder?.value) {
         setDetailSelectedOrder(order);
-      }
+        return false;
+      } else setDetailSelectedOrder("");
+      return true;
     });
   };
 
@@ -473,18 +587,119 @@ const Schedule = () => {
       return;
     }
 
-    if (!selectedOrder) {
-      toast.error("Must select an order.");
+    if (assignOrders.length === 0) {
+      toast.error("Must assign at least 1 order.");
       return;
     }
 
-    let data = await putAssignOrder(selectedOrder.value, selectedTrip.value);
+    let data = await putAssignOrder(assignOrders, selectedTrip.value);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      setSelectedOrder(null);
       setSelectedTrip(null);
-      setDetailSelectedOrder("");
+      setRouteEstimate([]);
     } else toast.error(data.EM);
+  };
+
+  const handleTempAdd = async () => {
+    let vehicleID;
+    let vehicleCapacity;
+    tripList.forEach((trip) => {
+      if (trip.trip_id === selectedTrip?.value) {
+        vehicleID = trip.vehicle_id;
+      }
+    });
+    let data = await getVehicle(vehicleID);
+    if (data && data.EC === 0) {
+      vehicleCapacity = data.DT.capacity;
+    }
+
+    let cloneRoute = _.cloneDeep(routeEstimate);
+    let validAssign = cloneRoute.every((station, index) => {
+      if (station.name === detailSelectedOrder.departure_location) {
+        if (
+          station.totalUnit + detailSelectedOrder.total_capacity >
+          vehicleCapacity
+        ) {
+          toast.error(
+            `${station.name} station has reached maximum total capacity.`
+          );
+          return false;
+        }
+        station.pickup += detailSelectedOrder.total_capacity;
+      }
+      if (station.name === detailSelectedOrder.arrival_location) {
+        station.dropoff += detailSelectedOrder.total_capacity;
+      }
+      if (index !== 0) {
+        // let sumPickup = 0;
+        // let sumDropoff = 0;
+        // for (let i = 0; i < index + 1; i++) {
+        //   sumPickup += cloneRoute[i].pickup;
+        //   sumDropoff += cloneRoute[i].dropoff;
+        // }
+        // station.totalUnit = sumPickup - sumDropoff;
+        station.totalUnit =
+          cloneRoute[index - 1].totalUnit + station.pickup - station.dropoff;
+      } else station.totalUnit = station.pickup;
+      return true;
+    });
+    if (!validAssign) return;
+
+    let assignList = [...assignOrders];
+    assignList.push(detailSelectedOrder);
+
+    let newOrderOption = orderOption.filter(
+      (order) => order.value !== detailSelectedOrder.order_id
+    );
+
+    setOrderOption(newOrderOption);
+    setAssignOrders(assignList);
+    setRouteEstimate(cloneRoute);
+    setDetailSelectedOrder("");
+    setSelectedOrder(null);
+  };
+
+  const handleRemoveTemp = (item) => {
+    let cloneRoute = _.cloneDeep(routeEstimate);
+
+    cloneRoute.forEach((station, index) => {
+      if (station.name === item.departure_location) {
+        station.pickup -= item.total_capacity;
+      }
+      if (station.name === item.arrival_location) {
+        station.dropoff -= item.total_capacity;
+      }
+      if (index !== 0) {
+        let sumPickup = 0;
+        let sumDropoff = 0;
+        for (let i = 0; i < index + 1; i++) {
+          sumPickup += cloneRoute[i].pickup;
+          sumDropoff += cloneRoute[i].dropoff;
+        }
+        station.totalUnit = sumPickup - sumDropoff;
+      } else station.totalUnit = station.pickup;
+    });
+
+    let newAssign = assignOrders.filter(
+      (order) => order.order_id !== item.order_id
+    );
+
+    let newOrderOption = [...orderOption];
+    newOrderOption.push({
+      value: item.order_id,
+      label: `Order ID: ${item.order_id} >>> ${item.departure_location} - ${item.arrival_location} - Anticipate: ${item.anticipate_date}`,
+    });
+
+    setRouteEstimate(cloneRoute);
+    setOrderOption(newOrderOption);
+    setAssignOrders(newAssign);
+  };
+
+  const handleChangeRoute = (selectedRoute) => {
+    setSelectedRoute(selectedRoute);
+    setSelectedTrip(null);
+    setSelectedOrder(null);
+    setDetailSelectedOrder("");
   };
 
   return (
@@ -496,12 +711,12 @@ const Schedule = () => {
           <div className="route-list">
             <Select
               defaultValue={selectedRoute}
-              onChange={setSelectedRoute}
+              onChange={handleChangeRoute}
               options={routeList}
             />
             <div className="detail-title">Route detail</div>
             <div className="route-detail">
-              <Table striped hover>
+              <Table striped hover bordered>
                 <thead>
                   <tr>
                     <th>Index</th>
@@ -535,7 +750,7 @@ const Schedule = () => {
 
           <div className="trip-title">Current Trips</div>
           <div className="trip-list">
-            <Table striped hover responsive="sm">
+            <Table striped hover bordered responsive="sm">
               <thead>
                 <tr>
                   <th>Trip ID</th>
@@ -649,7 +864,7 @@ const Schedule = () => {
                 <Modal.Title>Drivers Info</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Table striped hover>
+                <Table striped hover bordered>
                   <thead>
                     <tr>
                       <th>No</th>
@@ -760,17 +975,101 @@ const Schedule = () => {
                           />
                         </Form.Group>
 
-                        <Form.Group as={Col} controlId="progressDes">
-                          <Form.Label>Progress Description</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter description"
-                            value={newProgressDes}
-                            onChange={(e) => handleChangeNewDescription(e)}
-                            isInvalid={invalidNewProgressDes}
-                          />
-                        </Form.Group>
+                        <Col></Col>
                       </Row>
+
+                      <Row className="mb-3">
+                        <Form.Label>Progress Description</Form.Label>
+                        <Col>
+                          <Form.Select
+                            defaultValue=""
+                            aria-label="Default des1"
+                            onChange={(e) => setTemp1(e.target.value)}
+                          >
+                            <option value="" disabled hidden>
+                              Select template...
+                            </option>
+                            <option value="">None</option>
+                            <option value="Begin delivery">
+                              Begin delivery
+                            </option>
+                            <option value="Departing from ">
+                              Departing from
+                            </option>
+                            <option value="Arrived at ">Arrived at</option>
+                          </Form.Select>
+                        </Col>
+
+                        <Col>
+                          <Form.Select
+                            defaultValue=""
+                            aria-label="Default des2"
+                            onChange={(e) => setTemp2(e.target.value)}
+                          >
+                            <option value="" disabled hidden>
+                              Select station...
+                            </option>
+                            <option value="">None</option>
+                            {stationList &&
+                              stationList.length > 0 &&
+                              stationList.map((station) => {
+                                return (
+                                  <option
+                                    value={station.name}
+                                    key={station.station_id}
+                                  >
+                                    {station.name}
+                                  </option>
+                                );
+                              })}
+                          </Form.Select>
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-3">
+                        <Col>
+                          <Form.Select
+                            defaultValue=""
+                            aria-label="Default des3"
+                            onChange={(e) => setTemp3(e.target.value)}
+                          >
+                            <option value="" disabled hidden>
+                              Select template...
+                            </option>
+                            <option value="">None</option>
+                            <option value=" Moving to ">Moving to</option>
+                            <option value=" Delivery completed">
+                              Delivery completed
+                            </option>
+                          </Form.Select>
+                        </Col>
+
+                        <Col>
+                          <Form.Select
+                            defaultValue=""
+                            aria-label="Default des4"
+                            onChange={(e) => setTemp4(e.target.value)}
+                          >
+                            <option value="" disabled hidden>
+                              Select station...
+                            </option>
+                            <option value="">None</option>
+                            {stationList &&
+                              stationList.length > 0 &&
+                              stationList.map((station) => {
+                                return (
+                                  <option
+                                    value={station.name}
+                                    key={station.station_id}
+                                  >
+                                    {station.name}
+                                  </option>
+                                );
+                              })}
+                          </Form.Select>
+                        </Col>
+                      </Row>
+
                       <Button variant="primary" type="submit">
                         Confirm
                       </Button>
@@ -870,31 +1169,21 @@ const Schedule = () => {
                         <tr>
                           <th>Index</th>
                           <th>Station</th>
-                          <th>Maximum Free up capacity unit</th>
+                          <th>Total Capacity</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {routeDetail &&
-                          routeDetail.length > 0 &&
-                          routeDetail.map((station) => {
+                        {manageRouteDetail &&
+                          manageRouteDetail.length > 0 &&
+                          manageRouteDetail.map((station) => {
                             return (
                               <tr key={station.station_id}>
                                 <td>{station.station_index}</td>
                                 <td>{station.name}</td>
-                                <td>
-                                  {station.dropOff ? station.dropOff : "-"}
-                                </td>
+                                <td>{station.totalUnit}</td>
                               </tr>
                             );
                           })}
-                        {routeDetail && routeDetail.length > 0 && (
-                          <tr>
-                            <td colSpan={2} style={{ textAlign: "center" }}>
-                              <b>Sum Free Up</b>
-                            </td>
-                            <td>{sumFreeup}</td>
-                          </tr>
-                        )}
                         <tr>
                           <td colSpan={2} style={{ textAlign: "center" }}>
                             <b>Total Capacity</b>
@@ -905,7 +1194,7 @@ const Schedule = () => {
                     </Table>
                     <div style={{ marginTop: "5%" }}>
                       <i>
-                        Note: <b>Total Capacity - Sum Free Up</b> must not
+                        Note: <b>Total Capacity</b> at each station must not
                         exceed vehicle capacity
                       </i>
                     </div>
@@ -1029,8 +1318,8 @@ const Schedule = () => {
 
         <div className="assign-container">
           <div className="assign-title">Assign Order To Trip</div>
-          <div className="select-container">
-            <div className="select-trip-content">
+          <Row className="mb-5">
+            <Col lg={5}>
               <div className="select-trip-title">Select Trip</div>
               <div className="select-trip">
                 <Select
@@ -1040,8 +1329,9 @@ const Schedule = () => {
                   isClearable={true}
                 />
               </div>
-            </div>
-            <div className="select-order-content">
+            </Col>
+
+            <Col lg={5} style={{ marginLeft: "7%" }}>
               <div className="select-order-title">Select Order</div>
               <div className="select-order">
                 <Select
@@ -1051,43 +1341,150 @@ const Schedule = () => {
                   isClearable={true}
                 />
               </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg={5}>
+              <div className="trip-detail-title">Trip Detail</div>
+              <div>
+                <Table striped hover bordered responsive="md">
+                  <thead>
+                    <tr>
+                      <th>Index</th>
+                      <th>Station</th>
+                      <th>Estimate Arrival</th>
+                      <th>Total Capacity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {routeEstimate &&
+                      routeEstimate.length > 0 &&
+                      routeEstimate[0].estimate_time !== undefined &&
+                      routeEstimate.map((station) => {
+                        return (
+                          <tr key={station.station_id}>
+                            <td>{station.station_index}</td>
+                            <td>{station.name}</td>
+                            <td>{station.estimate_time}</td>
+                            <td>{station.totalUnit}</td>
+                          </tr>
+                        );
+                      })}
+                    {routeEstimate && routeEstimate.length === 0 ? (
+                      <tr>
+                        <td colSpan={4}>Select a trip...</td>
+                      </tr>
+                    ) : routeEstimate[0].estimate_time === undefined ? (
+                      <tr>
+                        <td colSpan={4}>Select a trip...</td>
+                      </tr>
+                    ) : (
+                      <></>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+
+            <Col lg={5} style={{ marginLeft: "7%" }}>
+              <div className="detail-title">Order Detail</div>
+              <div className="order-detail">
+                <Table striped hover bordered responsive="md">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Bird Quantity</th>
+                      <th>Capacity Unit</th>
+                      <th>Total Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {detailSelectedOrder && !_.isEmpty(detailSelectedOrder) ? (
+                      <tr>
+                        <td>{detailSelectedOrder.order_id}</td>
+                        <td>{detailSelectedOrder.bird_quantity}</td>
+                        <td>{detailSelectedOrder.total_capacity}</td>
+                        <td>
+                          {new Intl.NumberFormat().format(
+                            detailSelectedOrder.total_cost
+                          )}{" "}
+                          VND
+                        </td>
+                        <td>
+                          <span
+                            className="add-order-icon"
+                            onClick={handleTempAdd}
+                          >
+                            <MdAddCircle />
+                          </span>
+                        </td>
+                      </tr>
+                    ) : (
+                      <tr>
+                        <td colSpan={6}>Select an order...</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+            </Col>
+          </Row>
+
+          <div className="added-container">
+            <div className="added-list-title">Added Orders</div>
+            <div className="added-list">
+              <Table striped hover bordered responsive="md">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Departure</th>
+                    <th>Destination</th>
+                    <th>Anticipate date</th>
+                    <th>Capacity Unit</th>
+                    <th>Total Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {assignOrders &&
+                    assignOrders.length > 0 &&
+                    assignOrders.map((order) => {
+                      return (
+                        <tr key={order.order_id}>
+                          <td>{order.order_id}</td>
+                          <td>{order.departure_location}</td>
+                          <td>{order.arrival_location}</td>
+                          <td>{order.anticipate_date}</td>
+                          <td>{order.total_capacity}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(order.total_cost)}{" "}
+                            VND
+                          </td>
+                          <td>
+                            <span
+                              className="remove-btn"
+                              onClick={() => handleRemoveTemp(order)}
+                            >
+                              <MdRemoveCircle />
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  {assignOrders && assignOrders.length === 0 && (
+                    <tr>
+                      <td colSpan={6}>Nothing added yet...</td>
+                    </tr>
+                  )}
+                </tbody>
+              </Table>
             </div>
           </div>
-
-          <div className="detail-title">Order Detail</div>
-          <div className="order-detail">
-            <Table striped hover responsive="md">
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Departure</th>
-                  <th>Destination</th>
-                  <th>Ancicipate Date</th>
-                  <th>Bird Quantity</th>
-                  <th>Capacity Unit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {detailSelectedOrder && !_.isEmpty(detailSelectedOrder) ? (
-                  <tr>
-                    <td>{detailSelectedOrder.order_id}</td>
-                    <td>{detailSelectedOrder.departure_location}</td>
-                    <td>{detailSelectedOrder.arrival_location}</td>
-                    <td>{detailSelectedOrder.anticipate_date}</td>
-                    <td>{detailSelectedOrder.bird_quantity}</td>
-                    <td>{detailSelectedOrder.total_capacity}</td>
-                  </tr>
-                ) : (
-                  <tr>
-                    <td colSpan={6}>Select an order...</td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
+          <div className="confirm-container">
+            <Button className="confirm-btn" onClick={handleAssign}>
+              Confirm
+            </Button>
           </div>
-          <Button className="confirm-btn" onClick={handleAssign}>
-            Confirm
-          </Button>
         </div>
       </div>
     </div>

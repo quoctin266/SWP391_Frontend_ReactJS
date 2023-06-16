@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Col } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
+import Modal from "react-bootstrap/Modal";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -10,8 +11,9 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { useState, useRef, useEffect } from "react";
-import { getAllStation } from "../../../service/APIservice";
+import { getAllStation, getEstimateCost } from "../../../service/APIservice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const libraries = ["places"];
 
@@ -29,9 +31,38 @@ const GoogleMapSearch = () => {
   const [duration, setDuration] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [stationList, setStationList] = useState([]);
+  const [show, setShow] = useState(false);
+  const [birdCount, setBirdCount] = useState("");
+  const [invalidBirdCount, setInvalidBirdCount] = useState(false);
+  const [estimateCost, setEstimateCost] = useState("");
 
   const originRef = useRef();
   const destinationRef = useRef();
+
+  const navigate = useNavigate();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleChangeCount = (e) => {
+    setInvalidBirdCount(false);
+    setBirdCount(e.target.value);
+  };
+
+  const handleEstimate = async (e) => {
+    e.preventDefault();
+
+    if (!birdCount) {
+      setInvalidBirdCount(true);
+      toast.error("Must specify number of bird.");
+      return;
+    }
+
+    let data = await getEstimateCost(birdCount, distance);
+    if (data && data.EC === 0) {
+      setEstimateCost(data.DT.totalCost);
+    } else setEstimateCost("");
+  };
 
   const fetchAllStation = async () => {
     let data = await getAllStation();
@@ -177,6 +208,75 @@ const GoogleMapSearch = () => {
               >
                 Clear
               </Button>
+              <div className="mt-3">
+                <Button variant="warning" onClick={handleShow}>
+                  Estimate Price
+                </Button>
+              </div>
+
+              <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Estimate Price</Modal.Title>
+                </Modal.Header>
+                <Form onSubmit={(e) => handleEstimate(e)}>
+                  <Modal.Body>
+                    <Row className="mb-3">
+                      <Form.Label style={{ marginBottom: "3%" }}>
+                        How many birds are you looking to relocate?
+                      </Form.Label>
+                      <Col>
+                        <Form.Control
+                          type="number"
+                          min="1"
+                          value={birdCount}
+                          isInvalid={invalidBirdCount}
+                          onChange={(e) => handleChangeCount(e)}
+                        />
+                      </Col>
+
+                      <Col></Col>
+                    </Row>
+                    {estimateCost && (
+                      <Col>
+                        <Form.Label style={{ marginBottom: "3%" }}>
+                          Your estimate cost:
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          aria-label="Disabled estimate example"
+                          disabled
+                          value={`${new Intl.NumberFormat().format(
+                            estimateCost
+                          )} VND`}
+                        />
+                        <div className="note-estimate">
+                          Note that this is just the base minimum cost. To get
+                          more pricing detail,{" "}
+                          <span
+                            onClick={() => navigate("/price")}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <b>click here</b>
+                          </span>
+                        </div>
+                      </Col>
+                    )}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Close
+                    </Button>
+                    <Button variant="primary" type="submit">
+                      Estimate
+                    </Button>
+                  </Modal.Footer>
+                </Form>
+              </Modal>
             </Form>
           </div>
         </div>
