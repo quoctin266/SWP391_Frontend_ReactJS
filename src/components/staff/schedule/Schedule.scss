@@ -12,8 +12,8 @@
         font-size       : 2.5em;
         font-weight     : 600;
         margin-bottom   : 2%;
-        background-color: #426e2b;
-        color           : #fff;
+        background-color: #26a178;
+        color           : white;
         border-radius   : 45px;
         padding         : 1%;
         width           : 39%;
@@ -27,7 +27,7 @@
         padding-bottom: 8%;
 
         .route-and-trip {
-            background-color: #a4a8a0;
+            background-color: #ffffff;
             border-radius   : 15px;
             padding         : 2%;
 
@@ -36,11 +36,11 @@
                 font-size       : 1.7em;
                 font-weight     : 600;
                 margin-bottom   : 2%;
-                background-color: #515e4a;
+                background-color: #1c1a12;
                 color           : white;
                 padding         : 1%;
                 border-radius   : 15px;
-                width           : 20%;
+                width           : 28%;
                 min-width       : 215px;
                 text-align      : center;
             }
@@ -83,7 +83,7 @@
         }
 
         .assign-container {
-            background-color: #a4a8a0;
+            background-color: #ffffff;
             border-radius   : 15px;
             padding         : 2%;
             margin-top      : 3%;
@@ -93,7 +93,7 @@
                 font-size       : 1.7em;
                 font-weight     : 600;
                 margin-bottom   : 2%;
-                background-color: #515e4a;
+                background-color: #1c1a12;
                 color           : white;
                 padding         : 1%;
                 border-radius   : 15px;
@@ -103,71 +103,104 @@
 
             }
 
-            .select-container {
-                display      : flex;
-                gap          : 30px;
-                margin-bottom: 5%;
-                align-items  : flex-end;
 
-                .select-trip-content {
-                    width: 40%;
 
-                    .select-trip-title {
-                        font-size  : 1.3em;
-                        font-weight: 600;
-                        margin-top : 2%;
-                    }
+            .select-trip-title {
+                font-size  : 1.3em;
+                font-weight: 600;
+                margin-top : 2%;
+            }
 
-                    .select-trip {
-                        margin-top: 1%;
-                        min-width : 300px;
+            .select-trip {
+                margin-top: 3%;
+                min-width : 300px;
 
-                        .css-13cymwt-control {
-                            border-radius: 20px;
-                        }
-                    }
+                .css-13cymwt-control {
+                    border-radius: 20px;
+                }
+            }
+
+            .trip-detail-title {
+                font-size  : 1.3em;
+                font-weight: 600;
+                margin     : 3% 0;
+            }
+
+            .select-order-title {
+                font-size  : 1.3em;
+                font-weight: 600;
+                margin-top : 2%;
+            }
+
+            .select-order {
+                margin-top: 3%;
+                min-width : 300px;
+
+                .css-13cymwt-control {
+                    border-radius: 20px;
                 }
 
-                .select-order-content {
-                    width: 40%;
-
-                    .select-order-title {
-                        font-size  : 1.3em;
-                        font-weight: 600;
-                        margin-top : 2%;
-                    }
-
-                    .select-order {
-                        margin-top: 1%;
-                        min-width : 300px;
-
-                        .css-13cymwt-control {
-                            border-radius: 20px;
-                        }
-
-                    }
-                }
             }
 
             .detail-title {
                 font-size  : 1.3em;
                 font-weight: 600;
-                margin     : 1% 0;
+                margin     : 3% 0;
             }
 
             .order-detail {
                 .table {
                     background-color: white;
+                    text-align      : center;
+
+                    .add-order-icon {
+                        cursor     : pointer;
+                        color      : rgb(66, 194, 66);
+                        font-size  : 1.3em;
+                        line-height: 23px;
+
+                        &:hover {
+                            color: rgb(51, 158, 51);
+                        }
+                    }
                 }
             }
 
-            .confirm-btn {
-                margin-top      : 4%;
-                background-color: #33CCFF;
-                border          : 1px solid #13c2fc;
+            .added-container {
+                width : 80%;
+                margin: 0 auto;
 
-                &:hover {
-                    background-color: #0ca4d6;
+                .added-list-title {
+                    font-size    : 1.3em;
+                    font-weight  : 600;
+                    margin-top   : 5%;
+                    margin-bottom: 2%;
+                    text-align   : center;
+                }
+
+                .added-list {
+                    .table {
+                        text-align: center;
+                    }
+
+                    .remove-btn {
+                        cursor     : pointer;
+                        color      : rgb(255, 0, 0);
+                        font-size  : 1.3em;
+                        line-height: 23px;
+
+                        &:hover {
+                            color: rgb(180, 6, 6);
+                        }
+                    }
+                }
+            }
+
+            .confirm-container {
+                text-align: right;
+
+                .confirm-btn {
+                    margin-top: 4%;
                 }
             }
         }

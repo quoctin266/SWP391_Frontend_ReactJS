@@ -213,9 +213,9 @@ const getPendingOrder = async () => {
   return await axios.get(`api/v1/pending-order`);
 };
 
-const putAssignOrder = async (orderID, tripID) => {
+const putAssignOrder = async (orderList, tripID) => {
   return await axios.put("api/v1/assign-order", {
-    orderID: orderID,
+    orderList: orderList,
     tripID: tripID,
   });
 };
@@ -257,6 +257,13 @@ const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
     driverInfo: driverInfo,
     depart: depart,
     vehicleID: vehicleID,
+  });
+};
+
+const getEstimateCost = async (birdCount, distance) => {
+  return await axios.post("api/v1/estimate-cost", {
+    birdCount: birdCount,
+    distance: distance,
   });
 };
 
@@ -306,4 +313,5 @@ export {
   getAllVehicle,
   getAllDriver,
   postCreateTrip,
+  getEstimateCost,
 };
