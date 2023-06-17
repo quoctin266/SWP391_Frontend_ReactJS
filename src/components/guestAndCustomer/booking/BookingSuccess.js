@@ -37,7 +37,7 @@ const BookingSuccess = () => {
               {location?.state?.orderRes?.estimate}
             </div>
           </div>
-          <div className="pic">
+          <div className="pic" style={{width:"20%", display:"grid"}}>
             <img src={cargo} alt="cargo icon" className="cargo" />
           </div>
         </div>

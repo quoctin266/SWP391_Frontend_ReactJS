@@ -29,6 +29,7 @@
         .booking-success-info {
             margin-top      : 2%;
             display         : flex;
+            align-items     : center;
             background-color: #CBECBC;
             border-radius   : 105px;
             width           : 95%;
@@ -87,10 +88,11 @@
             }
 
             .cargo {
-                width      : 100px;
-                height     : 100px;
-                margin-top : 50px;
-                margin-left: 150px;
+                width       : 100px;
+                height      : 100px;
+                display     : flex;
+                justify-self: center;
+                align-self  : center;
             }
         }
 
