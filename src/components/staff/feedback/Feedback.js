@@ -1,4 +1,3 @@
-import { feedback } from "./FeedbackMap";
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,8 +7,25 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./Feedback.scss";
+import { getAllFeedback } from "../../../service/APIservice";
+import { useState } from "react";
+import { useEffect } from "react";
+import ProfilePic from "../../../assets/image/User_Icon.jpg";
 
 const Feedback = () => {
+  const [feedbackList, setFeedbackList] = useState([]);
+
+  const fetchAllFeedback = async () => {
+    let data = await getAllFeedback();
+    if (data && data.EC === 0) {
+      setFeedbackList(data.DT);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllFeedback();
+  }, []);
+
   return (
     <div className="feedback-container">
       <div className="feedback-title">Feedback</div>
@@ -28,20 +44,32 @@ const Feedback = () => {
                   align="center"
                   sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                 >
-                  Name&nbsp;
+                  Username&nbsp;
                 </TableCell>
                 <TableCell
                   align="center"
                   sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                 >
-                  Feedback&nbsp;
+                  Created Time&nbsp;
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                >
+                  Title&nbsp;
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                >
+                  Description&nbsp;
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {feedback.map((row) => (
+              {feedbackList.map((row) => (
                 <TableRow
-                  key={row.name}
+                  key={row.feedback_id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
@@ -52,7 +80,11 @@ const Feedback = () => {
                     sx={{ border: "0" }}
                     className="IconCell"
                   >
-                    <img className="Icon" src={row.img} alt="avatar" />
+                    <img
+                      className="Icon"
+                      src={row.avatar ? row.avatar : ProfilePic}
+                      alt="avatar"
+                    />
                   </TableCell>
                   <TableCell
                     align="center"
@@ -60,7 +92,23 @@ const Feedback = () => {
                     className="Name"
                     sx={{ border: "0", fontWeight: "bolder" }}
                   >
-                    {row.name}
+                    {row.username}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={3}
+                    className="time"
+                    sx={{ border: "0", fontWeight: "bolder" }}
+                  >
+                    {row.created_time}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    width={3}
+                    className="title"
+                    sx={{ border: "0", fontWeight: "bolder" }}
+                  >
+                    {row.title}
                   </TableCell>
                   <TableCell
                     align="left"
@@ -68,7 +116,7 @@ const Feedback = () => {
                     className="Feedback"
                     sx={{ border: "0", fontWeight: "bolder" }}
                   >
-                    {row.feedback}
+                    {row.description}
                   </TableCell>
                 </TableRow>
               ))}

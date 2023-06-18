@@ -3,23 +3,23 @@
     padding       : 2rem;
     display       : flex;
     flex-direction: column;
-    
+
     .feedback-title {
-        font-size: 2em;
-        font-weight: 600;
-        margin-bottom: 2%;
+        font-size       : 2em;
+        font-weight     : 600;
+        margin-bottom   : 2%;
         background-color: #426e2b;
-        color: #fff;
-        border-radius: 45px;
-        padding: 1%;
-        width: 39%;
-        min-width: 400px;
-        text-align: center;
+        color           : #fff;
+        border-radius   : 45px;
+        padding         : 1%;
+        width           : 39%;
+        min-width       : 400px;
+        text-align      : center;
     }
 
 
     .Box {
-        width: 80%;
+        width: 90%;
 
         .IconCell {
             width: 10%;
@@ -32,6 +32,14 @@
 
         .Name {
             width: 10%;
+        }
+
+        .title {
+            width: 15%;
+        }
+
+        .time {
+            width: 20%;
         }
     }
 

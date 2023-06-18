@@ -64,7 +64,13 @@ const ManageTrip = () => {
     setDepart("");
     setInvalidDepart(false);
   };
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    if (!selectedRoute?.value) {
+      toast.error("Must select a route first.");
+      return;
+    }
+    setShow(true);
+  };
 
   const handleCloseDrivers = () => setShowDrivers(false);
   const handleShowDrivers = async (tripID) => {
@@ -120,7 +126,7 @@ const ManageTrip = () => {
 
   useEffect(() => {
     const fetchRouteDetail = async () => {
-      let data = await getRouteDetail(selectedRoute.value);
+      let data = await getRouteDetail(selectedRoute?.value);
       if (data && data.EC === 0) {
         let sortedArr = data.DT.toSorted(
           (a, b) => a.station_index - b.station_index
@@ -131,11 +137,11 @@ const ManageTrip = () => {
           item.distance = +item.distance.toFixed(1);
         });
         setRouteDetail(sortedArr);
-      }
+      } else setRouteDetail([]);
     };
 
     const fetchTripsList = async () => {
-      let data = await getTripList(selectedRoute.value);
+      let data = await getTripList(selectedRoute?.value);
       if (data && data.EC === 0) {
         let tripOption = data.DT.filter((trip) => trip.status === "Standby");
 
@@ -229,7 +235,7 @@ const ManageTrip = () => {
     ];
 
     let data = await postCreateTrip(
-      selectedRoute.value,
+      selectedRoute?.value,
       driverInfo,
       depart,
       assignVehicle.vehicle_id
@@ -237,7 +243,7 @@ const ManageTrip = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       handleClose();
-      let dataNew = await getTripList(selectedRoute.value);
+      let dataNew = await getTripList(selectedRoute?.value);
       if (dataNew && dataNew.EC === 0) {
         let tripOption = dataNew.DT.filter((trip) => trip.status === "Standby");
 
@@ -253,9 +259,10 @@ const ManageTrip = () => {
       <div className="route-title">Select Route</div>
       <div className="route-list">
         <Select
-          defaultValue={selectedRoute}
+          value={selectedRoute}
           onChange={setSelectedRoute}
           options={routeList}
+          isClearable={true}
         />
         <div className="detail-title">Route detail</div>
         <div className="route-detail">

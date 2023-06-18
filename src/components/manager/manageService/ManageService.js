@@ -5,26 +5,141 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import { useState } from "react";
-import { FcCheckmark } from "react-icons/fc";
+import { toast } from "react-toastify";
+import {
+  postCreatePayment,
+  getAllPayment,
+  putUpdatePayment,
+  deletePayment,
+} from "../../../service/APIservice";
+import { useEffect } from "react";
+import ManagePrice from "./ManagePrice";
+import ManagePackage from "./ManagePackage";
 
 const ManageService = () => {
   const [showPayment, setShowPayment] = useState(false);
-  const [showPrice, setShowPrice] = useState(false);
-  const [showPackage, setShowPackage] = useState(false);
+  const [paymentType, setPaymentType] = useState("");
+  const [paymentName, setPaymentName] = useState("");
+  const [invalidType, setInvalidType] = useState(false);
+  const [invalidName, setInvalidName] = useState(false);
+  const [paymentList, setPaymentList] = useState([]);
+  const [showEditPayment, setShowEditPayment] = useState(false);
+  const [EditPaymentType, setEditPaymentType] = useState("");
+  const [EditPaymentName, setEditPayementName] = useState("");
+  const [InvalidEditPaymentName, setInvalidEditPaymentName] = useState(false);
+  const [editPayment, setEditPayment] = useState("");
+  const [showDeletePayment, setShowDeletePayment] = useState(false);
+  const [deletePaymentItem, setDeletePaymentItem] = useState("");
 
-  const handleClosePayment = () => setShowPayment(false);
+  const handleCloseDeletePayment = () => {
+    setShowDeletePayment(false);
+  };
+  const handleShowDeletePayment = (item) => {
+    setDeletePaymentItem(item);
+    setShowDeletePayment(true);
+  };
+  const handleClosePayment = () => {
+    setShowPayment(false);
+    setInvalidType(false);
+    setInvalidName(false);
+    setPaymentName("");
+    setPaymentType("");
+  };
   const handleShowPayment = () => setShowPayment(true);
+  const handleCloseEditPayment = () => {
+    setInvalidEditPaymentName(false);
+    setShowEditPayment(false);
+  };
+  const handleShowEditPayment = (item) => {
+    setEditPaymentType(item.payment_type);
+    setEditPayementName(item.method_name);
+    setEditPayment(item);
+    setShowEditPayment(true);
+  };
 
-  const handleClosePrice = () => setShowPrice(false);
-  const handleShowPrice = () => setShowPrice(true);
+  const handleChangeType = (value) => {
+    setInvalidType(false);
+    setPaymentType(value);
+  };
 
-  const handleClosePackage = () => setShowPackage(false);
-  const handleShowPackage = () => setShowPackage(true);
+  const handleChangeName = (value) => {
+    setInvalidName(false);
+    setPaymentName(value);
+  };
+
+  const handleCreatePayment = async (e) => {
+    e.preventDefault();
+
+    if (!paymentType) {
+      toast.error("Must choose payment type.");
+      setInvalidType(true);
+      return;
+    }
+
+    if (!paymentName) {
+      toast.error("Please fill in payment method name.");
+      setInvalidName(true);
+      return;
+    }
+
+    let data = await postCreatePayment(paymentType, paymentName);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      handleClosePayment();
+      fetchAllPayment();
+    } else toast.error(data.EM);
+  };
+
+  const handleChangeEditPaymentName = (value) => {
+    setInvalidEditPaymentName(false);
+    setEditPayementName(value);
+  };
+
+  const handleEditPayment = async (e) => {
+    e.preventDefault();
+
+    if (!EditPaymentName) {
+      toast.error("Please fill in payment method name.");
+      setInvalidEditPaymentName(true);
+      return;
+    }
+
+    let data = await putUpdatePayment(
+      editPayment.id,
+      EditPaymentName,
+      EditPaymentType
+    );
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      handleCloseEditPayment();
+      fetchAllPayment();
+    } else toast.error(data.EM);
+  };
+
+  const handleDeletePayment = async () => {
+    let data = await deletePayment(deletePaymentItem.id);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      fetchAllPayment();
+      handleCloseDeletePayment();
+    } else toast.error(data.EM);
+  };
+
+  const fetchAllPayment = async () => {
+    let data = await getAllPayment();
+    if (data && data.EC === 0) {
+      setPaymentList(data.DT);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllPayment();
+  }, []);
+
   return (
     <div className="manage-service-container">
-      <div className="title">Manage Service</div>
+      <div className="title">Manage Price & Payment</div>
       <div className="service-body">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           <Accordion.Item eventKey="0" className="manage-payment">
@@ -46,419 +161,188 @@ const ManageService = () => {
                 <Modal.Header closeButton>
                   <Modal.Title>Add New Payment Method</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                  <Form>
+                <Form onSubmit={handleCreatePayment}>
+                  <Modal.Body>
+                    <Form.Group className="mb-3" controlId="formBasicType">
+                      <Form.Label>Payment Type</Form.Label>
+                      <Form.Select
+                        aria-label="payment type select"
+                        defaultValue=""
+                        isInvalid={invalidType}
+                        onChange={(e) => handleChangeType(e.target.value)}
+                      >
+                        <option value="" disabled hidden>
+                          Select payment type
+                        </option>
+                        <option value="COD">COD</option>
+                        <option value="Online">Online</option>
+                      </Form.Select>
+                    </Form.Group>
+
                     <Form.Group className="mb-3" controlId="formBasicName">
                       <Form.Label>Payment method name</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder="Enter payment method name"
+                        value={paymentName}
+                        isInvalid={invalidName}
+                        disabled={!paymentType || paymentType === "COD"}
+                        onChange={(e) => handleChangeName(e.target.value)}
                       />
                     </Form.Group>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClosePayment}>
+                      Close
+                    </Button>
+                    <Button variant="primary" type="submit">
+                      Confirm
+                    </Button>
+                  </Modal.Footer>
+                </Form>
+              </Modal>
 
-                    <Form.Group className="mb-3" controlId="formBasicType">
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Payment type</th>
+                    <th>Payment method</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {paymentList &&
+                    paymentList.length > 0 &&
+                    paymentList.map((item, index) => {
+                      return (
+                        <tr key={item.id}>
+                          <td>{index + 1}</td>
+                          <td>{item.payment_type}</td>
+                          <td>
+                            {item.method_name
+                              ? item.method_name
+                              : item.payment_type}
+                          </td>
+                          <td>
+                            <Button
+                              variant="warning"
+                              onClick={() => handleShowEditPayment(item)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="danger"
+                              className="mx-2"
+                              onClick={() => handleShowDeletePayment(item)}
+                            >
+                              Delete
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </Table>
+
+              <Modal
+                show={showEditPayment}
+                onHide={handleCloseEditPayment}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit payment info</Modal.Title>
+                </Modal.Header>
+                <Form onSubmit={handleEditPayment}>
+                  <Modal.Body>
+                    <Col className="mb-3">
                       <Form.Label>Payment Type</Form.Label>
-                      <Form.Select aria-label="payment type select">
+                      <Form.Select
+                        aria-label="payment type select"
+                        defaultValue={EditPaymentType}
+                        onChange={(e) => setEditPaymentType(e.target.value)}
+                      >
                         <option value="COD">COD</option>
                         <option value="Online">Online</option>
                       </Form.Select>
-                    </Form.Group>
-                  </Form>
+                    </Col>
+
+                    <Col className="mb-3">
+                      <Form.Label>Payment method name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter payment method name"
+                        value={EditPaymentName}
+                        isInvalid={InvalidEditPaymentName}
+                        disabled={EditPaymentType === "COD"}
+                        onChange={(e) =>
+                          handleChangeEditPaymentName(e.target.value)
+                        }
+                      />
+                    </Col>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={handleCloseEditPayment}
+                    >
+                      Close
+                    </Button>
+                    <Button variant="primary" type="submit">
+                      Confirm
+                    </Button>
+                  </Modal.Footer>
+                </Form>
+              </Modal>
+
+              <Modal
+                show={showDeletePayment}
+                onHide={handleCloseDeletePayment}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>Confirm Delete</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  Are you sure to delete this item?
+                  <br />
+                  Payment type: <b>{deletePaymentItem.payment_type}</b>
+                  <br />
+                  Name:{" "}
+                  <b>
+                    {deletePaymentItem.method_name
+                      ? deletePaymentItem.method_name
+                      : deletePaymentItem.payment_type}
+                  </b>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClosePayment}>
+                  <Button
+                    variant="secondary"
+                    onClick={handleCloseDeletePayment}
+                  >
                     Close
                   </Button>
-                  <Button variant="primary" onClick={handleClosePayment}>
+                  <Button variant="primary" onClick={handleDeletePayment}>
                     Confirm
                   </Button>
                 </Modal.Footer>
               </Modal>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Payment method</th>
-                    <th>Payment type</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Cash</td>
-                    <td>COD</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>MOMO</td>
-                    <td>COD</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Paypal</td>
-                    <td>Online</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Visa</td>
-                    <td>Online</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>MOMO</td>
-                    <td>Online</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
             </Accordion.Body>
           </Accordion.Item>
+
           <Accordion.Item eventKey="1" className="manage-price">
             <Accordion.Header>Manage Price</Accordion.Header>
             <Accordion.Body>
-              <Button
-                variant="primary"
-                onClick={handleShowPrice}
-                className="add-btn"
-              >
-                Add new
-              </Button>
-
-              <Modal
-                show={showPrice}
-                onHide={handleClosePrice}
-                backdrop="static"
-                size="lg"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Add New Price</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Row>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicMin"
-                        as={Col}
-                      >
-                        <Form.Label>Min Distance</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Enter min distance in Kilometer"
-                          min="0"
-                        />
-                      </Form.Group>
-
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicMax"
-                        as={Col}
-                      >
-                        <Form.Label>Max Distance</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Enter max distance in Kilometer"
-                          min="0"
-                        />
-                      </Form.Group>
-                    </Row>
-
-                    <Form.Group className="mb-3" controlId="formBasicCost">
-                      <Form.Label>Initial Cost</Form.Label>
-                      <Form.Control
-                        type="number"
-                        placeholder="Enter cost in VND"
-                        min="0"
-                      />
-                    </Form.Group>
-                    <Form.Group
-                      className="mb-3"
-                      controlId="formBasicAdditionalCost"
-                    >
-                      <Form.Label>Additional Bird Cost</Form.Label>
-                      <Form.Control
-                        type="number"
-                        placeholder="Enter cost in VND"
-                        min="0"
-                      />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClosePrice}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleClosePrice}>
-                    Confirm
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Distance</th>
-                    <th>Initial Cost</th>
-                    <th>Each Additional Bird Cost</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td> 0 - 100 Km</td>
-                    <td>100,000 VND</td>
-                    <td>100,000 VND</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td> 100 - 200 Km</td>
-                    <td>200,000 VND</td>
-                    <td>100,000 VND</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td> 200 - 300 Km</td>
-                    <td>300,000 VND</td>
-                    <td>100,000 VND</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td> 300 - 400 Km</td>
-                    <td>400,000 VND</td>
-                    <td>100,000 VND</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td> From 400 Km</td>
-                    <td>500,000 VND</td>
-                    <td>100,000 VND</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+              <ManagePrice />
             </Accordion.Body>
           </Accordion.Item>
+
           <Accordion.Item eventKey="2" className="manage-package">
             <Accordion.Header>Manage Package</Accordion.Header>
             <Accordion.Body>
-              <Button
-                variant="primary"
-                onClick={handleShowPackage}
-                className="add-btn"
-              >
-                Add new
-              </Button>
-
-              <Modal
-                show={showPackage}
-                onHide={handleClosePackage}
-                backdrop="static"
-                size="lg"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Add New Package</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Row>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPackage"
-                        as={Col}
-                      >
-                        <Form.Label>Package name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter package name"
-                        />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicFood"
-                        as={Col}
-                      >
-                        <Form.Label>Food type</Form.Label>
-                        <Form.Select aria-label="food type select">
-                          <option value="Regular">Regular</option>
-                          <option value="Premium">Premium</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Row>
-
-                    <Row>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicHealthcare"
-                        as={Col}
-                      >
-                        <Form.Label>Healthcare</Form.Label>
-                        <Form.Select aria-label="healthcare select">
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
-                        </Form.Select>
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPickup"
-                        as={Col}
-                      >
-                        <Form.Label>Home pick up/deliver</Form.Label>
-                        <Form.Select aria-label="pick up select">
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Row>
-
-                    <Row>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPrice"
-                        as={Col}
-                      >
-                        <Form.Label>Price</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Enter cost in VND"
-                          min="0"
-                        />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicEmpty"
-                        as={Col}
-                      ></Form.Group>
-                    </Row>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClosePackage}>
-                    Close
-                  </Button>
-                  <Button variant="primary" onClick={handleClosePackage}>
-                    Confirm
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Package</th>
-                    <th>Food type</th>
-                    <th>Healthcare</th>
-                    <th>Home pick up/deliver</th>
-                    <th>Price</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Standard</td>
-                    <td>Regular</td>
-                    <td></td>
-                    <td></td>
-                    <td>99,000</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>VIP</td>
-                    <td>Premium</td>
-                    <td>
-                      <FcCheckmark />
-                    </td>
-                    <td></td>
-                    <td>199,000</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Luxury</td>
-                    <td>Premium</td>
-                    <td>
-                      <FcCheckmark />
-                    </td>
-                    <td>
-                      <FcCheckmark />
-                    </td>
-                    <td>269,000</td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+              <ManagePackage />
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

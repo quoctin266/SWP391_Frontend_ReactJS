@@ -417,7 +417,7 @@ const Booking = () => {
   return (
     <Container className="booking-outer">
       <div className="booking-container">
-        <div className="title">BIRD TRAVEL</div>
+        <div className="title">BIRD TRAVEL FORM</div>
         <div className="booking-body">
           <div className="bird-customer-body">
             <div className="customer-info">
@@ -469,22 +469,23 @@ const Booking = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="formGridAddress">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={customer.address ? customer.address : ""}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridPhone">
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control
                       type="text"
                       disabled
                       value={customer.phone_number ? customer.phone_number : ""}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                  <Form.Group as={Col} controlId="formGridAddress">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      disabled
+                      value={customer.address ? customer.address : ""}
                     />
                   </Form.Group>
 
