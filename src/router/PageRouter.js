@@ -30,7 +30,8 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "../components/private-route/PrivateRoute";
 import LimitedAccess from "../components/private-route/LimitedAccess";
 import NotFound from "../components/private-route/NotFound";
-
+import Visa from "../components/guestAndCustomer/payment/Visa";
+import Momo from "../components/guestAndCustomer/payment/Momo";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -97,6 +98,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  // {
+  //   path: "/payment",
+  //   element:<Momo />,
+  // },
+  {
+    path: "/payment",
+    element:<Visa />,
   },
   {
     path: "/login",
