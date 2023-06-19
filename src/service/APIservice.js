@@ -382,6 +382,13 @@ const deleteVehicle = async (id) => {
   return await axios.delete(`api/v1/delete-vehicle/${id}`);
 };
 
+const postCreateStation = async (name, address) => {
+  return await axios.post("api/v1/create-station", {
+    name: name,
+    address: address,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -444,4 +451,5 @@ export {
   postCreateVehicle,
   putUpdateVehicle,
   deleteVehicle,
+  postCreateStation,
 };

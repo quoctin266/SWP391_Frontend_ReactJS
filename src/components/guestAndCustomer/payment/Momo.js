@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import QRCode from 'qrcode.react';
-import './Momo.scss';
-import { Card } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import QRCode from "qrcode.react";
+import "./Momo.scss";
+import { Card } from "@mui/material";
 import momo from "../../../assets/image/momo.png";
 import QR from "../../../assets/image/QR.jpg";
+
 const Momo = () => {
   const [showQRCode, setShowQRCode] = useState(false);
   const [expirationTime, setExpirationTime] = useState(300); // 5 minutes in seconds
@@ -38,10 +39,10 @@ const Momo = () => {
   }, []);
 
   return (
-    <div className='momo-container'>
-      <Card className='card-title-1'>
-        <div className='wallet-title'>
-          <img className='momo-pic' src={momo} alt='' />
+    <div className="momo-container">
+      <Card className="card-title-1">
+        <div className="wallet-title">
+          <img className="momo-pic" src={momo} alt="" />
           <h4>Pay with momo wallet</h4>
         </div>
 
@@ -53,18 +54,22 @@ const Momo = () => {
           )}
         </div>
       </Card>
-      <Card className='card-title-2'>
-        <p className='method'>Change another method</p>
+      <Card className="card-title-2">
+        <p className="method">Change another method</p>
         <div className="title">
           <h3>Scan QR code for payment</h3>
           <p>1. Open the MoMo app on your phone</p>
-          <p>2. On momo select QR code icon <img className='QR-pic' src={QR} alt=''/> </p>
+          <p>
+            2. On momo select QR code icon{" "}
+            <img className="QR-pic" src={QR} alt="" />{" "}
+          </p>
           <p>3. Scan the code and pay</p>
-          <div className="expiration-time">The transaction ends in {expirationTime} seconds</div>
+          <div className="expiration-time">
+            The transaction ends in {expirationTime} seconds
+          </div>
         </div>
       </Card>
     </div>
-
   );
 };
 
