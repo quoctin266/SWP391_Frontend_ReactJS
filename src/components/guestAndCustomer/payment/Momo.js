@@ -67,9 +67,6 @@ const Momo = () => {
         </div>
       </Card>
       <Card className="card-title-2">
-        <a href="" className="method">
-          Change another method
-        </a>
         <div className="title">
           <h3>Scan QR code for payment</h3>
           <p>1. Open the MoMo app on your phone</p>
