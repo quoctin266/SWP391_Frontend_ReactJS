@@ -405,6 +405,12 @@ const getCustomerOrder = async (accountID) => {
   return await axios.get(`api/v1/order-by-customer/${accountID}`);
 };
 
+const putCancelOrder = async (orderID) => {
+  return await axios.put("api/v1/cancel-order", {
+    orderID: orderID,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -471,4 +477,5 @@ export {
   putUpdateStation,
   deleteStation,
   getCustomerOrder,
+  putCancelOrder,
 };
