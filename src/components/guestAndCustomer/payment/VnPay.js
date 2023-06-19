@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./VnPay.scss";
 import vnpay from "../../../assets/image/vnpay.jpg";
 import bank from "../../../assets/image/bank.jpg";
-import { Card } from "@mui/material";
-import { Container } from "react-bootstrap";
 import QRCode from "qrcode.react";
 
 const VnPay = () => {
@@ -27,7 +25,7 @@ const VnPay = () => {
   useEffect(() => {
     if (expirationTime === 0) {
       setQRCodeData("");
-      setExpirationTime(300); // Reset expiration time to 5 minutes
+      setExpirationTime(30); // Reset expiration time to 5 minutes
     }
   }, [expirationTime]);
 
@@ -48,11 +46,7 @@ const VnPay = () => {
               <img className="vnpayicon" src={vnpay} alt="" /> Pay with VnPay QR
             </p>
           </div>
-          <div className="item4">
-            <a className="link" href="">
-              Choose Other Payment
-            </a>
-          </div>
+          <div className="item4"></div>
         </div>
         <div className="divider"></div>
         <div className="row2">
@@ -68,7 +62,6 @@ const VnPay = () => {
             <div>1. Open the VnPay app on your phone</div>
             <div>2. On VnPay select QR code icon</div>
             <div>3. Scan the code and pay</div>
-
           </div>
         </div>
         <div className="divider"></div>

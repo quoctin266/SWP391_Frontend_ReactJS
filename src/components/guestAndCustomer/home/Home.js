@@ -6,6 +6,7 @@ import {
   getAllNews,
   getAllServicesIntro,
   getAllShippingCondition,
+  postCreateFeedback,
 } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import moment from "moment";
@@ -20,15 +21,35 @@ import Mirror from "../../../assets/image/BirdvsMirror.png";
 import { useSelector } from "react-redux";
 import Banner from "../banner/Banner";
 import { HomeBanner } from "../banner/HomeBanner";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const role = useSelector((state) => state.auth.role);
+  const account_id = useSelector((state) => state.auth.account_id);
 
   const [listNews, setListNews] = useState([]);
   const [listServicesIntro, setListServicesIntro] = useState([]);
   const [listCondition, setListCondition] = useState([]);
+  const [show, setShow] = useState(false);
+  const [feedbackTitle, setFeedbackTitle] = useState("");
+  const [feedbackDes, setFeedbackDes] = useState("");
+
+  const [invalidTitle, setInvalidTitle] = useState(false);
+  const [invalidDes, setInvalidDes] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+    setFeedbackTitle("");
+    setFeedbackDes("");
+    setInvalidTitle(false);
+    setInvalidDes(false);
+  };
+
+  const handleShow = () => setShow(true);
 
   const fetchAllNews = async () => {
     let data = await getAllNews();
@@ -56,6 +77,45 @@ const Home = () => {
     fetchAllServicesIntro();
     fetchAllShippingCondition();
   }, []);
+
+  const handleChangeTitle = (value) => {
+    setFeedbackTitle(value);
+    setInvalidTitle(false);
+  };
+
+  const handleChangeDes = (value) => {
+    setFeedbackDes(value);
+    setInvalidDes(false);
+  };
+
+  const handleCreateFeedback = async (e) => {
+    e.preventDefault();
+
+    if (!feedbackTitle) {
+      setInvalidTitle(true);
+      toast.error("Please fill in feedback title.");
+      return;
+    }
+
+    if (!feedbackDes) {
+      setInvalidDes(true);
+      toast.error("Please fill in feedback description.");
+      return;
+    }
+
+    let createTime = moment().format("YYYY-MM-DD HH:mm:ss").toString();
+    let data = await postCreateFeedback(
+      account_id,
+      feedbackTitle,
+      feedbackDes,
+      createTime
+    );
+
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      handleClose();
+    } else toast.error(data.EM);
+  };
 
   return (
     <div className="home-container">
@@ -260,6 +320,56 @@ const Home = () => {
             </Scrollbars>
           </div>
         </div>
+
+        {isAuthenticated && role === "customer" && (
+          <Button variant="warning" onClick={handleShow}>
+            Leave feedback
+          </Button>
+        )}
+
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Feedback</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleCreateFeedback}>
+            <Modal.Body>
+              <Form.Group className="mb-3" controlId="feedbackTitle">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Feedback title"
+                  isInvalid={invalidTitle}
+                  value={feedbackTitle}
+                  onChange={(e) => handleChangeTitle(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="feedback description">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  isInvalid={invalidDes}
+                  value={feedbackDes}
+                  onChange={(e) => handleChangeDes(e.target.value)}
+                />
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
       </Container>
     </div>
   );

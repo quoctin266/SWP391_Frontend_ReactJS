@@ -70,7 +70,7 @@ const ManageRoute = () => {
                   <td>{route.departure}</td>
                   <td>{route.destination}</td>
                   <td>{route.description}</td>
-                  <td>
+                  <td style={{ width: "25%" }}>
                     <ViewRoute route_id={route.route_id} />
                     <Button
                       variant="warning"

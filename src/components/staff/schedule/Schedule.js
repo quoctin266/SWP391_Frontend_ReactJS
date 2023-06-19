@@ -620,8 +620,9 @@ const Schedule = () => {
           station.totalUnit + detailSelectedOrder.total_capacity >
           vehicleCapacity
         ) {
+          let remainUnit = vehicleCapacity - station.totalUnit;
           toast.error(
-            `${station.name} station has reached maximum total capacity.`
+            `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
           );
           return false;
         }

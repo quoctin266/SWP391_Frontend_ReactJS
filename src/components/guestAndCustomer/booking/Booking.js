@@ -111,6 +111,7 @@ const Booking = () => {
   const [anticipate, setAnticipate] = useState("");
   const [estimate, setEstimate] = useState("");
   const [paymentID, setPaymentID] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   const [invalidPackage, setInvalidPackage] = useState(false);
   const [invalidAnticipate, setInvalidAnticipate] = useState(false);
@@ -384,6 +385,7 @@ const Booking = () => {
       paymentName = `${item.payment_type} - ${item.method_name}`;
     } else paymentName = `${item.payment_type}`;
     setPaymentName(paymentName);
+    setPaymentMethod(item.method_name ? item.method_name : "");
     setInvalidPayment(false);
   };
 
@@ -404,9 +406,22 @@ const Booking = () => {
 
     let data = await postCreateOrder(dataOrder);
     if (data && data.EC === 0) {
-      navigate("/booking-success", {
-        state: { orderRes: data.DT },
-      });
+      if (paymentMethod === "Visa") {
+        navigate("/visa", {
+          state: { orderRes: data.DT },
+        });
+      } else if (paymentMethod === "MOMO") {
+        navigate("/momo", {
+          state: { orderRes: data.DT },
+        });
+      } else if (paymentMethod === "VNPAY") {
+        navigate("/vnpay", {
+          state: { orderRes: data.DT },
+        });
+      } else
+        navigate("/booking-success", {
+          state: { orderRes: data.DT },
+        });
     }
   };
 
@@ -417,7 +432,7 @@ const Booking = () => {
   return (
     <Container className="booking-outer">
       <div className="booking-container">
-        <div className="title">BIRD TRAVEL</div>
+        <div className="title">BIRD TRAVEL FORM</div>
         <div className="booking-body">
           <div className="bird-customer-body">
             <div className="customer-info">
@@ -469,22 +484,23 @@ const Booking = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group as={Col} controlId="formGridAddress">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      disabled
-                      value={customer.address ? customer.address : ""}
-                    />
-                  </Form.Group>
-                </Row>
-                <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridPhone">
                     <Form.Label>Phone number</Form.Label>
                     <Form.Control
                       type="text"
                       disabled
                       value={customer.phone_number ? customer.phone_number : ""}
+                    />
+                  </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                  <Form.Group as={Col} controlId="formGridAddress">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      disabled
+                      value={customer.address ? customer.address : ""}
                     />
                   </Form.Group>
 
