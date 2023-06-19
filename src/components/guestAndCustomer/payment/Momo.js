@@ -4,10 +4,20 @@ import "./Momo.scss";
 import { Card } from "@mui/material";
 import momo from "../../../assets/image/momo.png";
 import QR from "../../../assets/image/QR.jpg";
+import { useLocation, useNavigate } from "react-router";
 
 const Momo = () => {
   const [showQRCode, setShowQRCode] = useState(false);
-  const [expirationTime, setExpirationTime] = useState(300); // 5 minutes in seconds
+  const [expirationTime, setExpirationTime] = useState(30); // 5 minutes in seconds
+  const [paymentData, setPaymentData] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    let paymentData = location?.state?.orderRes;
+    setPaymentData(paymentData);
+  }, [location?.state?.orderRes]);
 
   useEffect(() => {
     let timer = null;
@@ -26,9 +36,11 @@ const Momo = () => {
   useEffect(() => {
     if (expirationTime === 0) {
       setShowQRCode(false);
-      setExpirationTime(300); // Reset expiration time to 5 minutes
+      navigate("/booking-success", {
+        state: { orderRes: paymentData },
+      });
     }
-  }, [expirationTime]);
+  }, [expirationTime, navigate, paymentData]);
 
   useEffect(() => {
     // Perform Momo payment logic here
@@ -49,7 +61,7 @@ const Momo = () => {
         <div className="QRCode">
           {showQRCode && (
             <div className="qr-code-container">
-              <QRCode size={200} />
+              <QRCode size={200} value="https://reactjs.org/" />
             </div>
           )}
         </div>

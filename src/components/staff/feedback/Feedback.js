@@ -67,59 +67,61 @@ const Feedback = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {feedbackList.map((row) => (
-                <TableRow
-                  key={row.feedback_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    align="center"
-                    width={5}
-                    sx={{ border: "0" }}
-                    className="IconCell"
+              {feedbackList &&
+                feedbackList.length > 0 &&
+                feedbackList.map((row) => (
+                  <TableRow
+                    key={row.feedback_id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <img
-                      className="Icon"
-                      src={row.avatar ? row.avatar : ProfilePic}
-                      alt="avatar"
-                    />
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={3}
-                    className="Name"
-                    sx={{ border: "0", fontWeight: "bolder" }}
-                  >
-                    {row.username}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={3}
-                    className="time"
-                    sx={{ border: "0", fontWeight: "bolder" }}
-                  >
-                    {row.created_time}
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    width={3}
-                    className="title"
-                    sx={{ border: "0", fontWeight: "bolder" }}
-                  >
-                    {row.title}
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    width={3}
-                    className="Feedback"
-                    sx={{ border: "0", fontWeight: "bolder" }}
-                  >
-                    {row.description}
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      width={5}
+                      sx={{ border: "0" }}
+                      className="IconCell"
+                    >
+                      <img
+                        className="Icon"
+                        src={row.avatar ? row.avatar : ProfilePic}
+                        alt="avatar"
+                      />
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="Name"
+                      sx={{ border: "0", fontWeight: "bolder" }}
+                    >
+                      {row.username}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="time"
+                      sx={{ border: "0", fontWeight: "bolder" }}
+                    >
+                      {row.created_time}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="title"
+                      sx={{ border: "0", fontWeight: "bolder" }}
+                    >
+                      {row.title}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      width={3}
+                      className="Feedback"
+                      sx={{ border: "0", fontWeight: "bolder" }}
+                    >
+                      {row.description}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

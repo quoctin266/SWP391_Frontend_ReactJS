@@ -389,6 +389,22 @@ const postCreateStation = async (name, address) => {
   });
 };
 
+const putUpdateStation = async (name, address, id) => {
+  return await axios.put("api/v1/update-station", {
+    name: name,
+    address: address,
+    id: id,
+  });
+};
+
+const deleteStation = async (id) => {
+  return await axios.delete(`api/v1/delete-station/${id}`);
+};
+
+const getCustomerOrder = async (accountID) => {
+  return await axios.get(`api/v1/order-by-customer/${accountID}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -452,4 +468,7 @@ export {
   putUpdateVehicle,
   deleteVehicle,
   postCreateStation,
+  putUpdateStation,
+  deleteStation,
+  getCustomerOrder,
 };

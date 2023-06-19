@@ -111,6 +111,7 @@ const Booking = () => {
   const [anticipate, setAnticipate] = useState("");
   const [estimate, setEstimate] = useState("");
   const [paymentID, setPaymentID] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   const [invalidPackage, setInvalidPackage] = useState(false);
   const [invalidAnticipate, setInvalidAnticipate] = useState(false);
@@ -384,6 +385,7 @@ const Booking = () => {
       paymentName = `${item.payment_type} - ${item.method_name}`;
     } else paymentName = `${item.payment_type}`;
     setPaymentName(paymentName);
+    setPaymentMethod(item.method_name ? item.method_name : "");
     setInvalidPayment(false);
   };
 
@@ -404,9 +406,22 @@ const Booking = () => {
 
     let data = await postCreateOrder(dataOrder);
     if (data && data.EC === 0) {
-      navigate("/booking-success", {
-        state: { orderRes: data.DT },
-      });
+      if (paymentMethod === "Visa") {
+        navigate("/visa", {
+          state: { orderRes: data.DT },
+        });
+      } else if (paymentMethod === "MOMO") {
+        navigate("/momo", {
+          state: { orderRes: data.DT },
+        });
+      } else if (paymentMethod === "VNPAY") {
+        navigate("/vnpay", {
+          state: { orderRes: data.DT },
+        });
+      } else
+        navigate("/booking-success", {
+          state: { orderRes: data.DT },
+        });
     }
   };
 
