@@ -1,0 +1,99 @@
+.vnpay-container{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(90deg, #2ecc71 60%, #27ae60 40.1%);
+    margin: 1px;
+    border: 1px solid black;
+.row{
+    width: 800px;
+}
+    .row1{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+        
+        .item{
+            background-color: white;
+            padding: 10px;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            
+        }
+        .item4{
+            background-color: white;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            
+            
+            
+        }
+
+        .small {
+            grid-row: 1; /* Specify the column number */
+            grid-row-end: span 1; /* Set the width of the column */
+        }
+        
+    }
+    .row2{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+        
+        .item2{
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+            
+        }
+        .item10{
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+            
+        }
+        
+    }
+    .row3{
+        display: grid;
+        
+        
+        .item3{
+            background-color: white;
+            padding: 10px;
+            border: 1px solid black;
+        }
+        
+    }
+
+    .vnpayicon{
+        width: 20%;
+        height: auto;
+    }
+    .bank{
+        width: 95%;
+    }
+    .title{
+        width: 80%;
+        margin-left: 20px;
+        font-weight: bold;
+    }
+    .Body{
+        border: 1px solid black;
+    }
+    .footer{
+        border: 1px solid black;
+    }
+    
+    .link{
+        position: relative;
+        top: 20px;
+        text-decoration: none;
+
+    }
+    .QRtitle{
+        font-weight: bold;
+    }
+}
