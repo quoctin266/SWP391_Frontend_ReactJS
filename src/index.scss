@@ -135,3 +135,14 @@ code {
     margin-bottom: 2%;
   }
 }
+
+.note-estimate {
+  font-style: italic;
+  margin-top: 4%;
+
+  span {
+    &:hover {
+      color: #707070;
+    }
+  }
+}
