@@ -107,6 +107,10 @@ const router = createBrowserRouter([
     path: "/visa",
     element: <Visa />,
   },
+  // {
+  //   path: "/payment",
+  //   element:<Visa />,
+  // },
   {
     path: "/login",
     element: <Login />,
