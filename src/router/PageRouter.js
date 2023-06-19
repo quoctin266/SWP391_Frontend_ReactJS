@@ -99,14 +99,14 @@ const router = createBrowserRouter([
       },
     ],
   },
-  // {
-  //   path: "/payment",
-  //   element:<Momo />,
-  // },
   {
     path: "/payment",
-    element:<Visa />,
+    element:<Momo />,
   },
+  // {
+  //   path: "/payment",
+  //   element:<Visa />,
+  // },
   {
     path: "/login",
     element: <Login />,

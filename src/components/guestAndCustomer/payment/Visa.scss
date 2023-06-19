@@ -1,25 +1,25 @@
 
 .visa-container {
-max-width: 100%;
-  display: flex;
+  max-width      : 100%;
+  display        : flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  min-height: 100vh;
-  background: linear-gradient(90deg, #2ecc71 60%, #27ae60 40.1%);
+  align-items    : center;
+  padding        : 20px;
+  min-height     : 100vh;
+  background     : linear-gradient(90deg, #2ecc71 60%, #27ae60 40.1%);
 }
 
 .visa-container form {
-  padding: 20px;
-  width: 700px;
+  padding   : 20px;
+  width     : 700px;
   background: #fff;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .visa-container form .row {
-  display: flex;
+  display  : flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap      : 15px;
 }
 
 .visa-container form .row .col {
@@ -27,8 +27,8 @@ max-width: 100%;
 }
 
 .visa-container form .row .col .title {
-  font-size: 20px;
-  color: #333;
+  font-size     : 20px;
+  color         : #333;
   padding-bottom: 5px;
   text-transform: uppercase;
 }
@@ -39,14 +39,14 @@ max-width: 100%;
 
 .visa-container form .row .col .inputBox span {
   margin-bottom: 10px;
-  display: block;
+  display      : block;
 }
 
 .visa-container form .row .col .inputBox input {
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 10px 15px;
-  font-size: 15px;
+  width         : 100%;
+  border        : 1px solid #ccc;
+  padding       : 10px 15px;
+  font-size     : 15px;
   text-transform: none;
 }
 
@@ -56,7 +56,7 @@ max-width: 100%;
 
 .visa-container form .row .col .flex {
   display: flex;
-  gap: 15px;
+  gap    : 15px;
 }
 
 .visa-container form .row .col .flex .inputBox {
@@ -64,19 +64,21 @@ max-width: 100%;
 }
 
 .visa-container form .row .col .inputBox img {
-  height: 36px;
+  height    : 36px;
   margin-top: 7.6px;
-  filter: drop-shadow(0 0 1px #000);
+  filter    : drop-shadow(0 0 1px #000);
+  cursor    : pointer;
 }
 
 .visa-container form .submit-btn {
-  width: 100%;
-  padding: 12px;
-  font-size: 17px;
+  width     : 100%;
+  padding   : 12px;
+  font-size : 17px;
   background: #27ae60;
-  color: #fff;
+  color     : #fff;
   margin-top: 5px;
-  cursor: pointer;
+  border    : none;
+  cursor    : pointer;
 }
 
 .visa-container form .submit-btn:hover {
