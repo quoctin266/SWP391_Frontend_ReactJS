@@ -100,18 +100,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/momo",
+    element: <Momo />,
+  },
+  {
+    path: "/visa",
+    element: <Visa />,
+  },
   // {
   //   path: "/payment",
-  //   element:<Momo />,
+  //   element:<Visa />,
   // },
-  //{
-  //  path: "/payment",
-  //  element:<Visa />,
-  //},
-  {
-    path: "/payment",
-    element:<VnPay />,
-  },
   {
     path: "/login",
     element: <Login />,
