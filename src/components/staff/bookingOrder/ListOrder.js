@@ -25,6 +25,7 @@ import moment from "moment";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { GrView } from "react-icons/gr";
 
 const ListOrder = () => {
   const [status, setStatus] = useState("all");
@@ -330,6 +331,7 @@ const ListOrder = () => {
             <option value="" disabled hidden>
               Select status
             </option>
+            <option value="all">All</option>
             <option value="Pending">Pending</option>
             <option value="Delivering">Delivering</option>
             <option value="Completed">Completed</option>
@@ -358,10 +360,10 @@ const ListOrder = () => {
           <thead>
             <tr>
               <th>Order ID</th>
-              <th>Departure Point</th>
-              <th>Arrival Point</th>
-              <th>Bird Count</th>
-              <th>Customer</th>
+              <th>Customer Name</th>
+              <th>Departure - Destination</th>
+              <th>Created Time</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -371,17 +373,28 @@ const ListOrder = () => {
               listOrder.map((order) => (
                 <tr key={order.order_id}>
                   <td>{order.order_id}</td>
-                  <td>{order.departure_location}</td>
-                  <td>{order.arrival_location}</td>
-                  <td>{order.bird_quantity}</td>
                   <td>
-                    <Button
-                      variant="secondary"
+                    {order.full_name}{" "}
+                    <span
+                      style={{
+                        cursor: "pointer",
+                        float: "right",
+                        marginRight: "7%",
+                      }}
                       onClick={() => handleShowCustomer(order.order_id)}
                     >
-                      View
-                    </Button>
+                      <GrView />
+                    </span>
                   </td>
+                  <td>
+                    {order.departure_location} - {order.arrival_location}
+                  </td>
+                  <td>
+                    {moment(order.created_time)
+                      .format("DD-MM-YYYY HH:mm:ss")
+                      .toString()}
+                  </td>
+                  <td>{order.status}</td>
                   <td>
                     <Button
                       variant="secondary"
@@ -509,7 +522,9 @@ const ListOrder = () => {
                       <Form.Label>Total Cost</Form.Label>
                       <Form.Control
                         type="text"
-                        value={order.total_cost}
+                        value={`${new Intl.NumberFormat().format(
+                          order.total_cost
+                        )} VND`}
                         disabled
                       />
                     </Form.Group>

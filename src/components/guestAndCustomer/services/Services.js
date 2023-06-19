@@ -6,17 +6,13 @@ import { useEffect, useState } from "react";
 
 const Services = () => {
   const [serviceList, setServiceList] = useState([]);
-  const [serviceTitle, setServiceTitle] = useState("");
   const [policyList, setPolicyList] = useState([]);
-  const [policyTitle, setPolicyTitle] = useState("");
 
   const fetchAllService = async () => {
     let data = await getAllService();
     if (data && data.EC === 0) {
       setServiceList(data.DT[0].description);
-      setServiceTitle(data.DT[0].title);
       setPolicyList(data.DT[1].description);
-      setPolicyTitle(data.DT[0].title);
     }
   };
 
@@ -35,7 +31,7 @@ const Services = () => {
         </div>
         <div className="Mid">
           <div className="Content1">
-            <h3 className="contenttitle1">{serviceTitle}</h3>
+            <h3 className="contenttitle1">Our Services</h3>
             {serviceList &&
               serviceList.length > 0 &&
               serviceList.map((item) => {
@@ -47,7 +43,7 @@ const Services = () => {
               })}
           </div>
           <div className="Content2">
-            <h3 className="contenttitle2">{policyTitle}</h3>
+            <h3 className="contenttitle2">Our Policy</h3>
             {policyList &&
               policyList.length > 0 &&
               policyList.map((item) => {
