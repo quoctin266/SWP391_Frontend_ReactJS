@@ -48,7 +48,7 @@ const Momo = () => {
         <div className="QRCode">
           {showQRCode && (
             <div className="qr-code-container">
-              <QRCode size={200} />
+              <QRCode size={1000} />
             </div>
           )}
         </div>

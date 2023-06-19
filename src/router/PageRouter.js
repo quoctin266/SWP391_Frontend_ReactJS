@@ -32,6 +32,7 @@ import LimitedAccess from "../components/private-route/LimitedAccess";
 import NotFound from "../components/private-route/NotFound";
 import Visa from "../components/guestAndCustomer/payment/Visa";
 import Momo from "../components/guestAndCustomer/payment/Momo";
+import VnPay from "../components/guestAndCustomer/payment/VnPay";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -103,9 +104,13 @@ const router = createBrowserRouter([
   //   path: "/payment",
   //   element:<Momo />,
   // },
+  //{
+  //  path: "/payment",
+  //  element:<Visa />,
+  //},
   {
     path: "/payment",
-    element:<Visa />,
+    element:<VnPay />,
   },
   {
     path: "/login",
@@ -209,6 +214,7 @@ const router = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
+  
 ]);
 
 const PageRouter = () => {
