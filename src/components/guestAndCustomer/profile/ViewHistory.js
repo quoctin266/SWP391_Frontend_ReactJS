@@ -150,9 +150,10 @@ const ViewHistory = () => {
   useEffect(() => {
     let newPageCount = Math.ceil(filterList.length / PAGE_LIMIT);
     if (newPageCount < pageCount) {
-      const newOffset = (newPageCount * PAGE_LIMIT) % filterList.length;
+      const newOffset = 0;
       const endOffset = newOffset + PAGE_LIMIT;
       setCurrentItems(filterList.slice(newOffset, endOffset));
+      setItemOffset(newOffset);
       setCurrentPage(1);
     }
   }, [currentPage, pageCount, filterList]);

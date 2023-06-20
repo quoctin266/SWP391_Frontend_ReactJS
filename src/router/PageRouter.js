@@ -194,7 +194,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <ManageAccount />,
+        element: <Dashboard />,
       },
       {
         path: "manage-account",

@@ -60,6 +60,20 @@
                     font-weight: 600;
                 }
 
+                .password-container {
+                    display    : flex;
+                    align-items: center;
+                    position   : relative;
+
+                    .password-toogle {
+                        font-size: 1.2em;
+                        position : absolute;
+                        right    : 20px;
+                        bottom   : 6px;
+                        cursor   : pointer;
+                    }
+                }
+
                 .checkbox-and-resetpw {
                     display    : flex;
                     align-items: baseline;
