@@ -9,6 +9,8 @@ import { postSignup } from "../../../service/APIservice";
 import { useState } from "react";
 import { validateEmail } from "../../../utils/reuseFunction";
 import { toast } from "react-toastify";
+import { BiHide } from "react-icons/bi";
+import { BiShow } from "react-icons/bi";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -21,6 +23,30 @@ const Register = () => {
   const [invalidPassword, setInvalidPassword] = useState(false);
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [invalidConfirmPW, setInvalidConfirmPW] = useState(false);
+
+  const [passwordType, setPasswordType] = useState("password");
+  const [confirmPasswordType, setConfirmPasswordType] = useState("password");
+
+  const togglePassword = (passwordInput) => {
+    switch (passwordInput) {
+      case "current":
+        if (passwordType === "password") {
+          setPasswordType("text");
+          return;
+        }
+        setPasswordType("password");
+        break;
+      case "confirm":
+        if (confirmPasswordType === "password") {
+          setConfirmPasswordType("text");
+          return;
+        }
+        setConfirmPasswordType("password");
+        break;
+      default:
+        return;
+    }
+  };
 
   const handleOnchangeEmail = (event) => {
     setEmail(event.target.value);
@@ -143,15 +169,25 @@ const Register = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    onChange={(e) => handleOnchangePassword(e)}
-                    value={password}
-                    isInvalid={invalidPassword}
-                    pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-]).{8,}$"
-                    title="Must contain at least one digit, one letter, one special character and at least 8 characters, spacing is not allowed"
-                  />
+                  <div className="password-container">
+                    <Form.Control
+                      type={passwordType}
+                      placeholder="Enter password"
+                      onChange={(e) => handleOnchangePassword(e)}
+                      value={password}
+                      isInvalid={invalidPassword}
+                      pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-]).{8,}$"
+                      title="Must contain at least one digit, one letter, one special character and at least 8 characters, spacing is not allowed"
+                    />
+                    {!invalidPassword && (
+                      <span
+                        className="password-toogle"
+                        onClick={() => togglePassword("current")}
+                      >
+                        {passwordType === "password" ? <BiShow /> : <BiHide />}
+                      </span>
+                    )}
+                  </div>
                 </Form.Group>
 
                 <Form.Group
@@ -159,13 +195,27 @@ const Register = () => {
                   controlId="formBasicConfirmPassword"
                 >
                   <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Confirm password"
-                    onChange={(e) => handleOnchangeConfirmPW(e)}
-                    value={confirmPW}
-                    isInvalid={invalidConfirmPW}
-                  />
+                  <div className="password-container">
+                    <Form.Control
+                      type={confirmPasswordType}
+                      placeholder="Confirm password"
+                      onChange={(e) => handleOnchangeConfirmPW(e)}
+                      value={confirmPW}
+                      isInvalid={invalidConfirmPW}
+                    />
+                    {!invalidConfirmPW && (
+                      <span
+                        className="password-toogle"
+                        onClick={() => togglePassword("confirm")}
+                      >
+                        {confirmPasswordType === "password" ? (
+                          <BiShow />
+                        ) : (
+                          <BiHide />
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </Form.Group>
 
                 <div className="register-btn">

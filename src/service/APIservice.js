@@ -411,6 +411,31 @@ const putCancelOrder = async (orderID) => {
   });
 };
 
+const getAllAccount = async () => {
+  return await axios.get(`api/v1/all-account`);
+};
+
+const putUpdateAccount = async (role, status, id) => {
+  return await axios.put("api/v1/update-account", {
+    role: role,
+    status: status,
+    id: id,
+  });
+};
+
+const postCreateAccount = async (email, username, password, role) => {
+  return await axios.post("api/v1/create-account", {
+    email: email,
+    username: username,
+    password: password,
+    role: role,
+  });
+};
+
+const getDashboard = async () => {
+  return await axios.get(`api/v1/dashboard`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -478,4 +503,8 @@ export {
   deleteStation,
   getCustomerOrder,
   putCancelOrder,
+  getAllAccount,
+  putUpdateAccount,
+  postCreateAccount,
+  getDashboard,
 };

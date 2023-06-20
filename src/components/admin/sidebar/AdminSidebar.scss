@@ -1,5 +1,49 @@
-.list-group a:hover{
-    background-color: #85C697;
-    color: #eeeeee;
-    cursor: pointer;
+.admin-sidebar-container {
+    margin-right: 30px;
+
+    .pro-sidebar {
+        .sc-bbSZdi {
+            overflow: hidden;
+
+            .sc-hCPjZK {
+                a {
+                    .sc-cfxfcM {
+                        margin: 10px 0;
+
+                        &:hover {
+                            background-color: gray;
+                        }
+                    }
+
+                    &.active {
+                        color: aquamarine;
+                    }
+                }
+
+            }
+
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
+            }
+
+        }
+
+        &.toggled {
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
+                flex-direction : column-reverse;
+            }
+        }
+    }
+
 }
