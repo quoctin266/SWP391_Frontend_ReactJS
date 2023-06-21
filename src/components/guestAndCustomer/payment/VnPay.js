@@ -46,7 +46,6 @@ const VnPay = () => {
               <img className="vnpayicon" src={vnpay} alt="" /> Pay with VnPay QR
             </p>
           </div>
-          <div className="item4"></div>
         </div>
         <div className="divider"></div>
         <div className="row2">
