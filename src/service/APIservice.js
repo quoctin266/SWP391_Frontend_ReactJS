@@ -436,6 +436,14 @@ const getDashboard = async () => {
   return await axios.get(`api/v1/dashboard`);
 };
 
+const deleteRoute = async (id) => {
+  return await axios.delete(`api/v1/delete-route/${id}`);
+};
+
+const deleteTrip = async (id) => {
+  return await axios.delete(`api/v1/delete-trip/${id}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -507,4 +515,6 @@ export {
   putUpdateAccount,
   postCreateAccount,
   getDashboard,
+  deleteRoute,
+  deleteTrip,
 };

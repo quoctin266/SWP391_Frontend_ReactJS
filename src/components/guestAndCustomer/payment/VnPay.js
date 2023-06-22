@@ -3,10 +3,20 @@ import "./VnPay.scss";
 import vnpay from "../../../assets/image/vnpay.jpg";
 import bank from "../../../assets/image/bank.jpg";
 import QRCode from "qrcode.react";
+import { useLocation, useNavigate } from "react-router";
 
 const VnPay = () => {
   const [qrCodeData, setQRCodeData] = useState(false);
-  const [expirationTime, setExpirationTime] = useState(300); // 5 minutes in seconds
+  const [expirationTime, setExpirationTime] = useState(10);
+  const [paymentData, setPaymentData] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    let paymentData = location?.state?.orderRes;
+    setPaymentData(paymentData);
+  }, [location?.state?.orderRes]);
 
   useEffect(() => {
     let timer = null;
@@ -25,9 +35,11 @@ const VnPay = () => {
   useEffect(() => {
     if (expirationTime === 0) {
       setQRCodeData("");
-      setExpirationTime(30); // Reset expiration time to 5 minutes
+      navigate("/booking-success", {
+        state: { orderRes: paymentData },
+      });
     }
-  }, [expirationTime]);
+  }, [expirationTime, navigate, paymentData]);
 
   useEffect(() => {
     // Perform Vnpay payment logic here

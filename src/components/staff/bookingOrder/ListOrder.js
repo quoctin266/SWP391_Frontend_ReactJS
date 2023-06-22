@@ -304,6 +304,7 @@ const ListOrder = () => {
     if (!searchValue) {
       toast.error("Please enter trip ID.");
       setInvalidSearchValue(true);
+      return;
     }
 
     let data = await getOrderByTrip(searchValue);

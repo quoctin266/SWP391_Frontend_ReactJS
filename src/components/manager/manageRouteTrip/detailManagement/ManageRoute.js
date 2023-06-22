@@ -9,6 +9,7 @@ import _ from "lodash";
 import { toTime } from "../../../../utils/reuseFunction";
 import { toast } from "react-toastify";
 import EditRoute from "./RouteCRUD/EditRoute";
+import DeleteRoute from "./RouteCRUD/DeleteRoute";
 
 const ManageRoute = () => {
   const [routeList, setRouteList] = useState([]);
@@ -79,7 +80,7 @@ const ManageRoute = () => {
                     >
                       Edit
                     </Button>
-                    <Button variant="danger">Delete</Button>
+                    <DeleteRoute route={route} fetchAllRoute={fetchAllRoute} />
                   </td>
                 </tr>
               );
