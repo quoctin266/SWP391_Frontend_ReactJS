@@ -260,8 +260,9 @@ const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
   });
 };
 
-const getEstimateCost = async (birdCount, distance) => {
+const getEstimateCost = async (cageID, birdCount, distance) => {
   return await axios.post("api/v1/estimate-cost", {
+    cageID: cageID,
     birdCount: birdCount,
     distance: distance,
   });

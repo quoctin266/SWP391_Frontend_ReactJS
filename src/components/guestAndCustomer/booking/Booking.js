@@ -558,7 +558,7 @@ const Booking = () => {
                       </Row>
                       <Row className="mb-5">
                         <Form.Group as={Col} controlId="formGridAge">
-                          <Form.Label>Bird Age</Form.Label>
+                          <Form.Label>Bird Age (Years old)</Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="Enter your bird's age in year"
@@ -576,7 +576,7 @@ const Booking = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridWeight">
-                          <Form.Label>Bird Weight</Form.Label>
+                          <Form.Label>Bird Weight (Kg)</Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="Enter your bird's weight in Kilogram"

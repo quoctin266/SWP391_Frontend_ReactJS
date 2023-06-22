@@ -363,7 +363,7 @@ const ListOrder = () => {
               <th>Order ID</th>
               <th>Customer Name</th>
               <th>Departure - Destination</th>
-              <th>Created Time</th>
+              <th>Order Date</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -556,7 +556,7 @@ const ListOrder = () => {
 
                   <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridCreated">
-                      <Form.Label>Created At</Form.Label>
+                      <Form.Label>Order Date</Form.Label>
                       <Form.Control
                         type="text"
                         value={order.created_time}

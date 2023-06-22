@@ -240,7 +240,7 @@ const ViewHistory = () => {
                       fontSize: "0.9vw",
                     }}
                   >
-                    Created Time&nbsp;
+                    Order Date&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"

@@ -34,6 +34,7 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import { toTime } from "../../../utils/reuseFunction";
 import { MdAddCircle } from "react-icons/md";
 import { MdRemoveCircle } from "react-icons/md";
+import { GrView } from "react-icons/gr";
 
 const Schedule = () => {
   const [routeList, setRouteList] = useState([]);
@@ -46,8 +47,6 @@ const Schedule = () => {
 
   const [selectedTrip, setSelectedTrip] = useState("");
   const [tripList, setTripList] = useState([]);
-  const [showVehicle, setShowVehicle] = useState(false);
-  const [vehicle, setVehicle] = useState("");
 
   const [showDrivers, setShowDrivers] = useState(false);
   const [driverList, setDriverList] = useState([]);
@@ -91,15 +90,6 @@ const Schedule = () => {
   const [temp3, setTemp3] = useState("");
   const [temp4, setTemp4] = useState("");
 
-  const handleCloseVehicle = () => setShowVehicle(false);
-  const handleViewVehicle = async (vehicle_id) => {
-    let data = await getVehicle(vehicle_id);
-    if (data && data.EC === 0) {
-      setVehicle(data.DT);
-      setShowVehicle(true);
-    } else toast.error(data.EM);
-  };
-
   const handleCloseDrivers = () => setShowDrivers(false);
   const handleShowDrivers = async (tripID) => {
     let data = await getDriverList(tripID);
@@ -121,7 +111,7 @@ const Schedule = () => {
     let data = await getProgressList(trip.trip_id);
     if (data && data.EC === 0) {
       setProgressList(data.DT);
-    } else toast.warning(data.EM);
+    } else setProgressList([]);
 
     let cloneTrip = _.cloneDeep(trip);
     cloneTrip.departure_date = moment(
@@ -614,21 +604,10 @@ const Schedule = () => {
     }
 
     let cloneRoute = _.cloneDeep(routeEstimate);
-    let validAssign = cloneRoute.every((station, index) => {
+    cloneRoute.forEach((station, index) => {
       if (station.name === detailSelectedOrder.departure_location) {
-        if (
-          station.totalUnit + detailSelectedOrder.total_capacity >
-          vehicleCapacity
-        ) {
-          let remainUnit = vehicleCapacity - station.totalUnit;
-          toast.error(
-            `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
-          );
-          return false;
-        }
         station.pickup += detailSelectedOrder.total_capacity;
-      }
-      if (station.name === detailSelectedOrder.arrival_location) {
+      } else if (station.name === detailSelectedOrder.arrival_location) {
         station.dropoff += detailSelectedOrder.total_capacity;
       }
       if (index !== 0) {
@@ -642,6 +621,23 @@ const Schedule = () => {
         station.totalUnit =
           cloneRoute[index - 1].totalUnit + station.pickup - station.dropoff;
       } else station.totalUnit = station.pickup;
+    });
+
+    let validAssign = cloneRoute.every((station) => {
+      if (station.totalUnit > vehicleCapacity) {
+        let remainUnit =
+          vehicleCapacity +
+          detailSelectedOrder.total_capacity -
+          station.totalUnit;
+        if (remainUnit !== 0) {
+          toast.error(
+            `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
+          );
+        } else {
+          toast.error(`${station.name} station has reached maximum capacity.`);
+        }
+        return false;
+      }
       return true;
     });
     if (!validAssign) return;
@@ -757,9 +753,9 @@ const Schedule = () => {
                   <th>Trip ID</th>
                   <th>Departure Date</th>
                   <th>Status</th>
-                  <th>Progress</th>
                   <th>Driver</th>
                   <th>Vehicle</th>
+                  <th>Capacity</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -773,35 +769,33 @@ const Schedule = () => {
                         <td>{trip.departure_date}</td>
                         <td>{trip.status}</td>
                         <td>
-                          <Button
-                            variant="warning"
-                            onClick={() => handleViewProgress(trip)}
-                          >
-                            Track
-                          </Button>
-                        </td>
-                        <td>
-                          <Button
-                            variant="secondary"
+                          {trip.driver_name}
+                          <span
+                            style={{
+                              cursor: "pointer",
+                              float: "right",
+                              marginRight: "7%",
+                            }}
                             onClick={() => handleShowDrivers(trip.trip_id)}
                           >
-                            View
-                          </Button>
+                            <GrView />
+                          </span>
                         </td>
-                        <td>
-                          <Button
-                            variant="secondary"
-                            onClick={() => handleViewVehicle(trip.vehicle_id)}
-                          >
-                            View
-                          </Button>
-                        </td>
+                        <td>{trip.vehicle_name}</td>
+                        <td>{trip.capacity}</td>
                         <td>
                           <Button
                             variant="warning"
                             onClick={() => handleShowDetailTrip(trip)}
                           >
                             Manage
+                          </Button>
+                          <Button
+                            className="mx-2"
+                            variant="warning"
+                            onClick={() => handleViewProgress(trip)}
+                          >
+                            Track
                           </Button>
                         </td>
                       </tr>
@@ -814,45 +808,6 @@ const Schedule = () => {
                 )}
               </tbody>
             </Table>
-
-            <Modal
-              show={showVehicle}
-              onHide={handleCloseVehicle}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Vehicle Info</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="vehicleName">
-                      <Form.Label>Vehicle Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        disabled
-                        value={vehicle.vehicle_name}
-                      />
-                    </Form.Group>
-
-                    <Form.Group as={Col} controlId="vehicleCapacity">
-                      <Form.Label>Capacity</Form.Label>
-                      <Form.Control
-                        type="text"
-                        disabled
-                        value={vehicle.capacity}
-                      />
-                    </Form.Group>
-                  </Row>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseVehicle}>
-                  Close
-                </Button>
-              </Modal.Footer>
-            </Modal>
 
             <Modal
               show={showDrivers}
@@ -956,6 +911,11 @@ const Schedule = () => {
                             </tr>
                           );
                         })}
+                      {progressList && progressList.length === 0 && (
+                        <tr>
+                          <td colSpan={3}>Not found...</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
 
@@ -1152,7 +1112,7 @@ const Schedule = () => {
               onHide={handleCloseDetailTrip}
               backdrop="static"
               keyboard={false}
-              size="lg"
+              fullscreen="xxl-down"
             >
               <Modal.Header closeButton>
                 <Modal.Title>Trip Detail</Modal.Title>
@@ -1306,6 +1266,7 @@ const Schedule = () => {
                       </div>
                     )}
                   </Tab>
+                  <Tab eventKey="assignOrder" title="Assign Order"></Tab>
                 </Tabs>
               </Modal.Body>
               <Modal.Footer>
