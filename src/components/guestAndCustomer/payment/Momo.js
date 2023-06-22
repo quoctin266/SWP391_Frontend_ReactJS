@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router";
 
 const Momo = () => {
   const [showQRCode, setShowQRCode] = useState(false);
-  const [expirationTime, setExpirationTime] = useState(30); // 5 minutes in seconds
+  const [expirationTime, setExpirationTime] = useState(10);
   const [paymentData, setPaymentData] = useState("");
 
   const navigate = useNavigate();

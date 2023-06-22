@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
-import './Visa.scss';
+import React, { useState, useEffect } from "react";
+import "./Visa.scss";
 import card_img from "../../../assets/image/card_img.png";
+import { useLocation, useNavigate } from "react-router";
+
 const Visa = () => {
-  const [creditCardNumber, setCreditCardNumber] = useState('');
+  const [creditCardNumber, setCreditCardNumber] = useState("");
+  const [paymentData, setPaymentData] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleCreditCardNumberChange = (e) => {
-    const inputNumber = e.target.value.replace(/[^0-9]/g, ''); 
-    const formattedNumber = inputNumber
-      .replace(/(.{4})/g, '$1-') 
-      .slice(0, 19); 
+    const inputNumber = e.target.value.replace(/[^0-9]/g, "");
+    const formattedNumber = inputNumber.replace(/(.{4})/g, "$1-").slice(0, 19);
     setCreditCardNumber(formattedNumber);
   };
+
+  const handlePayment = (e) => {
+    e.preventDefault();
+
+    navigate("/booking-success", {
+      state: { orderRes: paymentData },
+    });
+  };
+
+  useEffect(() => {
+    let paymentData = location?.state?.orderRes;
+    setPaymentData(paymentData);
+  }, [location?.state?.orderRes]);
+
   return (
     <div className="visa-container">
-      <form action="">
+      <form onSubmit={handlePayment}>
         <div className="row">
           <div className="col">
             <h3 className="title">Billing address</h3>
@@ -55,11 +74,13 @@ const Visa = () => {
             </div>
             <div className="inputBox">
               <span>Credit card number :</span>
-              <input  type="text"
+              <input
+                type="text"
                 placeholder="1111-2222-3333-4444"
                 value={creditCardNumber}
                 onChange={handleCreditCardNumberChange}
-                maxLength="19" />
+                maxLength="19"
+              />
             </div>
             <div className="inputBox">
               <span>Exp month :</span>
@@ -77,7 +98,11 @@ const Visa = () => {
             </div>
           </div>
         </div>
-        <input type="submit" value="Proceed to checkout" className="submit-btn" />
+        <input
+          type="submit"
+          value="Proceed to checkout"
+          className="submit-btn"
+        />
       </form>
     </div>
   );

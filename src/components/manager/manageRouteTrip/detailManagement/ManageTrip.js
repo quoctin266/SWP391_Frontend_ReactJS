@@ -15,6 +15,7 @@ import {
   getAllVehicle,
   getAllDriver,
   postCreateTrip,
+  deleteTrip,
 } from "../../../../service/APIservice";
 import { toast } from "react-toastify";
 import { toTime } from "../../../../utils/reuseFunction";
@@ -49,6 +50,9 @@ const ManageTrip = () => {
   const [selectedMainDriver, setSelectedMainDriver] = useState(false);
   const [depart, setDepart] = useState("");
   const [invalidDepart, setInvalidDepart] = useState(false);
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [deleteTripItem, setDeleteTripItem] = useState("");
 
   const [currentTime, setCurrentTime] = useState("");
 
@@ -254,6 +258,29 @@ const ManageTrip = () => {
     } else toast.error(data.EM);
   };
 
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = (trip) => {
+    setDeleteTripItem(trip);
+    setShowDelete(true);
+  };
+
+  const handleDeleteTrip = async () => {
+    let data = await deleteTrip(deleteTripItem.trip_id);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+
+      let newData = await getTripList(selectedRoute?.value);
+      if (newData && newData.EC === 0) {
+        let tripOption = newData.DT.filter((trip) => trip.status === "Standby");
+
+        setTripList(tripOption);
+      } else if (newData && newData.EC === 107) {
+        setTripList([]);
+      }
+      handleCloseDelete();
+    } else toast.error(data.EM);
+  };
+
   return (
     <>
       <div className="route-title">Select Route</div>
@@ -419,6 +446,7 @@ const ManageTrip = () => {
           </Modal.Footer>
         </Form>
       </Modal>
+
       <div className="trip-list">
         <Table striped bordered hover responsive="md">
           <thead>
@@ -456,7 +484,11 @@ const ManageTrip = () => {
                     </td>
                     <td>
                       <Button variant="warning">Edit</Button>
-                      <Button variant="danger" className="mx-2">
+                      <Button
+                        variant="danger"
+                        className="mx-2"
+                        onClick={() => handleShowDelete(trip)}
+                      >
                         Delete
                       </Button>
                     </td>
@@ -551,6 +583,30 @@ const ManageTrip = () => {
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseVehicle}>
               Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={showDelete}
+          onHide={handleCloseDelete}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure to delete this trip? <br />
+            Trip ID: <b>{deleteTripItem.trip_id}</b> <br />
+            Depart: <b>{deleteTripItem.departure_date}</b>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDelete}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleDeleteTrip}>
+              Confirm
             </Button>
           </Modal.Footer>
         </Modal>
