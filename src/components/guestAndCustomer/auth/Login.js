@@ -12,16 +12,27 @@ import { validateEmail } from "../../../utils/reuseFunction";
 import { useDispatch } from "react-redux";
 import { login } from "../../../redux/slices/authSlice";
 import Background from "../../../assets/image/background.jpg";
+import { BiHide } from "react-icons/bi";
+import { BiShow } from "react-icons/bi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [invalidEmail, setInvalidEmail] = useState(false); //  controlling whether to display empty email warning or not
-  const [invalidPassword, setInvalidPassword] = useState(false); //  controlling whether to display empty password warning or not
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const togglePassword = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+      return;
+    }
+    setPasswordType("password");
+  };
 
   const handleOnchangeEmail = (event) => {
     setEmail(event.target.value);
@@ -112,13 +123,23 @@ const Login = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    isInvalid={invalidPassword}
-                    onChange={(e) => handleOnchangePassword(e)}
-                  />
+                  <div className="password-container">
+                    <Form.Control
+                      type={passwordType}
+                      placeholder="Password"
+                      value={password}
+                      isInvalid={invalidPassword}
+                      onChange={(e) => handleOnchangePassword(e)}
+                    />
+                    {!invalidPassword && (
+                      <span
+                        className="password-toogle"
+                        onClick={togglePassword}
+                      >
+                        {passwordType === "password" ? <BiShow /> : <BiHide />}
+                      </span>
+                    )}
+                  </div>
                 </Form.Group>
 
                 <Row>

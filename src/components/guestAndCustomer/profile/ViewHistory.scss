@@ -18,18 +18,14 @@
         }
 
         .history-table {
-            background-color: #eaffe0;
-            margin-top      : 5%;
-            border-radius   : 15px;
+            border-radius: 15px;
 
-            table {
-                tbody {
-                    tr {
-                        &:last-child {
-                            border-bottom-color: #9ECE9D;
-                        }
-                    }
-                }
+            .tableCell {
+                font-size: 0.85vw;
+            }
+
+            button {
+                font-size: 0.85vw;
             }
         }
 

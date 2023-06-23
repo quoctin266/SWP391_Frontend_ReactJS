@@ -186,6 +186,11 @@
                         color           : rgb(0, 0, 0);
                         background-color: #4c9b4c;
                         font-weight     : 600;
+
+                        &:hover {
+                            background-color: #326332;
+                            color           : white;
+                        }
                     }
                 }
 
@@ -228,9 +233,10 @@
         }
 
         .homepage-info-container {
-            display   : flex;
-            gap       : 30px;
-            margin-top: 30px;
+            display      : flex;
+            gap          : 30px;
+            margin-top   : 30px;
+            margin-bottom: 3%;
 
             @media screen and (max-width: 990px) {
                 flex-direction: column;

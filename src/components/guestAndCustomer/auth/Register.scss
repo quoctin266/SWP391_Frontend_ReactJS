@@ -55,6 +55,20 @@
           margin-bottom: 5%;
         }
 
+        .password-container {
+          display    : flex;
+          align-items: center;
+          position   : relative;
+
+          .password-toogle {
+            font-size: 1.2em;
+            position : absolute;
+            right    : 20px;
+            bottom   : 6px;
+            cursor   : pointer;
+          }
+        }
+
         .form-label {
           font-weight: 600;
         }

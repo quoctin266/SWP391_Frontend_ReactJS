@@ -96,8 +96,8 @@ const getPricing = async () => {
   return await axios.get("api/v1/price");
 };
 
-const getListOrder = async (status) => {
-  return await axios.get(`api/v1/list-order/${status}`);
+const getListOrder = async () => {
+  return await axios.get(`api/v1/list-order`);
 };
 
 const getCustomer = async (orderID) => {
@@ -260,11 +260,193 @@ const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
   });
 };
 
-const getEstimateCost = async (birdCount, distance) => {
+const getEstimateCost = async (cageID, birdCount, distance) => {
   return await axios.post("api/v1/estimate-cost", {
+    cageID: cageID,
     birdCount: birdCount,
     distance: distance,
   });
+};
+
+const postCreateSender = async (accountID, name, address, phone) => {
+  return await axios.post("api/v1/sender", {
+    accountID: accountID,
+    name: name,
+    address: address,
+    phone: phone,
+  });
+};
+
+const postCreateFeedback = async (
+  accountID,
+  title,
+  description,
+  createTime
+) => {
+  return await axios.post("api/v1/create-feedback", {
+    accountID: accountID,
+    title: title,
+    description: description,
+    createTime: createTime,
+  });
+};
+
+const getAllFeedback = async () => {
+  return await axios.get("api/v1/all-feedback");
+};
+
+const postCreatePayment = async (type, name) => {
+  return await axios.post("api/v1/create-payment", {
+    type: type,
+    name: name,
+  });
+};
+
+const putUpdatePayment = async (id, name, type) => {
+  return await axios.put("api/v1/update-payment", {
+    id: id,
+    name: name,
+    type: type,
+  });
+};
+
+const deletePayment = async (id) => {
+  return await axios.delete(`api/v1/delete-payment/${id}`);
+};
+
+const postCreatePrice = async (min, max, initCost, addition, unitCost) => {
+  return await axios.post("api/v1/create-price", {
+    min: min,
+    max: max,
+    initCost: initCost,
+    addition: addition,
+    unitCost: unitCost,
+  });
+};
+
+const putUpdatePrice = async (min, max, initCost, addition, unitCost, id) => {
+  return await axios.put("api/v1/update-price", {
+    min: min,
+    max: max,
+    initCost: initCost,
+    addition: addition,
+    unitCost: unitCost,
+    id: id,
+  });
+};
+
+const deletePrice = async (id) => {
+  return await axios.delete(`api/v1/delete-price/${id}`);
+};
+
+const postCreatePackage = async (name, type, healthcare, pickup, price) => {
+  return await axios.post("api/v1/create-package", {
+    name: name,
+    type: type,
+    healthcare: healthcare,
+    pickup: pickup,
+    price: price,
+  });
+};
+
+const putUpdatePackage = async (name, type, healthcare, pickup, price, id) => {
+  return await axios.put("api/v1/update-package", {
+    name: name,
+    type: type,
+    healthcare: healthcare,
+    pickup: pickup,
+    price: price,
+    id: id,
+  });
+};
+
+const deletePackage = async (id) => {
+  return await axios.delete(`api/v1/delete-package/${id}`);
+};
+
+const postCreateVehicle = async (name, capacity) => {
+  return await axios.post("api/v1/create-vehicle", {
+    name: name,
+    capacity: capacity,
+  });
+};
+
+const putUpdateVehicle = async (name, capacity, id) => {
+  return await axios.put("api/v1/update-vehicle", {
+    name: name,
+    capacity: capacity,
+    id: id,
+  });
+};
+
+const deleteVehicle = async (id) => {
+  return await axios.delete(`api/v1/delete-vehicle/${id}`);
+};
+
+const postCreateStation = async (name, address) => {
+  return await axios.post("api/v1/create-station", {
+    name: name,
+    address: address,
+  });
+};
+
+const putUpdateStation = async (name, address, id) => {
+  return await axios.put("api/v1/update-station", {
+    name: name,
+    address: address,
+    id: id,
+  });
+};
+
+const deleteStation = async (id) => {
+  return await axios.delete(`api/v1/delete-station/${id}`);
+};
+
+const getCustomerOrder = async (accountID) => {
+  return await axios.get(`api/v1/order-by-customer/${accountID}`);
+};
+
+const putCancelOrder = async (orderID) => {
+  return await axios.put("api/v1/cancel-order", {
+    orderID: orderID,
+  });
+};
+
+const getAllAccount = async () => {
+  return await axios.get(`api/v1/all-account`);
+};
+
+const putUpdateAccount = async (role, status, id) => {
+  return await axios.put("api/v1/update-account", {
+    role: role,
+    status: status,
+    id: id,
+  });
+};
+
+const postCreateAccount = async (email, username, password, role) => {
+  return await axios.post("api/v1/create-account", {
+    email: email,
+    username: username,
+    password: password,
+    role: role,
+  });
+};
+
+const getDashboard = async () => {
+  return await axios.get(`api/v1/dashboard`);
+};
+
+const deleteRoute = async (id) => {
+  return await axios.delete(`api/v1/delete-route/${id}`);
+};
+
+const deleteTrip = async (id) => {
+  return await axios.delete(`api/v1/delete-trip/${id}`);
+};
+
+const getAllTrip = async () => {
+  return await axios.get(`api/v1/alltrip`);
 };
 
 export {
@@ -314,4 +496,31 @@ export {
   getAllDriver,
   postCreateTrip,
   getEstimateCost,
+  postCreateSender,
+  postCreateFeedback,
+  getAllFeedback,
+  postCreatePayment,
+  putUpdatePayment,
+  deletePayment,
+  postCreatePrice,
+  putUpdatePrice,
+  deletePrice,
+  postCreatePackage,
+  putUpdatePackage,
+  deletePackage,
+  postCreateVehicle,
+  putUpdateVehicle,
+  deleteVehicle,
+  postCreateStation,
+  putUpdateStation,
+  deleteStation,
+  getCustomerOrder,
+  putCancelOrder,
+  getAllAccount,
+  putUpdateAccount,
+  postCreateAccount,
+  getDashboard,
+  deleteRoute,
+  deleteTrip,
+  getAllTrip,
 };

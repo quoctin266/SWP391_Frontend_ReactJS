@@ -1,0 +1,106 @@
+.vnpay-container{
+    display        : grid;
+    justify-content: center;
+    align-items    : center;
+    height         : 100vh;
+    background     : linear-gradient(90deg, #2ea4cc 60%, #277aae 40.1%);
+    margin         : 1px;
+    border         : 1px solid black;
+.row{
+    width           : 500px;
+    border-radius   : 2rem;
+    background-color: white;
+    padding         : 0;
+    padding-bottom: 2rem;
+    border          :0;
+    box-shadow      : rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;}
+    .row1{
+        display              : grid;
+        grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+        padding              : 0;
+        box-shadow           : rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+        z-index              : 5;
+        .item{
+            padding: 10px;
+            height : 100px;
+            width  : 475.5px;
+            .title{
+                font-size : 1.2rem;
+                text-align: center;
+            }
+        }
+
+        .small {
+            grid-row    : 1; /* Specify the column number */
+            grid-row-end: span 1; /* Set the width of the column */
+        }
+        
+    }
+    .row2{
+        display              : grid;
+        grid-template-columns: repeat(2, 1fr); /* Adjust the number of columns as needed */
+        padding              : 0;
+        
+        .item2{
+            background-color : white;
+            color            : white;
+            padding          : 10px;
+            background-color : rgb(255, 43, 43);
+            border-left-width: .2rem;
+            border-style     : solid;
+            border-left-color:white;
+        }
+        .item10{
+            background-color  : white;
+            color             : white;
+            padding           : 10px;
+            text-align        : center;
+            background-color  : rgb(0, 115, 255);
+            border-right-width: .2rem;
+            border-style      : solid;
+            border-right-color:white;
+        }
+        
+    }
+    .row3{
+        display   : grid;
+        box-shadow: rgba(0, 0, 0, 0.45) 0px -25px 20px -20px;
+        z-index   : 5;
+        .item3{
+
+            padding: 10px;
+
+        }
+        
+    }
+
+    .vnpayicon{
+        width       : 20%;
+        height      : auto;
+        margin-right: 5rem;
+    }
+    .bank{
+        width: 95%;
+    }
+    .title{
+        width      : 80%;
+        margin-left: 20px;
+        font-weight: bold;
+    }
+    .Body{
+        border: 1px solid black;
+    }
+    .footer{
+        border: 1px solid black;
+    }
+    
+    .link{
+        position       : relative;
+        top            : 20px;
+        text-decoration: none;
+
+    }
+    .QRtitle{
+        font-weight: bold;
+    }
+}

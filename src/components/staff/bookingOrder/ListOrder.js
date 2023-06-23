@@ -14,6 +14,7 @@ import {
   deleteTransportStatus,
   putUpdateTransportStatus,
   getOrderByTrip,
+  getAllTrip,
 } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -26,12 +27,14 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { GrView } from "react-icons/gr";
+import ReactPaginate from "react-paginate";
+import Select from "react-select";
 
 const ListOrder = () => {
-  const [status, setStatus] = useState("all");
   const [listOrder, setListOrder] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  const [invalidSearchValue, setInvalidSearchValue] = useState(false);
+  const [filterList, setFilterList] = useState([]);
+  const [tripOption, setTripOption] = useState([]);
+  const [selectedTrip, setselectedTrip] = useState("");
 
   const [showCustomer, setShowCustomer] = useState(false);
   const [customer, setCustomer] = useState("");
@@ -61,6 +64,37 @@ const ListOrder = () => {
   const [InvalidEditStatusDate, setInvalidEditStatusDate] = useState(false);
   const [statusID, setStatusID] = useState("");
   const [showEdit, setShowEdit] = useState(false);
+
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const PAGE_LIMIT = 6;
+
+  const handlePageClick = (event) => {
+    const newOffset = (+event.selected * PAGE_LIMIT) % filterList.length;
+    setItemOffset(newOffset);
+    setCurrentPage(+event.selected + 1);
+  };
+
+  useEffect(() => {
+    let newPageCount = Math.ceil(filterList.length / PAGE_LIMIT);
+    const endOffset = itemOffset + PAGE_LIMIT;
+    setCurrentItems(filterList.slice(itemOffset, endOffset));
+    setPageCount(newPageCount);
+  }, [itemOffset, filterList]);
+
+  useEffect(() => {
+    let newPageCount = Math.ceil(filterList.length / PAGE_LIMIT);
+    if (newPageCount < pageCount) {
+      const newOffset = 0;
+      const endOffset = newOffset + PAGE_LIMIT;
+      setCurrentItems(filterList.slice(newOffset, endOffset));
+      setItemOffset(newOffset);
+      setCurrentPage(1);
+    }
+  }, [currentPage, pageCount, filterList]);
 
   const handleCloseCustomer = () => setShowCustomer(false);
   const handleShowCustomer = async (orderID) => {
@@ -134,21 +168,39 @@ const ListOrder = () => {
     setShowUpdate(true);
   };
 
-  useEffect(() => {
-    const fetchListOrder = async () => {
-      let data = await getListOrder(status);
-      if (data && data.EC === 0) {
-        setListOrder(data.DT);
-      } else {
-        setListOrder([]);
-        toast.warning(data.EM);
-      }
-    };
-    fetchListOrder();
-  }, [status]);
+  const fetchListOrder = async () => {
+    let data = await getListOrder();
+    if (data && data.EC === 0) {
+      setListOrder(data.DT);
+      setFilterList(data.DT);
+    }
+  };
 
-  const handleChangeStatus = (e) => {
-    setStatus(e.target.value);
+  const fetchAllTrip = async () => {
+    let data = await getAllTrip();
+    if (data && data.EC === 0) {
+      let tripOption = [];
+      data.DT.forEach((trip) => {
+        tripOption.push({
+          value: trip.trip_id,
+          label: `${trip.departure_date} ${trip.departure} - ${trip.destination}`,
+        });
+      });
+      setTripOption(tripOption);
+    }
+  };
+
+  useEffect(() => {
+    fetchListOrder();
+    fetchAllTrip();
+  }, []);
+
+  const handleChangeStatus = (value) => {
+    let cloneList = _.cloneDeep(listOrder);
+    if (value !== "all") {
+      cloneList = cloneList.filter((order) => order.status === value);
+    }
+    setFilterList(cloneList);
   };
 
   const handleUpdateOrderStatus = async (e) => {
@@ -160,12 +212,7 @@ const ListOrder = () => {
       updateDepart
     );
     if (data && data.EC === 0) {
-      let dataNew = await getListOrder(status);
-      if (dataNew && dataNew.EC === 0) {
-        setListOrder(dataNew.DT);
-      } else {
-        setListOrder([]);
-      }
+      fetchListOrder();
       toast.success(data.EM);
       setShowUpdate(false);
     } else toast.error(data.EM);
@@ -293,24 +340,22 @@ const ListOrder = () => {
     } else toast.error(data.EM);
   };
 
-  const handleChangeSearch = (e) => {
-    setSearchValue(e.target.value);
-    setInvalidSearchValue(false);
-  };
-
   const handleSearch = async (e) => {
     e.preventDefault();
 
-    if (!searchValue) {
-      toast.error("Please enter trip ID.");
-      setInvalidSearchValue(true);
+    if (!selectedTrip) {
+      toast.error("Please select a trip.");
+      return;
     }
 
-    let data = await getOrderByTrip(searchValue);
+    let data = await getOrderByTrip(selectedTrip?.value);
     if (data && data.EC === 0) {
       setListOrder(data.DT);
+      setFilterList(data.DT);
+      setselectedTrip(null);
     } else {
       setListOrder([]);
+      setFilterList([]);
       toast.error(data.EM);
     }
   };
@@ -326,7 +371,7 @@ const ListOrder = () => {
           <Form.Select
             defaultValue=""
             aria-label="Default select example"
-            onChange={(e) => handleChangeStatus(e)}
+            onChange={(e) => handleChangeStatus(e.target.value)}
           >
             <option value="" disabled hidden>
               Select status
@@ -340,19 +385,19 @@ const ListOrder = () => {
         </Form.Group>
         <Form onSubmit={(e) => handleSearch(e)}>
           <Form.Group className="mb-3" controlId="searchOrder">
-            <Form.Label className="search-title">Search By Trip ID</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Enter trip ID"
-              min={1}
-              className="search-order"
-              value={searchValue}
-              isInvalid={invalidSearchValue}
-              onChange={(e) => handleChangeSearch(e)}
+            <Form.Label className="search-title">Search By Trip</Form.Label>
+            <Select
+              value={selectedTrip}
+              onChange={setselectedTrip}
+              options={tripOption}
+              isClearable={true}
             />
           </Form.Group>
           <Button variant="primary" type="submit">
             Search
+          </Button>
+          <Button variant="secondary" className="mx-2" onClick={fetchListOrder}>
+            Refresh
           </Button>
         </Form>
 
@@ -362,15 +407,15 @@ const ListOrder = () => {
               <th>Order ID</th>
               <th>Customer Name</th>
               <th>Departure - Destination</th>
-              <th>Created Time</th>
+              <th>Order Date</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {listOrder &&
-              listOrder.length > 0 &&
-              listOrder.map((order) => (
+            {currentItems &&
+              currentItems.length > 0 &&
+              currentItems.map((order) => (
                 <tr key={order.order_id}>
                   <td>{order.order_id}</td>
                   <td>
@@ -412,7 +457,7 @@ const ListOrder = () => {
                   </td>
                 </tr>
               ))}
-            {listOrder && listOrder.length === 0 && (
+            {currentItems && currentItems.length === 0 && (
               <tr>
                 <td colSpan={6}>List is Empty...</td>
               </tr>
@@ -444,7 +489,11 @@ const ListOrder = () => {
 
                 <Form.Group as={Col} controlId="formGridAddress">
                   <Form.Label>Address</Form.Label>
-                  <Form.Control type="text" value={customer.address} disabled />
+                  <Form.Control
+                    type="text"
+                    value={customer.address ? customer.address : ""}
+                    disabled
+                  />
                 </Form.Group>
               </Row>
 
@@ -453,7 +502,7 @@ const ListOrder = () => {
                   <Form.Label>Phone Number</Form.Label>
                   <Form.Control
                     type="text"
-                    value={customer.phone_number}
+                    value={customer.phone_number ? customer.phone_number : ""}
                     disabled
                   />
                 </Form.Group>
@@ -555,7 +604,7 @@ const ListOrder = () => {
 
                   <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridCreated">
-                      <Form.Label>Created At</Form.Label>
+                      <Form.Label>Order Date</Form.Label>
                       <Form.Control
                         type="text"
                         value={order.created_time}
@@ -856,6 +905,30 @@ const ListOrder = () => {
             </Tabs>
           </Modal.Body>
         </Modal>
+
+        <div className="d-flex justify-content-center mt-5">
+          <ReactPaginate
+            nextLabel="Next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="< Previous"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+            forcePage={pageCount !== 0 ? currentPage - 1 : -1} //if there is user data to be fetch, display current page as active
+          />
+        </div>
       </div>
     </div>
   );
