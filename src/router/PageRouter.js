@@ -105,7 +105,7 @@ const router = createBrowserRouter([
   // },
   {
     path: "/payment",
-    element:<Visa />,
+    element:<VNpay />,
   },
   {
     path: "/login",
