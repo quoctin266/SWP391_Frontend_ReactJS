@@ -240,7 +240,7 @@ const ViewHistory = () => {
                       fontSize: "0.9vw",
                     }}
                   >
-                    Created Time&nbsp;
+                    Order Date&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
@@ -387,7 +387,7 @@ const ViewHistory = () => {
                       </TableRow>
                     );
                   })}
-                {filterList && filterList.length === 0 && (
+                {currentItems && currentItems.length === 0 && (
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },

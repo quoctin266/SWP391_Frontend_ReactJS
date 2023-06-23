@@ -96,8 +96,8 @@ const getPricing = async () => {
   return await axios.get("api/v1/price");
 };
 
-const getListOrder = async (status) => {
-  return await axios.get(`api/v1/list-order/${status}`);
+const getListOrder = async () => {
+  return await axios.get(`api/v1/list-order`);
 };
 
 const getCustomer = async (orderID) => {
@@ -260,8 +260,9 @@ const postCreateTrip = async (routeID, driverInfo, depart, vehicleID) => {
   });
 };
 
-const getEstimateCost = async (birdCount, distance) => {
+const getEstimateCost = async (cageID, birdCount, distance) => {
   return await axios.post("api/v1/estimate-cost", {
+    cageID: cageID,
     birdCount: birdCount,
     distance: distance,
   });
@@ -444,6 +445,10 @@ const deleteTrip = async (id) => {
   return await axios.delete(`api/v1/delete-trip/${id}`);
 };
 
+const getAllTrip = async () => {
+  return await axios.get(`api/v1/alltrip`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -517,4 +522,5 @@ export {
   getDashboard,
   deleteRoute,
   deleteTrip,
+  getAllTrip,
 };

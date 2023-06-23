@@ -146,3 +146,132 @@ code {
     }
   }
 }
+
+.my-modal {
+  min-width: 85%;
+
+  .stations-table {
+    width     : 50%;
+    margin    : 2% auto;
+    margin-top: 5%;
+  }
+
+  .updt-status {
+    width : 50%;
+    margin: 3%;
+
+    .row {
+      display    : flex;
+      align-items: flex-end;
+    }
+  }
+
+  .trip-orders {
+    width     : 70%;
+    margin    : 0 auto;
+    margin-top: 5%;
+  }
+
+  .assign-container {
+    background-color: #ffffff;
+    border-radius   : 15px;
+    padding         : 2%;
+
+    .select-trip-title {
+      font-size  : 1.3em;
+      font-weight: 600;
+      margin-top : 2%;
+    }
+
+    .select-trip {
+      margin-top: 3%;
+      min-width : 300px;
+
+      .css-13cymwt-control {
+        border-radius: 20px;
+      }
+    }
+
+    .trip-detail-title {
+      font-size  : 1.3em;
+      font-weight: 600;
+      margin     : 3% 0;
+    }
+
+    .select-order-title {
+      font-size  : 1.3em;
+      font-weight: 600;
+      margin-top : 2%;
+    }
+
+    .select-order {
+      margin-top: 3%;
+      min-width : 300px;
+
+      .css-13cymwt-control {
+        border-radius: 20px;
+      }
+
+    }
+
+    .detail-title {
+      font-size  : 1.3em;
+      font-weight: 600;
+      margin     : 2% 0;
+    }
+
+    .order-detail {
+      .table {
+        background-color: white;
+        text-align      : center;
+
+        .add-order-icon {
+          cursor     : pointer;
+          color      : rgb(66, 194, 66);
+          font-size  : 1.3em;
+          line-height: 23px;
+
+          &:hover {
+            color: rgb(51, 158, 51);
+          }
+        }
+      }
+    }
+
+    .added-container {
+      margin: 0 auto;
+
+      .added-list-title {
+        font-size    : 1.3em;
+        font-weight  : 600;
+        margin-top   : 2%;
+        margin-bottom: 2%;
+      }
+
+      .added-list {
+        .table {
+          text-align: center;
+        }
+
+        .remove-btn {
+          cursor     : pointer;
+          color      : rgb(255, 0, 0);
+          font-size  : 1.3em;
+          line-height: 23px;
+
+          &:hover {
+            color: rgb(180, 6, 6);
+          }
+        }
+      }
+    }
+
+    .confirm-container {
+      text-align: right;
+
+      .confirm-btn {
+        margin-top: 4%;
+      }
+    }
+  }
+}

@@ -1,7 +1,6 @@
 .schedule-container {
-
-    width         : 95%;
     padding       : 2%;
+    padding-left  : 0;
     border-radius : 15px;
     margin-bottom : 4%;
     margin-top    : 2%;
@@ -23,7 +22,6 @@
     }
 
     .schedule-body {
-        padding-right : 7%;
         padding-bottom: 8%;
 
         .route-and-trip {
@@ -46,7 +44,7 @@
             }
 
             .route-list {
-                width        : 60%;
+                width        : 80%;
                 min-width    : 300px;
                 margin-bottom: 4%;
 
@@ -82,128 +80,7 @@
             }
         }
 
-        .assign-container {
-            background-color: #ffffff;
-            border-radius   : 15px;
-            padding         : 2%;
-            margin-top      : 3%;
 
-            .assign-title {
-
-                font-size       : 1.7em;
-                font-weight     : 600;
-                margin-bottom   : 2%;
-                background-color: #1c1a12;
-                color           : white;
-                padding         : 1%;
-                border-radius   : 15px;
-                width           : 35%;
-                min-width       : 330px;
-                text-align      : center;
-
-            }
-
-
-
-            .select-trip-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin-top : 2%;
-            }
-
-            .select-trip {
-                margin-top: 3%;
-                min-width : 300px;
-
-                .css-13cymwt-control {
-                    border-radius: 20px;
-                }
-            }
-
-            .trip-detail-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin     : 3% 0;
-            }
-
-            .select-order-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin-top : 2%;
-            }
-
-            .select-order {
-                margin-top: 3%;
-                min-width : 300px;
-
-                .css-13cymwt-control {
-                    border-radius: 20px;
-                }
-
-            }
-
-            .detail-title {
-                font-size  : 1.3em;
-                font-weight: 600;
-                margin     : 3% 0;
-            }
-
-            .order-detail {
-                .table {
-                    background-color: white;
-                    text-align      : center;
-
-                    .add-order-icon {
-                        cursor     : pointer;
-                        color      : rgb(66, 194, 66);
-                        font-size  : 1.3em;
-                        line-height: 23px;
-
-                        &:hover {
-                            color: rgb(51, 158, 51);
-                        }
-                    }
-                }
-            }
-
-            .added-container {
-                width : 80%;
-                margin: 0 auto;
-
-                .added-list-title {
-                    font-size    : 1.3em;
-                    font-weight  : 600;
-                    margin-top   : 5%;
-                    margin-bottom: 2%;
-                    text-align   : center;
-                }
-
-                .added-list {
-                    .table {
-                        text-align: center;
-                    }
-
-                    .remove-btn {
-                        cursor     : pointer;
-                        color      : rgb(255, 0, 0);
-                        font-size  : 1.3em;
-                        line-height: 23px;
-
-                        &:hover {
-                            color: rgb(180, 6, 6);
-                        }
-                    }
-                }
-            }
-
-            .confirm-container {
-                text-align: right;
-
-                .confirm-btn {
-                    margin-top: 4%;
-                }
-            }
-        }
 
     }
 }
