@@ -96,8 +96,8 @@ const getPricing = async () => {
   return await axios.get("api/v1/price");
 };
 
-const getListOrder = async (status) => {
-  return await axios.get(`api/v1/list-order/${status}`);
+const getListOrder = async () => {
+  return await axios.get(`api/v1/list-order`);
 };
 
 const getCustomer = async (orderID) => {
@@ -445,6 +445,10 @@ const deleteTrip = async (id) => {
   return await axios.delete(`api/v1/delete-trip/${id}`);
 };
 
+const getAllTrip = async () => {
+  return await axios.get(`api/v1/alltrip`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -518,4 +522,5 @@ export {
   getDashboard,
   deleteRoute,
   deleteTrip,
+  getAllTrip,
 };

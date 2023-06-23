@@ -193,6 +193,7 @@ const GoogleMapSearch = () => {
             <Col>
               <Form.Label>Bird Quantity</Form.Label>
               <Form.Control
+                placeholder="Enter number of birds"
                 type="number"
                 min="1"
                 value={birdCount}

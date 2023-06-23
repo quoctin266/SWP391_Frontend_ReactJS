@@ -7,7 +7,6 @@ import {
   getAllRoute,
   getRouteDetail,
   getTripList,
-  getVehicle,
   getDriverList,
   getProgressList,
   postCreateProgress,
@@ -45,7 +44,6 @@ const Schedule = () => {
   const [routeDetail, setRouteDetail] = useState([]);
   const [stationList, setStationList] = useState([]);
 
-  const [selectedTrip, setSelectedTrip] = useState("");
   const [tripList, setTripList] = useState([]);
 
   const [showDrivers, setShowDrivers] = useState(false);
@@ -75,11 +73,7 @@ const Schedule = () => {
   const [showRemove, setShowRemove] = useState(false);
   const [removeOrder, setRemoveOrder] = useState("");
 
-  const [tripOption, setTripOption] = useState([]);
   const [pendingOrderList, setPendingOrderList] = useState([]);
-  const [orderOption, setOrderOption] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState("");
-  const [detailSelectedOrder, setDetailSelectedOrder] = useState("");
 
   const [routeEstimate, setRouteEstimate] = useState([]);
   const [assignOrders, setAssignOrders] = useState([]);
@@ -289,22 +283,10 @@ const Schedule = () => {
       toast.success(data.EM);
       let dataNew = await getTripList(selectedRoute.value);
       if (dataNew && dataNew.EC === 0) {
-        let tripOption = [];
-
-        dataNew.DT.forEach((trip) => {
-          if (trip.status === "Standby")
-            tripOption.push({
-              value: trip.trip_id,
-              label: `Trip ID: ${trip.trip_id} >>> Depart on: ${trip.departure_date}`,
-            });
-        });
-        setTripOption(tripOption);
         setTripList(dataNew.DT);
       } else if (dataNew && dataNew.EC === 107) {
         setTripList([]);
-        setTripOption([]);
       }
-      setSelectedTrip(null);
     } else toast.error(data.EM);
   };
 
@@ -368,20 +350,9 @@ const Schedule = () => {
     const fetchTripsList = async () => {
       let data = await getTripList(selectedRoute.value);
       if (data && data.EC === 0) {
-        let tripOption = [];
-
-        data.DT.forEach((trip) => {
-          if (trip.status === "Standby")
-            tripOption.push({
-              value: trip.trip_id,
-              label: `Trip ID: ${trip.trip_id} >>> Depart on: ${trip.departure_date}`,
-            });
-        });
-        setTripOption(tripOption);
         setTripList(data.DT);
       } else if (data && data.EC === 107) {
         setTripList([]);
-        setTripOption([]);
       }
     };
     fetchRouteDetail();
@@ -392,15 +363,15 @@ const Schedule = () => {
     const fetchPendingOrder = async () => {
       // initiate route detail of the selected trip
       let cloneRouteDetail = _.cloneDeep(routeDetail);
-      tripList.forEach((trip) => {
-        if (trip.trip_id === selectedTrip?.value) {
+      tripList.forEach((item) => {
+        if (item.trip_id === trip.trip_id) {
           cloneRouteDetail.forEach((station) => {
-            let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+            let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
               .add(station.driving_time, "minutes")
               .format("DD-MM-YYYY");
 
             let estimate_time = moment(
-              trip.departure_date,
+              item.departure_date,
               "DD-MM-YYYY HH:mm:ss"
             )
               .add(station.driving_time, "minutes")
@@ -413,7 +384,7 @@ const Schedule = () => {
       });
 
       // calculate current capacity of each station of the trip
-      let dataOrder = await getOrderCapacity(selectedTrip?.value);
+      let dataOrder = await getOrderCapacity(trip.trip_id);
       if (dataOrder && dataOrder.EC === 0) {
         cloneRouteDetail.forEach((station, index) => {
           dataOrder.DT.forEach((order) => {
@@ -453,41 +424,29 @@ const Schedule = () => {
           });
         }
 
-        // format order selection
-        let orderOption = [];
-        cloneOrder2.forEach((order) => {
-          orderOption.push({
-            value: order.order_id,
-            label: `Order ID: ${order.order_id} >>> ${order.departure_location} - ${order.arrival_location} - Anticipate: ${order.anticipate_date}`,
-          });
-        });
-
-        setOrderOption(orderOption);
         setPendingOrderList(cloneOrder2);
       } else {
         setPendingOrderList([]);
-        setOrderOption([]);
       }
+
       setRouteEstimate(cloneRouteDetail);
       setAssignOrders([]);
-      setSelectedOrder(null);
-      setDetailSelectedOrder("");
     };
 
     fetchPendingOrder();
-  }, [routeDetail, selectedTrip, tripList]);
+  }, [routeDetail, trip, tripList]);
 
   const fetchPendingOrder = async () => {
     // initiate route detail of the selected trip
     let cloneRouteDetail = _.cloneDeep(routeDetail);
-    tripList.forEach((trip) => {
-      if (trip.trip_id === selectedTrip?.value) {
+    tripList.forEach((item) => {
+      if (item.trip_id === trip.trip_id) {
         cloneRouteDetail.forEach((station) => {
-          let estimate = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+          let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
             .add(station.driving_time, "minutes")
             .format("DD-MM-YYYY");
 
-          let estimate_time = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+          let estimate_time = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
             .add(station.driving_time, "minutes")
             .format("DD-MM-YYYY HH:mm:ss");
 
@@ -498,7 +457,7 @@ const Schedule = () => {
     });
 
     // calculate current capacity of each station of the trip
-    let dataOrder = await getOrderCapacity(selectedTrip?.value);
+    let dataOrder = await getOrderCapacity(trip.trip_id);
     if (dataOrder && dataOrder.EC === 0) {
       cloneRouteDetail.forEach((station, index) => {
         dataOrder.DT.forEach((order) => {
@@ -540,75 +499,36 @@ const Schedule = () => {
         });
       }
 
-      // format order selection
-      let orderOption = [];
-      cloneOrder2.forEach((order) => {
-        orderOption.push({
-          value: order.order_id,
-          label: `Order ID: ${order.order_id} >>> ${order.departure_location} - ${order.arrival_location} - Anticipate: ${order.anticipate_date}`,
-        });
-      });
-
-      setOrderOption(orderOption);
       setPendingOrderList(cloneOrder2);
     } else {
       setPendingOrderList([]);
-      setOrderOption([]);
     }
     setRouteEstimate(cloneRouteDetail);
-    setSelectedOrder(null);
-    setDetailSelectedOrder("");
-  };
-
-  const handleChangeOrder = (selectedOrder) => {
-    setSelectedOrder(selectedOrder);
-    pendingOrderList.every((order) => {
-      if (order.order_id === selectedOrder?.value) {
-        setDetailSelectedOrder(order);
-        return false;
-      } else setDetailSelectedOrder("");
-      return true;
-    });
   };
 
   const handleAssign = async (e) => {
-    if (!selectedTrip) {
-      toast.error("Must select a trip.");
-      return;
-    }
-
     if (assignOrders.length === 0) {
       toast.error("Must assign at least 1 order.");
       return;
     }
 
-    let data = await putAssignOrder(assignOrders, selectedTrip.value);
+    let data = await putAssignOrder(assignOrders, trip.trip_id);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      setSelectedTrip(null);
       setRouteEstimate([]);
+      handleCloseDetailTrip();
     } else toast.error(data.EM);
   };
 
-  const handleTempAdd = async () => {
-    let vehicleID;
-    let vehicleCapacity;
-    tripList.forEach((trip) => {
-      if (trip.trip_id === selectedTrip?.value) {
-        vehicleID = trip.vehicle_id;
-      }
-    });
-    let data = await getVehicle(vehicleID);
-    if (data && data.EC === 0) {
-      vehicleCapacity = data.DT.capacity;
-    }
+  const handleTempAdd = async (order) => {
+    let vehicleCapacity = trip.capacity;
 
     let cloneRoute = _.cloneDeep(routeEstimate);
     cloneRoute.forEach((station, index) => {
-      if (station.name === detailSelectedOrder.departure_location) {
-        station.pickup += detailSelectedOrder.total_capacity;
-      } else if (station.name === detailSelectedOrder.arrival_location) {
-        station.dropoff += detailSelectedOrder.total_capacity;
+      if (station.name === order.departure_location) {
+        station.pickup += order.total_capacity;
+      } else if (station.name === order.arrival_location) {
+        station.dropoff += order.total_capacity;
       }
       if (index !== 0) {
         // let sumPickup = 0;
@@ -626,9 +546,7 @@ const Schedule = () => {
     let validAssign = cloneRoute.every((station) => {
       if (station.totalUnit > vehicleCapacity) {
         let remainUnit =
-          vehicleCapacity +
-          detailSelectedOrder.total_capacity -
-          station.totalUnit;
+          vehicleCapacity + order.total_capacity - station.totalUnit;
         if (remainUnit !== 0) {
           toast.error(
             `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
@@ -643,17 +561,15 @@ const Schedule = () => {
     if (!validAssign) return;
 
     let assignList = [...assignOrders];
-    assignList.push(detailSelectedOrder);
+    assignList.push(order);
 
-    let newOrderOption = orderOption.filter(
-      (order) => order.value !== detailSelectedOrder.order_id
+    let newPendingList = pendingOrderList.filter(
+      (item) => item.order_id !== order.order_id
     );
 
-    setOrderOption(newOrderOption);
+    setPendingOrderList(newPendingList);
     setAssignOrders(assignList);
     setRouteEstimate(cloneRoute);
-    setDetailSelectedOrder("");
-    setSelectedOrder(null);
   };
 
   const handleRemoveTemp = (item) => {
@@ -681,22 +597,16 @@ const Schedule = () => {
       (order) => order.order_id !== item.order_id
     );
 
-    let newOrderOption = [...orderOption];
-    newOrderOption.push({
-      value: item.order_id,
-      label: `Order ID: ${item.order_id} >>> ${item.departure_location} - ${item.arrival_location} - Anticipate: ${item.anticipate_date}`,
-    });
+    let newPendingList = [...pendingOrderList];
+    newPendingList.push(item);
 
+    setPendingOrderList(newPendingList);
     setRouteEstimate(cloneRoute);
-    setOrderOption(newOrderOption);
     setAssignOrders(newAssign);
   };
 
   const handleChangeRoute = (selectedRoute) => {
     setSelectedRoute(selectedRoute);
-    setSelectedTrip(null);
-    setSelectedOrder(null);
-    setDetailSelectedOrder("");
   };
 
   return (
@@ -1112,7 +1022,7 @@ const Schedule = () => {
               onHide={handleCloseDetailTrip}
               backdrop="static"
               keyboard={false}
-              fullscreen="xxl-down"
+              dialogClassName="my-modal"
             >
               <Modal.Header closeButton>
                 <Modal.Title>Trip Detail</Modal.Title>
@@ -1125,327 +1035,338 @@ const Schedule = () => {
                   justify
                 >
                   <Tab eventKey="detailStation" title="Station">
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Index</th>
-                          <th>Station</th>
-                          <th>Total Capacity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {manageRouteDetail &&
-                          manageRouteDetail.length > 0 &&
-                          manageRouteDetail.map((station) => {
-                            return (
-                              <tr key={station.station_id}>
-                                <td>{station.station_index}</td>
-                                <td>{station.name}</td>
-                                <td>{station.totalUnit}</td>
-                              </tr>
-                            );
-                          })}
-                        <tr>
-                          <td colSpan={2} style={{ textAlign: "center" }}>
-                            <b>Total Capacity</b>
-                          </td>
-                          <td>{totalCapacity}</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                    <div style={{ marginTop: "5%" }}>
-                      <i>
-                        Note: <b>Total Capacity</b> at each station must not
-                        exceed vehicle capacity
-                      </i>
+                    <div className="stations-table">
+                      <Table striped bordered hover>
+                        <thead>
+                          <tr>
+                            <th>Index</th>
+                            <th>Station</th>
+                            <th>Total Capacity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {manageRouteDetail &&
+                            manageRouteDetail.length > 0 &&
+                            manageRouteDetail.map((station) => {
+                              return (
+                                <tr key={station.station_id}>
+                                  <td>{station.station_index}</td>
+                                  <td>{station.name}</td>
+                                  <td>{station.totalUnit}</td>
+                                </tr>
+                              );
+                            })}
+                          <tr>
+                            <td colSpan={2} style={{ textAlign: "center" }}>
+                              <b>Total Capacity</b>
+                            </td>
+                            <td>{totalCapacity}</td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                      <div style={{ marginTop: "5%" }}>
+                        <i>
+                          Note: <b>Total Capacity</b> at each station must not
+                          exceed vehicle capacity
+                        </i>
+                      </div>
                     </div>
                   </Tab>
+
                   <Tab eventKey="statusUpdate" title="Update Status">
-                    <Form onSubmit={(e) => handleUpdateStatus(e)}>
-                      <Row className="mb-5">
-                        <Form.Group as={Col} controlId="selectStatus">
-                          <Form.Label>Trip Status</Form.Label>
-                          <Form.Select
-                            defaultValue={statusUpdate}
-                            aria-label="Default select example"
-                            onChange={(e) => setStatusUpdate(e.target.value)}
-                          >
-                            <option value="" disabled hidden>
-                              Select status
-                            </option>
-                            <option value="Standby">Standby</option>
-                            <option value="Departed">Departed</option>
-                            <option value="Completed">Completed</option>
-                          </Form.Select>
-                        </Form.Group>
+                    <div className="updt-status">
+                      <Form onSubmit={(e) => handleUpdateStatus(e)}>
+                        <Row className="mb-5">
+                          <Form.Group as={Col} controlId="selectStatus">
+                            <Form.Label>Trip Status</Form.Label>
+                            <Form.Select
+                              defaultValue={statusUpdate}
+                              aria-label="Default select example"
+                              onChange={(e) => setStatusUpdate(e.target.value)}
+                            >
+                              <option value="" disabled hidden>
+                                Select status
+                              </option>
+                              <option value="Standby">Standby</option>
+                              <option value="Departed">Departed</option>
+                              <option value="Completed">Completed</option>
+                            </Form.Select>
+                          </Form.Group>
 
-                        <Col></Col>
-                      </Row>
-                      <Button variant="primary" type="submit">
-                        Confirm
-                      </Button>
-                    </Form>
+                          <Col>
+                            <Button variant="primary" type="submit">
+                              Confirm
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </div>
                   </Tab>
-                  <Tab eventKey="orderList" title="Order List">
-                    <Table striped hover>
-                      <thead>
-                        <tr>
-                          <th>Order ID</th>
-                          <th>Departure</th>
-                          <th>Destination</th>
-                          <th>Bird Quantity</th>
-                          <th>Capacity Unit</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {listOrder &&
-                          listOrder.length > 0 &&
-                          listOrder.map((order) => {
-                            return (
-                              <tr key={order.order_id}>
-                                <td>{order.order_id}</td>
-                                <td>{order.departure_location}</td>
-                                <td>{order.arrival_location}</td>
-                                <td>{order.bird_quantity}</td>
-                                <td>{order.total_capacity}</td>
-                                <td>
-                                  <Button
-                                    variant="danger"
-                                    onClick={() => handleClickRemove(order)}
-                                  >
-                                    Remove
-                                  </Button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        {listOrder && listOrder.length === 0 && (
-                          <tr>
-                            <td colSpan={6}>List is empty...</td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </Table>
 
-                    {showRemove && (
-                      <div className="delete-confirm">
-                        <div className="delete-title">
-                          Are you sure to remove this order from curent trip?
+                  <Tab eventKey="orderList" title="Order List">
+                    <div className="trip-orders">
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Departure</th>
+                            <th>Destination</th>
+                            <th>Bird Quantity</th>
+                            <th>Capacity Unit</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {listOrder &&
+                            listOrder.length > 0 &&
+                            listOrder.map((order) => {
+                              return (
+                                <tr key={order.order_id}>
+                                  <td>{order.order_id}</td>
+                                  <td>{order.departure_location}</td>
+                                  <td>{order.arrival_location}</td>
+                                  <td>{order.bird_quantity}</td>
+                                  <td>{order.total_capacity}</td>
+                                  <td>
+                                    <Button
+                                      variant="danger"
+                                      onClick={() => handleClickRemove(order)}
+                                    >
+                                      Remove
+                                    </Button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          {listOrder && listOrder.length === 0 && (
+                            <tr>
+                              <td colSpan={6}>List is empty...</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
+
+                      {showRemove && (
+                        <div className="delete-confirm">
+                          <div className="delete-title">
+                            Are you sure to remove this order from curent trip?
+                          </div>
+                          <div className="timestamp">
+                            <Row>
+                              <Col className="col-2">Order ID:</Col>
+                              <Col>
+                                <b>{removeOrder.order_id}</b>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col className="col-2">From:</Col>
+                              <Col>
+                                <b>{removeOrder.departure_location}</b>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col className="col-2">To:</Col>
+                              <Col>
+                                <b>{removeOrder.arrival_location}</b>
+                              </Col>
+                            </Row>
+                          </div>
+                          <Button variant="primary" onClick={handleRemoveOrder}>
+                            Confirm
+                          </Button>
+                          <Button
+                            variant="secondary"
+                            className="mx-2"
+                            onClick={() => setShowRemove(false)}
+                          >
+                            Cancel
+                          </Button>
                         </div>
-                        <div className="timestamp">
-                          <Row>
-                            <Col className="col-2">Order ID:</Col>
-                            <Col>
-                              <b>{removeOrder.order_id}</b>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col className="col-2">From:</Col>
-                            <Col>
-                              <b>{removeOrder.departure_location}</b>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col className="col-2">To:</Col>
-                            <Col>
-                              <b>{removeOrder.arrival_location}</b>
-                            </Col>
-                          </Row>
+                      )}
+                    </div>
+                  </Tab>
+
+                  <Tab eventKey="assignOrder" title="Assign Order">
+                    <div className="assign-container">
+                      <Row>
+                        <Col lg={9}>
+                          <div className="trip-detail-title">Trip Detail</div>
+                          <div>
+                            <Table striped hover bordered responsive="md">
+                              <thead>
+                                <tr>
+                                  <th>Index</th>
+                                  <th>Station</th>
+                                  <th>Estimate Arrival</th>
+                                  <th>Current Capacity</th>
+                                  <th>Max Capacity</th>
+                                  <th>Remaining Capacity</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {routeEstimate &&
+                                  routeEstimate.length > 0 &&
+                                  routeEstimate[0].estimate_time !==
+                                    undefined &&
+                                  routeEstimate.map((station, index) => {
+                                    return (
+                                      <tr key={station.station_id}>
+                                        <td>{station.station_index}</td>
+                                        <td>{station.name}</td>
+                                        <td>{station.estimate_time}</td>
+                                        <td>{station.totalUnit}</td>
+                                        <td>
+                                          {index !== routeEstimate.length - 1
+                                            ? trip.capacity
+                                            : 0}
+                                        </td>
+                                        <td>
+                                          {index !== routeEstimate.length - 1
+                                            ? trip.capacity - station.totalUnit
+                                            : 0}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                {routeEstimate && routeEstimate.length === 0 ? (
+                                  <tr>
+                                    <td colSpan={4}>Empty list...</td>
+                                  </tr>
+                                ) : routeEstimate[0].estimate_time ===
+                                  undefined ? (
+                                  <tr>
+                                    <td colSpan={4}>Empty list...</td>
+                                  </tr>
+                                ) : (
+                                  <></>
+                                )}
+                              </tbody>
+                            </Table>
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <Row>
+                        <Col>
+                          <div className="detail-title">Available Orders</div>
+                          <div className="order-detail">
+                            <Table striped hover bordered responsive="md">
+                              <thead>
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>Departure</th>
+                                  <th>Destination</th>
+                                  <th>Capacity Unit</th>
+                                  <th>Total Cost</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {pendingOrderList &&
+                                  pendingOrderList.length > 0 &&
+                                  pendingOrderList.map((order) => {
+                                    return (
+                                      <tr key={order.order_id}>
+                                        <td>{order.order_id}</td>
+                                        <td>{order.departure_location}</td>
+                                        <td>{order.arrival_location}</td>
+                                        <td>{order.total_capacity}</td>
+                                        <td>
+                                          {new Intl.NumberFormat().format(
+                                            order.total_cost
+                                          )}{" "}
+                                          VND
+                                        </td>
+                                        <td>
+                                          <span
+                                            className="add-order-icon"
+                                            onClick={() => handleTempAdd(order)}
+                                          >
+                                            <MdAddCircle />
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                {pendingOrderList &&
+                                  pendingOrderList.length === 0 && (
+                                    <tr>
+                                      <td colSpan={6}>Empty list...</td>
+                                    </tr>
+                                  )}
+                              </tbody>
+                            </Table>
+                          </div>
+                        </Col>
+                      </Row>
+
+                      <div className="added-container">
+                        <div className="added-list-title">Added Orders</div>
+                        <div className="added-list">
+                          <Table striped hover bordered responsive="md">
+                            <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Departure</th>
+                                <th>Destination</th>
+                                <th>Capacity Unit</th>
+                                <th>Total Cost</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {assignOrders &&
+                                assignOrders.length > 0 &&
+                                assignOrders.map((order) => {
+                                  return (
+                                    <tr key={order.order_id}>
+                                      <td>{order.order_id}</td>
+                                      <td>{order.departure_location}</td>
+                                      <td>{order.arrival_location}</td>
+                                      <td>{order.total_capacity}</td>
+                                      <td>
+                                        {new Intl.NumberFormat().format(
+                                          order.total_cost
+                                        )}{" "}
+                                        VND
+                                      </td>
+                                      <td>
+                                        <span
+                                          className="remove-btn"
+                                          onClick={() =>
+                                            handleRemoveTemp(order)
+                                          }
+                                        >
+                                          <MdRemoveCircle />
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              {assignOrders && assignOrders.length === 0 && (
+                                <tr>
+                                  <td colSpan={6}>Nothing added yet...</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </Table>
                         </div>
-                        <Button variant="primary" onClick={handleRemoveOrder}>
+                      </div>
+                      <div className="confirm-container">
+                        <Button className="confirm-btn" onClick={handleAssign}>
                           Confirm
                         </Button>
-                        <Button
-                          variant="secondary"
-                          className="mx-2"
-                          onClick={() => setShowRemove(false)}
-                        >
-                          Cancel
-                        </Button>
                       </div>
-                    )}
+                    </div>
                   </Tab>
-                  <Tab eventKey="assignOrder" title="Assign Order"></Tab>
                 </Tabs>
               </Modal.Body>
-              <Modal.Footer>
+              <Modal.Footer style={{ justifyContent: "flex-start" }}>
                 <Button variant="secondary" onClick={handleCloseDetailTrip}>
                   Close
                 </Button>
               </Modal.Footer>
             </Modal>
-          </div>
-        </div>
-
-        <div className="assign-container">
-          <div className="assign-title">Assign Order To Trip</div>
-          <Row className="mb-5">
-            <Col lg={5}>
-              <div className="select-trip-title">Select Trip</div>
-              <div className="select-trip">
-                <Select
-                  value={selectedTrip}
-                  onChange={setSelectedTrip}
-                  options={tripOption}
-                  isClearable={true}
-                />
-              </div>
-            </Col>
-
-            <Col lg={5} style={{ marginLeft: "7%" }}>
-              <div className="select-order-title">Select Order</div>
-              <div className="select-order">
-                <Select
-                  value={selectedOrder}
-                  onChange={handleChangeOrder}
-                  options={orderOption}
-                  isClearable={true}
-                />
-              </div>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col lg={5}>
-              <div className="trip-detail-title">Trip Detail</div>
-              <div>
-                <Table striped hover bordered responsive="md">
-                  <thead>
-                    <tr>
-                      <th>Index</th>
-                      <th>Station</th>
-                      <th>Estimate Arrival</th>
-                      <th>Total Capacity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {routeEstimate &&
-                      routeEstimate.length > 0 &&
-                      routeEstimate[0].estimate_time !== undefined &&
-                      routeEstimate.map((station) => {
-                        return (
-                          <tr key={station.station_id}>
-                            <td>{station.station_index}</td>
-                            <td>{station.name}</td>
-                            <td>{station.estimate_time}</td>
-                            <td>{station.totalUnit}</td>
-                          </tr>
-                        );
-                      })}
-                    {routeEstimate && routeEstimate.length === 0 ? (
-                      <tr>
-                        <td colSpan={4}>Select a trip...</td>
-                      </tr>
-                    ) : routeEstimate[0].estimate_time === undefined ? (
-                      <tr>
-                        <td colSpan={4}>Select a trip...</td>
-                      </tr>
-                    ) : (
-                      <></>
-                    )}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-
-            <Col lg={5} style={{ marginLeft: "7%" }}>
-              <div className="detail-title">Order Detail</div>
-              <div className="order-detail">
-                <Table striped hover bordered responsive="md">
-                  <thead>
-                    <tr>
-                      <th>Order ID</th>
-                      <th>Bird Quantity</th>
-                      <th>Capacity Unit</th>
-                      <th>Total Cost</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {detailSelectedOrder && !_.isEmpty(detailSelectedOrder) ? (
-                      <tr>
-                        <td>{detailSelectedOrder.order_id}</td>
-                        <td>{detailSelectedOrder.bird_quantity}</td>
-                        <td>{detailSelectedOrder.total_capacity}</td>
-                        <td>
-                          {new Intl.NumberFormat().format(
-                            detailSelectedOrder.total_cost
-                          )}{" "}
-                          VND
-                        </td>
-                        <td>
-                          <span
-                            className="add-order-icon"
-                            onClick={handleTempAdd}
-                          >
-                            <MdAddCircle />
-                          </span>
-                        </td>
-                      </tr>
-                    ) : (
-                      <tr>
-                        <td colSpan={6}>Select an order...</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
-              </div>
-            </Col>
-          </Row>
-
-          <div className="added-container">
-            <div className="added-list-title">Added Orders</div>
-            <div className="added-list">
-              <Table striped hover bordered responsive="md">
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Departure</th>
-                    <th>Destination</th>
-                    <th>Anticipate date</th>
-                    <th>Capacity Unit</th>
-                    <th>Total Cost</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {assignOrders &&
-                    assignOrders.length > 0 &&
-                    assignOrders.map((order) => {
-                      return (
-                        <tr key={order.order_id}>
-                          <td>{order.order_id}</td>
-                          <td>{order.departure_location}</td>
-                          <td>{order.arrival_location}</td>
-                          <td>{order.anticipate_date}</td>
-                          <td>{order.total_capacity}</td>
-                          <td>
-                            {new Intl.NumberFormat().format(order.total_cost)}{" "}
-                            VND
-                          </td>
-                          <td>
-                            <span
-                              className="remove-btn"
-                              onClick={() => handleRemoveTemp(order)}
-                            >
-                              <MdRemoveCircle />
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  {assignOrders && assignOrders.length === 0 && (
-                    <tr>
-                      <td colSpan={6}>Nothing added yet...</td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
-            </div>
-          </div>
-          <div className="confirm-container">
-            <Button className="confirm-btn" onClick={handleAssign}>
-              Confirm
-            </Button>
           </div>
         </div>
       </div>

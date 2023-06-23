@@ -697,7 +697,9 @@ const Booking = () => {
                         <td>{item.food_type}</td>
                         <td>{item.healthcare ? <FcCheckmark /> : ""}</td>
                         <td>{item.home_pickup ? <FcCheckmark /> : ""}</td>
-                        <td>{item.price} VND</td>
+                        <td>
+                          {new Intl.NumberFormat().format(item.price)} VND
+                        </td>
                       </tr>
                     );
                   })}

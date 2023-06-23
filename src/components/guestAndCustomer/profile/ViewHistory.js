@@ -387,7 +387,7 @@ const ViewHistory = () => {
                       </TableRow>
                     );
                   })}
-                {filterList && filterList.length === 0 && (
+                {currentItems && currentItems.length === 0 && (
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
