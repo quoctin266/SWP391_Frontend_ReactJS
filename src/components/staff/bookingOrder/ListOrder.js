@@ -35,6 +35,7 @@ const ListOrder = () => {
   const [filterList, setFilterList] = useState([]);
   const [tripOption, setTripOption] = useState([]);
   const [selectedTrip, setselectedTrip] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
 
   const [showCustomer, setShowCustomer] = useState(false);
   const [customer, setCustomer] = useState("");
@@ -117,7 +118,7 @@ const ListOrder = () => {
           ? moment(order.departure_date).format("DD-MM-YYYY").toString()
           : "Not yet";
         order.created_time = moment(order.created_time)
-          .format("DD-MM-YYYY HH:mm:ss")
+          .format("DD-MM-YYYY HH:mm")
           .toString();
         order.estimated_arrival = moment(order.estimated_arrival)
           .format("DD-MM-YYYY")
@@ -173,6 +174,8 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       setListOrder(data.DT);
       setFilterList(data.DT);
+      setFilterStatus("");
+      setselectedTrip(null);
     }
   };
 
@@ -201,6 +204,7 @@ const ListOrder = () => {
       cloneList = cloneList.filter((order) => order.status === value);
     }
     setFilterList(cloneList);
+    setFilterStatus(value);
   };
 
   const handleUpdateOrderStatus = async (e) => {
@@ -352,12 +356,12 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       setListOrder(data.DT);
       setFilterList(data.DT);
-      setselectedTrip(null);
     } else {
       setListOrder([]);
       setFilterList([]);
       toast.error(data.EM);
     }
+    setFilterStatus("");
   };
 
   return (
@@ -369,7 +373,7 @@ const ListOrder = () => {
             Filter by order status
           </Form.Label>
           <Form.Select
-            defaultValue=""
+            value={filterStatus}
             aria-label="Default select example"
             onChange={(e) => handleChangeStatus(e.target.value)}
           >
@@ -384,7 +388,7 @@ const ListOrder = () => {
           </Form.Select>
         </Form.Group>
         <Form onSubmit={(e) => handleSearch(e)}>
-          <Form.Group className="mb-3" controlId="searchOrder">
+          <Col className="mb-3">
             <Form.Label className="search-title">Search By Trip</Form.Label>
             <Select
               value={selectedTrip}
@@ -392,7 +396,7 @@ const ListOrder = () => {
               options={tripOption}
               isClearable={true}
             />
-          </Form.Group>
+          </Col>
           <Button variant="primary" type="submit">
             Search
           </Button>
@@ -436,7 +440,7 @@ const ListOrder = () => {
                   </td>
                   <td>
                     {moment(order.created_time)
-                      .format("DD-MM-YYYY HH:mm:ss")
+                      .format("DD-MM-YYYY HH:mm")
                       .toString()}
                   </td>
                   <td>{order.status}</td>
