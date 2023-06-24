@@ -67,17 +67,19 @@ const Schedule = () => {
   const [showEdit, setShowEdit] = useState(false);
 
   const [showTripDetail, setShowTripDetail] = useState(false);
-  const [totalCapacity, setTotalCapacity] = useState("");
   const [statusUpdate, setStatusUpdate] = useState("");
   const [listOrder, setListOrder] = useState([]);
   const [showRemove, setShowRemove] = useState(false);
   const [removeOrder, setRemoveOrder] = useState("");
 
   const [pendingOrderList, setPendingOrderList] = useState([]);
-
   const [routeEstimate, setRouteEstimate] = useState([]);
   const [assignOrders, setAssignOrders] = useState([]);
-  const [manageRouteDetail, setManageRouteDetail] = useState([]);
+  const [option1, setOption1] = useState([]);
+  const [option2, setOption2] = useState([]);
+  const [income1, setIncome1] = useState("");
+  const [income2, setIncome2] = useState("");
+  const [key, setKey] = useState("statusUpdate");
 
   const [temp1, setTemp1] = useState("");
   const [temp2, setTemp2] = useState("");
@@ -234,44 +236,18 @@ const Schedule = () => {
   const handleCloseDetailTrip = () => {
     setShowRemove(false);
     setShowTripDetail(false);
+    setKey("statusUpdate");
+    fetchPendingOrder();
   };
   const handleShowDetailTrip = async (trip) => {
-    let cloneRoute = _.cloneDeep(routeDetail);
-    let sumCapacity = 0;
-
     let data = await getOrderCapacity(trip.trip_id);
     if (data && data.EC === 0) {
-      cloneRoute.forEach((station, index) => {
-        data.DT.forEach((order) => {
-          if (station.name === order.departure_location) {
-            station.pickup += order.total_capacity;
-          }
-          if (station.name === order.arrival_location) {
-            station.dropoff += order.total_capacity;
-          }
-        });
-        if (index !== 0) {
-          let sumPickup = 0;
-          let sumDropoff = 0;
-          for (let i = 0; i < index + 1; i++) {
-            sumPickup += cloneRoute[i].pickup;
-            sumDropoff += cloneRoute[i].dropoff;
-          }
-          station.totalUnit = sumPickup - sumDropoff;
-        } else station.totalUnit = station.pickup;
-      });
-
-      data.DT.forEach((item) => {
-        sumCapacity += +item.total_capacity;
-      });
       setListOrder(data.DT);
     } else {
       setListOrder([]);
     }
     setTrip(trip);
     setStatusUpdate(trip.status);
-    setTotalCapacity(sumCapacity);
-    setManageRouteDetail(cloneRoute);
     setShowTripDetail(true);
   };
 
@@ -299,7 +275,57 @@ const Schedule = () => {
     let data = await putRemoveOrder(removeOrder.order_id);
     if (data && data.EC === 0) {
       handleShowDetailTrip(trip);
-      fetchPendingOrder();
+      // initiate route detail of the selected trip
+      let cloneRouteDetail = _.cloneDeep(routeDetail);
+      tripList.forEach((item) => {
+        if (item.trip_id === trip.trip_id) {
+          cloneRouteDetail.forEach((station) => {
+            let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY");
+
+            let estimate_time = moment(
+              item.departure_date,
+              "DD-MM-YYYY HH:mm:ss"
+            )
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY HH:mm:ss");
+
+            station.estimate_depart = estimate;
+            station.estimate_time = estimate_time;
+          });
+        }
+      });
+
+      // calculate current capacity of each station of the trip
+      let dataOrder = await getOrderCapacity(trip.trip_id);
+      let currentList = [];
+      if (dataOrder && dataOrder.EC === 0)
+        currentList = [...dataOrder.DT, ...assignOrders];
+      else currentList = [...assignOrders];
+
+      cloneRouteDetail.forEach((station, index) => {
+        currentList.forEach((order) => {
+          if (station.name === order.departure_location) {
+            station.pickup += order.total_capacity;
+          }
+          if (station.name === order.arrival_location) {
+            station.dropoff += order.total_capacity;
+          }
+        });
+        if (index !== 0) {
+          let sumPickup = 0;
+          let sumDropoff = 0;
+          for (let i = 0; i < index + 1; i++) {
+            sumPickup += cloneRouteDetail[i].pickup;
+            sumDropoff += cloneRouteDetail[i].dropoff;
+          }
+          station.totalUnit = sumPickup - sumDropoff;
+        } else station.totalUnit = station.pickup;
+      });
+
+      setPendingOrderList([...pendingOrderList, removeOrder]);
+      setRouteEstimate(cloneRouteDetail);
       toast.success(data.EM);
       setShowRemove(false);
     } else toast.error(data.EM);
@@ -489,11 +515,7 @@ const Schedule = () => {
         cloneOrder.forEach((order) => {
           if (order.departure_location === cloneRouteDetail[i].name) {
             if (order.anticipate_date === cloneRouteDetail[i].estimate_depart) {
-              let validOrder = assignOrders.every((item) => {
-                if (item.order_id === order.order_id) return false;
-                return true;
-              });
-              if (validOrder) cloneOrder2.push(order);
+              cloneOrder2.push(order);
             }
           }
         });
@@ -503,7 +525,9 @@ const Schedule = () => {
     } else {
       setPendingOrderList([]);
     }
+
     setRouteEstimate(cloneRouteDetail);
+    setAssignOrders([]);
   };
 
   const handleAssign = async (e) => {
@@ -515,8 +539,8 @@ const Schedule = () => {
     let data = await putAssignOrder(assignOrders, trip.trip_id);
     if (data && data.EC === 0) {
       toast.success(data.EM);
-      setRouteEstimate([]);
-      handleCloseDetailTrip();
+      fetchPendingOrder();
+      handleShowDetailTrip(trip);
     } else toast.error(data.EM);
   };
 
@@ -607,6 +631,234 @@ const Schedule = () => {
 
   const handleChangeRoute = (selectedRoute) => {
     setSelectedRoute(selectedRoute);
+  };
+
+  const handleSelectTab = async (eventKey) => {
+    if (eventKey === "autoAssign") {
+      let cloneRouteDetail = _.cloneDeep(routeDetail);
+      tripList.forEach((item) => {
+        if (item.trip_id === trip.trip_id) {
+          cloneRouteDetail.forEach((station) => {
+            let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY");
+
+            let estimate_time = moment(
+              item.departure_date,
+              "DD-MM-YYYY HH:mm:ss"
+            )
+              .add(station.driving_time, "minutes")
+              .format("DD-MM-YYYY HH:mm:ss");
+
+            station.estimate_depart = estimate;
+            station.estimate_time = estimate_time;
+          });
+        }
+      });
+
+      // calculate current capacity of each station of the trip
+      let dataOrder = await getOrderCapacity(trip.trip_id);
+      if (dataOrder && dataOrder.EC === 0) {
+        cloneRouteDetail.forEach((station, index) => {
+          dataOrder.DT.forEach((order) => {
+            if (station.name === order.departure_location) {
+              station.pickup += order.total_capacity;
+            }
+            if (station.name === order.arrival_location) {
+              station.dropoff += order.total_capacity;
+            }
+          });
+          if (index !== 0) {
+            let sumPickup = 0;
+            let sumDropoff = 0;
+            for (let i = 0; i < index + 1; i++) {
+              sumPickup += cloneRouteDetail[i].pickup;
+              sumDropoff += cloneRouteDetail[i].dropoff;
+            }
+            station.totalUnit = sumPickup - sumDropoff;
+          } else station.totalUnit = station.pickup;
+        });
+      }
+
+      // check departure and date to filter order
+      let pendingOption1 = [];
+      let pendingOption2 = [];
+      let data = await getPendingOrder();
+      if (data && data.EC === 0) {
+        let cloneOrder = _.cloneDeep(data.DT);
+        let cloneOrder2 = [];
+        for (let i = 0; i < cloneRouteDetail.length - 1; i++) {
+          cloneOrder.forEach((order) => {
+            if (order.departure_location === cloneRouteDetail[i].name) {
+              if (
+                order.anticipate_date === cloneRouteDetail[i].estimate_depart
+              ) {
+                cloneOrder2.push(order);
+              }
+            }
+          });
+        }
+        pendingOption1 = _.cloneDeep(cloneOrder2);
+        pendingOption2 = _.cloneDeep(cloneOrder2);
+        setPendingOrderList(cloneOrder2);
+      } else {
+        setPendingOrderList([]);
+      }
+
+      // prepare data for auto assign
+      let vehicleCapacity = trip.capacity;
+      let virtualRouteDetail = _.cloneDeep(cloneRouteDetail);
+      let backupRouteDetail = _.cloneDeep(cloneRouteDetail);
+      let assignOption1 = [];
+      let assignOption2 = [];
+      let income1 = 0;
+      let income2 = 0;
+
+      pendingOption1 = pendingOption1.sort((a, b) => {
+        if (a.total_cost === b.total_cost)
+          return a.total_capacity - b.total_capacity;
+        else return b.total_cost - a.total_cost;
+      });
+      pendingOption1.forEach((order) => {
+        virtualRouteDetail.forEach((station, index) => {
+          if (station.name === order.departure_location) {
+            station.pickup += order.total_capacity;
+          } else if (station.name === order.arrival_location) {
+            station.dropoff += order.total_capacity;
+          }
+          if (index !== 0) {
+            station.totalUnit =
+              virtualRouteDetail[index - 1].totalUnit +
+              station.pickup -
+              station.dropoff;
+          } else station.totalUnit = station.pickup;
+        });
+
+        let validAssign = virtualRouteDetail.every((station) => {
+          if (station.totalUnit > vehicleCapacity) {
+            return false;
+          }
+          return true;
+        });
+        if (validAssign) {
+          backupRouteDetail = [];
+          backupRouteDetail = _.cloneDeep(virtualRouteDetail);
+          assignOption1.push(order);
+          income1 += order.total_cost;
+        } else {
+          virtualRouteDetail = [];
+          virtualRouteDetail = _.cloneDeep(backupRouteDetail);
+        }
+      });
+
+      virtualRouteDetail = [];
+      virtualRouteDetail = _.cloneDeep(cloneRouteDetail);
+      backupRouteDetail = [];
+      backupRouteDetail = _.cloneDeep(cloneRouteDetail);
+      pendingOption2 = pendingOption2.sort((a, b) => {
+        if (a.total_capacity === b.total_capacity)
+          return b.total_cost - a.total_cost;
+        else return a.total_capacity - b.total_capacity;
+      });
+      pendingOption2.forEach((order) => {
+        virtualRouteDetail.forEach((station, index) => {
+          if (station.name === order.departure_location) {
+            station.pickup += order.total_capacity;
+          } else if (station.name === order.arrival_location) {
+            station.dropoff += order.total_capacity;
+          }
+          if (index !== 0) {
+            station.totalUnit =
+              virtualRouteDetail[index - 1].totalUnit +
+              station.pickup -
+              station.dropoff;
+          } else station.totalUnit = station.pickup;
+        });
+
+        let validAssign = virtualRouteDetail.every((station) => {
+          if (station.totalUnit > vehicleCapacity) {
+            return false;
+          }
+          return true;
+        });
+        if (validAssign) {
+          backupRouteDetail = [];
+          backupRouteDetail = _.cloneDeep(virtualRouteDetail);
+          assignOption2.push(order);
+          income2 += order.total_cost;
+        } else {
+          virtualRouteDetail = [];
+          virtualRouteDetail = _.cloneDeep(backupRouteDetail);
+        }
+      });
+
+      setOption1(assignOption1);
+      setOption2(assignOption2);
+      setIncome1(income1);
+      setIncome2(income2);
+      setRouteEstimate(cloneRouteDetail);
+      setAssignOrders([]);
+    }
+    setKey(eventKey);
+  };
+
+  const handleApplyOption = async (option) => {
+    let clonePending = _.cloneDeep(pendingOrderList);
+    option.forEach((order) => {
+      clonePending = clonePending.filter(
+        (item) => item.order_id !== order.order_id
+      );
+    });
+
+    let cloneRouteDetail = _.cloneDeep(routeDetail);
+    tripList.forEach((item) => {
+      if (item.trip_id === trip.trip_id) {
+        cloneRouteDetail.forEach((station) => {
+          let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
+            .add(station.driving_time, "minutes")
+            .format("DD-MM-YYYY");
+
+          let estimate_time = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
+            .add(station.driving_time, "minutes")
+            .format("DD-MM-YYYY HH:mm:ss");
+
+          station.estimate_depart = estimate;
+          station.estimate_time = estimate_time;
+        });
+      }
+    });
+
+    // calculate current capacity of each station of the trip
+    let dataOrder = await getOrderCapacity(trip.trip_id);
+    let currentList = [];
+    if (dataOrder && dataOrder.EC === 0)
+      currentList = [...dataOrder.DT, ...option];
+    else currentList = [...option];
+
+    cloneRouteDetail.forEach((station, index) => {
+      currentList.forEach((order) => {
+        if (station.name === order.departure_location) {
+          station.pickup += order.total_capacity;
+        }
+        if (station.name === order.arrival_location) {
+          station.dropoff += order.total_capacity;
+        }
+      });
+      if (index !== 0) {
+        let sumPickup = 0;
+        let sumDropoff = 0;
+        for (let i = 0; i < index + 1; i++) {
+          sumPickup += cloneRouteDetail[i].pickup;
+          sumDropoff += cloneRouteDetail[i].dropoff;
+        }
+        station.totalUnit = sumPickup - sumDropoff;
+      } else station.totalUnit = station.pickup;
+    });
+
+    setKey("assignOrder");
+    setRouteEstimate(cloneRouteDetail);
+    setAssignOrders(option);
+    setPendingOrderList(clonePending);
   };
 
   return (
@@ -1029,50 +1281,12 @@ const Schedule = () => {
               </Modal.Header>
               <Modal.Body>
                 <Tabs
-                  defaultActiveKey="detailStation"
+                  activeKey={key}
                   id="uncontrolled-tab-example"
                   className="mb-3"
                   justify
+                  onSelect={(eventKey) => handleSelectTab(eventKey)}
                 >
-                  <Tab eventKey="detailStation" title="Station">
-                    <div className="stations-table">
-                      <Table striped bordered hover>
-                        <thead>
-                          <tr>
-                            <th>Index</th>
-                            <th>Station</th>
-                            <th>Total Capacity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {manageRouteDetail &&
-                            manageRouteDetail.length > 0 &&
-                            manageRouteDetail.map((station) => {
-                              return (
-                                <tr key={station.station_id}>
-                                  <td>{station.station_index}</td>
-                                  <td>{station.name}</td>
-                                  <td>{station.totalUnit}</td>
-                                </tr>
-                              );
-                            })}
-                          <tr>
-                            <td colSpan={2} style={{ textAlign: "center" }}>
-                              <b>Total Capacity</b>
-                            </td>
-                            <td>{totalCapacity}</td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                      <div style={{ marginTop: "5%" }}>
-                        <i>
-                          Note: <b>Total Capacity</b> at each station must not
-                          exceed vehicle capacity
-                        </i>
-                      </div>
-                    </div>
-                  </Tab>
-
                   <Tab eventKey="statusUpdate" title="Update Status">
                     <div className="updt-status">
                       <Form onSubmit={(e) => handleUpdateStatus(e)}>
@@ -1186,7 +1400,7 @@ const Schedule = () => {
                     </div>
                   </Tab>
 
-                  <Tab eventKey="assignOrder" title="Assign Order">
+                  <Tab eventKey="assignOrder" title="Manual Assign">
                     <div className="assign-container">
                       <Row>
                         <Col lg={9}>
@@ -1198,8 +1412,8 @@ const Schedule = () => {
                                   <th>Index</th>
                                   <th>Station</th>
                                   <th>Estimate Arrival</th>
-                                  <th>Current Capacity</th>
                                   <th>Max Capacity</th>
+                                  <th>Current Capacity</th>
                                   <th>Remaining Capacity</th>
                                 </tr>
                               </thead>
@@ -1214,12 +1428,12 @@ const Schedule = () => {
                                         <td>{station.station_index}</td>
                                         <td>{station.name}</td>
                                         <td>{station.estimate_time}</td>
-                                        <td>{station.totalUnit}</td>
                                         <td>
                                           {index !== routeEstimate.length - 1
                                             ? trip.capacity
                                             : 0}
                                         </td>
+                                        <td>{station.totalUnit}</td>
                                         <td>
                                           {index !== routeEstimate.length - 1
                                             ? trip.capacity - station.totalUnit
@@ -1356,6 +1570,138 @@ const Schedule = () => {
                         <Button className="confirm-btn" onClick={handleAssign}>
                           Confirm
                         </Button>
+                      </div>
+                    </div>
+                  </Tab>
+
+                  <Tab eventKey="autoAssign" title="Auto Assign">
+                    <div className="auto-container">
+                      <div className="option">
+                        <div className="option-title">Option 1</div>
+                        <div className="option-body">
+                          <Table striped hover bordered responsive="md">
+                            <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Departure</th>
+                                <th>Destination</th>
+                                <th>Capacity Unit</th>
+                                <th>Total Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {option1 &&
+                                option1.length > 0 &&
+                                option1.map((order) => {
+                                  return (
+                                    <tr key={order.order_id}>
+                                      <td>{order.order_id}</td>
+                                      <td>{order.departure_location}</td>
+                                      <td>{order.arrival_location}</td>
+                                      <td>{order.total_capacity}</td>
+                                      <td>
+                                        {new Intl.NumberFormat().format(
+                                          order.total_cost
+                                        )}{" "}
+                                        VND
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              {option1 && option1.length > 0 && (
+                                <tr>
+                                  <td
+                                    colSpan={4}
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <b>Total Income</b>
+                                  </td>
+                                  <td>
+                                    {new Intl.NumberFormat().format(income1)}{" "}
+                                    VND
+                                  </td>
+                                </tr>
+                              )}
+                              {option1 && option1.length === 0 && (
+                                <tr>
+                                  <td colSpan={6}>Empty list...</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </Table>
+                          <div className="apply-btn">
+                            <Button
+                              variant="warning"
+                              onClick={() => handleApplyOption(option1)}
+                            >
+                              Apply
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="option">
+                        <div className="option-title">Option 2</div>
+                        <div className="option-body">
+                          <Table striped hover bordered responsive="md">
+                            <thead>
+                              <tr>
+                                <th>Order ID</th>
+                                <th>Departure</th>
+                                <th>Destination</th>
+                                <th>Capacity Unit</th>
+                                <th>Total Cost</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {option2 &&
+                                option2.length > 0 &&
+                                option2.map((order) => {
+                                  return (
+                                    <tr key={order.order_id}>
+                                      <td>{order.order_id}</td>
+                                      <td>{order.departure_location}</td>
+                                      <td>{order.arrival_location}</td>
+                                      <td>{order.total_capacity}</td>
+                                      <td>
+                                        {new Intl.NumberFormat().format(
+                                          order.total_cost
+                                        )}{" "}
+                                        VND
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              {option2 && option2.length > 0 && (
+                                <tr>
+                                  <td
+                                    colSpan={4}
+                                    style={{ textAlign: "center" }}
+                                  >
+                                    <b>Total Income</b>
+                                  </td>
+                                  <td>
+                                    {new Intl.NumberFormat().format(income2)}{" "}
+                                    VND
+                                  </td>
+                                </tr>
+                              )}
+                              {option2 && option2.length === 0 && (
+                                <tr>
+                                  <td colSpan={6}>Empty list...</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </Table>
+                          <div className="apply-btn">
+                            <Button
+                              variant="warning"
+                              onClick={() => handleApplyOption(option2)}
+                            >
+                              Apply
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </Tab>

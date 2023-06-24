@@ -21,11 +21,20 @@
             border-radius: 15px;
 
             .tableCell {
-                font-size: 0.85vw;
+                font-size: 1vw;
             }
 
-            button {
-                font-size: 0.85vw;
+            .sender {
+                font-size: 1vw;
+                width    : 17%;
+            }
+
+            .button-group {
+                width: 17%;
+
+                button {
+                    font-size: 0.85vw;
+                }
             }
         }
 
