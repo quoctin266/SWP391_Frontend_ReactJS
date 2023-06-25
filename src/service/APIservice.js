@@ -449,6 +449,15 @@ const getAllTrip = async () => {
   return await axios.get(`api/v1/alltrip`);
 };
 
+const putUpdateTrip = async (tripID, driverInfo, depart, vehicleID) => {
+  return await axios.put("api/v1/update-trip", {
+    tripID: tripID,
+    driverInfo: driverInfo,
+    depart: depart,
+    vehicleID: vehicleID,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -523,4 +532,5 @@ export {
   deleteRoute,
   deleteTrip,
   getAllTrip,
+  putUpdateTrip,
 };
