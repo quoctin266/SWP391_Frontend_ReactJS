@@ -315,12 +315,16 @@ const ViewHistory = () => {
                           align="center"
                           width={5}
                           sx={{ border: "0" }}
-                          className="tableCell"
+                          className="sender"
                         >
                           {item.full_name}{" "}
                           <span
                             onClick={() => handleViewSender(item)}
-                            style={{ cursor: "pointer" }}
+                            style={{
+                              cursor: "pointer",
+                              float: "right",
+                              marginRight: "7%",
+                            }}
                           >
                             <GrView />
                           </span>
@@ -365,7 +369,7 @@ const ViewHistory = () => {
                         <TableCell
                           align="left"
                           width={3}
-                          className="tableCell"
+                          className="button-group"
                           sx={{ border: "0" }}
                         >
                           <Button
