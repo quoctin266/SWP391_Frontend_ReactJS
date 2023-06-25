@@ -11,16 +11,17 @@ import {
   getRouteDetail,
   getTripList,
   getDriverList,
-  getVehicle,
   getAllVehicle,
   getAllDriver,
   postCreateTrip,
   deleteTrip,
+  putUpdateTrip,
 } from "../../../../service/APIservice";
 import { toast } from "react-toastify";
 import { toTime } from "../../../../utils/reuseFunction";
 import { FcCheckmark } from "react-icons/fc";
 import moment from "moment";
+import { GrView } from "react-icons/gr";
 
 const ManageTrip = () => {
   const [show, setShow] = useState(false);
@@ -34,9 +35,6 @@ const ManageTrip = () => {
 
   const [showDrivers, setShowDrivers] = useState(false);
   const [driverList, setDriverList] = useState([]);
-
-  const [showVehicle, setShowVehicle] = useState(false);
-  const [vehicle, setVehicle] = useState("");
 
   const [vehicleList, setVehicleList] = useState([]);
   const [assignVehicle, setAssignVehicle] = useState("");
@@ -54,7 +52,59 @@ const ManageTrip = () => {
   const [showDelete, setShowDelete] = useState(false);
   const [deleteTripItem, setDeleteTripItem] = useState("");
 
+  const [showEdit, setShowEdit] = useState(false);
+  const [editItem, setEditItem] = useState("");
+  const [editDepart, setEditDepart] = useState("");
+  const [editVehicle, setEditVehicle] = useState("");
+  const [editMainDriver, setEditMainDriver] = useState("");
+  const [editSpDriver, setEditSpDriver] = useState("");
+  const [invalidEditDepart, setInvalidEditDepart] = useState(false);
+  const [editMainDriverList, setEditMainDriverList] = useState([]);
+  const [editSpDriverList, setEditSpDriverList] = useState([]);
+
   const [currentTime, setCurrentTime] = useState("");
+
+  const handleShowEdit = async (trip) => {
+    let dateFormat = moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss")
+      .format("YYYY-MM-DD[T]HH:mm")
+      .toString();
+    setEditDepart(dateFormat);
+
+    if (vehicleList?.length > 0) {
+      vehicleList.forEach((item) => {
+        if (item.vehicle_id === +trip.vehicle_id) {
+          setEditVehicle(item);
+        }
+      });
+    }
+
+    let data = await getDriverList(trip.trip_id);
+    if (data && data.EC === 0) {
+      data.DT.forEach((driver) => {
+        if (driver.main_driver) {
+          let spList = allDriver.filter(
+            (item) => item.driver_id !== driver.driver_id
+          );
+          setEditSpDriverList(spList);
+          setEditMainDriver(driver);
+        } else {
+          let mainList = allDriver.filter(
+            (item) => item.driver_id !== driver.driver_id
+          );
+          setEditMainDriverList(mainList);
+          setEditSpDriver(driver);
+        }
+      });
+    }
+
+    setEditItem(trip);
+    setShowEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setShowEdit(false);
+    setInvalidEditDepart();
+  };
 
   const handleClose = () => {
     setSelectedMainDriver(false);
@@ -82,15 +132,6 @@ const ManageTrip = () => {
     if (data && data.EC === 0) {
       setDriverList(data.DT);
       setShowDrivers(true);
-    } else toast.error(data.EM);
-  };
-
-  const handleCloseVehicle = () => setShowVehicle(false);
-  const handleViewVehicle = async (vehicle_id) => {
-    let data = await getVehicle(vehicle_id);
-    if (data && data.EC === 0) {
-      setVehicle(data.DT);
-      setShowVehicle(true);
     } else toast.error(data.EM);
   };
 
@@ -281,6 +322,89 @@ const ManageTrip = () => {
     } else toast.error(data.EM);
   };
 
+  const handleChangeEditDepart = (value) => {
+    setInvalidEditDepart(false);
+    setEditDepart(value);
+  };
+
+  const handleChangeEditVehicle = (value) => {
+    if (vehicleList?.length > 0) {
+      vehicleList.forEach((item) => {
+        if (item.vehicle_id === +value) {
+          setEditVehicle(item);
+        }
+      });
+    }
+  };
+
+  const handleChangeEditMainDriver = (value) => {
+    if (allDriver?.length > 0) {
+      allDriver.forEach((item) => {
+        if (item.driver_id === +value) {
+          setEditMainDriver(item);
+        }
+      });
+    }
+    let spList = allDriver.filter((item) => item.driver_id !== +value);
+    setEditSpDriverList(spList);
+  };
+
+  const handleChangeEditSpDriver = (value) => {
+    if (allDriver?.length > 0) {
+      allDriver.forEach((item) => {
+        if (item.driver_id === +value) {
+          setEditSpDriver(item);
+        }
+      });
+    }
+    let mainList = allDriver.filter((item) => item.driver_id !== +value);
+    setEditMainDriverList(mainList);
+  };
+
+  const handleEditTrip = async (e) => {
+    e.preventDefault();
+
+    if (!editDepart) {
+      setInvalidEditDepart(true);
+      toast.error("Please specify depart date.");
+      return;
+    }
+
+    let dateFormat = moment(editDepart)
+      .format("YYYY-MM-DD HH:mm:ss")
+      .toString();
+
+    let driverInfo = [
+      {
+        driver_id: editMainDriver.driver_id,
+        main_driver: true,
+      },
+      {
+        driver_id: editSpDriver.driver_id,
+        main_driver: false,
+      },
+    ];
+
+    let data = await putUpdateTrip(
+      editItem.trip_id,
+      driverInfo,
+      dateFormat,
+      editVehicle.vehicle_id
+    );
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      let dataNew = await getTripList(selectedRoute?.value);
+      if (dataNew && dataNew.EC === 0) {
+        let tripOption = dataNew.DT.filter((trip) => trip.status === "Standby");
+
+        setTripList(tripOption);
+      } else if (dataNew && dataNew.EC === 107) {
+        setTripList([]);
+      }
+      handleCloseEdit();
+    } else toast.error(data.EM);
+  };
+
   return (
     <>
       <div className="route-title">Select Route</div>
@@ -455,6 +579,7 @@ const ManageTrip = () => {
               <th>Departure date</th>
               <th>Driver</th>
               <th>Vehicle</th>
+              <th>Capacity</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -467,23 +592,27 @@ const ManageTrip = () => {
                     <td>{trip.trip_id}</td>
                     <td>{trip.departure_date}</td>
                     <td>
-                      <Button
-                        variant="secondary"
+                      {trip.driver_name}
+                      <span
+                        style={{
+                          cursor: "pointer",
+                          float: "right",
+                          marginRight: "7%",
+                        }}
                         onClick={() => handleShowDrivers(trip.trip_id)}
                       >
-                        View
-                      </Button>
+                        <GrView />
+                      </span>
                     </td>
+                    <td>{trip.vehicle_name}</td>
+                    <td> {trip.capacity} </td>
                     <td>
                       <Button
-                        variant="secondary"
-                        onClick={() => handleViewVehicle(trip.vehicle_id)}
+                        variant="warning"
+                        onClick={() => handleShowEdit(trip)}
                       >
-                        View
+                        Edit
                       </Button>
-                    </td>
-                    <td>
-                      <Button variant="warning">Edit</Button>
                       <Button
                         variant="danger"
                         className="mx-2"
@@ -553,41 +682,6 @@ const ManageTrip = () => {
         </Modal>
 
         <Modal
-          show={showVehicle}
-          onHide={handleCloseVehicle}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Vehicle Info</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Row className="mb-5">
-                <Form.Group as={Col} controlId="vehicleName">
-                  <Form.Label>Vehicle Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    disabled
-                    value={vehicle.vehicle_name}
-                  />
-                </Form.Group>
-
-                <Form.Group as={Col} controlId="vehicleCapacity">
-                  <Form.Label>Capacity</Form.Label>
-                  <Form.Control type="text" disabled value={vehicle.capacity} />
-                </Form.Group>
-              </Row>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseVehicle}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal
           show={showDelete}
           onHide={handleCloseDelete}
           backdrop="static"
@@ -609,6 +703,122 @@ const ManageTrip = () => {
               Confirm
             </Button>
           </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={showEdit}
+          onHide={handleCloseEdit}
+          backdrop="static"
+          size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Trip Info</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleEditTrip}>
+            <Modal.Body>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Departure date</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    placeholder="Enter departure date"
+                    min={currentTime}
+                    isInvalid={invalidEditDepart}
+                    value={editDepart}
+                    onChange={(e) => handleChangeEditDepart(e.target.value)}
+                  />
+                </Col>
+
+                <Form.Group as={Col} controlId="formGridDriver">
+                  <Form.Label> Select Main Driver</Form.Label>
+                  <Form.Select
+                    aria-label="driver select"
+                    defaultValue={editMainDriver.driver_id}
+                    onChange={(e) => handleChangeEditMainDriver(e.target.value)}
+                  >
+                    {editMainDriverList &&
+                      editMainDriverList.length > 0 &&
+                      editMainDriverList.map((driver) => {
+                        return (
+                          <option
+                            value={driver.driver_id}
+                            key={driver.driver_id}
+                          >
+                            {driver.driver_name} - {driver.phone_number}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </Form.Group>
+              </Row>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Select vehicle</Form.Label>
+                  <Form.Select
+                    aria-label="vehicle select"
+                    defaultValue={editVehicle.vehicle_id}
+                    onChange={(e) => handleChangeEditVehicle(e.target.value)}
+                  >
+                    {vehicleList &&
+                      vehicleList.length > 0 &&
+                      vehicleList.map((vehicle) => {
+                        return (
+                          <option
+                            value={vehicle.vehicle_id}
+                            key={vehicle.vehicle_id}
+                          >
+                            {vehicle.vehicle_name}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </Col>
+
+                <Col>
+                  <Form.Label> Select Support Driver</Form.Label>
+                  <Form.Select
+                    aria-label="sp driver select"
+                    defaultValue={editSpDriver.driver_id}
+                    onChange={(e) => handleChangeEditSpDriver(e.target.value)}
+                  >
+                    {editSpDriverList &&
+                      editSpDriverList.length > 0 &&
+                      editSpDriverList.map((driver) => {
+                        return (
+                          <option
+                            value={driver.driver_id}
+                            key={driver.driver_id}
+                          >
+                            {driver.driver_name} - {driver.phone_number}
+                          </option>
+                        );
+                      })}
+                  </Form.Select>
+                </Col>
+              </Row>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Capacity</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Capacity"
+                    value={editVehicle.capacity ? editVehicle.capacity : ""}
+                    disabled
+                  />
+                </Col>
+
+                <Form.Group as={Col}></Form.Group>
+              </Row>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEdit}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Form>
         </Modal>
       </div>
     </>
