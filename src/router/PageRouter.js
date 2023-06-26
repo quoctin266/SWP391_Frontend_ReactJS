@@ -33,6 +33,7 @@ import NotFound from "../components/private-route/NotFound";
 import Visa from "../components/guestAndCustomer/payment/Visa";
 import Momo from "../components/guestAndCustomer/payment/Momo";
 import VnPay from "../components/guestAndCustomer/payment/VnPay";
+import ManageSender from "../components/guestAndCustomer/profile/ManageSender";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -95,6 +96,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ViewHistory />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "manage-sender",
+        element: (
+          <PrivateRoute>
+            <ManageSender />
           </PrivateRoute>
         ),
       },

@@ -458,6 +458,10 @@ const putUpdateTrip = async (tripID, driverInfo, depart, vehicleID) => {
   });
 };
 
+const deleteSender = async (customerID) => {
+  return await axios.delete(`api/v1/delete-sender/${customerID}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -533,4 +537,5 @@ export {
   deleteTrip,
   getAllTrip,
   putUpdateTrip,
+  deleteSender,
 };
