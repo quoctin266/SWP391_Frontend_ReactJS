@@ -458,6 +458,32 @@ const putUpdateTrip = async (tripID, driverInfo, depart, vehicleID) => {
   });
 };
 
+const deleteSender = async (customerID) => {
+  return await axios.delete(`api/v1/delete-sender/${customerID}`);
+};
+
+const putUpdateSender = async (customerID, name, address, phone) => {
+  return await axios.put("api/v1/update-sender", {
+    customerID: customerID,
+    name: name,
+    address: address,
+    phone: phone,
+  });
+};
+
+const postRecoverPW = async (email) => {
+  return await axios.post("api/v1/recover-pw", {
+    email: email,
+  });
+};
+
+const putChangePW = async (email, newPassword) => {
+  return await axios.put("api/v1/change-pw", {
+    email: email,
+    newPassword: newPassword,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -533,4 +559,8 @@ export {
   deleteTrip,
   getAllTrip,
   putUpdateTrip,
+  deleteSender,
+  putUpdateSender,
+  postRecoverPW,
+  putChangePW,
 };
