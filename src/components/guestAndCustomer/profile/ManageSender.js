@@ -10,6 +10,7 @@ import {
   postCreateSender,
   getCustomerByAccount,
   deleteSender,
+  putUpdateSender,
 } from "../../../service/APIservice";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -20,6 +21,7 @@ import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import { useNavigate } from "react-router-dom";
 
 const ManageSender = () => {
   const [show, setShow] = useState(false);
@@ -32,6 +34,31 @@ const ManageSender = () => {
   const [invalidAddress, setInvalidAddesss] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [deleteItem, setDeleteItem] = useState("");
+
+  const [showEdit, setShowEdit] = useState(false);
+  const [editItem, setEditItem] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editAddress, setEditAddress] = useState("");
+  const [invalidEditName, setInvalidEditName] = useState(false);
+  const [invalidEditPhone, setInvalidEditPhone] = useState(false);
+  const [invalidEditAddress, setInvalidEditAddress] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleShowEdit = (item) => {
+    setEditItem(item);
+    setEditName(item.full_name);
+    setEditAddress(item.address);
+    setEditPhone(item.phone_number);
+    setShowEdit(true);
+  };
+  const handleCloseEdit = () => {
+    setInvalidEditAddress(false);
+    setInvalidEditName(false);
+    setInvalidEditPhone(false);
+    setShowEdit(false);
+  };
 
   const handleCloseDelete = () => setShowDelete(false);
   const handleShowDelete = (item) => {
@@ -123,6 +150,58 @@ const ManageSender = () => {
     } else toast.error(data.EM);
   };
 
+  const handleChangeEditName = (value) => {
+    setEditName(value);
+    setInvalidEditName(false);
+  };
+
+  const handleChangeEditPhone = (value) => {
+    setEditPhone(value);
+    setInvalidEditPhone(false);
+  };
+
+  const handleChangeEditAddress = (value) => {
+    setEditAddress(value);
+    setInvalidEditAddress(false);
+  };
+
+  const handleEditSender = async (e) => {
+    e.preventDefault();
+
+    if (!editName) {
+      toast.error("Please fill in your name.");
+      setInvalidEditName(true);
+      return;
+    }
+
+    if (!editPhone) {
+      toast.error("Please fill in your phone.");
+      setInvalidEditPhone(true);
+      return;
+    }
+
+    if (!editAddress) {
+      toast.error("Please fill in your address.");
+      setInvalidEditAddress(true);
+      return;
+    }
+
+    let data = await putUpdateSender(
+      editItem.customer_id,
+      editName,
+      editAddress,
+      editPhone
+    );
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      let dataNew = await getCustomerByAccount(account_id);
+      if (dataNew && dataNew.EC === 0) {
+        setSenderList(dataNew.DT);
+      }
+      handleCloseEdit();
+    } else toast.error(data.EM);
+  };
+
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Delete this
@@ -163,7 +242,10 @@ const ManageSender = () => {
                         overlay={renderTooltipEdit}
                       >
                         <span>
-                          <FaEdit className="mx-3" />
+                          <FaEdit
+                            className="mx-3"
+                            onClick={() => handleShowEdit(item)}
+                          />
                         </span>
                       </OverlayTrigger>
 
@@ -192,6 +274,7 @@ const ManageSender = () => {
               );
             })}
         </div>
+
         <Modal
           show={show}
           onHide={handleClose}
@@ -200,7 +283,7 @@ const ManageSender = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Sender Info</Modal.Title>
+            <Modal.Title>Add New</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleAddSender}>
             <Modal.Body>
@@ -277,6 +360,74 @@ const ManageSender = () => {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        <Modal
+          show={showEdit}
+          onHide={handleCloseEdit}
+          backdrop="static"
+          keyboard={false}
+          size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Sender Info</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleEditSender}>
+            <Modal.Body>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Your name"
+                    value={editName}
+                    isInvalid={invalidEditName}
+                    onChange={(e) => handleChangeEditName(e.target.value)}
+                  />
+                </Col>
+
+                <Col>
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    placeholder="Ex: 0928226767"
+                    pattern="[0][0-9]{9}"
+                    value={editPhone}
+                    isInvalid={invalidEditPhone}
+                    onChange={(e) => handleChangeEditPhone(e.target.value)}
+                  />
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    placeholder="Your address"
+                    value={editAddress}
+                    isInvalid={invalidEditAddress}
+                    onChange={(e) => handleChangeEditAddress(e.target.value)}
+                  />
+                </Col>
+              </Row>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEdit}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+
+        <div className="back-button">
+          <Button variant="success" onClick={() => navigate("/account-detail")}>
+            Back to Profile
+          </Button>
+        </div>
       </div>
     </Container>
   );

@@ -13,6 +13,8 @@ const initialState = {
   avatar: "",
   rememberLogin: false,
   isAuthenticated: false,
+  resetCode: "",
+  recoverEmail: "",
 };
 
 export const authSlice = createSlice({
@@ -32,6 +34,8 @@ export const authSlice = createSlice({
       state.avatar = action.payload.avatar ? action.payload.avatar : "";
       state.rememberLogin = false;
       state.isAuthenticated = true;
+      state.recoverEmail = "";
+      state.resetCode = "";
     },
     logout: (state) => {
       state.account_id = "";
@@ -58,10 +62,28 @@ export const authSlice = createSlice({
     updatePassword: (state, action) => {
       state.password = action.payload.password;
     },
+    recoverPassword: (state, action) => {
+      state.resetCode = action.payload.code;
+      state.recoverEmail = action.payload.email;
+    },
+    resetPassCode: (state) => {
+      state.resetCode = "";
+    },
+    clearEmail: (state) => {
+      state.recoverEmail = "";
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, update, updatePassword } = authSlice.actions;
+export const {
+  login,
+  logout,
+  update,
+  updatePassword,
+  recoverPassword,
+  resetPassCode,
+  clearEmail,
+} = authSlice.actions;
 
 export default authSlice.reducer;
