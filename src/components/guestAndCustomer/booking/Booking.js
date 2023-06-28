@@ -470,7 +470,7 @@ const Booking = () => {
                   </Form.Group>
                 </Row>
                 <div className="add-sender">
-                  <span onClick={() => navigate("/account-detail")}>
+                  <span onClick={() => navigate("/manage-sender")}>
                     Add new/Update sender info here
                   </span>
                 </div>
