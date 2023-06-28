@@ -42,7 +42,7 @@ const Track = () => {
           <div className="track-form">
             <Form onSubmit={(e) => handleTrack(e)}>
               <Row className="mb-3">
-                <Form.Group as={Col} className="col-10">
+                <Form.Group as={Col} className="col-10 input-orderID">
                   <FloatingLabel
                     controlId="floatingInput"
                     label="Order ID"
@@ -59,7 +59,7 @@ const Track = () => {
                   </FloatingLabel>
                 </Form.Group>
 
-                <Form.Group as={Col} className="col-2 px-0">
+                <Form.Group as={Col} className="col-2 px-0 track">
                   <Button variant="primary" className="track-btn" type="submit">
                     Track
                   </Button>

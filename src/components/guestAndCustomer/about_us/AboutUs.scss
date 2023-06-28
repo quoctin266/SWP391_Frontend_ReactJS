@@ -14,12 +14,19 @@
         font-weight     : 600;
         padding         : 1% 0;
         color           : #fff;
+
+        @media screen and (max-width: 990px) {
+            font-size: 1.5em;
+        }
     }
 
     .Mid {
         display: flex;
         gap    : 30px;
 
+        @media screen and (max-width: 990px) {
+            flex-direction: column;
+        }
 
         .Content1 {
             padding         : 1%;
@@ -33,6 +40,10 @@
             border-width    : .3rem;
             border-color    : #13470A;
 
+            @media screen and (max-width: 990px) {
+                width     : 100%;
+                margin-top: 3%;
+            }
 
             .contenttitle1 {
                 background-color: #13470A;
@@ -42,6 +53,10 @@
                 width           : 23%;
                 padding         : 4px 0;
                 margin-top      : -24px;
+
+                @media screen and (max-width: 990px) {
+                    width: 35%;
+                }
             }
 
         }
@@ -57,8 +72,12 @@
             border-width    : .3rem;
             border-color    : #13470A;
 
+            @media screen and (max-width: 990px) {
+                width: 100%;
+            }
+
             .contenttitle2 {
-                margin-top      :-24px;
+                margin-top      : -24px;
                 background-color: #13470A;
                 text-align      : center;
                 color           : white;
@@ -67,6 +86,10 @@
                 width           : 70%;
                 margin-bottom   : 10%;
                 padding         : 4px 0;
+
+                @media screen and (max-width: 990px) {
+                    width: 60%;
+                }
             }
         }
     }

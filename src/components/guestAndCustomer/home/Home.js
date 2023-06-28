@@ -216,8 +216,10 @@ const Home = () => {
           </Typography>
         </Container>
         <Container className="video">
-          {" "}
-          <ReactPlayer url="https://youtu.be/aTvmJg2AzqM" />
+          <ReactPlayer
+            url="https://youtu.be/aTvmJg2AzqM"
+            className="youtube-video"
+          />
           <Typography className="video-text">
             <p>
               👈🎬Transporting a bird on the ground requires careful planning

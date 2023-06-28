@@ -165,7 +165,7 @@ const ViewHistory = () => {
           <h2 className="title">Your Orders</h2>
         </div>
 
-        <Col className="col-4 mt-5">
+        <Col className="col-4 mt-5 title-filter">
           <Form.Label style={{ fontSize: "1.2em" }}>
             Filter by order status
           </Form.Label>
@@ -215,7 +215,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Order ID
@@ -226,7 +225,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Sender
@@ -237,7 +235,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Order Date&nbsp;
@@ -248,7 +245,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Payment Method&nbsp;
@@ -259,7 +255,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Status&nbsp;
@@ -270,7 +265,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Total Cost&nbsp;
@@ -281,7 +275,6 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
                     Actions&nbsp;
@@ -333,7 +326,7 @@ const ViewHistory = () => {
                           style={{ width: "15%" }}
                           align="center"
                           width={3}
-                          className="tableCell"
+                          className="created-time"
                           sx={{ border: "0" }}
                         >
                           {item.created_time}

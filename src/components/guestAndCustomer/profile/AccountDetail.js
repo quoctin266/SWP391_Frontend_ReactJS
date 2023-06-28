@@ -105,19 +105,21 @@ const AccountDetail = () => {
             </Form.Label>
             <Form.Control type="file" onChange={(e) => handleChangeImg(e)} />
           </Form.Group>
-          <button onClick={() => navigate("/reset-password")}>
-            Change Password
-          </button>
-          {role === "customer" && (
-            <>
-              <button onClick={() => navigate("/view-history")}>
-                View Orders
-              </button>
-              <button onClick={() => navigate("/manage-sender")}>
-                Manage Sender
-              </button>
-            </>
-          )}
+          <div className="btn-group">
+            <button onClick={() => navigate("/reset-password")}>
+              Change Password
+            </button>
+            {role === "customer" && (
+              <>
+                <button onClick={() => navigate("/view-history")}>
+                  View Orders
+                </button>
+                <button onClick={() => navigate("/manage-sender")}>
+                  Manage Sender
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <form className="ProfileForm" onSubmit={(e) => handleConfirm(e)}>
           <div className="Input">

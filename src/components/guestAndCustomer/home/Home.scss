@@ -124,6 +124,10 @@
             font-size  : 4rem;
             font-weight: bold;
 
+            @media screen and (max-width: 970px) {
+                font-size    : 6vw;
+                margin-bottom: 3%;
+            }
         }
 
         .video {
@@ -132,6 +136,14 @@
             align-items   : center;
             padding-bottom: 50px;
 
+            @media screen and (max-width: 970px) {
+                display: block;
+
+                .youtube-video {
+                    width        : 100% !important;
+                    margin-bottom: 2%;
+                }
+            }
 
             .video-text {
 
@@ -152,6 +164,10 @@
             padding         : 40px 70px;
             padding-bottom  : 4%;
 
+            @media screen and (max-width: 970px) {
+                padding: 4%;
+            }
+
             .title {
                 color        : #a30b0b;
                 font-size    : 1.7em;
@@ -166,8 +182,7 @@
                     align-items: center;
 
                     @media screen and (max-width: 990px) {
-                        align-items   : flex-start;
-                        flex-direction: column;
+                        width: 100%;
                     }
 
                     .form-label {
@@ -198,7 +213,7 @@
 
             .google-map-container {
                 margin-top      : 2%;
-                width           : 75%;
+                width           : 90%;
                 background-color: #85c697;
                 padding         : 2%;
                 border-radius   : 15px;
@@ -207,17 +222,17 @@
 
                 .google-map {
                     height: 45vh;
-                    width : 32vw;
+                    width : 55vw;
 
                     @media screen and (max-width: 970px) {
                         height: 30vh;
-                        width : 55vw;
+                        width : 74vw;
                     }
                 }
 
                 @media screen and (max-width: 970px) {
                     margin-top     : 7%;
-                    padding        : 5% 0;
+                    padding        : 5% 3%;
                     justify-content: center;
                     flex-wrap      : wrap;
                     width          : 100%;

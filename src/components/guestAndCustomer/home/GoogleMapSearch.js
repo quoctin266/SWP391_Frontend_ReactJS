@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Col } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
-import Modal from "react-bootstrap/Modal";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -35,7 +34,6 @@ const GoogleMapSearch = () => {
   const [duration, setDuration] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [stationList, setStationList] = useState([]);
-  const [show, setShow] = useState(false);
   const [birdCount, setBirdCount] = useState("");
   const [invalidBirdCount, setInvalidBirdCount] = useState(false);
   const [estimateCost, setEstimateCost] = useState("");
@@ -47,9 +45,6 @@ const GoogleMapSearch = () => {
   const destinationRef = useRef();
 
   const navigate = useNavigate();
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const fetchAllCage = async () => {
     let data = await getAllCage();
@@ -119,7 +114,6 @@ const GoogleMapSearch = () => {
       setDistance(newDistance);
       setDuration(results.routes[0].legs[0].duration.text);
       setShowMap(true);
-      handleShow();
     } catch (e) {
       console.log("error", e);
       toast.error("This API key has exceeded its limit usage");
@@ -133,6 +127,8 @@ const GoogleMapSearch = () => {
     setDuration("");
     originRef.current.value = "";
     destinationRef.current.value = "";
+    setBirdCount("");
+    setCage("");
     setShowMap(false);
   };
 
@@ -250,15 +246,44 @@ const GoogleMapSearch = () => {
           </div>
           <div className="distance-duration">
             <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Distance</Form.Label>
-                <Form.Control type="text" value={distance} readOnly />
-              </Form.Group>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>Distance</Form.Label>
+                  <Form.Control type="text" value={distance} readOnly />
+                </Col>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Duration</Form.Label>
-                <Form.Control type="text" value={duration} readOnly />
-              </Form.Group>
+                <Col>
+                  <Form.Label>Duration</Form.Label>
+                  <Form.Control type="text" value={duration} readOnly />
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label style={{ marginBottom: "3%" }}>
+                    Your estimate cost:
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    aria-label="Disabled estimate example"
+                    disabled
+                    value={`${new Intl.NumberFormat().format(
+                      estimateCost
+                    )} VND`}
+                  />
+                  <div className="note-estimate">
+                    Note that this is just the base minimum cost. To get more
+                    pricing detail,{" "}
+                    <span
+                      onClick={() => navigate("/price")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <b>click here</b>
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+
               <Button
                 variant="success"
                 type="button"
@@ -274,49 +299,6 @@ const GoogleMapSearch = () => {
               >
                 Clear
               </Button>
-
-              <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Estimate Price</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {estimateCost && (
-                    <Col>
-                      <Form.Label style={{ marginBottom: "3%" }}>
-                        Your estimate cost:
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        aria-label="Disabled estimate example"
-                        disabled
-                        value={`${new Intl.NumberFormat().format(
-                          estimateCost
-                        )} VND`}
-                      />
-                      <div className="note-estimate">
-                        Note that this is just the base minimum cost. To get
-                        more pricing detail,{" "}
-                        <span
-                          onClick={() => navigate("/price")}
-                          style={{ cursor: "pointer" }}
-                        >
-                          <b>click here</b>
-                        </span>
-                      </div>
-                    </Col>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
             </Form>
           </div>
         </div>
