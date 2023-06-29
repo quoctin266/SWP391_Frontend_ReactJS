@@ -143,50 +143,25 @@ const GoogleMapSearch = () => {
       <div className="title">Get Your Quote</div>
       <div className="search-bar">
         <Form>
-          <Row className="search-row">
-            <Form.Group className="mb-3" controlId="formStartPoint" as={Col}>
-              <Form.Label>Start Point</Form.Label>
-              <Form.Select aria-label="origin select" ref={originRef}>
-                {stationList &&
-                  stationList.length > 0 &&
-                  stationList.map((station) => {
-                    return (
-                      <option key={station.station_id} value={station.name}>
-                        {station.name}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formEndPoint" as={Col}>
-              <Form.Label>End Point</Form.Label>
-              <Form.Select aria-label="origin select" ref={destinationRef}>
-                {stationList &&
-                  stationList.length > 0 &&
-                  stationList.map((station) => {
-                    return (
-                      <option key={station.station_id} value={station.name}>
-                        {station.name}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            </Form.Group>
-
-            <Button
-              variant="success"
-              type="submit"
-              as={Col}
-              className="col-1 search-btn"
-              onClick={(event) => calculateRoute(event)}
-            >
-              Estimate
-            </Button>
-          </Row>
-
-          <Row className="mb-3">
+          <Row className="search-row mb-3">
             <Col>
+              <Form.Label>Start Point</Form.Label>
+              <Form.Select
+                aria-label="origin select"
+                ref={originRef}
+                className="mb-3"
+              >
+                {stationList &&
+                  stationList.length > 0 &&
+                  stationList.map((station) => {
+                    return (
+                      <option key={station.station_id} value={station.name}>
+                        {station.name}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+
               <Form.Label>Bird Quantity</Form.Label>
               <Form.Control
                 placeholder="Enter number of birds"
@@ -199,6 +174,23 @@ const GoogleMapSearch = () => {
             </Col>
 
             <Col>
+              <Form.Label>End Point</Form.Label>
+              <Form.Select
+                aria-label="origin select"
+                ref={destinationRef}
+                className="mb-3"
+              >
+                {stationList &&
+                  stationList.length > 0 &&
+                  stationList.map((station) => {
+                    return (
+                      <option key={station.station_id} value={station.name}>
+                        {station.name}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+
               <Form.Label>Bird Cage</Form.Label>
               <Form.Select
                 defaultValue=""
@@ -221,7 +213,17 @@ const GoogleMapSearch = () => {
               </Form.Select>
             </Col>
 
-            <Col></Col>
+            <Col>
+              <Button
+                variant="success"
+                type="submit"
+                as={Col}
+                className="col-1 search-btn"
+                onClick={(event) => calculateRoute(event)}
+              >
+                Estimate
+              </Button>
+            </Col>
           </Row>
         </Form>
       </div>
