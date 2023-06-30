@@ -24,7 +24,7 @@ import ManageWebContent from "../components/manager/manageWebContent/ManageWebCo
 import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTrip";
 import Admin from "../components/admin/Admin";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
-import Dashboard from "../components/admin/dashboard/Dashboard";
+import Dashboard from "../components/manager/dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "../components/private-route/PrivateRoute";
@@ -201,7 +201,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <ManageService />,
+        element: <Dashboard />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
       {
         path: "manage-service",
@@ -227,7 +231,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Dashboard />,
+        element: <ManageAccount />,
       },
       {
         path: "manage-account",

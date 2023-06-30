@@ -127,7 +127,7 @@ const Booking = () => {
   const [cageList, setCageList] = useState([]);
   const [stationList, setStationList] = useState([]);
   const [paymentList, setPaymentList] = useState([]);
-  const [totalCost, setTotalCost] = useState("");
+  const [costSummary, setCostSummary] = useState("");
 
   // data for render
   const [packageName, setPackageName] = useState("");
@@ -281,7 +281,7 @@ const Booking = () => {
       let res = await getTotalCost(dataSummary);
       console.log("check", dataSummary);
       if (res && res.EC === 0) {
-        setTotalCost(res.DT.totalCost);
+        setCostSummary(res.DT);
         return true;
       } else {
         toast.warning(res.EM);
@@ -401,7 +401,7 @@ const Booking = () => {
         paymentID: paymentID,
         packageID: packageID,
       },
-      totalCost: totalCost,
+      totalCost: costSummary.totalCost,
     };
 
     let data = await postCreateOrder(dataOrder);
@@ -820,6 +820,7 @@ const Booking = () => {
                 show={showSummary}
                 onHide={handleCloseSummary}
                 backdrop="static"
+                size="lg"
               >
                 <Modal.Header closeButton>
                   <Modal.Title>Order Summary</Modal.Title>
@@ -830,7 +831,7 @@ const Booking = () => {
                       Numbers of Bird: <span>{birdList.length}</span>
                     </div>
                     <div className="route">
-                      Course:{" "}
+                      Route:{" "}
                       <span>
                         {originRef?.current?.value
                           ? originRef.current.value
@@ -847,9 +848,66 @@ const Booking = () => {
                     <div className="payment">
                       Payment: <span>{paymentName}</span>
                     </div>
-                    <div className="handling-fee">
-                      Total cost: <span>{totalCost} VND</span>
-                    </div>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th colSpan={3}>Cost Detail</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Distance</td>
+                          <td>{costSummary?.distance?.toFixed(1)} Km</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.initCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Additional Bird</td>
+                          <td>{costSummary.extraBird}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.extraBirdCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Capacity Unit</td>
+                          <td>{costSummary.capacityUnit}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.unitCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Package</td>
+                          <td>{costSummary.package}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.packageCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={2} style={{ textAlign: "center" }}>
+                            Total cost
+                          </td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.totalCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                 </Modal.Body>
                 <Modal.Footer>

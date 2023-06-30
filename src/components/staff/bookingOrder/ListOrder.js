@@ -136,8 +136,6 @@ const ListOrder = () => {
 
   const handleCloseUpdate = () => {
     setShowUpdate(false);
-    setShowEdit(false);
-    setShowDelete(false);
     setInvalidEditStatus(false);
     setInvalidEditStatusDate(false);
     setInvalidNewStatus(false);
@@ -272,10 +270,14 @@ const ListOrder = () => {
     } else toast.error(data.EM);
   };
 
+  const handleCloseDelete = () => {
+    setShowDelete(false);
+    handleShowUpdate(order.order_id);
+  };
   const handleClickDelete = (item) => {
     setDeleteStatus(item);
     setShowDelete(true);
-    handleCloseEdit();
+    handleCloseUpdate();
   };
 
   const handleDeleteStatus = async () => {
@@ -283,7 +285,7 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchTransportStatus();
-      setShowDelete(false);
+      handleCloseDelete();
     } else toast.error(data.EM);
   };
 
@@ -296,12 +298,13 @@ const ListOrder = () => {
     setEditBirdCondition(item.bird_condition ? item.bird_condition : "");
     setStatusID(item.id);
     setShowEdit(true);
-    setShowDelete(false);
+    handleCloseUpdate();
   };
   const handleCloseEdit = () => {
     setInvalidEditStatus(false);
     setInvalidEditStatusDate(false);
     setShowEdit(false);
+    handleShowUpdate(order.order_id);
   };
   const handleChangeEditStatus = (e) => {
     setEditStatus(e.target.value);
@@ -341,6 +344,7 @@ const ListOrder = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchTransportStatus();
+      handleCloseEdit();
     } else toast.error(data.EM);
   };
 
@@ -533,94 +537,85 @@ const ListOrder = () => {
             <Modal.Title>Order Detail Info</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Tabs
-              defaultActiveKey="general"
-              id="justify-tab-example"
-              className="mb-3"
-              justify
-            >
-              <Tab eventKey="general" title="General Info">
-                <Form>
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="formGridStatus">
-                      <Form.Label>Order Status</Form.Label>
-                      <Form.Control type="text" value={order.status} disabled />
-                    </Form.Group>
+            <Form>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridStatus">
+                  <Form.Label>Order Status</Form.Label>
+                  <Form.Control type="text" value={order.status} disabled />
+                </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridPackage">
-                      <Form.Label>Package</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={order.package_name}
-                        disabled
-                      />
-                    </Form.Group>
-                  </Row>
+                <Form.Group as={Col} controlId="formGridCreated">
+                  <Form.Label>Order Date</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={order.created_time}
+                    disabled
+                  />
+                </Form.Group>
 
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="formGridPayment">
-                      <Form.Label>Payment Method</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={
-                          order.method_name
-                            ? `${order.payment_type} - ${order.method_name}`
-                            : `${order.payment_type}`
-                        }
-                        disabled
-                      />
-                    </Form.Group>
+                <Col></Col>
+              </Row>
 
-                    <Form.Group as={Col} controlId="formGridCost">
-                      <Form.Label>Total Cost</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={`${new Intl.NumberFormat().format(
-                          order.total_cost
-                        )} VND`}
-                        disabled
-                      />
-                    </Form.Group>
-                  </Row>
-                </Form>
-              </Tab>
-              <Tab eventKey="date" title="Date And Time">
-                <Form>
-                  <Row className="mb-5">
-                    <Form.Group as={Col} controlId="formGridAnticipate">
-                      <Form.Label>Anticipate Date</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={order.anticipate_date}
-                        disabled
-                      />
-                    </Form.Group>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridAnticipate">
+                  <Form.Label>Anticipate Date</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={order.anticipate_date}
+                    disabled
+                  />
+                </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridDepartureDate">
-                      <Form.Label>Departing Date</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={order.departure_date}
-                        disabled
-                      />
-                    </Form.Group>
-                  </Row>
+                <Form.Group as={Col} controlId="formGridDepartureDate">
+                  <Form.Label>Departing Date</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={order.departure_date}
+                    disabled
+                  />
+                </Form.Group>
 
-                  <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridCreated">
-                      <Form.Label>Order Date</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={order.created_time}
-                        disabled
-                      />
-                    </Form.Group>
+                <Col></Col>
+              </Row>
 
-                    <Form.Group as={Col} controlId="formGridEmpty"></Form.Group>
-                  </Row>
-                </Form>
-              </Tab>
-              <Tab eventKey="bird" title="Bird Detail">
+              <Row className="mb-5">
+                <Form.Group as={Col} controlId="formGridPackage">
+                  <Form.Label>Package</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={order.package_name}
+                    disabled
+                  />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridPayment">
+                  <Form.Label>Payment Method</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={
+                      order.method_name
+                        ? `${order.payment_type} - ${order.method_name}`
+                        : `${order.payment_type}`
+                    }
+                    disabled
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridCost">
+                  <Form.Label>Total Cost</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={`${new Intl.NumberFormat().format(
+                      order.total_cost
+                    )} VND`}
+                    disabled
+                  />
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-3" style={{ padding: "0 2%" }}>
+                <div className="mb-3">
+                  <b>Bird Detail</b>
+                </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -664,8 +659,8 @@ const ListOrder = () => {
                       })}
                   </tbody>
                 </Table>
-              </Tab>
-            </Tabs>
+              </Row>
+            </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDetail}>
@@ -686,7 +681,7 @@ const ListOrder = () => {
           </Modal.Header>
           <Modal.Body>
             <Tabs
-              defaultActiveKey="departAndStatus"
+              defaultActiveKey="transportStatus"
               id="justify-tab-example"
               className="mb-3"
               justify
@@ -824,90 +819,98 @@ const ListOrder = () => {
                       </Button>
                     </Form>
                   </div>
-
-                  {showDelete && (
-                    <div className="delete-confirm">
-                      <div className="delete-title">
-                        Are you sure to delete this status?
-                      </div>
-                      <div className="timestamp">
-                        Timestamp: <b>{deleteStatus.date}</b>
-                      </div>
-                      <Button variant="primary" onClick={handleDeleteStatus}>
-                        Confirm
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        className="mx-2"
-                        onClick={() => setShowDelete(false)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-
-                  {showEdit && (
-                    <div className="edit-status">
-                      <div className="edit-status-title">
-                        Edit Transport Status
-                      </div>
-                      <Form onSubmit={(e) => handleEditTransportStatus(e)}>
-                        <Row className="mb-3">
-                          <Form.Group as={Col} controlId="editOrderStatus">
-                            <Form.Label>Order Status</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter status"
-                              value={editStatus}
-                              isInvalid={invalidEditStatus}
-                              onChange={(e) => handleChangeEditStatus(e)}
-                            />
-                          </Form.Group>
-
-                          <Form.Group as={Col} controlId="EditBirdCondition">
-                            <Form.Label>Bird Condition</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter bird condition note"
-                              value={editBirdCondition}
-                              onChange={(e) =>
-                                setEditBirdCondition(e.target.value)
-                              }
-                            />
-                          </Form.Group>
-                        </Row>
-
-                        <Row className="mb-3">
-                          <Form.Group as={Col} controlId="EditStatusDate">
-                            <Form.Label>Date</Form.Label>
-                            <Form.Control
-                              type="datetime-local"
-                              min={order.created_time}
-                              value={editStatusDate}
-                              isInvalid={InvalidEditStatusDate}
-                              onChange={(e) => handleChangeEditDate(e)}
-                            />
-                          </Form.Group>
-
-                          <Col></Col>
-                        </Row>
-                        <Button variant="primary" type="submit">
-                          Confirm
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          className="mx-2"
-                          onClick={() => handleCloseEdit()}
-                        >
-                          Cancel
-                        </Button>
-                      </Form>
-                    </div>
-                  )}
                 </Scrollbars>
               </Tab>
             </Tabs>
           </Modal.Body>
+        </Modal>
+
+        <Modal
+          show={showEdit}
+          onHide={handleCloseEdit}
+          backdrop="static"
+          keyboard={false}
+          size="lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Transport Status</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={(e) => handleEditTransportStatus(e)}>
+            <Modal.Body>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="editOrderStatus">
+                  <Form.Label>Order Status</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter status"
+                    value={editStatus}
+                    isInvalid={invalidEditStatus}
+                    onChange={(e) => handleChangeEditStatus(e)}
+                  />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="EditBirdCondition">
+                  <Form.Label>Bird Condition</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter bird condition note"
+                    value={editBirdCondition}
+                    onChange={(e) => setEditBirdCondition(e.target.value)}
+                  />
+                </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="EditStatusDate">
+                  <Form.Label>Date</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    min={order.created_time}
+                    value={editStatusDate}
+                    isInvalid={InvalidEditStatusDate}
+                    onChange={(e) => handleChangeEditDate(e)}
+                  />
+                </Form.Group>
+
+                <Col></Col>
+              </Row>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEdit}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Confirm
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+
+        <Modal
+          show={showDelete}
+          onHide={handleCloseDelete}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Delete</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="delete-title">
+              Are you sure to delete this status?
+            </div>
+            <div className="timestamp">
+              Timestamp: <b>{deleteStatus.date}</b>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDelete}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleDeleteStatus}>
+              Confirm
+            </Button>
+          </Modal.Footer>
         </Modal>
 
         <div className="d-flex justify-content-center mt-5">

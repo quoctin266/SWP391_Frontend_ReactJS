@@ -179,7 +179,7 @@
                 .search-row {
                     display    : flex;
                     width      : 70%;
-                    align-items: center;
+                    align-items: flex-end;
 
                     @media screen and (max-width: 990px) {
                         width: 100%;

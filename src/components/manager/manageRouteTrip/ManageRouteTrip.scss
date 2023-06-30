@@ -4,14 +4,14 @@
     padding-bottom: 5%;
 
     .title {
-        font-size    : 2em;
-        font-weight  : 600;
-        margin-bottom: 3%;
+        font-size       : 2vw;
+        font-weight     : 600;
+        margin-bottom   : 3%;
         background-color: #26a178;
-        border-radius   : 2rem;
+        border-radius   : 50px;
         padding         : 1.5rem;
         color           : white;
-        width           : 35%;
+        width           : 45%;
         text-align      : center;
     }
 
@@ -37,7 +37,6 @@
 
                 .edit-route {
                     margin-top      : 5%;
-                    width           : 90%;
                     background-color: aliceblue;
                     border-radius   : 15px;
                     padding         : 2%;
@@ -147,7 +146,9 @@
                 }
 
                 .station-list {
-                    width: 70%;
+                    button {
+                        font-size: 0.85vw;
+                    }
                 }
             }
         }
