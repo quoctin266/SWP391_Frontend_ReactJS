@@ -1,0 +1,60 @@
+.dashboard-container {
+    margin-top   : 4%;
+    width        : 100%;
+    padding      : 0 2%;
+    margin-bottom: 5%;
+
+    .title {
+
+        font-size       : 2em;
+        font-weight     : 600;
+        margin-bottom   : 2%;
+        background-color: #26a178;
+        color           : #ffffff;
+        border-radius   : 45px;
+        padding         : 1%;
+        width           : 30%;
+        min-width       : 250px;
+        text-align      : center;
+    }
+
+    .dashboard-body {
+        width: 95%;
+
+        .chart-revenue {
+            margin-top: 5%;
+            height    : 60vh;
+        }
+
+        .chart-outer {
+            display: flex;
+            gap    : 20px;
+
+            .chart-container {
+                .chart-title {
+                    font-weight  : 600;
+                    font-size    : 1.2em;
+                    margin-bottom: 2%;
+                }
+
+                background-color: #ffffff;
+                padding         : 4%;
+                padding-bottom  : 6%;
+                border-radius   : 15px;
+                margin-bottom   : 2%;
+                height          : 80vh;
+                width           : calc(50% - 10px);
+
+                @media screen and (max-width: 500px) {
+                    height: 40vh;
+                }
+
+                .recharts-legend-item {
+                    margin-right: 20px !important;
+                }
+            }
+        }
+
+    }
+
+}

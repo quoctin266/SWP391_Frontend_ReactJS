@@ -20,7 +20,7 @@ const BookingSuccess = () => {
         </div>
         <div className="booking-success-info">
           <div className="id">
-            <div className="transaction-title">Transaction ID</div>
+            <div className="transaction-title">Booking ID</div>
             <div className="transaction-info">
               {location?.state?.orderRes?.orderID}
             </div>
@@ -37,7 +37,7 @@ const BookingSuccess = () => {
               {location?.state?.orderRes?.estimate}
             </div>
           </div>
-          <div className="pic" style={{width:"20%", display:"grid"}}>
+          <div className="pic" style={{ width: "20%", display: "grid" }}>
             <img src={cargo} alt="cargo icon" className="cargo" />
           </div>
         </div>

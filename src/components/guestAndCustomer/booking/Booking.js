@@ -851,35 +851,63 @@ const Booking = () => {
                     <Table striped bordered hover>
                       <thead>
                         <tr>
-                          <th colSpan={2}>Cost Detail</th>
+                          <th colSpan={3}>Cost Detail</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>Distance</td>
-                          <td>{costSummary.distance}</td>
-                          <td>{costSummary.initCost}</td>
+                          <td>{costSummary?.distance?.toFixed(1)} Km</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.initCost
+                            )}{" "}
+                            VND
+                          </td>
                         </tr>
                         <tr>
                           <td>Additional Bird</td>
                           <td>{costSummary.extraBird}</td>
-                          <td>{costSummary.extraBirdCost}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.extraBirdCost
+                            )}{" "}
+                            VND
+                          </td>
                         </tr>
                         <tr>
                           <td>Capacity Unit</td>
                           <td>{costSummary.capacityUnit}</td>
-                          <td>{costSummary.unitCost}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.unitCost
+                            )}{" "}
+                            VND
+                          </td>
                         </tr>
                         <tr>
                           <td>Package</td>
                           <td>{costSummary.package}</td>
-                          <td>{costSummary.packageCost}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.packageCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={2} style={{ textAlign: "center" }}>
+                            Total cost
+                          </td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.totalCost
+                            )}{" "}
+                            VND
+                          </td>
                         </tr>
                       </tbody>
                     </Table>
-                    <div className="handling-fee">
-                      Total cost: <span>{costSummary.totalCost} VND</span>
-                    </div>
                   </div>
                 </Modal.Body>
                 <Modal.Footer>

@@ -53,7 +53,7 @@ const ManageService = () => {
   };
   const handleShowEditPayment = (item) => {
     setEditPaymentType(item.payment_type);
-    setEditPayementName(item.method_name);
+    setEditPayementName(item.method_name ? item.method_name : "");
     setEditPayment(item);
     setShowEditPayment(true);
   };

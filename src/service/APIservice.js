@@ -484,6 +484,10 @@ const putChangePW = async (email, newPassword) => {
   });
 };
 
+const getRevenue = async (year) => {
+  return await axios.get(`api/v1/revenue/${year}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -563,4 +567,5 @@ export {
   putUpdateSender,
   postRecoverPW,
   putChangePW,
+  getRevenue,
 };

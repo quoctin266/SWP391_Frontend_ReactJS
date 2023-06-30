@@ -456,8 +456,8 @@ const EditRoute = (props) => {
             <tr>
               <th>Index</th>
               <th>Station</th>
-              <th>Driving Time From First Station</th>
-              <th>Distance From First Station</th>
+              <th>Driving Time From Departure</th>
+              <th>Distance From Departure</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -471,7 +471,7 @@ const EditRoute = (props) => {
                     <td>{station.name}</td>
                     <td>{station.driving_time_text}</td>
                     <td>{station.distance} Km</td>
-                    <td>
+                    <td style={{ minWidth: "165px" }}>
                       <EditPoint
                         routeDetail={routeDetail}
                         station={station}

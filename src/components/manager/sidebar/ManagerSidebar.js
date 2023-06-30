@@ -37,6 +37,11 @@ const ManagerSidebar = () => {
 
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
+              <NavLink to="/manager/dashboard">
+                <CDBSidebarMenuItem icon="chart-bar">
+                  Dashboard
+                </CDBSidebarMenuItem>
+              </NavLink>
               <NavLink to="/manager/manage-service">
                 <CDBSidebarMenuItem icon="money-check">
                   Manage price and payment

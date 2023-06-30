@@ -17,7 +17,6 @@ import {
   putRemoveOrder,
   getPendingOrder,
   putAssignOrder,
-  getAllStation,
 } from "../../../service/APIservice";
 import { toast } from "react-toastify";
 import Modal from "react-bootstrap/Modal";
@@ -42,7 +41,6 @@ const Schedule = () => {
     label: "Select...",
   });
   const [routeDetail, setRouteDetail] = useState([]);
-  const [stationList, setStationList] = useState([]);
 
   const [tripList, setTripList] = useState([]);
 
@@ -69,17 +67,15 @@ const Schedule = () => {
   const [showTripDetail, setShowTripDetail] = useState(false);
   const [statusUpdate, setStatusUpdate] = useState("");
   const [listOrder, setListOrder] = useState([]);
-  const [showRemove, setShowRemove] = useState(false);
-  const [removeOrder, setRemoveOrder] = useState("");
 
   const [pendingOrderList, setPendingOrderList] = useState([]);
   const [routeEstimate, setRouteEstimate] = useState([]);
   const [assignOrders, setAssignOrders] = useState([]);
+  const [showOption, setShowOption] = useState(false);
   const [option1, setOption1] = useState([]);
   const [option2, setOption2] = useState([]);
   const [income1, setIncome1] = useState("");
   const [income2, setIncome2] = useState("");
-  const [key, setKey] = useState("statusUpdate");
 
   const [temp1, setTemp1] = useState("");
   const [temp2, setTemp2] = useState("");
@@ -97,8 +93,6 @@ const Schedule = () => {
 
   const handleCloseProgress = () => {
     setShowProgress(false);
-    setShowEdit(false);
-    setShowDelete(false);
     setInvalidEditProgressDate(false);
     setInvalidEditProgressDes(false);
     setInvalidNewProgressDate(false);
@@ -130,7 +124,7 @@ const Schedule = () => {
     let data = await getProgressList(trip.trip_id);
     if (data && data.EC === 0) {
       setProgressList(data.DT);
-    } else toast.error(data.EM);
+    }
   };
 
   const handleCreateNewProgress = async (e) => {
@@ -166,10 +160,14 @@ const Schedule = () => {
     } else toast.error(data.EM);
   };
 
+  const handleCloseDelete = () => {
+    handleViewProgress(trip);
+    setShowDelete(false);
+  };
   const handleClickDelete = (item) => {
     setDeleteProgress(item);
     setShowDelete(true);
-    handleCloseEdit();
+    handleCloseProgress();
   };
 
   const handleDeleteProgress = async () => {
@@ -177,7 +175,7 @@ const Schedule = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchProgressList();
-      setShowDelete(false);
+      handleCloseDelete();
     } else toast.error(data.EM);
   };
 
@@ -189,12 +187,13 @@ const Schedule = () => {
     setEditProgressDes(item.description);
     setProgressID(item.progress_id);
     setShowEdit(true);
-    setShowDelete(false);
+    handleCloseProgress();
   };
   const handleCloseEdit = () => {
     setInvalidEditProgressDes(false);
     setInvalidEditProgressDate(false);
     setShowEdit(false);
+    handleViewProgress(trip);
   };
 
   const handleChangeEditProgressDes = (e) => {
@@ -230,22 +229,25 @@ const Schedule = () => {
     if (data && data.EC === 0) {
       toast.success(data.EM);
       fetchProgressList();
+      handleCloseEdit();
     } else toast.error(data.EM);
   };
 
   const handleCloseDetailTrip = () => {
-    setShowRemove(false);
     setShowTripDetail(false);
-    setKey("statusUpdate");
     fetchPendingOrder();
+    setAssignOrders([]);
   };
   const handleShowDetailTrip = async (trip) => {
     let data = await getOrderCapacity(trip.trip_id);
     if (data && data.EC === 0) {
       setListOrder(data.DT);
+      setAssignOrders(data.DT);
     } else {
       setListOrder([]);
+      setAssignOrders([]);
     }
+    fetchPendingOrder();
     setTrip(trip);
     setStatusUpdate(trip.status);
     setShowTripDetail(true);
@@ -266,71 +268,6 @@ const Schedule = () => {
     } else toast.error(data.EM);
   };
 
-  const handleClickRemove = (item) => {
-    setRemoveOrder(item);
-    setShowRemove(true);
-  };
-
-  const handleRemoveOrder = async () => {
-    let data = await putRemoveOrder(removeOrder.order_id);
-    if (data && data.EC === 0) {
-      handleShowDetailTrip(trip);
-      // initiate route detail of the selected trip
-      let cloneRouteDetail = _.cloneDeep(routeDetail);
-      tripList.forEach((item) => {
-        if (item.trip_id === trip.trip_id) {
-          cloneRouteDetail.forEach((station) => {
-            let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
-              .add(station.driving_time, "minutes")
-              .format("DD-MM-YYYY");
-
-            let estimate_time = moment(
-              item.departure_date,
-              "DD-MM-YYYY HH:mm:ss"
-            )
-              .add(station.driving_time, "minutes")
-              .format("DD-MM-YYYY HH:mm:ss");
-
-            station.estimate_depart = estimate;
-            station.estimate_time = estimate_time;
-          });
-        }
-      });
-
-      // calculate current capacity of each station of the trip
-      let dataOrder = await getOrderCapacity(trip.trip_id);
-      let currentList = [];
-      if (dataOrder && dataOrder.EC === 0)
-        currentList = [...dataOrder.DT, ...assignOrders];
-      else currentList = [...assignOrders];
-
-      cloneRouteDetail.forEach((station, index) => {
-        currentList.forEach((order) => {
-          if (station.name === order.departure_location) {
-            station.pickup += order.total_capacity;
-          }
-          if (station.name === order.arrival_location) {
-            station.dropoff += order.total_capacity;
-          }
-        });
-        if (index !== 0) {
-          let sumPickup = 0;
-          let sumDropoff = 0;
-          for (let i = 0; i < index + 1; i++) {
-            sumPickup += cloneRouteDetail[i].pickup;
-            sumDropoff += cloneRouteDetail[i].dropoff;
-          }
-          station.totalUnit = sumPickup - sumDropoff;
-        } else station.totalUnit = station.pickup;
-      });
-
-      setPendingOrderList([...pendingOrderList, removeOrder]);
-      setRouteEstimate(cloneRouteDetail);
-      toast.success(data.EM);
-      setShowRemove(false);
-    } else toast.error(data.EM);
-  };
-
   const fetchAllRoute = async () => {
     let data = await getAllRoute();
     let routeOption = [];
@@ -342,16 +279,8 @@ const Schedule = () => {
     } else toast.error(data.EM);
   };
 
-  const fetchAllStation = async () => {
-    let data = await getAllStation();
-    if (data && data.EC === 0) {
-      setStationList(data.DT);
-    }
-  };
-
   useEffect(() => {
     fetchAllRoute();
-    fetchAllStation();
   }, []);
 
   useEffect(() => {
@@ -361,6 +290,7 @@ const Schedule = () => {
         let sortedArr = data.DT.toSorted(
           (a, b) => a.station_index - b.station_index
         );
+
         sortedArr.forEach((item) => {
           let timeobj = toTime(item.driving_time);
           item.driving_time_text = `${timeobj.day} Days ${timeobj.hour} Hours ${timeobj.minute} Minutes`;
@@ -456,7 +386,6 @@ const Schedule = () => {
       }
 
       setRouteEstimate(cloneRouteDetail);
-      setAssignOrders([]);
     };
 
     fetchPendingOrder();
@@ -527,21 +456,6 @@ const Schedule = () => {
     }
 
     setRouteEstimate(cloneRouteDetail);
-    setAssignOrders([]);
-  };
-
-  const handleAssign = async (e) => {
-    if (assignOrders.length === 0) {
-      toast.error("Must assign at least 1 order.");
-      return;
-    }
-
-    let data = await putAssignOrder(assignOrders, trip.trip_id);
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      fetchPendingOrder();
-      handleShowDetailTrip(trip);
-    } else toast.error(data.EM);
   };
 
   const handleTempAdd = async (order) => {
@@ -591,12 +505,16 @@ const Schedule = () => {
       (item) => item.order_id !== order.order_id
     );
 
+    let data = await putAssignOrder(assignList, trip.trip_id);
+    if (data && data.EC === 0) handleShowDetailTrip(trip);
+    else toast.error(data.EM);
+
     setPendingOrderList(newPendingList);
     setAssignOrders(assignList);
     setRouteEstimate(cloneRoute);
   };
 
-  const handleRemoveTemp = (item) => {
+  const handleRemoveTemp = async (item) => {
     let cloneRoute = _.cloneDeep(routeEstimate);
 
     cloneRoute.forEach((station, index) => {
@@ -624,6 +542,10 @@ const Schedule = () => {
     let newPendingList = [...pendingOrderList];
     newPendingList.push(item);
 
+    let data = await putRemoveOrder(item.order_id);
+    if (data && data.EC === 0) handleShowDetailTrip(trip);
+    else toast.error(data.EM);
+
     setPendingOrderList(newPendingList);
     setRouteEstimate(cloneRoute);
     setAssignOrders(newAssign);
@@ -633,232 +555,114 @@ const Schedule = () => {
     setSelectedRoute(selectedRoute);
   };
 
-  const handleSelectTab = async (eventKey) => {
-    if (eventKey === "autoAssign") {
-      let cloneRouteDetail = _.cloneDeep(routeDetail);
-      tripList.forEach((item) => {
-        if (item.trip_id === trip.trip_id) {
-          cloneRouteDetail.forEach((station) => {
-            let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
-              .add(station.driving_time, "minutes")
-              .format("DD-MM-YYYY");
+  const handleShowOption = async () => {
+    let pendingOption1 = _.cloneDeep(pendingOrderList);
+    let pendingOption2 = _.cloneDeep(pendingOrderList);
+    let vehicleCapacity = trip.capacity;
 
-            let estimate_time = moment(
-              item.departure_date,
-              "DD-MM-YYYY HH:mm:ss"
-            )
-              .add(station.driving_time, "minutes")
-              .format("DD-MM-YYYY HH:mm:ss");
+    let virtualRouteDetail = _.cloneDeep(routeEstimate);
+    let backupRouteDetail = _.cloneDeep(routeEstimate);
+    let assignOption1 = [];
+    let assignOption2 = [];
+    let income1 = 0;
+    let income2 = 0;
 
-            station.estimate_depart = estimate;
-            station.estimate_time = estimate_time;
-          });
+    pendingOption1 = pendingOption1.sort((a, b) => {
+      if (a.total_cost === b.total_cost)
+        return a.total_capacity - b.total_capacity;
+      else return b.total_cost - a.total_cost;
+    });
+    pendingOption1.forEach((order) => {
+      virtualRouteDetail.forEach((station, index) => {
+        if (station.name === order.departure_location) {
+          station.pickup += order.total_capacity;
+        } else if (station.name === order.arrival_location) {
+          station.dropoff += order.total_capacity;
         }
+        if (index !== 0) {
+          station.totalUnit =
+            virtualRouteDetail[index - 1].totalUnit +
+            station.pickup -
+            station.dropoff;
+        } else station.totalUnit = station.pickup;
       });
 
-      // calculate current capacity of each station of the trip
-      let dataOrder = await getOrderCapacity(trip.trip_id);
-      if (dataOrder && dataOrder.EC === 0) {
-        cloneRouteDetail.forEach((station, index) => {
-          dataOrder.DT.forEach((order) => {
-            if (station.name === order.departure_location) {
-              station.pickup += order.total_capacity;
-            }
-            if (station.name === order.arrival_location) {
-              station.dropoff += order.total_capacity;
-            }
-          });
-          if (index !== 0) {
-            let sumPickup = 0;
-            let sumDropoff = 0;
-            for (let i = 0; i < index + 1; i++) {
-              sumPickup += cloneRouteDetail[i].pickup;
-              sumDropoff += cloneRouteDetail[i].dropoff;
-            }
-            station.totalUnit = sumPickup - sumDropoff;
-          } else station.totalUnit = station.pickup;
-        });
-      }
-
-      // check departure and date to filter order
-      let pendingOption1 = [];
-      let pendingOption2 = [];
-      let data = await getPendingOrder();
-      if (data && data.EC === 0) {
-        let cloneOrder = _.cloneDeep(data.DT);
-        let cloneOrder2 = [];
-        for (let i = 0; i < cloneRouteDetail.length - 1; i++) {
-          cloneOrder.forEach((order) => {
-            if (order.departure_location === cloneRouteDetail[i].name) {
-              if (
-                order.anticipate_date === cloneRouteDetail[i].estimate_depart
-              ) {
-                cloneOrder2.push(order);
-              }
-            }
-          });
+      let validAssign = virtualRouteDetail.every((station) => {
+        if (station.totalUnit > vehicleCapacity) {
+          return false;
         }
-        pendingOption1 = _.cloneDeep(cloneOrder2);
-        pendingOption2 = _.cloneDeep(cloneOrder2);
-        setPendingOrderList(cloneOrder2);
+        return true;
+      });
+      if (validAssign) {
+        backupRouteDetail = [];
+        backupRouteDetail = _.cloneDeep(virtualRouteDetail);
+        assignOption1.push(order);
+        income1 += order.total_cost;
       } else {
-        setPendingOrderList([]);
+        virtualRouteDetail = [];
+        virtualRouteDetail = _.cloneDeep(backupRouteDetail);
       }
+    });
 
-      // prepare data for auto assign
-      let vehicleCapacity = trip.capacity;
-      let virtualRouteDetail = _.cloneDeep(cloneRouteDetail);
-      let backupRouteDetail = _.cloneDeep(cloneRouteDetail);
-      let assignOption1 = [];
-      let assignOption2 = [];
-      let income1 = 0;
-      let income2 = 0;
-
-      pendingOption1 = pendingOption1.sort((a, b) => {
-        if (a.total_cost === b.total_cost)
-          return a.total_capacity - b.total_capacity;
-        else return b.total_cost - a.total_cost;
-      });
-      pendingOption1.forEach((order) => {
-        virtualRouteDetail.forEach((station, index) => {
-          if (station.name === order.departure_location) {
-            station.pickup += order.total_capacity;
-          } else if (station.name === order.arrival_location) {
-            station.dropoff += order.total_capacity;
-          }
-          if (index !== 0) {
-            station.totalUnit =
-              virtualRouteDetail[index - 1].totalUnit +
-              station.pickup -
-              station.dropoff;
-          } else station.totalUnit = station.pickup;
-        });
-
-        let validAssign = virtualRouteDetail.every((station) => {
-          if (station.totalUnit > vehicleCapacity) {
-            return false;
-          }
-          return true;
-        });
-        if (validAssign) {
-          backupRouteDetail = [];
-          backupRouteDetail = _.cloneDeep(virtualRouteDetail);
-          assignOption1.push(order);
-          income1 += order.total_cost;
-        } else {
-          virtualRouteDetail = [];
-          virtualRouteDetail = _.cloneDeep(backupRouteDetail);
+    virtualRouteDetail = [];
+    virtualRouteDetail = _.cloneDeep(routeEstimate);
+    backupRouteDetail = [];
+    backupRouteDetail = _.cloneDeep(routeEstimate);
+    pendingOption2 = pendingOption2.sort((a, b) => {
+      if (a.total_capacity === b.total_capacity)
+        return b.total_cost - a.total_cost;
+      else return a.total_capacity - b.total_capacity;
+    });
+    pendingOption2.forEach((order) => {
+      virtualRouteDetail.forEach((station, index) => {
+        if (station.name === order.departure_location) {
+          station.pickup += order.total_capacity;
+        } else if (station.name === order.arrival_location) {
+          station.dropoff += order.total_capacity;
         }
+        if (index !== 0) {
+          station.totalUnit =
+            virtualRouteDetail[index - 1].totalUnit +
+            station.pickup -
+            station.dropoff;
+        } else station.totalUnit = station.pickup;
       });
 
-      virtualRouteDetail = [];
-      virtualRouteDetail = _.cloneDeep(cloneRouteDetail);
-      backupRouteDetail = [];
-      backupRouteDetail = _.cloneDeep(cloneRouteDetail);
-      pendingOption2 = pendingOption2.sort((a, b) => {
-        if (a.total_capacity === b.total_capacity)
-          return b.total_cost - a.total_cost;
-        else return a.total_capacity - b.total_capacity;
-      });
-      pendingOption2.forEach((order) => {
-        virtualRouteDetail.forEach((station, index) => {
-          if (station.name === order.departure_location) {
-            station.pickup += order.total_capacity;
-          } else if (station.name === order.arrival_location) {
-            station.dropoff += order.total_capacity;
-          }
-          if (index !== 0) {
-            station.totalUnit =
-              virtualRouteDetail[index - 1].totalUnit +
-              station.pickup -
-              station.dropoff;
-          } else station.totalUnit = station.pickup;
-        });
-
-        let validAssign = virtualRouteDetail.every((station) => {
-          if (station.totalUnit > vehicleCapacity) {
-            return false;
-          }
-          return true;
-        });
-        if (validAssign) {
-          backupRouteDetail = [];
-          backupRouteDetail = _.cloneDeep(virtualRouteDetail);
-          assignOption2.push(order);
-          income2 += order.total_cost;
-        } else {
-          virtualRouteDetail = [];
-          virtualRouteDetail = _.cloneDeep(backupRouteDetail);
+      let validAssign = virtualRouteDetail.every((station) => {
+        if (station.totalUnit > vehicleCapacity) {
+          return false;
         }
+        return true;
       });
+      if (validAssign) {
+        backupRouteDetail = [];
+        backupRouteDetail = _.cloneDeep(virtualRouteDetail);
+        assignOption2.push(order);
+        income2 += order.total_cost;
+      } else {
+        virtualRouteDetail = [];
+        virtualRouteDetail = _.cloneDeep(backupRouteDetail);
+      }
+    });
 
-      setOption1(assignOption1);
-      setOption2(assignOption2);
-      setIncome1(income1);
-      setIncome2(income2);
-      setRouteEstimate(cloneRouteDetail);
-      setAssignOrders([]);
-    }
-    setKey(eventKey);
+    setOption1(assignOption1);
+    setOption2(assignOption2);
+    setIncome1(income1);
+    setIncome2(income2);
+    // setRouteEstimate(cloneRouteDetail);
+    setShowOption(true);
+    handleCloseDetailTrip();
+  };
+
+  const handleCloseOption = () => {
+    setShowOption(false);
+    handleShowDetailTrip(trip);
   };
 
   const handleApplyOption = async (option) => {
-    let clonePending = _.cloneDeep(pendingOrderList);
-    option.forEach((order) => {
-      clonePending = clonePending.filter(
-        (item) => item.order_id !== order.order_id
-      );
-    });
-
-    let cloneRouteDetail = _.cloneDeep(routeDetail);
-    tripList.forEach((item) => {
-      if (item.trip_id === trip.trip_id) {
-        cloneRouteDetail.forEach((station) => {
-          let estimate = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
-            .add(station.driving_time, "minutes")
-            .format("DD-MM-YYYY");
-
-          let estimate_time = moment(item.departure_date, "DD-MM-YYYY HH:mm:ss")
-            .add(station.driving_time, "minutes")
-            .format("DD-MM-YYYY HH:mm:ss");
-
-          station.estimate_depart = estimate;
-          station.estimate_time = estimate_time;
-        });
-      }
-    });
-
-    // calculate current capacity of each station of the trip
-    let dataOrder = await getOrderCapacity(trip.trip_id);
-    let currentList = [];
-    if (dataOrder && dataOrder.EC === 0)
-      currentList = [...dataOrder.DT, ...option];
-    else currentList = [...option];
-
-    cloneRouteDetail.forEach((station, index) => {
-      currentList.forEach((order) => {
-        if (station.name === order.departure_location) {
-          station.pickup += order.total_capacity;
-        }
-        if (station.name === order.arrival_location) {
-          station.dropoff += order.total_capacity;
-        }
-      });
-      if (index !== 0) {
-        let sumPickup = 0;
-        let sumDropoff = 0;
-        for (let i = 0; i < index + 1; i++) {
-          sumPickup += cloneRouteDetail[i].pickup;
-          sumDropoff += cloneRouteDetail[i].dropoff;
-        }
-        station.totalUnit = sumPickup - sumDropoff;
-      } else station.totalUnit = station.pickup;
-    });
-
-    setKey("assignOrder");
-    setRouteEstimate(cloneRouteDetail);
-    setAssignOrders(option);
-    setPendingOrderList(clonePending);
+    let data = await putAssignOrder(option, trip.trip_id);
+    if (data && data.EC === 0) handleCloseOption();
+    else toast.error(data.EM);
   };
 
   return (
@@ -1133,9 +937,9 @@ const Schedule = () => {
                               Select station...
                             </option>
                             <option value="">None</option>
-                            {stationList &&
-                              stationList.length > 0 &&
-                              stationList.map((station) => {
+                            {routeDetail &&
+                              routeDetail.length > 0 &&
+                              routeDetail.map((station) => {
                                 return (
                                   <option
                                     value={station.name}
@@ -1177,9 +981,9 @@ const Schedule = () => {
                               Select station...
                             </option>
                             <option value="">None</option>
-                            {stationList &&
-                              stationList.length > 0 &&
-                              stationList.map((station) => {
+                            {routeDetail &&
+                              routeDetail.length > 0 &&
+                              routeDetail.map((station) => {
                                 return (
                                   <option
                                     value={station.name}
@@ -1198,73 +1002,85 @@ const Schedule = () => {
                       </Button>
                     </Form>
                   </div>
-
-                  {showDelete && (
-                    <div className="delete-confirm">
-                      <div className="delete-title">
-                        Are you sure to delete this progress info?
-                      </div>
-                      <div className="timestamp">
-                        Timestamp: <b>{deleteProgress.date}</b>
-                      </div>
-                      <Button variant="primary" onClick={handleDeleteProgress}>
-                        Confirm
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        className="mx-2"
-                        onClick={() => setShowDelete(false)}
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-
-                  {showEdit && (
-                    <div className="edit-progress">
-                      <div className="edit-progress-title">Edit Progress</div>
-                      <Form onSubmit={(e) => handleEditProgress(e)}>
-                        <Row className="mb-3">
-                          <Form.Group as={Col} controlId="EditProgressDate">
-                            <Form.Label>Date</Form.Label>
-                            <Form.Control
-                              type="datetime-local"
-                              min={trip.departure_date}
-                              value={editProgressDate}
-                              isInvalid={InvalidEditProgressDate}
-                              onChange={(e) => handleChangeEditProgressDate(e)}
-                            />
-                          </Form.Group>
-
-                          <Form.Group as={Col} controlId="editProgressDes">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder="Enter description"
-                              value={editProgressDes}
-                              isInvalid={invalidEditProgressDes}
-                              onChange={(e) => handleChangeEditProgressDes(e)}
-                            />
-                          </Form.Group>
-                        </Row>
-                        <Button variant="primary" type="submit">
-                          Confirm
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          className="mx-2"
-                          onClick={() => handleCloseEdit()}
-                        >
-                          Cancel
-                        </Button>
-                      </Form>
-                    </div>
-                  )}
                 </Scrollbars>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseProgress}>
                   Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            <Modal
+              show={showEdit}
+              onHide={handleCloseEdit}
+              backdrop="static"
+              keyboard={false}
+              size="lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Edit Progress</Modal.Title>
+              </Modal.Header>
+              <Form onSubmit={(e) => handleEditProgress(e)}>
+                <Modal.Body>
+                  <Row className="mb-3">
+                    <Form.Group as={Col} controlId="EditProgressDate">
+                      <Form.Label>Date</Form.Label>
+                      <Form.Control
+                        type="datetime-local"
+                        min={trip.departure_date}
+                        value={editProgressDate}
+                        isInvalid={InvalidEditProgressDate}
+                        onChange={(e) => handleChangeEditProgressDate(e)}
+                      />
+                    </Form.Group>
+
+                    <Form.Group as={Col} controlId="editProgressDes">
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter description"
+                        value={editProgressDes}
+                        isInvalid={invalidEditProgressDes}
+                        onChange={(e) => handleChangeEditProgressDes(e)}
+                      />
+                    </Form.Group>
+                  </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleCloseEdit}>
+                    Close
+                  </Button>
+                  <Button variant="primary" type="submit">
+                    Confirm
+                  </Button>
+                </Modal.Footer>
+              </Form>
+            </Modal>
+
+            <Modal
+              show={showDelete}
+              onHide={handleCloseDelete}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Confirm Delete</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="delete-title">
+                  Are you sure to delete this progress info?
+                </div>
+                <div className="timestamp">
+                  Timestamp: <b>{deleteProgress.date}</b>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseDelete}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleDeleteProgress}>
+                  Confirm
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1281,11 +1097,10 @@ const Schedule = () => {
               </Modal.Header>
               <Modal.Body>
                 <Tabs
-                  activeKey={key}
+                  defaultActiveKey="assignOrder"
                   id="uncontrolled-tab-example"
                   className="mb-3"
                   justify
-                  onSelect={(eventKey) => handleSelectTab(eventKey)}
                 >
                   <Tab eventKey="statusUpdate" title="Update Status">
                     <div className="updt-status">
@@ -1327,7 +1142,6 @@ const Schedule = () => {
                             <th>Destination</th>
                             <th>Bird Quantity</th>
                             <th>Capacity Unit</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1341,14 +1155,6 @@ const Schedule = () => {
                                   <td>{order.arrival_location}</td>
                                   <td>{order.bird_quantity}</td>
                                   <td>{order.total_capacity}</td>
-                                  <td>
-                                    <Button
-                                      variant="danger"
-                                      onClick={() => handleClickRemove(order)}
-                                    >
-                                      Remove
-                                    </Button>
-                                  </td>
                                 </tr>
                               );
                             })}
@@ -1359,44 +1165,6 @@ const Schedule = () => {
                           )}
                         </tbody>
                       </Table>
-
-                      {showRemove && (
-                        <div className="delete-confirm">
-                          <div className="delete-title">
-                            Are you sure to remove this order from curent trip?
-                          </div>
-                          <div className="timestamp">
-                            <Row>
-                              <Col className="col-2">Order ID:</Col>
-                              <Col>
-                                <b>{removeOrder.order_id}</b>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col className="col-2">From:</Col>
-                              <Col>
-                                <b>{removeOrder.departure_location}</b>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col className="col-2">To:</Col>
-                              <Col>
-                                <b>{removeOrder.arrival_location}</b>
-                              </Col>
-                            </Row>
-                          </div>
-                          <Button variant="primary" onClick={handleRemoveOrder}>
-                            Confirm
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            className="mx-2"
-                            onClick={() => setShowRemove(false)}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      )}
                     </div>
                   </Tab>
 
@@ -1460,62 +1228,8 @@ const Schedule = () => {
                         </Col>
                       </Row>
 
-                      <Row>
-                        <Col>
-                          <div className="detail-title">Available Orders</div>
-                          <div className="order-detail">
-                            <Table striped hover bordered responsive="md">
-                              <thead>
-                                <tr>
-                                  <th>Order ID</th>
-                                  <th>Departure</th>
-                                  <th>Destination</th>
-                                  <th>Capacity Unit</th>
-                                  <th>Total Cost</th>
-                                  <th></th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {pendingOrderList &&
-                                  pendingOrderList.length > 0 &&
-                                  pendingOrderList.map((order) => {
-                                    return (
-                                      <tr key={order.order_id}>
-                                        <td>{order.order_id}</td>
-                                        <td>{order.departure_location}</td>
-                                        <td>{order.arrival_location}</td>
-                                        <td>{order.total_capacity}</td>
-                                        <td>
-                                          {new Intl.NumberFormat().format(
-                                            order.total_cost
-                                          )}{" "}
-                                          VND
-                                        </td>
-                                        <td>
-                                          <span
-                                            className="add-order-icon"
-                                            onClick={() => handleTempAdd(order)}
-                                          >
-                                            <MdAddCircle />
-                                          </span>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                {pendingOrderList &&
-                                  pendingOrderList.length === 0 && (
-                                    <tr>
-                                      <td colSpan={6}>Empty list...</td>
-                                    </tr>
-                                  )}
-                              </tbody>
-                            </Table>
-                          </div>
-                        </Col>
-                      </Row>
-
                       <div className="added-container">
-                        <div className="added-list-title">Added Orders</div>
+                        <div className="added-list-title">Trip Orders</div>
                         <div className="added-list">
                           <Table striped hover bordered responsive="md">
                             <thead>
@@ -1566,149 +1280,215 @@ const Schedule = () => {
                           </Table>
                         </div>
                       </div>
-                      <div className="confirm-container">
-                        <Button className="confirm-btn" onClick={handleAssign}>
-                          Confirm
-                        </Button>
-                      </div>
-                    </div>
-                  </Tab>
 
-                  <Tab eventKey="autoAssign" title="Auto Assign">
-                    <div className="auto-container">
-                      <div className="option">
-                        <div className="option-title">Option 1</div>
-                        <div className="option-body">
-                          <Table striped hover bordered responsive="md">
-                            <thead>
-                              <tr>
-                                <th>Order ID</th>
-                                <th>Departure</th>
-                                <th>Destination</th>
-                                <th>Capacity Unit</th>
-                                <th>Total Cost</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {option1 &&
-                                option1.length > 0 &&
-                                option1.map((order) => {
-                                  return (
-                                    <tr key={order.order_id}>
-                                      <td>{order.order_id}</td>
-                                      <td>{order.departure_location}</td>
-                                      <td>{order.arrival_location}</td>
-                                      <td>{order.total_capacity}</td>
-                                      <td>
-                                        {new Intl.NumberFormat().format(
-                                          order.total_cost
-                                        )}{" "}
-                                        VND
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                              {option1 && option1.length > 0 && (
-                                <tr>
-                                  <td
-                                    colSpan={4}
-                                    style={{ textAlign: "center" }}
-                                  >
-                                    <b>Total Income</b>
-                                  </td>
-                                  <td>
-                                    {new Intl.NumberFormat().format(income1)}{" "}
-                                    VND
-                                  </td>
-                                </tr>
-                              )}
-                              {option1 && option1.length === 0 && (
-                                <tr>
-                                  <td colSpan={6}>Empty list...</td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </Table>
-                          <div className="apply-btn">
+                      <Row>
+                        <Col>
+                          <div className="title-btn">
+                            <div className="detail-title">Available Orders</div>
                             <Button
                               variant="warning"
-                              onClick={() => handleApplyOption(option1)}
+                              onClick={handleShowOption}
                             >
-                              Apply
+                              Auto Assign
                             </Button>
                           </div>
-                        </div>
-                      </div>
-
-                      <div className="option">
-                        <div className="option-title">Option 2</div>
-                        <div className="option-body">
-                          <Table striped hover bordered responsive="md">
-                            <thead>
-                              <tr>
-                                <th>Order ID</th>
-                                <th>Departure</th>
-                                <th>Destination</th>
-                                <th>Capacity Unit</th>
-                                <th>Total Cost</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {option2 &&
-                                option2.length > 0 &&
-                                option2.map((order) => {
-                                  return (
-                                    <tr key={order.order_id}>
-                                      <td>{order.order_id}</td>
-                                      <td>{order.departure_location}</td>
-                                      <td>{order.arrival_location}</td>
-                                      <td>{order.total_capacity}</td>
-                                      <td>
-                                        {new Intl.NumberFormat().format(
-                                          order.total_cost
-                                        )}{" "}
-                                        VND
-                                      </td>
+                          <div className="order-detail">
+                            <Table striped hover bordered responsive="md">
+                              <thead>
+                                <tr>
+                                  <th>Order ID</th>
+                                  <th>Departure</th>
+                                  <th>Destination</th>
+                                  <th>Capacity Unit</th>
+                                  <th>Total Cost</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {pendingOrderList &&
+                                  pendingOrderList.length > 0 &&
+                                  pendingOrderList.map((order) => {
+                                    return (
+                                      <tr key={order.order_id}>
+                                        <td>{order.order_id}</td>
+                                        <td>{order.departure_location}</td>
+                                        <td>{order.arrival_location}</td>
+                                        <td>{order.total_capacity}</td>
+                                        <td>
+                                          {new Intl.NumberFormat().format(
+                                            order.total_cost
+                                          )}{" "}
+                                          VND
+                                        </td>
+                                        <td>
+                                          <span
+                                            className="add-order-icon"
+                                            onClick={() => handleTempAdd(order)}
+                                          >
+                                            <MdAddCircle />
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                {pendingOrderList &&
+                                  pendingOrderList.length === 0 && (
+                                    <tr>
+                                      <td colSpan={6}>Empty list...</td>
                                     </tr>
-                                  );
-                                })}
-                              {option2 && option2.length > 0 && (
-                                <tr>
-                                  <td
-                                    colSpan={4}
-                                    style={{ textAlign: "center" }}
-                                  >
-                                    <b>Total Income</b>
-                                  </td>
-                                  <td>
-                                    {new Intl.NumberFormat().format(income2)}{" "}
-                                    VND
-                                  </td>
-                                </tr>
-                              )}
-                              {option2 && option2.length === 0 && (
-                                <tr>
-                                  <td colSpan={6}>Empty list...</td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </Table>
-                          <div className="apply-btn">
-                            <Button
-                              variant="warning"
-                              onClick={() => handleApplyOption(option2)}
-                            >
-                              Apply
-                            </Button>
+                                  )}
+                              </tbody>
+                            </Table>
                           </div>
-                        </div>
-                      </div>
+                        </Col>
+                      </Row>
                     </div>
                   </Tab>
                 </Tabs>
               </Modal.Body>
               <Modal.Footer style={{ justifyContent: "flex-start" }}>
                 <Button variant="secondary" onClick={handleCloseDetailTrip}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
+            <Modal
+              show={showOption}
+              onHide={handleCloseOption}
+              backdrop="static"
+              keyboard={false}
+              dialogClassName="auto-assign-modal"
+              size="lg"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title>Assign Options</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className="auto-container">
+                  <div className="option">
+                    <div className="option-title">Option 1</div>
+                    <div className="option-body">
+                      <Table striped hover bordered responsive="md">
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Departure</th>
+                            <th>Destination</th>
+                            <th>Capacity Unit</th>
+                            <th>Total Cost</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {option1 &&
+                            option1.length > 0 &&
+                            option1.map((order) => {
+                              return (
+                                <tr key={order.order_id}>
+                                  <td>{order.order_id}</td>
+                                  <td>{order.departure_location}</td>
+                                  <td>{order.arrival_location}</td>
+                                  <td>{order.total_capacity}</td>
+                                  <td>
+                                    {new Intl.NumberFormat().format(
+                                      order.total_cost
+                                    )}{" "}
+                                    VND
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          {option1 && option1.length > 0 && (
+                            <tr>
+                              <td colSpan={4} style={{ textAlign: "center" }}>
+                                <b>Total Income</b>
+                              </td>
+                              <td>
+                                {new Intl.NumberFormat().format(income1)} VND
+                              </td>
+                            </tr>
+                          )}
+                          {option1 && option1.length === 0 && (
+                            <tr>
+                              <td colSpan={6}>Empty list...</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
+                      <div className="apply-btn">
+                        <Button
+                          variant="warning"
+                          onClick={() => handleApplyOption(option1)}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="option">
+                    <div className="option-title">Option 2</div>
+                    <div className="option-body">
+                      <Table striped hover bordered responsive="md">
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Departure</th>
+                            <th>Destination</th>
+                            <th>Capacity Unit</th>
+                            <th>Total Cost</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {option2 &&
+                            option2.length > 0 &&
+                            option2.map((order) => {
+                              return (
+                                <tr key={order.order_id}>
+                                  <td>{order.order_id}</td>
+                                  <td>{order.departure_location}</td>
+                                  <td>{order.arrival_location}</td>
+                                  <td>{order.total_capacity}</td>
+                                  <td>
+                                    {new Intl.NumberFormat().format(
+                                      order.total_cost
+                                    )}{" "}
+                                    VND
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          {option2 && option2.length > 0 && (
+                            <tr>
+                              <td colSpan={4} style={{ textAlign: "center" }}>
+                                <b>Total Income</b>
+                              </td>
+                              <td>
+                                {new Intl.NumberFormat().format(income2)} VND
+                              </td>
+                            </tr>
+                          )}
+                          {option2 && option2.length === 0 && (
+                            <tr>
+                              <td colSpan={6}>Empty list...</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
+                      <div className="apply-btn">
+                        <Button
+                          variant="warning"
+                          onClick={() => handleApplyOption(option2)}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseOption}>
                   Close
                 </Button>
               </Modal.Footer>

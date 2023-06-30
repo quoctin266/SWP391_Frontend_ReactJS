@@ -38,11 +38,6 @@ const AdminSidebar = () => {
 
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
-              <NavLink to="/admin/dashboard">
-                <CDBSidebarMenuItem icon="chart-bar">
-                  Dashboard
-                </CDBSidebarMenuItem>
-              </NavLink>
               <NavLink to="/admin/manage-account">
                 <CDBSidebarMenuItem icon="users">
                   Manage Account
