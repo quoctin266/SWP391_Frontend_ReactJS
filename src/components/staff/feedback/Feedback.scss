@@ -19,19 +19,28 @@
 
 
     .Box {
-        width: 90%;
-
         .IconCell {
             width: 10%;
 
             .Icon {
-                width        : 50%;
+                width        : 3rem;
+                height       : 3rem;
                 border-radius: 50%;
             }
         }
 
         .Name {
             width: 10%;
+        }
+
+        .rate {
+            width: 10%;
+
+            svg {
+                margin-bottom: 5px;
+                color        : rgb(250, 175, 0);
+
+            }
         }
 
         .title {

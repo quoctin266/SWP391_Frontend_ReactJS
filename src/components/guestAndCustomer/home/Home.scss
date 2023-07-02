@@ -45,6 +45,12 @@
         }
 
         .About {
+            margin        : 0;
+            font-family   : "Roboto", "Helvetica", "Arial", sans-serif;
+            font-size     : 1rem;
+            line-height   : 1.5;
+            letter-spacing: 0.00938em;
+
             text-align      : center;
             color           : #235936;
             width           : 100%;
@@ -63,6 +69,13 @@
         }
 
         .MoveBird {
+            margin        : 0;
+            font-family   : "Roboto", "Helvetica", "Arial", sans-serif;
+            font-weight   : 400;
+            font-size     : 1rem;
+            line-height   : 1.5;
+            letter-spacing: 0.00938em;
+
             display         : flex;
             align-items     : center;
             color           : #235936;
@@ -94,6 +107,13 @@
         }
 
         .WhereMove {
+            margin        : 0;
+            font-family   : "Roboto", "Helvetica", "Arial", sans-serif;
+            font-weight   : 400;
+            font-size     : 1rem;
+            line-height   : 1.5;
+            letter-spacing: 0.00938em;
+
             display         : flex;
             align-items     : center;
             color           : #235936;
@@ -146,6 +166,10 @@
             }
 
             .video-text {
+                margin        : 0;
+                font-family   : "Roboto", "Helvetica", "Arial", sans-serif;
+                line-height   : 1.5;
+                letter-spacing: 0.00938em;
 
                 grid-column     : 2;
                 font-weight     : bold;
@@ -267,11 +291,14 @@
                 }
 
                 .title {
-                    font-size    : 1.5em;
-                    font-weight  : 600;
-                    text-align   : center;
-                    margin-top   : 30px;
-                    margin-bottom: 10px;
+                    font-size              : 1.5em;
+                    font-weight            : 600;
+                    text-align             : center;
+                    background-color       : #134b13;
+                    padding                : 7%;
+                    color                  : white;
+                    border-top-left-radius : 15px;
+                    border-top-right-radius: 15px;
                 }
 
                 .content {
@@ -280,11 +307,20 @@
                     .news-item {
                         margin-bottom: 20px;
                         font-weight  : 600;
-                        color        : #404040;
+
+                        .news-link {
+                            text-decoration: none;
+                            color          : #404040;
+
+                            &:hover {
+                                color: rgb(43, 116, 75);
+                            }
+                        }
 
                         i {
                             color      : #818181;
                             font-weight: 400;
+
                         }
                     }
                 }
@@ -300,11 +336,14 @@
                 }
 
                 .title {
-                    font-size    : 1.5em;
-                    font-weight  : 600;
-                    text-align   : center;
-                    margin-top   : 30px;
-                    margin-bottom: 10px;
+                    font-size              : 1.5em;
+                    font-weight            : 600;
+                    text-align             : center;
+                    background-color       : #134b13;
+                    padding                : 7%;
+                    color                  : white;
+                    border-top-left-radius : 15px;
+                    border-top-right-radius: 15px;
                 }
 
                 .content {
@@ -342,11 +381,14 @@
                 }
 
                 .title {
-                    font-size    : 1.5em;
-                    font-weight  : 600;
-                    text-align   : center;
-                    margin-top   : 30px;
-                    margin-bottom: 10px;
+                    font-size              : 1.5em;
+                    font-weight            : 600;
+                    text-align             : center;
+                    background-color       : #134b13;
+                    padding                : 7%;
+                    color                  : white;
+                    border-top-left-radius : 15px;
+                    border-top-right-radius: 15px;
                 }
 
                 .content {

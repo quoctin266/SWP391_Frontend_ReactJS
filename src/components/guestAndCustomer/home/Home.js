@@ -24,6 +24,8 @@ import { HomeBanner } from "../banner/HomeBanner";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
+import { Rating } from "@mui/material";
+import Col from "react-bootstrap/Col";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -37,6 +39,7 @@ const Home = () => {
   const [show, setShow] = useState(false);
   const [feedbackTitle, setFeedbackTitle] = useState("");
   const [feedbackDes, setFeedbackDes] = useState("");
+  const [star, setStar] = useState(0);
 
   const [invalidTitle, setInvalidTitle] = useState(false);
   const [invalidDes, setInvalidDes] = useState(false);
@@ -45,6 +48,7 @@ const Home = () => {
     setShow(false);
     setFeedbackTitle("");
     setFeedbackDes("");
+    setStar(0);
     setInvalidTitle(false);
     setInvalidDes(false);
   };
@@ -97,6 +101,11 @@ const Home = () => {
       return;
     }
 
+    if (!star) {
+      toast.error("Please rate us.");
+      return;
+    }
+
     if (!feedbackDes) {
       setInvalidDes(true);
       toast.error("Please fill in feedback description.");
@@ -108,7 +117,8 @@ const Home = () => {
       account_id,
       feedbackTitle,
       feedbackDes,
-      createTime
+      createTime,
+      star
     );
 
     if (data && data.EC === 0) {
@@ -143,7 +153,7 @@ const Home = () => {
             )}
           </div>
         </div>
-        <Typography className="About">
+        <div className="About">
           <h1>What We Are</h1>
           At Bird Travel, we understand the unique bond between bird owners and
           their feathered friends. As a company dedicated to helping bird owners
@@ -156,14 +166,14 @@ const Home = () => {
           attention throughout the journey. With our expertise and commitment to
           animal welfare, you can trust Bird Travel to provide a stress-free and
           enjoyable travel experience for both you and your feathered companion.
-        </Typography>
+        </div>
         <Container className="MoveBird">
           <img
             src={Parrot}
             style={{ width: "25%", borderRadius: "50%" }}
             alt="pic1"
           />
-          <Typography className="MoveBird-Text">
+          <div className="MoveBird-Text">
             <h1>How we move bird</h1>
             <h2>
               At Bird Travel, we transport birds with care and expertise. Here's
@@ -193,7 +203,7 @@ const Home = () => {
               Trust Bird Travel for a smooth and reliable bird transportation
               experience.
             </h2>
-          </Typography>
+          </div>
         </Container>
         <Container className="WhereMove">
           <img
@@ -201,7 +211,7 @@ const Home = () => {
             style={{ width: "25%", borderRadius: "50%" }}
             alt="pic2"
           />
-          <Typography className="WhereMove-Text">
+          <div className="WhereMove-Text">
             <h1>Where do we move bird</h1>
             <p>
               At Bird Travel, we offer bird transportation services to various
@@ -213,21 +223,21 @@ const Home = () => {
               journeys, trust Bird Travel to transport your bird wherever they
               need to go.
             </p>
-          </Typography>
+          </div>
         </Container>
         <Container className="video">
           <ReactPlayer
             url="https://youtu.be/aTvmJg2AzqM"
             className="youtube-video"
           />
-          <Typography className="video-text">
+          <div className="video-text">
             <p>
               👈🎬Transporting a bird on the ground requires careful planning
               and attention to ensure the safety and comfort of your feathered
               friend. Here are some essential steps to follow when transporting
               a bird by road or other ground transportation methods:
             </p>
-          </Typography>
+          </div>
         </Container>
 
         <Typography className="Board-Title">
@@ -237,7 +247,6 @@ const Home = () => {
         <div className="homepage-info-container">
           <div className="news-container">
             <div className="title">News</div>
-            <hr />
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -252,10 +261,17 @@ const Home = () => {
                   listNews.map((item) => {
                     return (
                       <div className="news-item" key={item.id}>
-                        <BiNews /> {item.title} &nbsp; &nbsp;
-                        <i>{item.source}</i>
-                        &nbsp; &nbsp;
-                        <i> {moment(item.date).utc().format("DD/MM/YYYY")} </i>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="news-link"
+                        >
+                          <BiNews /> {item.title} &nbsp; &nbsp;
+                          <i>{item.source}</i>
+                          &nbsp; &nbsp;
+                          <i>{moment(item.date).utc().format("DD/MM/YYYY")} </i>
+                        </a>
                       </div>
                     );
                   })}
@@ -265,7 +281,6 @@ const Home = () => {
 
           <div className="shipping-services-container">
             <div className="title">Bird Shipping Services</div>
-            <hr />
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -299,7 +314,6 @@ const Home = () => {
 
           <div className="shipping-condition-container">
             <div className="title">Shipping Condition</div>
-            <hr />
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -350,6 +364,17 @@ const Home = () => {
                   onChange={(e) => handleChangeTitle(e.target.value)}
                 />
               </Form.Group>
+
+              <Col>
+                <Form.Label>Rate Our Service</Form.Label> <br />
+                <Rating
+                  name="simple-controlled"
+                  value={star}
+                  onChange={(event, newValue) => {
+                    setStar(newValue);
+                  }}
+                />
+              </Col>
 
               <Form.Group className="mb-3" controlId="feedback description">
                 <Form.Label>Description</Form.Label>

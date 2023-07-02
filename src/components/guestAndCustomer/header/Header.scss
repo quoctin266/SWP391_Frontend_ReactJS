@@ -119,6 +119,40 @@
 
                     .navbar-nav {
 
+                        @media screen and (min-width: 990px) {
+                            .dropdown-toggle {
+                                &:focus {
+                                    background-color: #468C4D;
+                                }
+                            }
+                        }
+
+                        .dropdown-toggle::after {
+                            display: none;
+                        }
+
+                        .dropdown-menu {
+                            background-color: #85c697;
+
+                            @media screen and (max-width: 990px) {
+                                background-color: #468C4D;
+                                width           : 80%;
+                            }
+
+                            .dropdown-item {
+                                color    : white;
+                                font-size: 1.2em;
+
+                                &:hover {
+                                    background-color: #468C4D;
+
+                                    @media screen and (max-width: 990px) {
+                                        color: #13470A
+                                    }
+                                }
+                            }
+                        }
+
                         @media screen and (min-width: 1000px) {
                             display        : flex;
                             width          : 77%;

@@ -13,11 +13,19 @@
         font-weight     : 600;
         padding         : 1% 0;
         color           : #fff;
+
+        @media screen and (max-width: 990px) {
+            font-size: 1.5em;
+        }
     }
 
     .Mid {
         display: flex;
         gap    : 30px;
+
+        @media screen and (max-width: 990px) {
+            flex-direction: column;
+        }
 
 
         .Content1 {
@@ -31,6 +39,11 @@
             border-style    : solid;
             border-width    : .3rem;
             border-color    : #13470A;
+
+            @media screen and (max-width: 990px) {
+                width     : 100%;
+                margin-top: 3%;
+            }
 
 
             .contenttitle1 {
@@ -56,6 +69,10 @@
             border-width    : .3rem;
             border-color    : #13470A;
 
+            @media screen and (max-width: 990px) {
+                width: 100%;
+            }
+
             .contenttitle2 {
                 background-color: #13470A;
                 text-align      : center;
@@ -64,6 +81,10 @@
                 width           : 70%;
                 margin-top      : -24px;
                 padding         : 4px 0;
+
+                @media screen and (max-width: 990px) {
+                    width: 40%;
+                }
             }
         }
     }
