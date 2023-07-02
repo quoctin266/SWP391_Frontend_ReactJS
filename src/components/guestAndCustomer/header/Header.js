@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { logout } from "../../../redux/slices/authSlice";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -78,12 +79,15 @@ const Header = () => {
                 <NavLink to="/track" className="nav-link">
                   Track
                 </NavLink>
-                <NavLink to="/services" className="nav-link">
-                  Services
-                </NavLink>
-                <NavLink to="/price" className="nav-link">
-                  Price
-                </NavLink>
+                <NavDropdown title="Services" id="basic-nav-dropdown">
+                  <NavDropdown.Item onClick={() => navigate("/services")}>
+                    Pet Relocation
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => navigate("/price")}>
+                    Ground Travel
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>Air Travel</NavDropdown.Item>
+                </NavDropdown>
                 <NavLink to="/faqs" className="nav-link">
                   FAQs
                 </NavLink>

@@ -1102,73 +1102,7 @@ const Schedule = () => {
                   className="mb-3"
                   justify
                 >
-                  <Tab eventKey="statusUpdate" title="Update Status">
-                    <div className="updt-status">
-                      <Form onSubmit={(e) => handleUpdateStatus(e)}>
-                        <Row className="mb-5">
-                          <Form.Group as={Col} controlId="selectStatus">
-                            <Form.Label>Trip Status</Form.Label>
-                            <Form.Select
-                              defaultValue={statusUpdate}
-                              aria-label="Default select example"
-                              onChange={(e) => setStatusUpdate(e.target.value)}
-                            >
-                              <option value="" disabled hidden>
-                                Select status
-                              </option>
-                              <option value="Standby">Standby</option>
-                              <option value="Departed">Departed</option>
-                              <option value="Completed">Completed</option>
-                            </Form.Select>
-                          </Form.Group>
-
-                          <Col>
-                            <Button variant="primary" type="submit">
-                              Confirm
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Form>
-                    </div>
-                  </Tab>
-
-                  <Tab eventKey="orderList" title="Order List">
-                    <div className="trip-orders">
-                      <Table striped hover>
-                        <thead>
-                          <tr>
-                            <th>Order ID</th>
-                            <th>Departure</th>
-                            <th>Destination</th>
-                            <th>Bird Quantity</th>
-                            <th>Capacity Unit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {listOrder &&
-                            listOrder.length > 0 &&
-                            listOrder.map((order) => {
-                              return (
-                                <tr key={order.order_id}>
-                                  <td>{order.order_id}</td>
-                                  <td>{order.departure_location}</td>
-                                  <td>{order.arrival_location}</td>
-                                  <td>{order.bird_quantity}</td>
-                                  <td>{order.total_capacity}</td>
-                                </tr>
-                              );
-                            })}
-                          {listOrder && listOrder.length === 0 && (
-                            <tr>
-                              <td colSpan={6}>List is empty...</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </Table>
-                    </div>
-                  </Tab>
-
-                  <Tab eventKey="assignOrder" title="Manual Assign">
+                  <Tab eventKey="assignOrder" title="Assign Orders">
                     <div className="assign-container">
                       <Row>
                         <Col lg={9}>
@@ -1342,6 +1276,72 @@ const Schedule = () => {
                           </div>
                         </Col>
                       </Row>
+                    </div>
+                  </Tab>
+
+                  <Tab eventKey="orderList" title="Order List">
+                    <div className="trip-orders">
+                      <Table striped hover>
+                        <thead>
+                          <tr>
+                            <th>Order ID</th>
+                            <th>Departure</th>
+                            <th>Destination</th>
+                            <th>Bird Quantity</th>
+                            <th>Capacity Unit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {listOrder &&
+                            listOrder.length > 0 &&
+                            listOrder.map((order) => {
+                              return (
+                                <tr key={order.order_id}>
+                                  <td>{order.order_id}</td>
+                                  <td>{order.departure_location}</td>
+                                  <td>{order.arrival_location}</td>
+                                  <td>{order.bird_quantity}</td>
+                                  <td>{order.total_capacity}</td>
+                                </tr>
+                              );
+                            })}
+                          {listOrder && listOrder.length === 0 && (
+                            <tr>
+                              <td colSpan={6}>List is empty...</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </Table>
+                    </div>
+                  </Tab>
+
+                  <Tab eventKey="statusUpdate" title="Update Status">
+                    <div className="updt-status">
+                      <Form onSubmit={(e) => handleUpdateStatus(e)}>
+                        <Row className="mb-5">
+                          <Form.Group as={Col} controlId="selectStatus">
+                            <Form.Label>Trip Status</Form.Label>
+                            <Form.Select
+                              defaultValue={statusUpdate}
+                              aria-label="Default select example"
+                              onChange={(e) => setStatusUpdate(e.target.value)}
+                            >
+                              <option value="" disabled hidden>
+                                Select status
+                              </option>
+                              <option value="Standby">Standby</option>
+                              <option value="Departed">Departed</option>
+                              <option value="Completed">Completed</option>
+                            </Form.Select>
+                          </Form.Group>
+
+                          <Col>
+                            <Button variant="primary" type="submit">
+                              Confirm
+                            </Button>
+                          </Col>
+                        </Row>
+                      </Form>
                     </div>
                   </Tab>
                 </Tabs>

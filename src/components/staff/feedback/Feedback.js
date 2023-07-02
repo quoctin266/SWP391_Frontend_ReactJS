@@ -11,6 +11,7 @@ import { getAllFeedback } from "../../../service/APIservice";
 import { useState } from "react";
 import { useEffect } from "react";
 import ProfilePic from "../../../assets/image/User_Icon.jpg";
+import StarIcon from "@mui/icons-material/Star";
 
 const Feedback = () => {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -57,6 +58,12 @@ const Feedback = () => {
                   sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                 >
                   Title&nbsp;
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ color: "white", fontWeight: "bolder", border: "0" }}
+                >
+                  Rating&nbsp;
                 </TableCell>
                 <TableCell
                   align="center"
@@ -111,6 +118,17 @@ const Feedback = () => {
                       sx={{ border: "0", fontWeight: "bolder" }}
                     >
                       {row.title}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      width={3}
+                      className="rate"
+                      sx={{ border: "0", fontWeight: "bolder" }}
+                    >
+                      <span style={{ fontSize: "1.1em" }}>{row.rate}</span>{" "}
+                      <span>
+                        <StarIcon fontSize="small" />
+                      </span>
                     </TableCell>
                     <TableCell
                       align="left"
