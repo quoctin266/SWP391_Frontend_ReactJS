@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from "react-icons/fa";
 import { logout } from "../../../redux/slices/authSlice";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Language from "./Language";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,6 +32,10 @@ const Header = () => {
       <Container style={{ padding: "0" }}>
         <div className="banner-container">
           <img src={logo} alt="page logo" className="logo-image" />
+          <div className="language">
+            <Language />
+          </div>
+
           {isAuthenticated ? (
             <>
               <button
@@ -44,7 +51,7 @@ const Header = () => {
                 className="logout-button"
                 onClick={handleLogout}
               >
-                Log out
+                {t("header.logoutBtn")}
               </Button>
             </>
           ) : (
@@ -53,7 +60,7 @@ const Header = () => {
               className="signin-button"
               onClick={() => navigate("/login")}
             >
-              Log in
+              {t("header.loginBtn")}
             </Button>
           )}
         </div>
@@ -73,36 +80,42 @@ const Header = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                <NavLink to="/home" className="nav-link">
-                  Home
+                <NavLink to="/home" className="nav-link home">
+                  {t("header.home")}
                 </NavLink>
                 <NavLink to="/track" className="nav-link">
-                  Track
+                  {t("header.track")}
                 </NavLink>
-                <NavDropdown title="Services" id="basic-nav-dropdown">
+                <NavDropdown
+                  title={t("header.services")}
+                  id="basic-nav-dropdown"
+                >
                   <NavDropdown.Item onClick={() => navigate("/services")}>
-                    Pet Relocation
+                    {t("header.relocation")}
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={() => navigate("/price")}>
-                    Ground Travel
+                    {t("header.ground")}
                   </NavDropdown.Item>
-                  <NavDropdown.Item>Air Travel</NavDropdown.Item>
+                  <NavDropdown.Item>{t("header.air")}</NavDropdown.Item>
                 </NavDropdown>
                 <NavLink to="/faqs" className="nav-link">
-                  FAQs
+                  {t("header.faqs")}
                 </NavLink>
-                <NavLink to="/about-us" className="nav-link">
-                  About us
+                <NavLink to="/review" className="nav-link">
+                  {t("header.review")}
+                </NavLink>
+                <NavLink to="/about-us" className="nav-link aboutus">
+                  {t("header.about")}
                 </NavLink>
               </Nav>
               <div className="book-btn-container">
                 {role === "customer" || role === "" ? (
                   <NavLink to="/booking" className="navbar-brand">
-                    BOOK NOW
+                    {t("header.bookBtn")}
                   </NavLink>
                 ) : (
                   <NavLink to={`/${role}`} className="navbar-brand">
-                    WORKSPACE
+                    {t("header.workBtn")}
                   </NavLink>
                 )}
               </div>

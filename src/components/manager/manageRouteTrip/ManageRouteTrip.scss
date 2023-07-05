@@ -107,6 +107,12 @@
             .trip-list {
                 width    : 90%;
                 min-width: 300px;
+
+                .table {
+                    button {
+                        font-size: 0.85vw;
+                    }
+                }
             }
 
         }

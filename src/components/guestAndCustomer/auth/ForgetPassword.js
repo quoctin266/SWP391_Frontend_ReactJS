@@ -10,8 +10,11 @@ import { toast } from "react-toastify";
 import { postRecoverPW } from "../../../service/APIservice";
 import { recoverPassword } from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
 
 const ForgetPassword = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
   const navigate = useNavigate();
@@ -26,13 +29,13 @@ const ForgetPassword = () => {
     e.preventDefault();
 
     if (!email) {
-      toast.error("Please fill in email.");
+      toast.error(`${t("forget.toast1")}`);
       setInvalidEmail(true);
       return;
     }
 
     if (!validateEmail(email)) {
-      toast.error("Invalid email.");
+      toast.error(`${t("forget.toast2")}`);
       setInvalidEmail(true);
       return;
     }
@@ -58,13 +61,13 @@ const ForgetPassword = () => {
         <div className="background-container">
           <div className="forgetpassword-container">
             <div className="forgetpassword-form">
-              <div className="title">Recover Your Password</div>
+              <div className="title">{t("forget.title")}</div>
               <Form onSubmit={handleSubmitEmail}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email</Form.Label>
+                  <Form.Label>{t("forget.label")}</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder={t("forget.note")}
                     value={email}
                     isInvalid={invalidEmail}
                     onChange={(e) => handleChangeEmail(e.target.value)}
@@ -75,14 +78,14 @@ const ForgetPassword = () => {
                     variant="secondary"
                     onClick={() => navigate("/login")}
                   >
-                    Cancel
+                    {t("forget.cancelBtn")}
                   </Button>
                   <Button
                     variant="primary"
                     type="submit"
                     className="confirm-btn"
                   >
-                    Confirm
+                    {t("forget.confirmBtn")}
                   </Button>
                 </div>
               </Form>
@@ -94,4 +97,10 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <ForgetPassword />
+    </Suspense>
+  );
+}

@@ -21,8 +21,15 @@
     .dashboard-body {
         width: 95%;
 
+        .revenue-title {
+            font-weight: 500;
+            font-size  : 1.2em;
+            margin-top : 3%;
+            margin-left: 3%;
+        }
+
         .chart-revenue {
-            margin-top: 5%;
+            margin-top: 7%;
             height    : 60vh;
         }
 

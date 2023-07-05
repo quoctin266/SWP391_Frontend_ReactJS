@@ -22,8 +22,10 @@ import { toTime } from "../../../../utils/reuseFunction";
 import { FcCheckmark } from "react-icons/fc";
 import moment from "moment";
 import { GrView } from "react-icons/gr";
+import { useTranslation } from "react-i18next";
 
 const ManageTrip = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [routeList, setRouteList] = useState([]);
   const [routeDetail, setRouteDetail] = useState([]);
@@ -120,7 +122,7 @@ const ManageTrip = () => {
   };
   const handleShow = () => {
     if (!selectedRoute?.value) {
-      toast.error("Must select a route first.");
+      toast.error(`${t("manageTrip.toast1")}`);
       return;
     }
     setShow(true);
@@ -246,25 +248,25 @@ const ManageTrip = () => {
 
     if (!depart) {
       setInvalidDepart(true);
-      toast.error("Must choose depart date.");
+      toast.error(`${t("manageTrip.toast2")}`);
       return;
     }
 
     if (!assignVehicle) {
       setInvalidVehicle(true);
-      toast.error("Must choose vehicle.");
+      toast.error(`${t("manageTrip.toast3")}`);
       return;
     }
 
     if (!mainDriver) {
       setInvalidDriver(true);
-      toast.error("Must choose main driver.");
+      toast.error(`${t("manageTrip.toast4")}`);
       return;
     }
 
     if (!spDriver) {
       setInvalidSpDriver(true);
-      toast.error("Must choose support driver.");
+      toast.error(`${t("manageTrip.toast5")}`);
       return;
     }
 
@@ -366,7 +368,7 @@ const ManageTrip = () => {
 
     if (!editDepart) {
       setInvalidEditDepart(true);
-      toast.error("Please specify depart date.");
+      toast.error(`${t("manageTrip.toast2")}`);
       return;
     }
 
@@ -407,7 +409,7 @@ const ManageTrip = () => {
 
   return (
     <>
-      <div className="route-title">Select Route</div>
+      <div className="route-title">{t("manageTrip.title1")}</div>
       <div className="route-list">
         <Select
           value={selectedRoute}
@@ -415,15 +417,15 @@ const ManageTrip = () => {
           options={routeList}
           isClearable={true}
         />
-        <div className="detail-title">Route detail</div>
+        <div className="detail-title">{t("manageTrip.title2")}</div>
         <div className="route-detail">
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Index</th>
-                <th>Station</th>
-                <th>Driving time from departure</th>
-                <th>Distance from departure</th>
+                <th>{t("manageTrip.field1")}</th>
+                <th>{t("manageTrip.field2")}</th>
+                <th>{t("manageTrip.field3")}</th>
+                <th>{t("manageTrip.field4")}</th>
               </tr>
             </thead>
             <tbody>
@@ -449,23 +451,22 @@ const ManageTrip = () => {
         </div>
       </div>
 
-      <div className="trip-title">Current Trips</div>
+      <div className="trip-title">{t("manageTrip.title3")}</div>
       <Button variant="primary" onClick={handleShow} className="add-btn">
-        Add new
+        {t("manageTrip.addBtn")}
       </Button>
 
       <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add New Trip</Modal.Title>
+          <Modal.Title>{t("manageTrip.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleCreateTrip}>
           <Modal.Body>
             <Row className="mb-3">
               <Form.Group as={Col} controlId="formGridDate">
-                <Form.Label>Departure date</Form.Label>
+                <Form.Label>{t("manageTrip.label1")}</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  placeholder="Enter departure date"
                   min={currentTime}
                   isInvalid={invalidDepart}
                   onChange={(e) => handleChangeDepart(e.target.value)}
@@ -473,7 +474,7 @@ const ManageTrip = () => {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridDriver">
-                <Form.Label> Select Main Driver</Form.Label>
+                <Form.Label>{t("manageTrip.label2")}</Form.Label>
                 <Form.Select
                   aria-label="driver select"
                   defaultValue=""
@@ -481,7 +482,7 @@ const ManageTrip = () => {
                   isInvalid={invalidDriver}
                 >
                   <option value="" disabled hidden>
-                    Select driver...
+                    {t("manageTrip.note1")}
                   </option>
                   {allDriver &&
                     allDriver.length > 0 &&
@@ -497,7 +498,7 @@ const ManageTrip = () => {
             </Row>
             <Row className="mb-3">
               <Form.Group controlId="formGridVehicle" as={Col}>
-                <Form.Label>Select vehicle</Form.Label>
+                <Form.Label>{t("manageTrip.label3")}</Form.Label>
                 <Form.Select
                   aria-label="vehicle select"
                   defaultValue=""
@@ -505,7 +506,7 @@ const ManageTrip = () => {
                   isInvalid={invalidVehicle}
                 >
                   <option value="" disabled hidden>
-                    Select vehicle...
+                    {t("manageTrip.note2")}
                   </option>
                   {vehicleList &&
                     vehicleList.length > 0 &&
@@ -523,7 +524,7 @@ const ManageTrip = () => {
               </Form.Group>
 
               <Col>
-                <Form.Label> Select Support Driver</Form.Label>
+                <Form.Label>{t("manageTrip.label4")}</Form.Label>
                 <Form.Select
                   aria-label="sp driver select"
                   defaultValue=""
@@ -532,7 +533,7 @@ const ManageTrip = () => {
                   onChange={(e) => handleChangeSpDriver(e.target.value)}
                 >
                   <option value="" disabled hidden>
-                    Select driver...
+                    {t("manageTrip.note3")}
                   </option>
                   {spDriverList &&
                     spDriverList.length > 0 &&
@@ -548,10 +549,10 @@ const ManageTrip = () => {
             </Row>
             <Row className="mb-3">
               <Form.Group controlId="formGridCarryLimit" as={Col}>
-                <Form.Label>Capacity</Form.Label>
+                <Form.Label>{t("manageTrip.label5")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Capacity"
+                  placeholder={t("manageTrip.note4")}
                   value={assignVehicle.capacity ? assignVehicle.capacity : ""}
                   disabled
                 />
@@ -562,10 +563,10 @@ const ManageTrip = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageTrip.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageTrip.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -575,12 +576,12 @@ const ManageTrip = () => {
         <Table striped bordered hover responsive="md">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Departure date</th>
-              <th>Driver</th>
-              <th>Vehicle</th>
-              <th>Capacity</th>
-              <th>Actions</th>
+              <th>{t("manageTrip.field5")}</th>
+              <th>{t("manageTrip.field6")}</th>
+              <th>{t("manageTrip.field7")}</th>
+              <th>{t("manageTrip.field8")}</th>
+              <th>{t("manageTrip.field9")}</th>
+              <th>{t("manageTrip.field10")}</th>
             </tr>
           </thead>
           <tbody>
@@ -611,14 +612,14 @@ const ManageTrip = () => {
                         variant="warning"
                         onClick={() => handleShowEdit(trip)}
                       >
-                        Edit
+                        {t("manageTrip.editBtn")}
                       </Button>
                       <Button
                         variant="danger"
                         className="mx-2"
                         onClick={() => handleShowDelete(trip)}
                       >
-                        Delete
+                        {t("manageTrip.deleteBtn")}
                       </Button>
                     </td>
                   </tr>
@@ -640,17 +641,17 @@ const ManageTrip = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Drivers Info</Modal.Title>
+            <Modal.Title>{t("manageTrip.driver")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Table striped hover>
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Name</th>
-                  <th>Age</th>
-                  <th>Phone</th>
-                  <th>Main Driver</th>
+                  <th>{t("manageTrip.field11")}</th>
+                  <th>{t("manageTrip.field12")}</th>
+                  <th>{t("manageTrip.field13")}</th>
+                  <th>{t("manageTrip.field14")}</th>
+                  <th>{t("manageTrip.field15")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -676,7 +677,7 @@ const ManageTrip = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDrivers}>
-              Close
+              {t("manageTrip.closeBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -688,19 +689,19 @@ const ManageTrip = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("manageTrip.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to delete this trip? <br />
-            Trip ID: <b>{deleteTripItem.trip_id}</b> <br />
-            Depart: <b>{deleteTripItem.departure_date}</b>
+            {t("manageTrip.deleteNote")} <br />
+            {t("manageTrip.info1")} <b>{deleteTripItem.trip_id}</b> <br />
+            {t("manageTrip.info2")} <b>{deleteTripItem.departure_date}</b>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("manageTrip.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleDeleteTrip}>
-              Confirm
+              {t("manageTrip.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -712,16 +713,15 @@ const ManageTrip = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Edit Trip Info</Modal.Title>
+            <Modal.Title>{t("manageTrip.editTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleEditTrip}>
             <Modal.Body>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Departure date</Form.Label>
+                  <Form.Label>{t("manageTrip.label1")}</Form.Label>
                   <Form.Control
                     type="datetime-local"
-                    placeholder="Enter departure date"
                     min={currentTime}
                     isInvalid={invalidEditDepart}
                     value={editDepart}
@@ -730,7 +730,7 @@ const ManageTrip = () => {
                 </Col>
 
                 <Form.Group as={Col} controlId="formGridDriver">
-                  <Form.Label> Select Main Driver</Form.Label>
+                  <Form.Label>{t("manageTrip.label2")}</Form.Label>
                   <Form.Select
                     aria-label="driver select"
                     defaultValue={editMainDriver.driver_id}
@@ -753,7 +753,7 @@ const ManageTrip = () => {
               </Row>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Select vehicle</Form.Label>
+                  <Form.Label>{t("manageTrip.label3")}</Form.Label>
                   <Form.Select
                     aria-label="vehicle select"
                     defaultValue={editVehicle.vehicle_id}
@@ -775,7 +775,7 @@ const ManageTrip = () => {
                 </Col>
 
                 <Col>
-                  <Form.Label> Select Support Driver</Form.Label>
+                  <Form.Label>{t("manageTrip.label4")}</Form.Label>
                   <Form.Select
                     aria-label="sp driver select"
                     defaultValue={editSpDriver.driver_id}
@@ -798,10 +798,9 @@ const ManageTrip = () => {
               </Row>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Capacity</Form.Label>
+                  <Form.Label>{t("manageTrip.label5")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Capacity"
                     value={editVehicle.capacity ? editVehicle.capacity : ""}
                     disabled
                   />
@@ -812,10 +811,10 @@ const ManageTrip = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEdit}>
-                Close
+                {t("manageTrip.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("manageTrip.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>

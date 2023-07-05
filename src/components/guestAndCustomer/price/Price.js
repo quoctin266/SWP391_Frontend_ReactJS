@@ -14,8 +14,10 @@ import Paper from "@mui/material/Paper";
 import { getPricing } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Price = () => {
+  const { t } = useTranslation();
   const [priceList, setPriceList] = useState();
 
   const fetchAllPrice = async () => {
@@ -35,22 +37,17 @@ const Price = () => {
         <div className="price-info">
           <div className="info">
             <MdLabelImportant />
-            This is the base fee that pays
+            {t("ground.text1")}
             <br />
-            for our time while we research, prepare for, and schedule your pet's
-            relocation from start to finish. It includes your Pet Travel
-            Specialist working with our trusted drivers to arrange for your
-            pets’ safe and comfortable ground transportation.
+            {t("ground.text2")}
             <br />
             <br />
             <MdLabelImportant />
-            This fee does not include the price of the service package, which
-            includes the basic service and other additional services. To get an
-            estimate for the travel, fill out a bird travel form.
+            {t("ground.text3")}
           </div>
           <div className="price-method">
             <div className="method">
-              <h3 style={{ color: "#13470A" }}>Payment method</h3>
+              <h3 style={{ color: "#13470A" }}> {t("ground.payment")}</h3>
             </div>
             <div className="pic">
               <img src={momo} alt="cele icon" className="momo" />
@@ -72,25 +69,25 @@ const Price = () => {
                     align="center"
                     sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    Distance
+                    {t("ground.distance")}
                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    Initial cost&nbsp;
+                    {t("ground.init")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    Each subsequent bird&nbsp;
+                    {t("ground.extra")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
                     sx={{ color: "white", fontWeight: "bolder", border: "0" }}
                   >
-                    Cost/Capacity unit&nbsp;
+                    {t("ground.capacity")}&nbsp;
                   </TableCell>
                 </TableRow>
               </TableHead>

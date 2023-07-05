@@ -9,8 +9,10 @@ import { postCreateQA } from "../../../../service/APIservice";
 import ReactPaginate from "react-paginate";
 import EditQA from "./EditQA";
 import DeleteQA from "./DeleteQA";
+import { useTranslation } from "react-i18next";
 
 const ManageFAQ = (props) => {
+  const { t } = useTranslation();
   const { faqList } = props;
   const [show, setShow] = useState(false);
   const [question, setQuestion] = useState("");
@@ -55,13 +57,13 @@ const ManageFAQ = (props) => {
 
     if (question.length < 20) {
       setInvalidQuestion(true);
-      toast.error("Must be at least 20 characters.");
+      toast.error(`${t("manageFAQ.toast1")}`);
       return;
     }
 
     if (answer.length < 10) {
       setInvalidAnswer(true);
-      toast.error("Must be at least 10 characters.");
+      toast.error(`${t("manageFAQ.toast2")}`);
       return;
     }
 
@@ -95,7 +97,7 @@ const ManageFAQ = (props) => {
   return (
     <>
       <Button variant="primary" className="my-3" onClick={handleShow}>
-        Add new
+        {t("manageFAQ.addBtn")}
       </Button>
 
       {currentItems &&
@@ -117,12 +119,12 @@ const ManageFAQ = (props) => {
 
       <div className="d-flex justify-content-center mt-5">
         <ReactPaginate
-          nextLabel="Next >"
+          nextLabel={t("manageFAQ.next")}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="< Previous"
+          previousLabel={t("manageFAQ.pre")}
           pageClassName="page-item"
           pageLinkClassName="page-link"
           previousClassName="page-item"
@@ -147,15 +149,15 @@ const ManageFAQ = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New QA</Modal.Title>
+          <Modal.Title>{t("manageFAQ.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddQA}>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Question</Form.Label>
+              <Form.Label>{t("manageFAQ.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter question"
+                placeholder={t("manageFAQ.note1")}
                 isInvalid={invalidQuestion}
                 value={question}
                 onChange={(e) => handleChangeQuestion(e.target.value)}
@@ -163,7 +165,7 @@ const ManageFAQ = (props) => {
             </Col>
 
             <Col className="mb-3">
-              <Form.Label>Answer</Form.Label>
+              <Form.Label>{t("manageFAQ.label2")}</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -175,10 +177,10 @@ const ManageFAQ = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageFAQ.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageFAQ.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>

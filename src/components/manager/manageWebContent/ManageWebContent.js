@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import _ from "lodash";
 import ManageNews from "./News_CRUD/ManageNews";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const ManageWebContent = () => {
+  const { t } = useTranslation();
   const [faqList, setFaqList] = useState([]);
   const [newsList, setNewsList] = useState([]);
 
@@ -42,7 +44,7 @@ const ManageWebContent = () => {
 
   return (
     <div className="manage-webcontent-container">
-      <div className="title">Manage Web Content</div>
+      <div className="title">{t("manageWeb.header")}</div>
       <div className="webcontent-body">
         <Tabs
           defaultActiveKey="faq"
@@ -50,10 +52,10 @@ const ManageWebContent = () => {
           className="mb-3"
           justify
         >
-          <Tab eventKey="faq" title="Manage FAQ">
+          <Tab eventKey="faq" title={t("manageWeb.tab1")}>
             <ManageFAQ faqList={faqList} fetchAllFAQ={fetchAllFAQ} />
           </Tab>
-          <Tab eventKey="news" title="Manage News">
+          <Tab eventKey="news" title={t("manageWeb.tab2")}>
             <ManageNews newsList={newsList} fetchAllNews={fetchAllNews} />
           </Tab>
         </Tabs>

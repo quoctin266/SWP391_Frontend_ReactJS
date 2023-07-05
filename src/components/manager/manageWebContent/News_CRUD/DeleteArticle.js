@@ -4,8 +4,10 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { AiFillDelete } from "react-icons/ai";
 import { deleteArticle } from "../../../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const DeleteArticle = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [article, setArticle] = useState("");
 
@@ -38,22 +40,22 @@ const DeleteArticle = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("manageNews.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to delete this article? <br />
-          Title: <b>{article.title}</b>
+          {t("manageNews.deleteNote")} <br />
+          {t("manageNews.info1")} <b>{article.title}</b>
           <br />
-          Author: <b>{article.source}</b>
+          {t("manageNews.info2")} <b>{article.source}</b>
           <br />
-          Date: <b>{article.date}</b>
+          {t("manageNews.info3")} <b>{article.date}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("manageNews.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeleteArticle}>
-            Confirm
+            {t("manageNews.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

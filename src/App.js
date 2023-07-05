@@ -4,6 +4,7 @@ import Header from "./components/guestAndCustomer/header/Header";
 import Footer from "./components/guestAndCustomer/footer/Footer";
 import { Outlet } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { Suspense } from "react";
 
 function App() {
   return (
@@ -27,4 +28,10 @@ function App() {
   );
 }
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <App />
+    </Suspense>
+  );
+}

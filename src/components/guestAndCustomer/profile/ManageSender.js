@@ -22,8 +22,10 @@ import { FaEdit } from "react-icons/fa";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ManageSender = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [senderList, setSenderList] = useState([]);
   const [senderName, setSenderName] = useState("");
@@ -109,19 +111,19 @@ const ManageSender = () => {
     e.preventDefault();
 
     if (!senderName) {
-      toast.error("Please fill in your name.");
+      toast.error(`${t("sender.toast1")}`);
       setInvalidName(true);
       return;
     }
 
     if (!senderPhone) {
-      toast.error("Please fill in your phone.");
+      toast.error(`${t("sender.toast2")}`);
       setInvalidPhone(true);
       return;
     }
 
     if (!senderAddress) {
-      toast.error("Please fill in your address.");
+      toast.error(`${t("sender.toast3")}`);
       setInvalidAddesss(true);
       return;
     }
@@ -169,19 +171,19 @@ const ManageSender = () => {
     e.preventDefault();
 
     if (!editName) {
-      toast.error("Please fill in your name.");
+      toast.error(`${t("sender.toast1")}`);
       setInvalidEditName(true);
       return;
     }
 
     if (!editPhone) {
-      toast.error("Please fill in your phone.");
+      toast.error(`${t("sender.toast2")}`);
       setInvalidEditPhone(true);
       return;
     }
 
     if (!editAddress) {
-      toast.error("Please fill in your address.");
+      toast.error(`${t("sender.toast3")}`);
       setInvalidEditAddress(true);
       return;
     }
@@ -204,22 +206,22 @@ const ManageSender = () => {
 
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      Delete this
+      {t("sender.tip1")}
     </Tooltip>
   );
 
   const renderTooltipEdit = (props) => (
     <Tooltip id="edit-tooltip" {...props}>
-      Edit this
+      {t("sender.tip2")}
     </Tooltip>
   );
 
   return (
     <Container className="sender-outer">
       <div className="manage-sender-container">
-        <div className="header">Manage Sender</div>
+        <div className="header">{t("sender.header")}</div>
         <Button variant="success" onClick={handleShow}>
-          Add New
+          {t("sender.addBtn")}
         </Button>
 
         <div className="sender-list">
@@ -261,7 +263,9 @@ const ManageSender = () => {
                     </div>
                   </Card.Header>
                   <Card.Body>
-                    <Card.Title className="mb-3">Sender Info</Card.Title>
+                    <Card.Title className="mb-3">
+                      {t("sender.cardTitle")}
+                    </Card.Title>
 
                     <div className="mb-2">
                       <BsFillTelephoneInboundFill /> {item.phone_number}
@@ -283,16 +287,16 @@ const ManageSender = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add New</Modal.Title>
+            <Modal.Title>{t("sender.addTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleAddSender}>
             <Modal.Body>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>{t("sender.label1")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Your name"
+                    placeholder={t("sender.note1")}
                     value={senderName}
                     isInvalid={invalidName}
                     onChange={(e) => handleChangeName(e.target.value)}
@@ -300,7 +304,7 @@ const ManageSender = () => {
                 </Col>
 
                 <Col>
-                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Label>{t("sender.label2")}</Form.Label>
                   <Form.Control
                     type="tel"
                     placeholder="Ex: 0928226767"
@@ -314,11 +318,11 @@ const ManageSender = () => {
 
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Address</Form.Label>
+                  <Form.Label>{t("sender.label3")}</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
-                    placeholder="Your address"
+                    placeholder={t("sender.note2")}
                     value={senderAddress}
                     isInvalid={invalidAddress}
                     onChange={(e) => handleChangeAddress(e.target.value)}
@@ -328,10 +332,10 @@ const ManageSender = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
-                Close
+                {t("sender.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("sender.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -344,19 +348,19 @@ const ManageSender = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("sender.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to remove this sender? <br />
-            Name: <b>{deleteItem.full_name}</b> <br />
-            Address: <b>{deleteItem.address}</b>
+            {t("sender.deleteNote")} <br />
+            {t("sender.info1")} <b>{deleteItem.full_name}</b> <br />
+            {t("sender.info2")} <b>{deleteItem.address}</b>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("sender.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleDeleteSender}>
-              Confirm
+              {t("sender.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -369,16 +373,16 @@ const ManageSender = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Edit Sender Info</Modal.Title>
+            <Modal.Title>{t("sender.editTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleEditSender}>
             <Modal.Body>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>{t("sender.label1")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Your name"
+                    placeholder={t("sender.note1")}
                     value={editName}
                     isInvalid={invalidEditName}
                     onChange={(e) => handleChangeEditName(e.target.value)}
@@ -386,7 +390,7 @@ const ManageSender = () => {
                 </Col>
 
                 <Col>
-                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Label>{t("sender.label2")}</Form.Label>
                   <Form.Control
                     type="tel"
                     placeholder="Ex: 0928226767"
@@ -400,11 +404,11 @@ const ManageSender = () => {
 
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Address</Form.Label>
+                  <Form.Label>{t("sender.label3")}</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
-                    placeholder="Your address"
+                    placeholder={t("sender.note2")}
                     value={editAddress}
                     isInvalid={invalidEditAddress}
                     onChange={(e) => handleChangeEditAddress(e.target.value)}
@@ -414,10 +418,10 @@ const ManageSender = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEdit}>
-                Close
+                {t("sender.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("sender.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -425,7 +429,7 @@ const ManageSender = () => {
 
         <div className="back-button">
           <Button variant="success" onClick={() => navigate("/account-detail")}>
-            Back to Profile
+            {t("sender.backBtn")}
           </Button>
         </div>
       </div>

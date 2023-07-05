@@ -532,6 +532,10 @@ const deleteArticle = async (id) => {
   return await axios.delete(`api/v1/delete-article/${id}`);
 };
 
+const deleteFeedback = async (id) => {
+  return await axios.delete(`api/v1/delete-feedback/${id}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -618,4 +622,5 @@ export {
   postCreateArticle,
   putUpdateArticle,
   deleteArticle,
+  deleteFeedback,
 };

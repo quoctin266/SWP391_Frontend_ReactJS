@@ -26,8 +26,10 @@ import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import { Rating } from "@mui/material";
 import Col from "react-bootstrap/Col";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const role = useSelector((state) => state.auth.role);
@@ -133,20 +135,20 @@ const Home = () => {
         <div className="banner-container">
           <Banner Images={HomeBanner} />
           <div className="banner-title">
-            Looking To Relocate Your Bird?
+            {t("home.banner1")}
             <br />
-            We Are Here For You.
+            {t("home.banner2")}
             <br />
-            Your Bird's Comfort Is Our Top Priority!
+            {t("home.banner3")}
             {(role === "customer" || role === "") && (
               <div className="signup-btn">
                 {isAuthenticated ? (
                   <Button variant="dark" onClick={() => navigate("/booking")}>
-                    Start Booking
+                    {t("home.bookBtn")}
                   </Button>
                 ) : (
                   <Button variant="dark" onClick={() => navigate("/register")}>
-                    Join Us Now
+                    {t("home.registerBtn")}
                   </Button>
                 )}
               </div>
@@ -154,18 +156,8 @@ const Home = () => {
           </div>
         </div>
         <div className="About">
-          <h1>What We Are</h1>
-          At Bird Travel, we understand the unique bond between bird owners and
-          their feathered friends. As a company dedicated to helping bird owners
-          transport their beloved companions, we offer a range of services
-          designed with their needs in mind. Whether you need to relocate your
-          bird to a new home, take them on a vacation with you, or simply
-          provide them with a safe and comfortable journey, Bird Travel is here
-          to assist you. Our experienced team is well-versed in handling ground
-          transportation, ensuring that your bird receives the utmost care and
-          attention throughout the journey. With our expertise and commitment to
-          animal welfare, you can trust Bird Travel to provide a stress-free and
-          enjoyable travel experience for both you and your feathered companion.
+          <h1>{t("home.title1")}</h1>
+          {t("home.text1")}
         </div>
         <Container className="MoveBird">
           <img
@@ -174,35 +166,14 @@ const Home = () => {
             alt="pic1"
           />
           <div className="MoveBird-Text">
-            <h1>How we move bird</h1>
-            <h2>
-              At Bird Travel, we transport birds with care and expertise. Here's
-              how we can assist you:
-            </h2>
-            <p>
-              Specialized Carriers: Our carriers are designed for the safety and
-              comfort of birds during travel.
-            </p>
-            <p>
-              Experienced Staff: Our team is trained in handling birds and
-              ensuring their well-being throughout the journey.
-            </p>
-            <p>
-              Stress Minimization: We take extra measures to minimize stress for
-              your birds during transit.
-            </p>
-            <p>
-              Reliable Logistics: We plan and coordinate transportation routes
-              for timely arrivals.
-            </p>
-            <p>
-              Tailored Solutions: We provide personalized plans to meet your
-              specific bird transportation needs.
-            </p>
-            <h2>
-              Trust Bird Travel for a smooth and reliable bird transportation
-              experience.
-            </h2>
+            <h1>{t("home.title2")}</h1>
+            <h2>{t("home.text2")}</h2>
+            <p>{t("home.text3")}</p>
+            <p>{t("home.text4")}</p>
+            <p>{t("home.text5")}</p>
+            <p>{t("home.text6")}</p>
+            <p>{t("home.text7")}</p>
+            <h2>{t("home.text8")}</h2>
           </div>
         </Container>
         <Container className="WhereMove">
@@ -212,17 +183,8 @@ const Home = () => {
             alt="pic2"
           />
           <div className="WhereMove-Text">
-            <h1>Where do we move bird</h1>
-            <p>
-              At Bird Travel, we offer bird transportation services to various
-              destinations. Whether you need to transport your bird locally,
-              within the country, or even internationally, we can assist you.
-              Our services cover a wide range of locations, ensuring that your
-              feathered friend can reach their destination safely and
-              comfortably. From short-distance relocations to long-haul
-              journeys, trust Bird Travel to transport your bird wherever they
-              need to go.
-            </p>
+            <h1>{t("home.title3")}</h1>
+            <p>{t("home.text9")}</p>
           </div>
         </Container>
         <Container className="video">
@@ -231,22 +193,15 @@ const Home = () => {
             className="youtube-video"
           />
           <div className="video-text">
-            <p>
-              👈🎬Transporting a bird on the ground requires careful planning
-              and attention to ensure the safety and comfort of your feathered
-              friend. Here are some essential steps to follow when transporting
-              a bird by road or other ground transportation methods:
-            </p>
+            <p>👈🎬{t("home.text10")}</p>
           </div>
         </Container>
 
-        <Typography className="Board-Title">
-          See your bird’s destination
-        </Typography>
+        <Typography className="Board-Title">{t("home.title4")}</Typography>
         <GoogleMapSearch />
         <div className="homepage-info-container">
           <div className="news-container">
-            <div className="title">News</div>
+            <div className="title">{t("home.news")}</div>
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -280,7 +235,7 @@ const Home = () => {
           </div>
 
           <div className="shipping-services-container">
-            <div className="title">Bird Shipping Services</div>
+            <div className="title">{t("home.service")}</div>
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -313,7 +268,7 @@ const Home = () => {
           </div>
 
           <div className="shipping-condition-container">
-            <div className="title">Shipping Condition</div>
+            <div className="title">{t("home.condition")}</div>
             <Scrollbars
               style={{ height: "39vh" }}
               autoHide
@@ -339,7 +294,7 @@ const Home = () => {
 
         {isAuthenticated && role === "customer" && (
           <Button variant="warning" onClick={handleShow}>
-            Leave feedback
+            {t("home.feedbackBtn")}
           </Button>
         )}
 
@@ -350,15 +305,15 @@ const Home = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Feedback</Modal.Title>
+            <Modal.Title>{t("home.formTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleCreateFeedback}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="feedbackTitle">
-                <Form.Label>Title</Form.Label>
+                <Form.Label>{t("home.titleLabel")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Feedback title"
+                  placeholder={t("home.note")}
                   isInvalid={invalidTitle}
                   value={feedbackTitle}
                   onChange={(e) => handleChangeTitle(e.target.value)}
@@ -366,7 +321,7 @@ const Home = () => {
               </Form.Group>
 
               <Col>
-                <Form.Label>Rate Our Service</Form.Label> <br />
+                <Form.Label>{t("home.rate")}</Form.Label> <br />
                 <Rating
                   name="simple-controlled"
                   value={star}
@@ -377,7 +332,7 @@ const Home = () => {
               </Col>
 
               <Form.Group className="mb-3" controlId="feedback description">
-                <Form.Label>Description</Form.Label>
+                <Form.Label>{t("home.des")}</Form.Label>
                 <Form.Control
                   as="textarea"
                   rows={3}
@@ -389,10 +344,10 @@ const Home = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
-                Close
+                {t("home.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("home.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>

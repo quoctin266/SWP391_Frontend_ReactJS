@@ -9,8 +9,11 @@ import Modal from "react-bootstrap/Modal";
 import { clearEmail } from "../../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { putChangePW } from "../../../service/APIservice";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
 
 const ChangePassword = () => {
+  const { t } = useTranslation();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPW, setConfirmPW] = useState("");
 
@@ -61,17 +64,17 @@ const ChangePassword = () => {
     e.preventDefault();
     console.log(e);
     if (!newPassword) {
-      toast.error("Please enter new password.");
+      toast.error(`${t("changePW.toast1")}`);
       return;
     }
 
     if (!confirmPW) {
-      toast.error("Please confirm your password.");
+      toast.error(`${t("changePW.toast2")}`);
       return;
     }
 
     if (newPassword !== confirmPW) {
-      toast.error("Password and confirm password must be the same.");
+      toast.error(`${t("changePW.toast3")}`);
       return;
     }
 
@@ -87,12 +90,12 @@ const ChangePassword = () => {
     <div className="changePW-container">
       <div className="ResetPasswordBox">
         <form className="ResetPasswordForm" onSubmit={handleResetPassword}>
-          <h1>Reset Password</h1>
+          <h1>{t("changePW.title")}</h1>
           <div className="Input">
-            <label htmlFor="NewPassword">New Password</label>
+            <label htmlFor="NewPassword">{t("changePW.label1")}</label>
             <div className="password-container">
               <input
-                placeholder="Enter new password"
+                placeholder={t("changePW.note1")}
                 type={newPasswordType}
                 id="NewPassword"
                 pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-])\S{8,}$"
@@ -109,10 +112,10 @@ const ChangePassword = () => {
             </div>
           </div>
           <div className="Input">
-            <label htmlFor="ReEnterNewPassword">Re-Enter New Password</label>
+            <label htmlFor="ReEnterNewPassword">{t("changePW.label2")}</label>
             <div className="password-container">
               <input
-                placeholder="Confirm new password"
+                placeholder={t("changePW.note2")}
                 type={confirmNewPasswordType}
                 id="ReEnterNewPassword"
                 pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-])\S{8,}$"
@@ -134,10 +137,10 @@ const ChangePassword = () => {
           </div>
           <div className="btn-group">
             <button className="back-btn" onClick={handleShowCancel}>
-              Cancel
+              {t("changePW.cancelBtn")}
             </button>
             <button className="Confirm" type="submit">
-              Confirm
+              {t("changePW.confirmBtn1")}
             </button>
           </div>
         </form>
@@ -150,17 +153,15 @@ const ChangePassword = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Cancel</Modal.Title>
+          <Modal.Title>{t("changePW.cancelTitle")}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          Are you sure to cancel current process and return to login page?
-        </Modal.Body>
+        <Modal.Body>{t("changePW.cancelNote")}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseCancel}>
-            Close
+            {t("changePW.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleCancel}>
-            Confirm
+            {t("changePW.confirmBtn2")}
           </Button>
         </Modal.Footer>
       </Modal>
@@ -168,4 +169,10 @@ const ChangePassword = () => {
   );
 };
 
-export default ChangePassword;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <ChangePassword />
+    </Suspense>
+  );
+}

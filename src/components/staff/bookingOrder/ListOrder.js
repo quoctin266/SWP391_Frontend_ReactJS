@@ -29,8 +29,10 @@ import { Scrollbars } from "react-custom-scrollbars-2";
 import { GrView } from "react-icons/gr";
 import ReactPaginate from "react-paginate";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 
 const ListOrder = () => {
+  const { t } = useTranslation();
   const [listOrder, setListOrder] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [tripOption, setTripOption] = useState([]);
@@ -242,13 +244,13 @@ const ListOrder = () => {
 
     if (!newStatus) {
       setInvalidNewStatus(true);
-      toast.error("Please fill in order status.");
+      toast.error(`${t("orderList.toast1")}`);
       return;
     }
 
     if (!statusDate) {
       setInvalidStatusDate(true);
-      toast.error("Must choose a date.");
+      toast.error(`${t("orderList.toast2")}`);
       return;
     }
 
@@ -321,13 +323,13 @@ const ListOrder = () => {
 
     if (!editStatus) {
       setInvalidEditStatus(true);
-      toast.error("Order status must not be empty.");
+      toast.error(`${t("orderList.toast1")}`);
       return;
     }
 
     if (!editStatusDate) {
       setInvalidEditStatusDate(true);
-      toast.error("Must choose a date.");
+      toast.error(`${t("orderList.toast2")}`);
       return;
     }
 
@@ -352,7 +354,7 @@ const ListOrder = () => {
     e.preventDefault();
 
     if (!selectedTrip) {
-      toast.error("Please select a trip.");
+      toast.error(`${t("orderList.toast3")}`);
       return;
     }
 
@@ -370,11 +372,11 @@ const ListOrder = () => {
 
   return (
     <div className="list-order-container">
-      <div className="title">List Of Orders</div>
+      <div className="title">{t("orderList.header")}</div>
       <div className="order-list">
         <Form.Group controlId="formGridStatus">
           <Form.Label className="filter-title">
-            Filter by order status
+            {t("orderList.title1")}
           </Form.Label>
           <Form.Select
             value={filterStatus}
@@ -382,7 +384,7 @@ const ListOrder = () => {
             onChange={(e) => handleChangeStatus(e.target.value)}
           >
             <option value="" disabled hidden>
-              Select status
+              {t("orderList.note1")}
             </option>
             <option value="all">All</option>
             <option value="Pending">Pending</option>
@@ -393,7 +395,9 @@ const ListOrder = () => {
         </Form.Group>
         <Form onSubmit={(e) => handleSearch(e)}>
           <Col className="mb-3">
-            <Form.Label className="search-title">Search By Trip</Form.Label>
+            <Form.Label className="search-title">
+              {t("orderList.title2")}
+            </Form.Label>
             <Select
               value={selectedTrip}
               onChange={setselectedTrip}
@@ -402,22 +406,22 @@ const ListOrder = () => {
             />
           </Col>
           <Button variant="primary" type="submit">
-            Search
+            {t("orderList.searchBtn")}
           </Button>
           <Button variant="secondary" className="mx-2" onClick={fetchListOrder}>
-            Refresh
+            {t("orderList.refreshBtn")}
           </Button>
         </Form>
 
         <Table striped hover bordered responsive="sm">
           <thead>
             <tr>
-              <th>Order ID</th>
-              <th>Customer Name</th>
-              <th>Departure - Destination</th>
-              <th>Order Date</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{t("orderList.field1")}</th>
+              <th>{t("orderList.field2")}</th>
+              <th>{t("orderList.field3")}</th>
+              <th>{t("orderList.field4")}</th>
+              <th>{t("orderList.field5")}</th>
+              <th>{t("orderList.field6")}</th>
             </tr>
           </thead>
           <tbody>
@@ -454,13 +458,13 @@ const ListOrder = () => {
                       className="mx-2"
                       onClick={() => handleShowDetail(order.order_id)}
                     >
-                      Detail
+                      {t("orderList.detailBtn")}
                     </Button>
                     <Button
                       variant="warning"
                       onClick={() => handleShowUpdate(order.order_id)}
                     >
-                      Update
+                      {t("orderList.updateBtn")}
                     </Button>
                   </td>
                 </tr>
@@ -481,13 +485,13 @@ const ListOrder = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Customer Info</Modal.Title>
+            <Modal.Title>{t("orderList.customerTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridCustomerName">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label>{t("orderList.label1")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={customer.full_name}
@@ -495,33 +499,32 @@ const ListOrder = () => {
                   />
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="formGridAddress">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={customer.address ? customer.address : ""}
-                    disabled
-                  />
-                </Form.Group>
-              </Row>
-
-              <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridCustomerPhone">
-                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Label>{t("orderList.label3")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={customer.phone_number ? customer.phone_number : ""}
                     disabled
                   />
                 </Form.Group>
+              </Row>
 
-                <Col></Col>
+              <Row className="mb-3">
+                <Form.Group as={Col} controlId="formGridAddress">
+                  <Form.Label>{t("orderList.label2")}</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={customer.address ? customer.address : ""}
+                    disabled
+                  />
+                </Form.Group>
               </Row>
             </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseCustomer}>
-              Close
+              {t("orderList.closeBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -534,18 +537,18 @@ const ListOrder = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Order Detail Info</Modal.Title>
+            <Modal.Title>{t("orderList.detail")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridStatus">
-                  <Form.Label>Order Status</Form.Label>
+                  <Form.Label>{t("orderList.label4")}</Form.Label>
                   <Form.Control type="text" value={order.status} disabled />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridCreated">
-                  <Form.Label>Order Date</Form.Label>
+                  <Form.Label>{t("orderList.label5")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={order.created_time}
@@ -558,7 +561,7 @@ const ListOrder = () => {
 
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridAnticipate">
-                  <Form.Label>Anticipate Date</Form.Label>
+                  <Form.Label>{t("orderList.label6")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={order.anticipate_date}
@@ -567,7 +570,7 @@ const ListOrder = () => {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridDepartureDate">
-                  <Form.Label>Departing Date</Form.Label>
+                  <Form.Label>{t("orderList.label7")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={order.departure_date}
@@ -580,7 +583,7 @@ const ListOrder = () => {
 
               <Row className="mb-5">
                 <Form.Group as={Col} controlId="formGridPackage">
-                  <Form.Label>Package</Form.Label>
+                  <Form.Label>{t("orderList.label8")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={order.package_name}
@@ -588,7 +591,7 @@ const ListOrder = () => {
                   />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPayment">
-                  <Form.Label>Payment Method</Form.Label>
+                  <Form.Label>{t("orderList.label9")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={
@@ -601,7 +604,7 @@ const ListOrder = () => {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridCost">
-                  <Form.Label>Total Cost</Form.Label>
+                  <Form.Label>{t("orderList.label10")}</Form.Label>
                   <Form.Control
                     type="text"
                     value={`${new Intl.NumberFormat().format(
@@ -614,17 +617,17 @@ const ListOrder = () => {
 
               <Row className="mb-3" style={{ padding: "0 2%" }}>
                 <div className="mb-3">
-                  <b>Bird Detail</b>
+                  <b>{t("orderList.bird")}</b>
                 </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>Bird Name</th>
-                      <th>Age</th>
-                      <th>Weight</th>
-                      <th>Gender</th>
-                      <th>Cage</th>
-                      <th>Note</th>
+                      <th>{t("orderList.bird1")}</th>
+                      <th>{t("orderList.bird2")}</th>
+                      <th>{t("orderList.bird3")}</th>
+                      <th>{t("orderList.bird4")}</th>
+                      <th>{t("orderList.bird5")}</th>
+                      <th>{t("orderList.bird6")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -645,13 +648,15 @@ const ListOrder = () => {
                                 overlay={
                                   <Popover id={`popover-positioned-right`}>
                                     <Popover.Header as="h3">
-                                      Note
+                                      {t("orderList.bird6")}
                                     </Popover.Header>
                                     <Popover.Body>{bird.note}</Popover.Body>
                                   </Popover>
                                 }
                               >
-                                <Button variant="secondary">View</Button>
+                                <Button variant="secondary">
+                                  {t("orderList.viewBtn")}
+                                </Button>
                               </OverlayTrigger>
                             </td>
                           </tr>
@@ -664,7 +669,7 @@ const ListOrder = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDetail}>
-              Close
+              {t("orderList.closeBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -677,7 +682,7 @@ const ListOrder = () => {
           size="xl"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Update Order</Modal.Title>
+            <Modal.Title>{t("orderList.updateTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Tabs
@@ -686,11 +691,11 @@ const ListOrder = () => {
               className="mb-3"
               justify
             >
-              <Tab eventKey="departAndStatus" title="Order Status">
+              <Tab eventKey="departAndStatus" title={t("orderList.tab1")}>
                 <Form onSubmit={(e) => handleUpdateOrderStatus(e)}>
                   <Row className="mb-5">
                     <Form.Group as={Col} controlId="StatusUpdate">
-                      <Form.Label>Status</Form.Label>
+                      <Form.Label>{t("orderList.label11")}</Form.Label>
                       <Form.Select
                         defaultValue={statusUpdate}
                         onChange={(e) => setStatusUpdate(e.target.value)}
@@ -707,7 +712,7 @@ const ListOrder = () => {
 
                   <Row className="mb-5">
                     <Form.Group as={Col} controlId="departUpdate">
-                      <Form.Label>Departing Date</Form.Label>
+                      <Form.Label>{t("orderList.label12")}</Form.Label>
                       <Form.Control
                         type="date"
                         value={updateDepart}
@@ -721,12 +726,12 @@ const ListOrder = () => {
                   <hr />
                   <div style={{ textAlign: "right" }}>
                     <Button type="submit" variant="primary">
-                      Confirm
+                      {t("orderList.confirmBtn")}
                     </Button>
                   </div>
                 </Form>
               </Tab>
-              <Tab eventKey="transportStatus" title="Progress Detail">
+              <Tab eventKey="transportStatus" title={t("orderList.tab2")}>
                 <Scrollbars
                   style={{ height: "75vh" }}
                   autoHide
@@ -738,10 +743,10 @@ const ListOrder = () => {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Date</th>
-                        <th>Order status</th>
-                        <th>Bird condition</th>
-                        <th>Actions</th>
+                        <th>{t("orderList.field7")}</th>
+                        <th>{t("orderList.field8")}</th>
+                        <th>{t("orderList.field9")}</th>
+                        <th>{t("orderList.field10")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -758,14 +763,14 @@ const ListOrder = () => {
                                   variant="warning"
                                   onClick={() => handleClickEdit(item)}
                                 >
-                                  Edit
+                                  {t("orderList.editBtn")}
                                 </Button>
                                 <Button
                                   variant="danger"
                                   className="mx-2"
                                   onClick={() => handleClickDelete(item)}
                                 >
-                                  Delete
+                                  {t("orderList.deleteBtn")}
                                 </Button>
                               </td>
                             </tr>
@@ -775,14 +780,16 @@ const ListOrder = () => {
                   </Table>
 
                   <div className="add-new-status">
-                    <div className="add-status-title">Create New Status</div>
+                    <div className="add-status-title">
+                      {t("orderList.addTitle")}
+                    </div>
                     <Form onSubmit={(e) => handleCreateNewStatus(e)}>
                       <Row className="mb-3">
                         <Form.Group as={Col} controlId="orderStatus">
-                          <Form.Label>Order Status</Form.Label>
+                          <Form.Label>{t("orderList.label13")}</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter status"
+                            placeholder={t("orderList.note2")}
                             value={newStatus}
                             onChange={(e) => handleChangeNewStatus(e)}
                             isInvalid={invalidNewStatus}
@@ -790,10 +797,10 @@ const ListOrder = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="newBirdCondition">
-                          <Form.Label>Bird Condition</Form.Label>
+                          <Form.Label>{t("orderList.label14")}</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Enter bird condition note"
+                            placeholder={t("orderList.note3")}
                             value={birdCondition}
                             onChange={(e) => setBirdCondition(e.target.value)}
                           />
@@ -802,7 +809,7 @@ const ListOrder = () => {
 
                       <Row className="mb-3">
                         <Form.Group as={Col} controlId="newStatusDate">
-                          <Form.Label>Date</Form.Label>
+                          <Form.Label>{t("orderList.label15")}</Form.Label>
                           <Form.Control
                             type="datetime-local"
                             min={order.created_time}
@@ -815,7 +822,7 @@ const ListOrder = () => {
                         <Col></Col>
                       </Row>
                       <Button variant="primary" type="submit">
-                        Confirm
+                        {t("orderList.confirmBtn")}
                       </Button>
                     </Form>
                   </div>
@@ -833,16 +840,16 @@ const ListOrder = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Edit Transport Status</Modal.Title>
+            <Modal.Title>{t("orderList.editTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={(e) => handleEditTransportStatus(e)}>
             <Modal.Body>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="editOrderStatus">
-                  <Form.Label>Order Status</Form.Label>
+                  <Form.Label>{t("orderList.label16")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter status"
+                    placeholder={t("orderList.note4")}
                     value={editStatus}
                     isInvalid={invalidEditStatus}
                     onChange={(e) => handleChangeEditStatus(e)}
@@ -850,10 +857,10 @@ const ListOrder = () => {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="EditBirdCondition">
-                  <Form.Label>Bird Condition</Form.Label>
+                  <Form.Label>{t("orderList.label17")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter bird condition note"
+                    placeholder={t("orderList.note5")}
                     value={editBirdCondition}
                     onChange={(e) => setEditBirdCondition(e.target.value)}
                   />
@@ -862,7 +869,7 @@ const ListOrder = () => {
 
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="EditStatusDate">
-                  <Form.Label>Date</Form.Label>
+                  <Form.Label>{t("orderList.label18")}</Form.Label>
                   <Form.Control
                     type="datetime-local"
                     min={order.created_time}
@@ -877,10 +884,10 @@ const ListOrder = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEdit}>
-                Close
+                {t("orderList.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("orderList.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -893,34 +900,32 @@ const ListOrder = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("orderList.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="delete-title">
-              Are you sure to delete this status?
-            </div>
+            <div className="delete-title">{t("orderList.deleteNote")}</div>
             <div className="timestamp">
-              Timestamp: <b>{deleteStatus.date}</b>
+              {t("orderList.info")} <b>{deleteStatus.date}</b>
             </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("orderList.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleDeleteStatus}>
-              Confirm
+              {t("orderList.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
 
         <div className="d-flex justify-content-center mt-5">
           <ReactPaginate
-            nextLabel="Next >"
+            nextLabel={t("orderList.next")}
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
             pageCount={pageCount}
-            previousLabel="< Previous"
+            previousLabel={t("orderList.pre")}
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"
