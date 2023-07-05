@@ -16,6 +16,11 @@
                 padding         : 1% 0;
                 color           : white;
                 width           : 45%;
+
+                @media screen and (max-width: 970px) {
+                    width    : 68%;
+                    font-size: 1.5em;
+                }
             }
         }
 

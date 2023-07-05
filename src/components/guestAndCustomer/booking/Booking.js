@@ -25,12 +25,14 @@ import {
 } from "../../../service/APIservice";
 import { useSelector } from "react-redux";
 import nprogress from "nprogress";
+import { useTranslation } from "react-i18next";
 
 nprogress.configure({ showSpinner: false, trickleSpeed: 40 });
 
 const libraries = ["places"];
 
 const Booking = () => {
+  const { t } = useTranslation();
   let currentTime = moment().format("YYYY-MM-DD").toString();
   const account_id = useSelector((state) => state.auth.account_id);
 
@@ -127,7 +129,7 @@ const Booking = () => {
   const [cageList, setCageList] = useState([]);
   const [stationList, setStationList] = useState([]);
   const [paymentList, setPaymentList] = useState([]);
-  const [totalCost, setTotalCost] = useState("");
+  const [costSummary, setCostSummary] = useState("");
 
   // data for render
   const [packageName, setPackageName] = useState("");
@@ -155,14 +157,14 @@ const Booking = () => {
     let birdClone = _.cloneDeep(birdList);
 
     if (!customer) {
-      toast.error("Must select a sender.");
+      toast.error(`${t("booking.toast1")}`);
       setInvalidSender(true);
       return;
     }
 
     let validGender = birdClone.every((bird) => {
       if (!bird.gender) {
-        toast.error(`Must select bird's gender.`);
+        toast.error(`${t("booking.toast2")}`);
         bird.isInvalidGender = true;
         setBirdList(birdClone);
         return false;
@@ -172,7 +174,7 @@ const Booking = () => {
 
     let validBirdName = birdClone.every((bird) => {
       if (!bird.name) {
-        toast.error(`Please fill in bird's name.`);
+        toast.error(`${t("booking.toast3")}`);
         bird.isInvalidName = true;
         setBirdList(birdClone);
         return false;
@@ -182,7 +184,7 @@ const Booking = () => {
 
     let validBirdAge = birdClone.every((bird) => {
       if (!bird.age) {
-        toast.error(`Please fill in bird's age.`);
+        toast.error(`${t("booking.toast4")}`);
         bird.isInvalidAge = true;
         setBirdList(birdClone);
         return false;
@@ -192,7 +194,7 @@ const Booking = () => {
 
     let validBirdWeight = birdClone.every((bird) => {
       if (!bird.weight) {
-        toast.error(`Please fill in bird's weight.`);
+        toast.error(`${t("booking.toast5")}`);
         bird.isInvalidWeight = true;
         setBirdList(birdClone);
         return false;
@@ -202,7 +204,7 @@ const Booking = () => {
 
     let validBirdCage = birdClone.every((bird) => {
       if (!bird.cage) {
-        toast.error(`Must choose bird cage.`);
+        toast.error(`${t("booking.toast6")}`);
         bird.isInvalidCage = true;
         setBirdList(birdClone);
         return false;
@@ -212,31 +214,31 @@ const Booking = () => {
 
     if (!packageID) {
       setInvalidPackage(true);
-      toast.error("Please choose a package.");
+      toast.error(`${t("booking.toast7")}`);
       return;
     }
 
     if (!anticipate) {
       setInvalidAnticipate(true);
-      toast.error("Please choose which date you want to depart.");
+      toast.error(`${t("booking.toast8")}`);
       return;
     }
 
     if (!originRef?.current?.value) {
       setInvalidDeparture(true);
-      toast.error("Please choose departure location.");
+      toast.error(`${t("booking.toast9")}`);
       return;
     }
 
     if (!destinationRef?.current?.value) {
       setInvalidArrival(true);
-      toast.error("Please choose destination.");
+      toast.error(`${t("booking.toast10")}`);
       return;
     }
 
     if (!paymentID) {
       setInvalidPayment(true);
-      toast.error("Please choose a payment option.");
+      toast.error(`${t("booking.toast11")}`);
       return;
     }
 
@@ -266,7 +268,7 @@ const Booking = () => {
 
       let anticipateTime = moment(anticipate);
       let estimateTime = moment(anticipateTime).add(
-        results.routes[0].legs[0].duration.value * 5,
+        results.routes[0].legs[0].duration.value * 2,
         "seconds"
       );
       estimateTime = estimateTime.format("YYYY-MM-DD").toString();
@@ -279,9 +281,8 @@ const Booking = () => {
         distance: kmDistance,
       };
       let res = await getTotalCost(dataSummary);
-      console.log("check", dataSummary);
       if (res && res.EC === 0) {
-        setTotalCost(res.DT.totalCost);
+        setCostSummary(res.DT);
         return true;
       } else {
         toast.warning(res.EM);
@@ -401,7 +402,7 @@ const Booking = () => {
         paymentID: paymentID,
         packageID: packageID,
       },
-      totalCost: totalCost,
+      totalCost: costSummary.totalCost,
     };
 
     let data = await postCreateOrder(dataOrder);
@@ -432,15 +433,15 @@ const Booking = () => {
   return (
     <Container className="booking-outer">
       <div className="booking-container">
-        <div className="title">BIRD TRAVEL FORM</div>
+        <div className="title">{t("booking.header")}</div>
         <div className="booking-body">
           <div className="bird-customer-body">
             <div className="customer-info">
-              <div className="customer-title">Your Information</div>
+              <div className="customer-title">{t("booking.title1")}</div>
               <Form>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="selectSender">
-                    <Form.Label>Select Sender Info</Form.Label>
+                    <Form.Label>{t("booking.label1")}</Form.Label>
                     <Form.Select
                       defaultValue=""
                       aria-label="Default example"
@@ -448,7 +449,7 @@ const Booking = () => {
                       onChange={(e) => handleChangeCustomer(e)}
                     >
                       <option value="" disabled hidden>
-                        Select sender
+                        {t("booking.note1")}
                       </option>
                       {customerList &&
                         customerList.length > 0 &&
@@ -470,13 +471,13 @@ const Booking = () => {
                   </Form.Group>
                 </Row>
                 <div className="add-sender">
-                  <span onClick={() => navigate("/account-detail")}>
-                    Add new/Update sender info here
+                  <span onClick={() => navigate("/manage-sender")}>
+                    {t("booking.link1")}
                   </span>
                 </div>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridName">
-                    <Form.Label>Full name</Form.Label>
+                    <Form.Label>{t("booking.label2")}</Form.Label>
                     <Form.Control
                       type="text"
                       disabled
@@ -485,7 +486,7 @@ const Booking = () => {
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridPhone">
-                    <Form.Label>Phone number</Form.Label>
+                    <Form.Label>{t("booking.label3")}</Form.Label>
                     <Form.Control
                       type="text"
                       disabled
@@ -495,7 +496,7 @@ const Booking = () => {
                 </Row>
                 <Row className="mb-3">
                   <Form.Group as={Col} controlId="formGridAddress">
-                    <Form.Label>Address</Form.Label>
+                    <Form.Label>{t("booking.label4")}</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={3}
@@ -514,11 +515,11 @@ const Booking = () => {
               birdList.map((bird) => {
                 return (
                   <div className="bird-info" key={bird.birdID}>
-                    <div className="bird-title">Bird Information</div>
+                    <div className="bird-title">{t("booking.title2")}</div>
                     <Form>
                       <Row className="mb-3">
                         <Form.Group as={Col} controlId="formGridGender">
-                          <Form.Label>Gender of Bird</Form.Label>
+                          <Form.Label>{t("booking.label5")}</Form.Label>
                           <Form.Select
                             defaultValue=""
                             aria-label="Default select example"
@@ -532,7 +533,7 @@ const Booking = () => {
                             isInvalid={bird.isInvalidGender}
                           >
                             <option value="" disabled hidden>
-                              Select gender
+                              {t("booking.note2")}
                             </option>
                             <option value="M">Male</option>
                             <option value="F">Female</option>
@@ -540,10 +541,10 @@ const Booking = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridName">
-                          <Form.Label>Bird name</Form.Label>
+                          <Form.Label>{t("booking.label6")}</Form.Label>
                           <Form.Control
                             type="text"
-                            placeholder="Your bird's name"
+                            placeholder={t("booking.note3")}
                             value={bird.name}
                             onChange={(e) =>
                               handleChangeBird(
@@ -558,10 +559,10 @@ const Booking = () => {
                       </Row>
                       <Row className="mb-5">
                         <Form.Group as={Col} controlId="formGridAge">
-                          <Form.Label>Bird Age (Years old)</Form.Label>
+                          <Form.Label>{t("booking.label7")}</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="Enter your bird's age in year"
+                            placeholder={t("booking.note4")}
                             min="1"
                             value={bird.age}
                             onChange={(e) =>
@@ -576,10 +577,10 @@ const Booking = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridWeight">
-                          <Form.Label>Bird Weight (Kg)</Form.Label>
+                          <Form.Label>{t("booking.label8")}</Form.Label>
                           <Form.Control
                             type="number"
-                            placeholder="Enter your bird's weight in Kilogram"
+                            placeholder={t("booking.note5")}
                             min="0"
                             step="0.1"
                             value={bird.weight}
@@ -601,7 +602,7 @@ const Booking = () => {
                           controlId="exampleForm.ControlTextarea1"
                           as={Col}
                         >
-                          <Form.Label>Note</Form.Label>
+                          <Form.Label>{t("booking.label9")}</Form.Label>
                           <Form.Control
                             as="textarea"
                             rows={5}
@@ -617,7 +618,7 @@ const Booking = () => {
                         </Form.Group>
 
                         <Form.Group as={Col} className="mb-3 btn-outer">
-                          <Form.Label>Bird Cage</Form.Label>
+                          <Form.Label>{t("booking.label10")}</Form.Label>
                           <Form.Select
                             defaultValue=""
                             aria-label="cage select"
@@ -632,7 +633,7 @@ const Booking = () => {
                             isInvalid={bird.isInvalidCage}
                           >
                             <option value="" disabled hidden>
-                              Choose cage
+                              {t("booking.note6")}
                             </option>
                             {cageList &&
                               cageList.length > 0 &&
@@ -654,14 +655,14 @@ const Booking = () => {
                                 className="remove-bird-btn"
                                 onClick={() => handleRemoveBird(bird.birdID)}
                               >
-                                Remove bird
+                                {t("booking.delBtn")}
                               </Button>
                             )}
                             <Button
                               className="add-bird-btn"
                               onClick={handleAddBird}
                             >
-                              Add another bird
+                              {t("booking.addBtn")}
                             </Button>
                           </div>
                         </Form.Group>
@@ -672,16 +673,16 @@ const Booking = () => {
               })}
           </div>
           <div className="package-body">
-            <div className="package-title">Service Package</div>
+            <div className="package-title">{t("booking.title3")}</div>
             <Table striped hover>
               <thead>
                 <tr>
-                  <th>Package</th>
-                  <th>Water</th>
-                  <th>Food</th>
-                  <th>Healthcare</th>
-                  <th>Home pick up/deliver</th>
-                  <th>Price</th>
+                  <th>{t("booking.package")}</th>
+                  <th>{t("booking.water")}</th>
+                  <th>{t("booking.food")}</th>
+                  <th>{t("booking.health")}</th>
+                  <th>{t("booking.pickup")}</th>
+                  <th>{t("booking.price")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -706,7 +707,7 @@ const Booking = () => {
               </tbody>
             </Table>
             <Form.Group as={Col}>
-              <Form.Label>Choose your package</Form.Label>
+              <Form.Label>{t("booking.label11")}</Form.Label>
               <Col sm={10}>
                 {servicePackage &&
                   servicePackage.length > 0 &&
@@ -730,11 +731,11 @@ const Booking = () => {
             </Form.Group>
           </div>
           <div className="transport-body">
-            <div className="transport-title">Transport Information</div>
+            <div className="transport-title">{t("booking.title4")}</div>
             <Form onSubmit={(e) => handleShowSummary(e)}>
               <Row className="mb-5">
                 <Form.Group as={Col} className="col-6">
-                  <Form.Label>Bird's Anticipate Travel Date</Form.Label>
+                  <Form.Label>{t("booking.label12")}</Form.Label>
                   <Form.Control
                     type="date"
                     className="mb-3"
@@ -743,7 +744,7 @@ const Booking = () => {
                     min={currentTime}
                   />
 
-                  <Form.Label>Bird's Departure city</Form.Label>
+                  <Form.Label>{t("booking.label13")}</Form.Label>
                   <Form.Select
                     defaultValue=""
                     aria-label="depart select"
@@ -753,7 +754,7 @@ const Booking = () => {
                     onChange={() => setInvalidDeparture(false)}
                   >
                     <option value="" disabled hidden>
-                      Choose departure
+                      {t("booking.note7")}
                     </option>
                     {stationList &&
                       stationList.length > 0 &&
@@ -766,7 +767,7 @@ const Booking = () => {
                       })}
                   </Form.Select>
 
-                  <Form.Label>Bird's Arrival city</Form.Label>
+                  <Form.Label>{t("booking.label14")}</Form.Label>
                   <Form.Select
                     defaultValue=""
                     aria-label="destination select"
@@ -775,7 +776,7 @@ const Booking = () => {
                     onChange={() => setInvalidArrival(false)}
                   >
                     <option value="" disabled hidden>
-                      Choose destination
+                      {t("booking.note8")}
                     </option>
                     {stationList &&
                       stationList.length > 0 &&
@@ -790,7 +791,7 @@ const Booking = () => {
                 </Form.Group>
 
                 <Form.Group as={Col} className="col-4">
-                  <Form.Label>Payment Option</Form.Label>
+                  <Form.Label>{t("booking.label15")}</Form.Label>
                   <Col sm={10}>
                     {paymentList &&
                       paymentList.length > 0 &&
@@ -820,17 +821,18 @@ const Booking = () => {
                 show={showSummary}
                 onHide={handleCloseSummary}
                 backdrop="static"
+                size="lg"
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Order Summary</Modal.Title>
+                  <Modal.Title>{t("booking.title5")}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <div className="order-summary">
                     <div className="bird-number">
-                      Numbers of Bird: <span>{birdList.length}</span>
+                      {t("booking.info1")} <span>{birdList.length}</span>
                     </div>
                     <div className="route">
-                      Course:{" "}
+                      {t("booking.info2")}{" "}
                       <span>
                         {originRef?.current?.value
                           ? originRef.current.value
@@ -842,27 +844,84 @@ const Booking = () => {
                       </span>
                     </div>
                     <div className="package">
-                      Package: <span>{packageName}</span>
+                      {t("booking.info3")} <span>{packageName}</span>
                     </div>
                     <div className="payment">
-                      Payment: <span>{paymentName}</span>
+                      {t("booking.info4")} <span>{paymentName}</span>
                     </div>
-                    <div className="handling-fee">
-                      Total cost: <span>{totalCost} VND</span>
-                    </div>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th colSpan={3}>{t("booking.priceTitle")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{t("booking.price1")}</td>
+                          <td>{costSummary?.distance?.toFixed(1)} Km</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.initCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{t("booking.price2")}</td>
+                          <td>{costSummary.extraBird}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.extraBirdCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{t("booking.price3")}</td>
+                          <td>{costSummary.capacityUnit}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.unitCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{t("booking.price4")}</td>
+                          <td>{costSummary.package}</td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.packageCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={2} style={{ textAlign: "center" }}>
+                            {t("booking.total")}
+                          </td>
+                          <td>
+                            {new Intl.NumberFormat().format(
+                              costSummary.totalCost
+                            )}{" "}
+                            VND
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
                   </div>
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleCloseSummary}>
-                    Back
+                    {t("booking.backBtn")}
                   </Button>
                   <Button variant="primary" onClick={() => handleCreateOrder()}>
-                    Confirm
+                    {t("booking.confirmBtn")}
                   </Button>
                 </Modal.Footer>
               </Modal>
               <Button className="confirm-order-btn" type="submit">
-                Next
+                {t("booking.nextBtn")}
               </Button>
             </Form>
           </div>

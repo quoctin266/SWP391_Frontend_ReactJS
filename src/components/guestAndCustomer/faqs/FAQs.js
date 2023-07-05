@@ -3,8 +3,10 @@ import "./FAQs.scss";
 import { Container } from "react-bootstrap";
 import { getAllFAQ } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const FAQs = () => {
+  const { t } = useTranslation();
   const [faqList, setFaqList] = useState([]);
 
   const fetchAllFAQ = async () => {
@@ -22,7 +24,7 @@ const FAQs = () => {
     <Container className="faqs-outer">
       <div className="faqs-container">
         <div className="faq-header">
-          <h2 className="title">Frequently Asked Questions</h2>
+          <h2 className="title">{t("faq.title")}</h2>
         </div>
         <div className="faq-body">
           <Accordion defaultActiveKey="0">

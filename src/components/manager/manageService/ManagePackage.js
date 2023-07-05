@@ -13,8 +13,10 @@ import {
   putUpdatePackage,
   deletePackage,
 } from "../../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const ManagePackage = () => {
+  const { t } = useTranslation();
   const [packageList, setPackageList] = useState([]);
   const [showPackage, setShowPackage] = useState(false);
   const [addName, setAddName] = useState("");
@@ -120,31 +122,31 @@ const ManagePackage = () => {
 
     if (!addName) {
       setInvalidAddName(true);
-      toast.error("Package name must not be empty.");
+      toast.error(`${t("managePackage.toast1")}`);
       return;
     }
 
     if (!addType) {
       setInvalidAddType(true);
-      toast.error("Please choose food type.");
+      toast.error(`${t("managePackage.toast2")}`);
       return;
     }
 
     if (!addHealth) {
       setInvalidAddHealth(true);
-      toast.error("Please select healthcare option.");
+      toast.error(`${t("managePackage.toast3")}`);
       return;
     }
 
     if (!addPickup) {
       setInvalidAddPickup(true);
-      toast.error("Please select home pickup/deliver option.");
+      toast.error(`${t("managePackage.toast4")}`);
       return;
     }
 
     if (!addPrice || +addPrice === 0) {
       setInvalidAddPrice(true);
-      toast.error("Invalid price.");
+      toast.error(`${t("managePackage.toast5")}`);
       return;
     }
 
@@ -189,13 +191,13 @@ const ManagePackage = () => {
 
     if (!editName) {
       setInvalidEditName(true);
-      toast.error("Package name must not be empty.");
+      toast.error(`${t("managePackage.toast1")}`);
       return;
     }
 
     if (!editPrice || +editPrice === 0) {
       setInvalidEditPrice(true);
-      toast.error("Invalid price.");
+      toast.error(`${t("managePackage.toast5")}`);
       return;
     }
 
@@ -226,7 +228,7 @@ const ManagePackage = () => {
   return (
     <>
       <Button variant="primary" onClick={handleShowPackage} className="add-btn">
-        Add new
+        {t("managePackage.addBtn")}
       </Button>
 
       <Modal
@@ -236,16 +238,16 @@ const ManagePackage = () => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Package</Modal.Title>
+          <Modal.Title>{t("managePackage.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddPackage}>
           <Modal.Body>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Package name</Form.Label>
+                <Form.Label>{t("managePackage.label1")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter package name"
+                  placeholder={t("managePackage.note1")}
                   isInvalid={invalidAddName}
                   value={addName}
                   onChange={(e) => handleChangeAddName(e.target.value)}
@@ -253,7 +255,7 @@ const ManagePackage = () => {
               </Col>
 
               <Col>
-                <Form.Label>Food type</Form.Label>
+                <Form.Label>{t("managePackage.label2")}</Form.Label>
                 <Form.Select
                   aria-label="food type select"
                   defaultValue=""
@@ -261,7 +263,7 @@ const ManagePackage = () => {
                   onChange={(e) => handleChangeAddType(e.target.value)}
                 >
                   <option value="" disabled hidden>
-                    Select food type
+                    {t("managePackage.note2")}
                   </option>
                   <option value="Regular">Regular</option>
                   <option value="Premium">Premium</option>
@@ -271,7 +273,7 @@ const ManagePackage = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Healthcare</Form.Label>
+                <Form.Label>{t("managePackage.label3")}</Form.Label>
                 <Form.Select
                   aria-label="healthcare select"
                   defaultValue=""
@@ -279,7 +281,7 @@ const ManagePackage = () => {
                   onChange={(e) => handleChangeAddHealth(e.target.value)}
                 >
                   <option value="" disabled hidden>
-                    Select...
+                    {t("managePackage.note3")}
                   </option>
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -287,7 +289,7 @@ const ManagePackage = () => {
               </Col>
 
               <Col>
-                <Form.Label>Home pick up/deliver</Form.Label>
+                <Form.Label>{t("managePackage.label4")}</Form.Label>
                 <Form.Select
                   aria-label="pick up select"
                   defaultValue=""
@@ -295,7 +297,7 @@ const ManagePackage = () => {
                   onChange={(e) => handleChangeAddPickup(e.target.value)}
                 >
                   <option value="" disabled hidden>
-                    Select...
+                    {t("managePackage.note4")}
                   </option>
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -305,10 +307,10 @@ const ManagePackage = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Price</Form.Label>
+                <Form.Label>{t("managePackage.label5")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePackage.note5")}
                   min="0"
                   isInvalid={invalidAddPrice}
                   value={addPrice}
@@ -321,10 +323,10 @@ const ManagePackage = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClosePackage}>
-              Close
+              {t("managePackage.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("managePackage.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -333,12 +335,12 @@ const ManagePackage = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Package</th>
-            <th>Food type</th>
-            <th>Healthcare</th>
-            <th>Home pick up/deliver</th>
-            <th>Price</th>
-            <th>Actions</th>
+            <th>{t("managePackage.field1")}</th>
+            <th>{t("managePackage.field2")}</th>
+            <th>{t("managePackage.field3")}</th>
+            <th>{t("managePackage.field4")}</th>
+            <th>{t("managePackage.field5")}</th>
+            <th>{t("managePackage.field6")}</th>
           </tr>
         </thead>
         <tbody>
@@ -357,14 +359,14 @@ const ManagePackage = () => {
                       variant="warning"
                       onClick={() => handleShowEdit(item)}
                     >
-                      Edit
+                      {t("managePackage.editBtn")}
                     </Button>
                     <Button
                       variant="danger"
                       className="mx-2"
                       onClick={() => handleShowDelete(item)}
                     >
-                      Delete
+                      {t("managePackage.deleteBtn")}
                     </Button>
                   </td>
                 </tr>
@@ -380,16 +382,16 @@ const ManagePackage = () => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Package</Modal.Title>
+          <Modal.Title>{t("managePackage.editTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditPackage}>
           <Modal.Body>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Package name</Form.Label>
+                <Form.Label>{t("managePackage.label1")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter package name"
+                  placeholder={t("managePackage.note1")}
                   isInvalid={invalidEditName}
                   value={editName}
                   onChange={(e) => handleChangeEditName(e.target.value)}
@@ -397,7 +399,7 @@ const ManagePackage = () => {
               </Col>
 
               <Col>
-                <Form.Label>Food type</Form.Label>
+                <Form.Label>{t("managePackage.label2")}</Form.Label>
                 <Form.Select
                   aria-label="food type select"
                   defaultValue={editType}
@@ -411,7 +413,7 @@ const ManagePackage = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Healthcare</Form.Label>
+                <Form.Label>{t("managePackage.label3")}</Form.Label>
                 <Form.Select
                   aria-label="healthcare select"
                   defaultValue={editHealth}
@@ -423,7 +425,7 @@ const ManagePackage = () => {
               </Col>
 
               <Col>
-                <Form.Label>Home pick up/deliver</Form.Label>
+                <Form.Label>{t("managePackage.label4")}</Form.Label>
                 <Form.Select
                   aria-label="pick up select"
                   defaultValue={editPickup}
@@ -437,10 +439,10 @@ const ManagePackage = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Price</Form.Label>
+                <Form.Label>{t("managePackage.label5")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePackage.note5")}
                   min="0"
                   isInvalid={invalidEditPrice}
                   value={editPrice}
@@ -453,10 +455,10 @@ const ManagePackage = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseEdit}>
-              Close
+              {t("managePackage.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("managePackage.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -469,21 +471,22 @@ const ManagePackage = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("managePackage.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to delete this package?
+          {t("managePackage.deleteNote")}
           <br />
-          Package Name: <b>{deleteItem.package_name}</b>
+          {t("managePackage.info1")} <b>{deleteItem.package_name}</b>
           <br />
-          Price: <b>{new Intl.NumberFormat().format(deleteItem.price)} VND</b>
+          {t("managePackage.info2")}{" "}
+          <b>{new Intl.NumberFormat().format(deleteItem.price)} VND</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseDelete}>
-            Close
+            {t("managePackage.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeletePrice}>
-            Confirm
+            {t("managePackage.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

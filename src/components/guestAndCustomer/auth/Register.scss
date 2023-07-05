@@ -4,6 +4,21 @@
   background-size    : cover;
 
   .background-container {
+    .language {
+      position        : absolute;
+      right           : 5%;
+      top             : 2%;
+      font-weight     : 600;
+      background-color: #3b5506;
+      padding         : 0.5% 2%;
+      border-radius   : 5px;
+      color           : white;
+
+      @media screen and (max-width: 768px) {
+        top: 1%;
+      }
+    }
+
     .register-container {
       background-color: rgb(203, 236, 188, 0.8);
       border-radius   : 10px;
@@ -12,6 +27,10 @@
       width           : 30%;
       min-width       : 450px;
       margin          : 5% auto;
+
+      @media screen and (max-width: 768px) {
+        margin-top: 10%;
+      }
 
       .register-prompt {
         display        : flex;

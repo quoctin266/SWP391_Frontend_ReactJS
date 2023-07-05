@@ -13,8 +13,10 @@ import {
 } from "../../../service/APIservice";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ManagePrice = () => {
+  const { t } = useTranslation();
   const [showPrice, setShowPrice] = useState(false);
   const [priceList, setPriceList] = useState([]);
   const [addMin, setAddMin] = useState("");
@@ -126,7 +128,7 @@ const ManagePrice = () => {
 
     if (addMin !== 0) {
       if (!addMin) {
-        toast.error("Please specify min distance.");
+        toast.error(`${t("managePrice.toast1")}`);
         setInvalidAddMin(true);
         return;
       }
@@ -134,26 +136,26 @@ const ManagePrice = () => {
 
     if (addMax) {
       if (addMin >= addMax) {
-        toast.error("Max distance must be larger than min distance.");
+        toast.error(`${t("managePrice.toast2")}`);
         setInvalidAddMax(true);
         return;
       }
     }
 
     if (!addInitCost) {
-      toast.error("Please specify initial cost.");
+      toast.error(`${t("managePrice.toast3")}`);
       setInvalidAddInit(true);
       return;
     }
 
     if (!addAdditional) {
-      toast.error("Please specify additional bird cost.");
+      toast.error(`${t("managePrice.toast4")}`);
       setInvalidAddAdditional(true);
       return;
     }
 
     if (!addUnitCost) {
-      toast.error("Please specify unit cost.");
+      toast.error(`${t("managePrice.toast5")}`);
       setInvalidAddUnit(true);
       return;
     }
@@ -202,7 +204,7 @@ const ManagePrice = () => {
 
     if (editMin !== 0) {
       if (!editMin) {
-        toast.error("Please specify min distance.");
+        toast.error(`${t("managePrice.toast1")}`);
         setInvalidEditMin(true);
         return;
       }
@@ -210,26 +212,26 @@ const ManagePrice = () => {
 
     if (editMax) {
       if (editMin >= editMax) {
-        toast.error("Max distance must be larger than min distance.");
+        toast.error(`${t("managePrice.toast2")}`);
         setInvalidEditMax(true);
         return;
       }
     }
 
     if (!editInitCost) {
-      toast.error("Please specify initial cost.");
+      toast.error(`${t("managePrice.toast3")}`);
       setInvalidEditInit(true);
       return;
     }
 
     if (!editAdditional) {
-      toast.error("Please specify additional bird cost.");
+      toast.error(`${t("managePrice.toast4")}`);
       setInvalidEditAdditional(true);
       return;
     }
 
     if (!editUnitCost) {
-      toast.error("Please specify unit cost.");
+      toast.error(`${t("managePrice.toast5")}`);
       setInvalidEditUnit(true);
       return;
     }
@@ -262,7 +264,7 @@ const ManagePrice = () => {
   return (
     <>
       <Button variant="primary" onClick={handleShowPrice} className="add-btn">
-        Add new
+        {t("managePrice.addBtn")}
       </Button>
 
       <Modal
@@ -272,16 +274,16 @@ const ManagePrice = () => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Price</Modal.Title>
+          <Modal.Title>{t("managePrice.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddPrice}>
           <Modal.Body>
             <Row>
               <Form.Group className="mb-3" controlId="formBasicMin" as={Col}>
-                <Form.Label>Min Distance</Form.Label>
+                <Form.Label>{t("managePrice.label1")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter min distance in Kilometer"
+                  placeholder={t("managePrice.note1")}
                   min="0"
                   isInvalid={invalidAddMin}
                   value={addMin}
@@ -290,10 +292,10 @@ const ManagePrice = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicMax" as={Col}>
-                <Form.Label>Max Distance</Form.Label>
+                <Form.Label>{t("managePrice.label2")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter max distance in Kilometer"
+                  placeholder={t("managePrice.note2")}
                   min="0"
                   isInvalid={invalidAddMax}
                   value={addMax}
@@ -303,10 +305,10 @@ const ManagePrice = () => {
             </Row>
 
             <Form.Group className="mb-3" controlId="formBasicCost">
-              <Form.Label>Initial Cost</Form.Label>
+              <Form.Label>{t("managePrice.label3")}</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter cost in VND"
+                placeholder={t("managePrice.note3")}
                 min="0"
                 isInvalid={invalidAddInit}
                 value={addInitCost}
@@ -316,10 +318,10 @@ const ManagePrice = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Additional Bird Cost</Form.Label>
+                <Form.Label>{t("managePrice.label4")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePrice.note3")}
                   min="0"
                   isInvalid={invalidAddAdditional}
                   value={addAdditional}
@@ -328,10 +330,10 @@ const ManagePrice = () => {
               </Col>
 
               <Col>
-                <Form.Label>Unit Cost</Form.Label>
+                <Form.Label>{t("managePrice.label5")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePrice.note3")}
                   min="0"
                   isInvalid={invalidAddUnit}
                   value={addUnitCost}
@@ -342,10 +344,10 @@ const ManagePrice = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClosePrice}>
-              Close
+              {t("managePrice.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("managePrice.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -354,11 +356,11 @@ const ManagePrice = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Distance</th>
-            <th>Initial Cost</th>
-            <th>Each Additional Bird Cost</th>
-            <th>Cost/Capacity unit</th>
-            <th>Actions</th>
+            <th>{t("managePrice.field1")}</th>
+            <th>{t("managePrice.field2")}</th>
+            <th>{t("managePrice.field3")}</th>
+            <th>{t("managePrice.field4")}</th>
+            <th>{t("managePrice.field5")}</th>
           </tr>
         </thead>
         <tbody>
@@ -392,14 +394,14 @@ const ManagePrice = () => {
                       variant="warning"
                       onClick={() => handleShowEdit(item)}
                     >
-                      Edit
+                      {t("managePrice.editBtn")}
                     </Button>
                     <Button
                       variant="danger"
                       className="mx-2"
                       onClick={() => handleShowDelete(item)}
                     >
-                      Delete
+                      {t("managePrice.deleteBtn")}
                     </Button>
                   </td>
                 </tr>
@@ -415,16 +417,16 @@ const ManagePrice = () => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Price</Modal.Title>
+          <Modal.Title>{t("managePrice.editTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditPrice}>
           <Modal.Body>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Min Distance</Form.Label>
+                <Form.Label>{t("managePrice.label1")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter min distance in Kilometer"
+                  placeholder={t("managePrice.note1")}
                   min="0"
                   isInvalid={invalidEditMin}
                   value={editMin}
@@ -433,10 +435,10 @@ const ManagePrice = () => {
               </Col>
 
               <Col>
-                <Form.Label>Max Distance</Form.Label>
+                <Form.Label>{t("managePrice.label2")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter max distance in Kilometer"
+                  placeholder={t("managePrice.note2")}
                   min="0"
                   isInvalid={invalidEditMax}
                   value={editMax}
@@ -446,10 +448,10 @@ const ManagePrice = () => {
             </Row>
 
             <Col className="mb-3">
-              <Form.Label>Initial Cost</Form.Label>
+              <Form.Label>{t("managePrice.label3")}</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter cost in VND"
+                placeholder={t("managePrice.note3")}
                 min="0"
                 isInvalid={invalidEditInit}
                 value={editInitCost}
@@ -459,10 +461,10 @@ const ManagePrice = () => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Additional Bird Cost</Form.Label>
+                <Form.Label>{t("managePrice.label4")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePrice.note3")}
                   min="0"
                   isInvalid={invalidEditAdditional}
                   value={editAdditional}
@@ -471,10 +473,10 @@ const ManagePrice = () => {
               </Col>
 
               <Col>
-                <Form.Label>Unit Cost</Form.Label>
+                <Form.Label>{t("managePrice.label5")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter cost in VND"
+                  placeholder={t("managePrice.note3")}
                   min="0"
                   isInvalid={invalidEditUnit}
                   value={editUnitCost}
@@ -485,10 +487,10 @@ const ManagePrice = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseEdit}>
-              Close
+              {t("managePrice.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("managePrice.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -501,12 +503,12 @@ const ManagePrice = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("managePrice.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to delete this item?
+          {t("managePrice.deleteNote")}
           <br />
-          Distance:{" "}
+          {t("managePrice.info1")}{" "}
           <b>
             {deleteItem.max_distance
               ? `${new Intl.NumberFormat().format(
@@ -518,15 +520,15 @@ const ManagePrice = () => {
             Km
           </b>
           <br />
-          Initial Cost:{" "}
+          {t("managePrice.info2")}{" "}
           <b>{new Intl.NumberFormat().format(deleteItem.initial_cost)} VND</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseDelete}>
-            Close
+            {t("managePrice.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeletePrice}>
-            Confirm
+            {t("managePrice.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

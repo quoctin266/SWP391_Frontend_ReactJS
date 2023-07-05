@@ -21,7 +21,11 @@ const PrivateRoute = (props) => {
   }
 
   // only customer can check booking history
-  if (role !== "customer" && props.children.type.name === "ViewHistory") {
+  if (
+    role !== "customer" &&
+    (props.children.type.name === "ViewHistory" ||
+      props.children.type.name === "ManageSender")
+  ) {
     return <Navigate to="/access-not-allowed" />;
   }
 

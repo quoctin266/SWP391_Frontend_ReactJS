@@ -12,8 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice";
+import { useTranslation } from "react-i18next";
 
 const StaffSidebar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,18 +42,22 @@ const StaffSidebar = () => {
             <CDBSidebarMenu>
               <NavLink to="/staff/list-order">
                 <CDBSidebarMenuItem icon="columns">
-                  Order List
+                  {t("staffSidebar.item1")}
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/staff/schedule">
-                <CDBSidebarMenuItem icon="table">Schedule</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="table">
+                  {t("staffSidebar.item2")}
+                </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/staff/feedback">
-                <CDBSidebarMenuItem icon="user">Feedback</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="user">
+                  {t("staffSidebar.item3")}
+                </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
                 <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
-                  Logout
+                  {t("staffSidebar.item4")}
                 </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>

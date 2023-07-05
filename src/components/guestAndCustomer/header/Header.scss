@@ -12,6 +12,14 @@
             top: 0;
         }
 
+        .language {
+            float       : right;
+            margin-right: 5%;
+            margin-top  : 1%;
+            font-weight : 500;
+            font-size   : 1.1em;
+        }
+
         .signin-button {
             background-color: #00770c;
             position: absolute;
@@ -119,6 +127,40 @@
 
                     .navbar-nav {
 
+                        @media screen and (min-width: 990px) {
+                            .dropdown-toggle {
+                                &:focus {
+                                    background-color: #468C4D;
+                                }
+                            }
+                        }
+
+                        .dropdown-toggle::after {
+                            display: none;
+                        }
+
+                        .dropdown-menu {
+                            background-color: #85c697;
+
+                            @media screen and (max-width: 990px) {
+                                background-color: #468C4D;
+                                width           : 80%;
+                            }
+
+                            .dropdown-item {
+                                color    : white;
+                                font-size: 1.2em;
+
+                                &:hover {
+                                    background-color: #468C4D;
+
+                                    @media screen and (max-width: 990px) {
+                                        color: #13470A
+                                    }
+                                }
+                            }
+                        }
+
                         @media screen and (min-width: 1000px) {
                             display: flex;
                             width: 77%;
@@ -143,6 +185,18 @@
 
                                 &.active {
                                     background-color: #468C4D;
+                                }
+                            }
+
+                            &.home {
+                                @media screen and (min-width: 1000px) {
+                                    width: 106px;
+                                }
+                            }
+
+                            &.aboutus {
+                                @media screen and (min-width: 1000px) {
+                                    width: 130px;
                                 }
                             }
                         }

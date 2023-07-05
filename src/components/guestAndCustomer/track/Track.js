@@ -9,8 +9,10 @@ import { FaDotCircle } from "react-icons/fa";
 import { getTransportStatus } from "../../../service/APIservice";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Track = () => {
+  const { t } = useTranslation();
   const [orderID, setOrderID] = useState("");
   const [invalidOrderID, setInvalidOrderID] = useState(false);
   const [statusList, setStatusList] = useState([]);
@@ -37,15 +39,15 @@ const Track = () => {
   return (
     <Container className="track-outer">
       <div className="track-container">
-        <div className="title">Order Tracking</div>
+        <div className="title">{t("track.title")}</div>
         <div className="track-body">
           <div className="track-form">
             <Form onSubmit={(e) => handleTrack(e)}>
               <Row className="mb-3">
-                <Form.Group as={Col} className="col-10">
+                <Form.Group as={Col} className="col-10 input-orderID">
                   <FloatingLabel
                     controlId="floatingInput"
-                    label="Order ID"
+                    label={t("track.label")}
                     className="mb-3"
                   >
                     <Form.Control
@@ -59,9 +61,9 @@ const Track = () => {
                   </FloatingLabel>
                 </Form.Group>
 
-                <Form.Group as={Col} className="col-2 px-0">
+                <Form.Group as={Col} className="col-2 px-0 track">
                   <Button variant="primary" className="track-btn" type="submit">
-                    Track
+                    {t("track.trackBtn")}
                   </Button>
                 </Form.Group>
               </Row>
@@ -69,7 +71,9 @@ const Track = () => {
             <Row className="mb-3">
               <div className="order-status">
                 <div className="condition-title">
-                  {statusList && statusList.length > 0 && `Bird's condition:`}
+                  {statusList &&
+                    statusList.length > 0 &&
+                    `${t("track.condition")}`}
                 </div>
                 {statusList &&
                   statusList.length > 0 &&

@@ -19,13 +19,12 @@
 
 
     .Box {
-        width: 90%;
-
         .IconCell {
             width: 10%;
 
             .Icon {
-                width        : 50%;
+                width        : 3rem;
+                height       : 3rem;
                 border-radius: 50%;
             }
         }
@@ -34,12 +33,30 @@
             width: 10%;
         }
 
+        .rate {
+            width: 10%;
+
+            svg {
+                margin-bottom: 5px;
+                color        : rgb(250, 175, 0);
+
+            }
+        }
+
         .title {
             width: 15%;
         }
 
         .time {
             width: 20%;
+        }
+
+        .remove {
+            width: 10%;
+
+            button {
+                font-size: 0.85vw;
+            }
         }
     }
 

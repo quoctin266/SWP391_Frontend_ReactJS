@@ -12,8 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice";
+import { useTranslation } from "react-i18next";
 
 const ManagerSidebar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,24 +39,29 @@ const ManagerSidebar = () => {
 
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
+              <NavLink to="/manager/dashboard">
+                <CDBSidebarMenuItem icon="chart-bar">
+                  {t("managerSidebar.item1")}
+                </CDBSidebarMenuItem>
+              </NavLink>
               <NavLink to="/manager/manage-service">
                 <CDBSidebarMenuItem icon="money-check">
-                  Manage price and payment
+                  {t("managerSidebar.item2")}
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/manager/manage-route-trip">
                 <CDBSidebarMenuItem icon="road">
-                  Manage transportation
+                  {t("managerSidebar.item3")}
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/manager/manage-web-content">
                 <CDBSidebarMenuItem icon="folder">
-                  Manage web content
+                  {t("managerSidebar.item4")}
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
                 <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
-                  Logout
+                  {t("managerSidebar.item5")}
                 </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>

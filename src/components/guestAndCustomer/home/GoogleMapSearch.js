@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Col } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
-import Modal from "react-bootstrap/Modal";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -18,10 +17,12 @@ import {
 } from "../../../service/APIservice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const libraries = ["places"];
 
 const GoogleMapSearch = () => {
+  const { t } = useTranslation();
   // set up google map
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
@@ -35,7 +36,6 @@ const GoogleMapSearch = () => {
   const [duration, setDuration] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [stationList, setStationList] = useState([]);
-  const [show, setShow] = useState(false);
   const [birdCount, setBirdCount] = useState("");
   const [invalidBirdCount, setInvalidBirdCount] = useState(false);
   const [estimateCost, setEstimateCost] = useState("");
@@ -47,9 +47,6 @@ const GoogleMapSearch = () => {
   const destinationRef = useRef();
 
   const navigate = useNavigate();
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const fetchAllCage = async () => {
     let data = await getAllCage();
@@ -88,13 +85,13 @@ const GoogleMapSearch = () => {
 
     if (!birdCount) {
       setInvalidBirdCount(true);
-      toast.error("Must specify number of bird.");
+      toast.error(`${t("google.toast1")}`);
       return;
     }
 
     if (!cage) {
       setInvalidCage(true);
-      toast.error("Must select bird cage.");
+      toast.error(`${t("google.toast2")}`);
       return;
     }
 
@@ -119,7 +116,6 @@ const GoogleMapSearch = () => {
       setDistance(newDistance);
       setDuration(results.routes[0].legs[0].duration.text);
       setShowMap(true);
-      handleShow();
     } catch (e) {
       console.log("error", e);
       toast.error("This API key has exceeded its limit usage");
@@ -133,6 +129,8 @@ const GoogleMapSearch = () => {
     setDuration("");
     originRef.current.value = "";
     destinationRef.current.value = "";
+    setBirdCount("");
+    setCage("");
     setShowMap(false);
   };
 
@@ -144,56 +142,31 @@ const GoogleMapSearch = () => {
 
   return (
     <div className="search-location-container">
-      <div className="title">Get Your Quote</div>
+      <div className="title">{t("google.title")}</div>
       <div className="search-bar">
         <Form>
-          <Row className="search-row">
-            <Form.Group className="mb-3" controlId="formStartPoint" as={Col}>
-              <Form.Label>Start Point</Form.Label>
-              <Form.Select aria-label="origin select" ref={originRef}>
-                {stationList &&
-                  stationList.length > 0 &&
-                  stationList.map((station) => {
-                    return (
-                      <option key={station.station_id} value={station.name}>
-                        {station.name}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formEndPoint" as={Col}>
-              <Form.Label>End Point</Form.Label>
-              <Form.Select aria-label="origin select" ref={destinationRef}>
-                {stationList &&
-                  stationList.length > 0 &&
-                  stationList.map((station) => {
-                    return (
-                      <option key={station.station_id} value={station.name}>
-                        {station.name}
-                      </option>
-                    );
-                  })}
-              </Form.Select>
-            </Form.Group>
-
-            <Button
-              variant="success"
-              type="submit"
-              as={Col}
-              className="col-1 search-btn"
-              onClick={(event) => calculateRoute(event)}
-            >
-              Estimate
-            </Button>
-          </Row>
-
-          <Row className="mb-3">
+          <Row className="search-row mb-3">
             <Col>
-              <Form.Label>Bird Quantity</Form.Label>
+              <Form.Label>{t("google.start")}</Form.Label>
+              <Form.Select
+                aria-label="origin select"
+                ref={originRef}
+                className="mb-3"
+              >
+                {stationList &&
+                  stationList.length > 0 &&
+                  stationList.map((station) => {
+                    return (
+                      <option key={station.station_id} value={station.name}>
+                        {station.name}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+
+              <Form.Label>{t("google.quantity")}</Form.Label>
               <Form.Control
-                placeholder="Enter number of birds"
+                placeholder={t("google.note1")}
                 type="number"
                 min="1"
                 value={birdCount}
@@ -203,7 +176,24 @@ const GoogleMapSearch = () => {
             </Col>
 
             <Col>
-              <Form.Label>Bird Cage</Form.Label>
+              <Form.Label>{t("google.end")}</Form.Label>
+              <Form.Select
+                aria-label="origin select"
+                ref={destinationRef}
+                className="mb-3"
+              >
+                {stationList &&
+                  stationList.length > 0 &&
+                  stationList.map((station) => {
+                    return (
+                      <option key={station.station_id} value={station.name}>
+                        {station.name}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+
+              <Form.Label>{t("google.cage")}</Form.Label>
               <Form.Select
                 defaultValue=""
                 aria-label="cage select"
@@ -211,7 +201,7 @@ const GoogleMapSearch = () => {
                 isInvalid={invalidCage}
               >
                 <option value="" disabled hidden>
-                  Choose cage
+                  {t("google.note2")}
                 </option>
                 {cageList &&
                   cageList.length > 0 &&
@@ -225,7 +215,17 @@ const GoogleMapSearch = () => {
               </Form.Select>
             </Col>
 
-            <Col></Col>
+            <Col>
+              <Button
+                variant="success"
+                type="submit"
+                as={Col}
+                className="col-1 search-btn"
+                onClick={(event) => calculateRoute(event)}
+              >
+                {t("google.estimateBtn")}
+              </Button>
+            </Col>
           </Row>
         </Form>
       </div>
@@ -250,21 +250,49 @@ const GoogleMapSearch = () => {
           </div>
           <div className="distance-duration">
             <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Distance</Form.Label>
-                <Form.Control type="text" value={distance} readOnly />
-              </Form.Group>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>{t("google.distance")}</Form.Label>
+                  <Form.Control type="text" value={distance} readOnly />
+                </Col>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Duration</Form.Label>
-                <Form.Control type="text" value={duration} readOnly />
-              </Form.Group>
+                <Col>
+                  <Form.Label>{t("google.duration")}</Form.Label>
+                  <Form.Control type="text" value={duration} readOnly />
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label style={{ marginBottom: "3%" }}>
+                    {t("google.result")}
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    aria-label="Disabled estimate example"
+                    disabled
+                    value={`${new Intl.NumberFormat().format(
+                      estimateCost
+                    )} VND`}
+                  />
+                  <div className="note-estimate">
+                    {t("google.notePrice")}{" "}
+                    <span
+                      onClick={() => navigate("/price")}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <b>{t("google.click")}</b>
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+
               <Button
                 variant="success"
                 type="button"
                 onClick={() => map.panTo(center)}
               >
-                Focus
+                {t("google.focus")}
               </Button>
               <Button
                 className="mx-2"
@@ -272,51 +300,8 @@ const GoogleMapSearch = () => {
                 type="button"
                 onClick={clearRoute}
               >
-                Clear
+                {t("google.clear")}
               </Button>
-
-              <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Estimate Price</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {estimateCost && (
-                    <Col>
-                      <Form.Label style={{ marginBottom: "3%" }}>
-                        Your estimate cost:
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        aria-label="Disabled estimate example"
-                        disabled
-                        value={`${new Intl.NumberFormat().format(
-                          estimateCost
-                        )} VND`}
-                      />
-                      <div className="note-estimate">
-                        Note that this is just the base minimum cost. To get
-                        more pricing detail,{" "}
-                        <span
-                          onClick={() => navigate("/price")}
-                          style={{ cursor: "pointer" }}
-                        >
-                          <b>click here</b>
-                        </span>
-                      </div>
-                    </Col>
-                  )}
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={handleClose}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
             </Form>
           </div>
         </div>

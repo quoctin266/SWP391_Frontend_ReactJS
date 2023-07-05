@@ -24,7 +24,7 @@ import ManageWebContent from "../components/manager/manageWebContent/ManageWebCo
 import ManageRouteTrip from "../components/manager/manageRouteTrip/ManageRouteTrip";
 import Admin from "../components/admin/Admin";
 import ManageAccount from "../components/admin/manageAccount/ManageAccount";
-import Dashboard from "../components/admin/dashboard/Dashboard";
+import Dashboard from "../components/manager/dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoute from "../components/private-route/PrivateRoute";
@@ -33,6 +33,12 @@ import NotFound from "../components/private-route/NotFound";
 import Visa from "../components/guestAndCustomer/payment/Visa";
 import Momo from "../components/guestAndCustomer/payment/Momo";
 import VnPay from "../components/guestAndCustomer/payment/VnPay";
+import ManageSender from "../components/guestAndCustomer/profile/ManageSender";
+import ChangePassword from "../components/guestAndCustomer/auth/ChangePassword";
+import CheckCode from "../components/guestAndCustomer/auth/CheckCode";
+import Protected from "../components/private-route/Protected";
+import Review from "../components/guestAndCustomer/review/Review";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "faqs",
         element: <FAQs />,
+      },
+      {
+        path: "review",
+        element: <Review />,
       },
       {
         path: "about-us",
@@ -98,6 +108,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "manage-sender",
+        element: (
+          <PrivateRoute>
+            <ManageSender />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
@@ -114,15 +132,35 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Protected>
+        <Login />
+      </Protected>
+    ),
   },
   {
     path: "/register",
-    element: <Register />,
+    element: (
+      <Protected>
+        <Register />
+      </Protected>
+    ),
   },
   {
     path: "/forget-password",
     element: <ForgetPassword />,
+  },
+  {
+    path: "/check-code",
+    element: <CheckCode />,
+  },
+  {
+    path: "/change-password",
+    element: (
+      <Protected>
+        <ChangePassword />
+      </Protected>
+    ),
   },
   {
     path: "/reset-password",
@@ -168,7 +206,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <ManageService />,
+        element: <Dashboard />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
       {
         path: "manage-service",
@@ -194,7 +236,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Dashboard />,
+        element: <ManageAccount />,
       },
       {
         path: "manage-account",

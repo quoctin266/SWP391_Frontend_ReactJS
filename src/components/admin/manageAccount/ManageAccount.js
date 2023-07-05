@@ -16,8 +16,10 @@ import Modal from "react-bootstrap/Modal";
 import _ from "lodash";
 import ReactPaginate from "react-paginate";
 import { validateEmail } from "../../../utils/reuseFunction";
+import { useTranslation } from "react-i18next";
 
 const ManageAccount = () => {
+  const { t } = useTranslation();
   const [accountList, setAccountList] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
@@ -148,42 +150,42 @@ const ManageAccount = () => {
 
     if (!addEmail) {
       setInvalidEmail(true);
-      toast.error("Email must not be empty.");
+      toast.error(`${t("manageAccount.toast1")}`);
       return;
     }
 
     if (!addUsername) {
       setInvalidUsername(true);
-      toast.error("Username must not be empty.");
+      toast.error(`${t("manageAccount.toast2")}`);
       return;
     }
 
     if (!validateEmail(addEmail)) {
       setInvalidEmail(true);
-      toast.error("Invalid email format.");
+      toast.error(`${t("manageAccount.toast3")}`);
       return;
     }
 
     if (!addPassword) {
       setInvalidPassword(true);
-      toast.error("Password must not be empty");
+      toast.error(`${t("manageAccount.toast4")}`);
       return;
     }
 
     if (!confirmPassword) {
       setInvalidConfirmPW(true);
-      toast.error("Must confirm password.");
+      toast.error(`${t("manageAccount.toast5")}`);
       return;
     }
 
     if (confirmPassword !== addPassword) {
       setInvalidConfirmPW(true);
-      toast.error("Confirm password and password must be the same.");
+      toast.error(`${t("manageAccount.toast6")}`);
       return;
     }
 
     if (!addRole) {
-      toast.error("Must select a role.");
+      toast.error(`${t("manageAccount.toast7")}`);
       setInvalidRole(true);
       return;
     }
@@ -216,10 +218,12 @@ const ManageAccount = () => {
 
   return (
     <div className="manage-account-container">
-      <div className="title">Manage Account</div>
+      <div className="title">{t("manageAccount.header")}</div>
       <div className="account-list">
-        <Col className="col-4">
-          <Form.Label className="filter-title">Filter by role</Form.Label>
+        <Col className="col-5">
+          <Form.Label className="filter-title">
+            {t("manageAccount.title")}
+          </Form.Label>
           <Form.Select
             defaultValue=""
             aria-label="Default select example"
@@ -227,7 +231,7 @@ const ManageAccount = () => {
             onChange={(e) => handleChangeRole(e.target.value)}
           >
             <option value="" disabled hidden>
-              Select role
+              {t("manageAccount.note")}
             </option>
             <option value="all">All</option>
             <option value="customer">Customer</option>
@@ -237,16 +241,16 @@ const ManageAccount = () => {
         </Col>
 
         <Button variant="primary" className="mb-3" onClick={handleShowAdd}>
-          Add new
+          {t("manageAccount.addBtn")}
         </Button>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Email</th>
-              <th>Username</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>{t("manageAccount.field1")}</th>
+              <th>{t("manageAccount.field2")}</th>
+              <th>{t("manageAccount.field3")}</th>
+              <th>{t("manageAccount.field4")}</th>
+              <th>{t("manageAccount.field5")}</th>
             </tr>
           </thead>
           <tbody>
@@ -264,7 +268,7 @@ const ManageAccount = () => {
                         variant="warning"
                         onClick={() => handleShowEdit(item)}
                       >
-                        Edit
+                        {t("manageAccount.editBtn")}
                       </Button>
                     </td>
                   </tr>
@@ -281,16 +285,16 @@ const ManageAccount = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add New Account</Modal.Title>
+            <Modal.Title>{t("manageAccount.addTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleAddNew}>
             <Modal.Body>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Email address</Form.Label>
+                  <Form.Label>{t("manageAccount.label1")}</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter email"
+                    placeholder={t("manageAccount.note1")}
                     isInvalid={invalidEmail}
                     value={addEmail}
                     onChange={(e) => handleOnchangeEmail(e)}
@@ -298,10 +302,10 @@ const ManageAccount = () => {
                 </Col>
 
                 <Col>
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label>{t("manageAccount.label2")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter username"
+                    placeholder={t("manageAccount.note2")}
                     isInvalid={invalidUsername}
                     value={addUsername}
                     onChange={(e) => handleOnchangeUsername(e)}
@@ -311,10 +315,10 @@ const ManageAccount = () => {
 
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>{t("manageAccount.label3")}</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Enter password"
+                    placeholder={t("manageAccount.note3")}
                     pattern="^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*?[@*#!?$%^&+=_\-]).{8,}$"
                     title="Must contain at least one digit, one letter, one special character and at least 8 characters, spacing is not allowed"
                     isInvalid={invalidPassword}
@@ -324,10 +328,10 @@ const ManageAccount = () => {
                 </Col>
 
                 <Col>
-                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Label>{t("manageAccount.label4")}</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Confirm password"
+                    placeholder={t("manageAccount.note4")}
                     isInvalid={invalidConfirmPW}
                     value={confirmPassword}
                     onChange={(e) => handleOnchangeConfirmPW(e)}
@@ -337,7 +341,7 @@ const ManageAccount = () => {
 
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Role</Form.Label>
+                  <Form.Label>{t("manageAccount.label5")}</Form.Label>
                   <Form.Select
                     defaultValue=""
                     aria-label="Default select example"
@@ -345,7 +349,7 @@ const ManageAccount = () => {
                     onChange={(e) => handleChangeAddRole(e)}
                   >
                     <option value="" disabled hidden>
-                      Select role
+                      {t("manageAccount.note5")}
                     </option>
                     <option value="admin">Admin</option>
                     <option value="customer">Customer</option>
@@ -359,10 +363,10 @@ const ManageAccount = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseAdd}>
-                Close
+                {t("manageAccount.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("manageAccount.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -375,11 +379,11 @@ const ManageAccount = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Edit Account</Modal.Title>
+            <Modal.Title>{t("manageAccount.editTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Role</Form.Label>
+              <Form.Label>{t("manageAccount.label5")}</Form.Label>
               <Form.Select
                 defaultValue={editRole}
                 aria-label="Default select example"
@@ -392,7 +396,7 @@ const ManageAccount = () => {
             </Col>
 
             <Col className="mb-3">
-              <Form.Label>Status</Form.Label>
+              <Form.Label>{t("manageAccount.label6")}</Form.Label>
               <Form.Select
                 defaultValue={editStatus}
                 aria-label="Default select example"
@@ -405,22 +409,22 @@ const ManageAccount = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseEdit}>
-              Close
+              {t("manageAccount.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleUpdateAccount}>
-              Confirm
+              {t("manageAccount.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
 
         <div className="d-flex justify-content-center mt-5">
           <ReactPaginate
-            nextLabel="Next >"
+            nextLabel={t("manageAccount.next")}
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
             pageCount={pageCount}
-            previousLabel="< Previous"
+            previousLabel={t("manageAccount.pre")}
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"

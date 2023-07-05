@@ -14,8 +14,12 @@ import { login } from "../../../redux/slices/authSlice";
 import Background from "../../../assets/image/background.jpg";
 import { BiHide } from "react-icons/bi";
 import { BiShow } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
+import Language from "../header/Language";
 
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
@@ -49,18 +53,18 @@ const Login = () => {
 
     if (!email) {
       setInvalidEmail(true);
-      toast.error("Email must not be empty.");
+      toast.error(`${t("login.toast1")}`);
       return;
     }
 
     if (!password) {
       setInvalidPassword(true);
-      toast.error("Password must not be empty");
+      toast.error(`${t("login.toast2")}`);
       return;
     }
 
     if (!validateEmail(email)) {
-      toast.error("Invalid email format.");
+      toast.error(`${t("login.toast3")}`);
       return;
     }
 
@@ -95,26 +99,27 @@ const Login = () => {
       >
         <div className="background-container">
           {/* <Image src={background} /> */}
+          <Language className="language" />
           <div className="login-container">
             <div className="register-prompt">
-              <div className="title">Don't have an account yet?</div>
+              <div className="title">{t("login.title")}</div>
               <Button
                 variant="primary"
                 className="signup-btn"
                 onClick={() => navigate("/register")}
               >
-                Sign up now
+                {t("login.signupBtn")}
               </Button>
             </div>
             <div className="login-form">
-              <div className="page-brand">Bird Travel</div>
-              <div className="title">Login</div>
+              <div className="page-brand">{t("login.header")}</div>
+              <div className="title">{t("login.login")}</div>
               <Form onSubmit={(event) => handleLogin(event)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
+                  <Form.Label>{t("login.label1")}</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter email"
+                    placeholder={t("login.note1")}
                     value={email}
                     isInvalid={invalidEmail}
                     onChange={(e) => handleOnchangeEmail(e)}
@@ -122,11 +127,11 @@ const Login = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>{t("login.label2")}</Form.Label>
                   <div className="password-container">
                     <Form.Control
                       type={passwordType}
-                      placeholder="Password"
+                      placeholder={t("login.note2")}
                       value={password}
                       isInvalid={invalidPassword}
                       onChange={(e) => handleOnchangePassword(e)}
@@ -149,20 +154,20 @@ const Login = () => {
                       controlId="formBasicCheckbox"
                       as={Col}
                     >
-                      <Form.Check type="checkbox" label="Remember me" />
+                      <Form.Check type="checkbox" label={t("login.check")} />
                     </Form.Group>
                     <Form.Text
                       className="text-muted"
                       as={Col}
                       onClick={() => navigate("/forget-password")}
                     >
-                      Forgot password?
+                      {t("login.forgot")}
                     </Form.Text>
                   </div>
                 </Row>
                 <div className="login-btn">
                   <Button variant="primary" type="submit" disabled={loading}>
-                    Login
+                    {t("login.loginBtn")}
                   </Button>
                 </div>
                 <div className="back-btn">
@@ -171,7 +176,7 @@ const Login = () => {
                       navigate("/");
                     }}
                   >
-                    &lt;&lt;&lt; Back to Homepage
+                    {t("login.backBtn")}
                   </span>
                 </div>
               </Form>
@@ -183,4 +188,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <Login />
+    </Suspense>
+  );
+}

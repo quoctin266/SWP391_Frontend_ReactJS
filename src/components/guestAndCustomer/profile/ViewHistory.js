@@ -25,12 +25,12 @@ import { GrView } from "react-icons/gr";
 import { toast } from "react-toastify";
 import Row from "react-bootstrap/Row";
 import Modal from "react-bootstrap/Modal";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
 import BootstrapTable from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
+import { useTranslation } from "react-i18next";
 
 const ViewHistory = () => {
+  const { t } = useTranslation();
   const [orderList, setOrderList] = useState([]);
   const [isSortNewest, setIsSortNewest] = useState(true);
   const [filterList, setFilterList] = useState([]);
@@ -162,12 +162,12 @@ const ViewHistory = () => {
     <Container className="history-outer">
       <div className="view-history-container">
         <div className="Header">
-          <h2 className="title">Your Orders</h2>
+          <h2 className="title">{t("history.header")}</h2>
         </div>
 
-        <Col className="col-4 mt-5">
+        <Col className="col-4 mt-5 title-filter">
           <Form.Label style={{ fontSize: "1.2em" }}>
-            Filter by order status
+            {t("history.label")}
           </Form.Label>
           <Form.Select
             defaultValue=""
@@ -176,7 +176,7 @@ const ViewHistory = () => {
             onChange={(e) => handleChangeStatus(e.target.value)}
           >
             <option value="" disabled hidden>
-              Select status
+              {t("history.note")}
             </option>
             <option value="all">All</option>
             <option value="Pending">Pending</option>
@@ -192,7 +192,7 @@ const ViewHistory = () => {
             className="mt-4 mb-5"
             onClick={() => sortNewest()}
           >
-            Sort by newest
+            {t("history.sortBtn1")}
           </Button>
         ) : (
           <Button
@@ -200,7 +200,7 @@ const ViewHistory = () => {
             className="mt-4 mb-5"
             onClick={() => sortOldest()}
           >
-            Sort by oldest
+            {t("history.sortBtn2")}
           </Button>
         )}
 
@@ -215,10 +215,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Order ID
+                    {t("history.title1")}
                   </TableCell>
                   <TableCell
                     align="center"
@@ -226,10 +225,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Sender
+                    {t("history.title2")}
                   </TableCell>
                   <TableCell
                     align="center"
@@ -237,10 +235,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Order Date&nbsp;
+                    {t("history.title3")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
@@ -248,10 +245,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Payment Method&nbsp;
+                    {t("history.title4")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
@@ -259,10 +255,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Status&nbsp;
+                    {t("history.title5")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
@@ -270,10 +265,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Total Cost&nbsp;
+                    {t("history.title6")}&nbsp;
                   </TableCell>
                   <TableCell
                     align="center"
@@ -281,10 +275,9 @@ const ViewHistory = () => {
                       color: "white",
                       fontWeight: "bolder",
                       border: "0",
-                      fontSize: "0.9vw",
                     }}
                   >
-                    Actions&nbsp;
+                    {t("history.title7")}&nbsp;
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -333,7 +326,7 @@ const ViewHistory = () => {
                           style={{ width: "15%" }}
                           align="center"
                           width={3}
-                          className="tableCell"
+                          className="created-time"
                           sx={{ border: "0" }}
                         >
                           {item.created_time}
@@ -376,7 +369,7 @@ const ViewHistory = () => {
                             variant="secondary"
                             onClick={() => handleShowDetail(item)}
                           >
-                            Detail
+                            {t("history.detailBtn")}
                           </Button>
                           {item.status === "Pending" && (
                             <Button
@@ -384,7 +377,7 @@ const ViewHistory = () => {
                               className="mx-2"
                               onClick={() => handleShowCancel(item)}
                             >
-                              Cancel
+                              {t("history.cancelBtn")}
                             </Button>
                           )}
                         </TableCell>
@@ -420,13 +413,13 @@ const ViewHistory = () => {
             size="lg"
           >
             <Modal.Header closeButton>
-              <Modal.Title>Sender Info</Modal.Title>
+              <Modal.Title>{t("history.sender")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <Row className="mb-3">
                   <Col>
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>{t("history.label7")}</Form.Label>
                     <Form.Control
                       type="text"
                       value={sender.full_name}
@@ -435,28 +428,31 @@ const ViewHistory = () => {
                   </Col>
 
                   <Col>
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control type="text" value={sender.address} disabled />
-                  </Col>
-                </Row>
-
-                <Row className="mb-3">
-                  <Col>
-                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Label>{t("history.label9")}</Form.Label>
                     <Form.Control
                       type="text"
                       value={sender.phone_number}
                       disabled
                     />
                   </Col>
+                </Row>
 
-                  <Col></Col>
+                <Row className="mb-3">
+                  <Col>
+                    <Form.Label>{t("history.label8")}</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      value={sender.address}
+                      disabled
+                    />
+                  </Col>
                 </Row>
               </Form>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseSender}>
-                Close
+                {t("history.closeBtn")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -469,111 +465,93 @@ const ViewHistory = () => {
             size="lg"
           >
             <Modal.Header closeButton>
-              <Modal.Title>Order Detail Info</Modal.Title>
+              <Modal.Title>{t("history.detail")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Tabs
-                defaultActiveKey="general"
-                id="justify-tab-example"
-                className="mb-3"
-                justify
-              >
-                <Tab eventKey="general" title="General Info">
-                  <Form>
-                    <Row className="mb-5">
-                      <Col>
-                        <Form.Label>Departure</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={detailOrder.departure_location}
-                          disabled
-                        />
-                      </Col>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>{t("history.label1")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={detailOrder.departure_location}
+                    disabled
+                  />
+                </Col>
 
-                      <Col>
-                        <Form.Label>Destination</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={detailOrder.arrival_location}
-                          disabled
-                        />
-                      </Col>
-                    </Row>
+                <Col>
+                  <Form.Label>{t("history.label2")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={detailOrder.arrival_location}
+                    disabled
+                  />
+                </Col>
+              </Row>
 
-                    <Row className="mb-5">
-                      <Col>
-                        <Form.Label>Package</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={detailOrder.package_name}
-                          disabled
-                        />
-                      </Col>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Label>{t("history.label3")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={detailOrder.anticipate_date}
+                    disabled
+                  />
+                </Col>
 
-                      <Col></Col>
-                    </Row>
-                  </Form>
-                </Tab>
+                <Col>
+                  <Form.Label>{t("history.label4")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={detailOrder.estimated_arrival}
+                    disabled
+                  />
+                </Col>
+              </Row>
 
-                <Tab eventKey="date" title="Date And Time">
-                  <Form>
-                    <Row className="mb-5">
-                      <Form.Group as={Col} controlId="formGridAnticipate">
-                        <Form.Label>Anticipate Date</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={detailOrder.anticipate_date}
-                          disabled
-                        />
-                      </Form.Group>
-                    </Row>
+              <Row className="mb-5">
+                <Col>
+                  <Form.Label>{t("history.label5")}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={detailOrder.package_name}
+                    disabled
+                  />
+                </Col>
 
-                    <Row className="mb-3">
-                      <Col>
-                        <Form.Label>Estimated Arrival</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={detailOrder.estimated_arrival}
-                          disabled
-                        />
-                      </Col>
-                    </Row>
-                  </Form>
-                </Tab>
+                <Col></Col>
+              </Row>
 
-                <Tab eventKey="bird" title="Bird Detail">
-                  <BootstrapTable striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Bird Name</th>
-                        <th>Age</th>
-                        <th>Weight</th>
-                        <th>Gender</th>
-                        <th>Cage</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {birdList &&
-                        birdList.length > 0 &&
-                        birdList.map((bird) => {
-                          return (
-                            <tr key={bird.bird_id}>
-                              <td>{bird.bird_name}</td>
-                              <td>{bird.age}</td>
-                              <td>{bird.weight.toFixed(1)} kg</td>
-                              <td>{bird.gender === "F" ? "Female" : "Male"}</td>
-                              <td>{bird.dimension} cm</td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </BootstrapTable>
-                </Tab>
-              </Tabs>
+              <Form.Label>{t("history.label6")}</Form.Label>
+              <BootstrapTable striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>{t("history.bird1")}</th>
+                    <th>{t("history.bird2")}</th>
+                    <th>{t("history.bird3")}</th>
+                    <th>{t("history.bird4")}</th>
+                    <th>{t("history.bird5")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {birdList &&
+                    birdList.length > 0 &&
+                    birdList.map((bird) => {
+                      return (
+                        <tr key={bird.bird_id}>
+                          <td>{bird.bird_name}</td>
+                          <td>{bird.age}</td>
+                          <td>{bird.weight.toFixed(1)} kg</td>
+                          <td>{bird.gender === "F" ? "Female" : "Male"}</td>
+                          <td>{bird.dimension} cm</td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </BootstrapTable>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseDetail}>
-                Close
+                {t("history.closeBtn")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -585,27 +563,27 @@ const ViewHistory = () => {
             keyboard={false}
           >
             <Modal.Header closeButton>
-              <Modal.Title>Confirm Cancel</Modal.Title>
+              <Modal.Title>{t("history.cancelTitle")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              Are you sure to cancel this order?
+              {t("history.cancelNote")}
               <br />
-              Order ID: <b>{cancelItem.order_id}</b>
+              {t("history.info1")} <b>{cancelItem.order_id}</b>
               <br />
-              Sender: <b>{cancelItem.full_name}</b>
+              {t("history.info2")} <b>{cancelItem.full_name}</b>
               <br />
-              Departure: <b>{cancelItem.departure_location}</b>
+              {t("history.info3")} <b>{cancelItem.departure_location}</b>
               <br />
-              Destination: <b>{cancelItem.arrival_location}</b>
+              {t("history.info4")} <b>{cancelItem.arrival_location}</b>
               <br />
-              Travel Date: <b>{cancelItem.anticipate_date}</b>
+              {t("history.info5")} <b>{cancelItem.anticipate_date}</b>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseCancel}>
-                Close
+                {t("history.closeBtn")}
               </Button>
               <Button variant="primary" onClick={handleCancelOrder}>
-                Confirm
+                {t("history.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Modal>
@@ -613,12 +591,12 @@ const ViewHistory = () => {
 
         <div className="d-flex justify-content-center mt-5">
           <ReactPaginate
-            nextLabel="Next >"
+            nextLabel={t("history.next")}
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             marginPagesDisplayed={2}
             pageCount={pageCount}
-            previousLabel="< Previous"
+            previousLabel={t("history.pre")}
             pageClassName="page-item"
             pageLinkClassName="page-link"
             previousClassName="page-item"
@@ -637,7 +615,7 @@ const ViewHistory = () => {
 
         <div className="back-button">
           <Button variant="success" onClick={() => navigate("/account-detail")}>
-            Back to Profile
+            {t("history.backBtn")}
           </Button>
         </div>
       </div>

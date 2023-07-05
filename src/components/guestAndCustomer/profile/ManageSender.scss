@@ -1,0 +1,69 @@
+.sender-outer {
+    border          : 1px solid #9ECE9D;
+    padding-bottom  : 8%;
+    background-color: #9ECE9D;
+    border-bottom   : 4px solid #087c06;
+
+    .manage-sender-container {
+        padding   : 0 4%;
+        margin-top: 5%;
+
+        .header {
+            font-size       : 2.3vw;
+            font-weight     : 500;
+            text-align      : center;
+            border-radius   : 15px;
+            background-color: #519345;
+            padding         : 1% 0;
+            color           : white;
+            width           : 30%;
+            margin-bottom   : 4%;
+
+            @media screen and (max-width: 990px) {
+                width    : 70%;
+                font-size: 1.5em;
+            }
+        }
+
+        .sender-list {
+            margin-top     : 2%;
+            display        : flex;
+            justify-content: flex-start;
+            flex-wrap      : wrap;
+
+            .card {
+                margin-bottom: 3%;
+                margin-right : 4%;
+
+                @media screen and (max-width: 990px) {
+                    width: 100% !important;
+                }
+
+                .card-header {
+                    background-color: #33925d;
+                    color           : white;
+                    display         : flex;
+                    align-items     : center;
+                    justify-content : space-between;
+
+                    .btn-group {
+                        font-size: 1.4vw;
+
+                        @media screen and (max-width: 990px) {
+                            font-size: 1.1em;
+                        }
+
+                        span {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .back-button {
+            margin: 3% 0;
+        }
+    }
+}

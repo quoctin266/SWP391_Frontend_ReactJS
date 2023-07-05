@@ -8,18 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { validateEmail } from "../../../utils/reuseFunction";
 import { toast } from "react-toastify";
-import {
-  putUpdateProfile,
-  postCreateSender,
-} from "../../../service/APIservice";
+import { putUpdateProfile } from "../../../service/APIservice";
 import { update } from "../../../redux/slices/authSlice";
 import Image from "react-bootstrap/Image";
-import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Row from "react-bootstrap/Row";
 import { toBase64 } from "../../../utils/reuseFunction";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 
 const AccountDetail = () => {
   const navigate = useNavigate();
@@ -40,25 +33,6 @@ const AccountDetail = () => {
   const [phone, setPhone] = useState(currentPhone);
   const [address, setAddress] = useState(currentAddress);
   const [avatar, setAvatar] = useState(currentAvatar);
-  const [show, setShow] = useState(false);
-
-  const [senderName, setSenderName] = useState("");
-  const [senderPhone, setSenderPhone] = useState("");
-  const [senderAddress, setSenderAddress] = useState("");
-  const [invalidName, setInvalidName] = useState(false);
-  const [invalidPhone, setInvalidPhone] = useState(false);
-  const [invalidAddress, setInvalidAddesss] = useState(false);
-
-  const handleClose = () => {
-    setShow(false);
-    setInvalidAddesss(false);
-    setInvalidName(false);
-    setInvalidPhone(false);
-    setSenderAddress("");
-    setSenderName("");
-    setSenderPhone("");
-  };
-  const handleShow = () => setShow(true);
 
   const handleOnchangeEmail = (event) => {
     setEmail(event.target.value);
@@ -117,54 +91,6 @@ const AccountDetail = () => {
     setAddress(currentAddress);
   };
 
-  const handleChangeName = (value) => {
-    setSenderName(value);
-    setInvalidName(false);
-  };
-
-  const handleChangePhone = (value) => {
-    setSenderPhone(value);
-    setInvalidPhone(false);
-  };
-
-  const handleChangeAddress = (value) => {
-    setSenderAddress(value);
-    setInvalidAddesss(false);
-  };
-
-  const handleAddSender = async (e) => {
-    e.preventDefault();
-
-    if (!senderName) {
-      toast.error("Please fill in your name.");
-      setInvalidName(true);
-      return;
-    }
-
-    if (!senderPhone) {
-      toast.error("Please fill in your phone.");
-      setInvalidPhone(true);
-      return;
-    }
-
-    if (!senderAddress) {
-      toast.error("Please fill in your address.");
-      setInvalidAddesss(true);
-      return;
-    }
-
-    let data = await postCreateSender(
-      account_id,
-      senderName,
-      senderAddress,
-      senderPhone
-    );
-    if (data && data.EC === 0) {
-      toast.success(data.EM);
-      handleClose();
-    } else toast.error(data.EM);
-  };
-
   return (
     <Container className="account-detail-outer">
       <div className="account-detail-container">
@@ -179,77 +105,21 @@ const AccountDetail = () => {
             </Form.Label>
             <Form.Control type="file" onChange={(e) => handleChangeImg(e)} />
           </Form.Group>
-          <button onClick={() => navigate("/reset-password")}>
-            Change Password
-          </button>
-          {role === "customer" && (
-            <>
-              <button onClick={() => navigate("/view-history")}>
-                View Orders
-              </button>
-              <button onClick={handleShow}>Add Sender</button>
-              <Modal
-                show={show}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                size="lg"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Sender Info</Modal.Title>
-                </Modal.Header>
-                <Form onSubmit={handleAddSender}>
-                  <Modal.Body>
-                    <Row className="mb-3">
-                      <Col>
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Your name"
-                          value={senderName}
-                          isInvalid={invalidName}
-                          onChange={(e) => handleChangeName(e.target.value)}
-                        />
-                      </Col>
-
-                      <Col>
-                        <Form.Label>Phone Number</Form.Label>
-                        <Form.Control
-                          type="tel"
-                          placeholder="Your phone"
-                          pattern="[0][0-9]{9}"
-                          value={senderPhone}
-                          isInvalid={invalidPhone}
-                          onChange={(e) => handleChangePhone(e.target.value)}
-                        />
-                      </Col>
-                    </Row>
-
-                    <Row className="mb-3">
-                      <Col>
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Your address"
-                          value={senderAddress}
-                          isInvalid={invalidAddress}
-                          onChange={(e) => handleChangeAddress(e.target.value)}
-                        />
-                      </Col>
-                    </Row>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Close
-                    </Button>
-                    <Button variant="primary" type="submit">
-                      Confirm
-                    </Button>
-                  </Modal.Footer>
-                </Form>
-              </Modal>
-            </>
-          )}
+          <div className="btn-group">
+            <button onClick={() => navigate("/reset-password")}>
+              Change Password
+            </button>
+            {role === "customer" && (
+              <>
+                <button onClick={() => navigate("/view-history")}>
+                  View Orders
+                </button>
+                <button onClick={() => navigate("/manage-sender")}>
+                  Manage Sender
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <form className="ProfileForm" onSubmit={(e) => handleConfirm(e)}>
           <div className="Input">

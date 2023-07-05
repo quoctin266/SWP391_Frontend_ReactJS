@@ -3,78 +3,111 @@ import "./Footer.scss";
 import fb from "../../../assets/image/fb_logo.png";
 import google from "../../../assets/image/google_logo.jpg";
 import youtube from "../../../assets/image/youtube_logo.png";
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <Container>
       <div className="footer-container">
         <div className="footer-column">
-          <div className="footer-column-heading">About Us</div>
+          <div className="footer-column-heading">{t("footer.title1")}</div>
           <ul className="contact-info">
             <li>
-              <a href="/">FAQ</a>
+              <NavLink to="/faqs" className="nav-link">
+                {t("footer.link1")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Help Center</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link2")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Account</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link3")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Media Center</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link4")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Contact Us</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link5")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Terms of Service</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link6")}
+              </NavLink>
             </li>
           </ul>
         </div>
         <div className="footer-column">
-          <div className="footer-column-heading">Services</div>
+          <div className="footer-column-heading">{t("footer.title2")}</div>
           <ul className="contact-info">
             <li>
-              <a href="/">Legal Notices</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link7")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Report an Issue</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link8")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Affiliate Program</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link9")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Terms of Use</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link10")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Privacy</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link11")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Cookie Preferences</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link12")}
+              </NavLink>
             </li>
           </ul>
         </div>
         <div className="footer-column">
-          <div className="footer-column-heading">Contact Info</div>
+          <div className="footer-column-heading">{t("footer.title3")}</div>
           <ul className="contact-info">
             <li>
-              <a href="/">Corporate Information</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link13")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Feedback</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link14")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Corporate Accounts</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link15")}
+              </NavLink>
             </li>
             <li>
-              <a href="/">Legal Notices</a>
-            </li>
-            <li>
-              <a href="/">Accessibility</a>
+              <NavLink to="/" className="nav-link">
+                {t("footer.link16")}
+              </NavLink>
             </li>
           </ul>
         </div>
-        <div className="find-us">Find Us On:</div>
+        <div className="find-us">{t("footer.find")}</div>
         <div className="footer-icon-container">
           <img src={fb} alt="facebook icon" className="fb-logo" />
           <img src={google} alt="google icon" className="google-logo" />

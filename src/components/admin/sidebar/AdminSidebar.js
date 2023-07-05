@@ -12,8 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/slices/authSlice";
+import { useTranslation } from "react-i18next";
 
 const AdminSidebar = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,19 +40,14 @@ const AdminSidebar = () => {
 
           <CDBSidebarContent className="sidebar-content">
             <CDBSidebarMenu>
-              <NavLink to="/admin/dashboard">
-                <CDBSidebarMenuItem icon="chart-bar">
-                  Dashboard
-                </CDBSidebarMenuItem>
-              </NavLink>
               <NavLink to="/admin/manage-account">
                 <CDBSidebarMenuItem icon="users">
-                  Manage Account
+                  {t("adminSidebar.item1")}
                 </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
                 <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
-                  Logout
+                  {t("adminSidebar.item2")}
                 </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>

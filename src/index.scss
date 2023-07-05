@@ -206,11 +206,22 @@ code {
 
     }
 
-    .detail-title {
-      font-size  : 1.3em;
-      font-weight: 600;
-      margin     : 2% 0;
+    .title-btn {
+      display        : flex;
+      justify-content: space-between;
+      align-items    : center;
+
+      button {
+        height: 45px;
+      }
+
+      .detail-title {
+        font-size  : 1.3em;
+        font-weight: 600;
+        margin     : 2% 0;
+      }
     }
+
 
     .order-detail {
       .table {
@@ -267,12 +278,15 @@ code {
     }
   }
 
+}
+
+.auto-assign-modal {
   .auto-container {
     margin-top: 2%;
     padding   : 2%;
 
     .option {
-      width : 60%;
+      width : 80%;
       margin: 0 auto;
 
       .option-title {

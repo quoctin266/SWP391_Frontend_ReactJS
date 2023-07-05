@@ -11,6 +11,11 @@
         padding         : 2rem;
         margin-top      : 6%;
 
+        @media screen and (max-width: 990px) {
+            flex-direction: column;
+            margin        : 0;
+        }
+
         .ProfileOptions {
             width         : 20rem;
             display       : flex;
@@ -18,10 +23,21 @@
             align-items   : baseline;
             padding-left  : 2rem;
 
+            @media screen and (max-width: 990px) {
+                flex-direction: row;
+                align-items   : center;
+                padding-left  : 0;
+            }
+
             img {
                 width : 143px;
                 height: 141px;
                 margin: 0.5rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                display       : flex;
             }
 
             .form-label {
@@ -50,6 +66,10 @@
 
                 label {
                     width: 5rem;
+
+                    @media screen and (max-width: 990px) {
+                        width: 3rem;
+                    }
                 }
 
                 input {

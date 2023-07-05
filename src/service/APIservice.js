@@ -281,13 +281,15 @@ const postCreateFeedback = async (
   accountID,
   title,
   description,
-  createTime
+  createTime,
+  rate
 ) => {
   return await axios.post("api/v1/create-feedback", {
     accountID: accountID,
     title: title,
     description: description,
     createTime: createTime,
+    rate: rate,
   });
 };
 
@@ -449,6 +451,91 @@ const getAllTrip = async () => {
   return await axios.get(`api/v1/alltrip`);
 };
 
+const putUpdateTrip = async (tripID, driverInfo, depart, vehicleID) => {
+  return await axios.put("api/v1/update-trip", {
+    tripID: tripID,
+    driverInfo: driverInfo,
+    depart: depart,
+    vehicleID: vehicleID,
+  });
+};
+
+const deleteSender = async (customerID) => {
+  return await axios.delete(`api/v1/delete-sender/${customerID}`);
+};
+
+const putUpdateSender = async (customerID, name, address, phone) => {
+  return await axios.put("api/v1/update-sender", {
+    customerID: customerID,
+    name: name,
+    address: address,
+    phone: phone,
+  });
+};
+
+const postRecoverPW = async (email) => {
+  return await axios.post("api/v1/recover-pw", {
+    email: email,
+  });
+};
+
+const putChangePW = async (email, newPassword) => {
+  return await axios.put("api/v1/change-pw", {
+    email: email,
+    newPassword: newPassword,
+  });
+};
+
+const getRevenue = async (year) => {
+  return await axios.get(`api/v1/revenue/${year}`);
+};
+
+const postCreateQA = async (question, answer) => {
+  return await axios.post("api/v1/create-qa", {
+    question: question,
+    answer: answer,
+  });
+};
+
+const putUpdateQA = async (question, answer, id) => {
+  return await axios.put("api/v1/update-qa", {
+    question: question,
+    answer: answer,
+    id: id,
+  });
+};
+
+const deleteQA = async (id) => {
+  return await axios.delete(`api/v1/delete-qa/${id}`);
+};
+
+const postCreateArticle = async (title, source, date, link) => {
+  return await axios.post("api/v1/create-article", {
+    title: title,
+    source: source,
+    date: date,
+    link: link,
+  });
+};
+
+const putUpdateArticle = async (title, source, date, link, id) => {
+  return await axios.put("api/v1/update-article", {
+    title: title,
+    source: source,
+    date: date,
+    link: link,
+    id: id,
+  });
+};
+
+const deleteArticle = async (id) => {
+  return await axios.delete(`api/v1/delete-article/${id}`);
+};
+
+const deleteFeedback = async (id) => {
+  return await axios.delete(`api/v1/delete-feedback/${id}`);
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -523,4 +610,17 @@ export {
   deleteRoute,
   deleteTrip,
   getAllTrip,
+  putUpdateTrip,
+  deleteSender,
+  putUpdateSender,
+  postRecoverPW,
+  putChangePW,
+  getRevenue,
+  postCreateQA,
+  putUpdateQA,
+  deleteQA,
+  postCreateArticle,
+  putUpdateArticle,
+  deleteArticle,
+  deleteFeedback,
 };

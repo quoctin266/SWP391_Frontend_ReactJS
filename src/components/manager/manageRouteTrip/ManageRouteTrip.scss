@@ -4,9 +4,15 @@
     padding-bottom: 5%;
 
     .title {
-        font-size    : 2em;
-        font-weight  : 600;
-        margin-bottom: 3%;
+        font-size       : 2vw;
+        font-weight     : 600;
+        margin-bottom   : 3%;
+        background-color: #26a178;
+        border-radius   : 50px;
+        padding         : 1.5rem;
+        color           : white;
+        width           : 45%;
+        text-align      : center;
     }
 
     .route-trip-body {
@@ -31,7 +37,6 @@
 
                 .edit-route {
                     margin-top      : 5%;
-                    width           : 90%;
                     background-color: aliceblue;
                     border-radius   : 15px;
                     padding         : 2%;
@@ -73,7 +78,7 @@
             }
 
             .route-list {
-                width        : 50%;
+                width        : 80%;
                 min-width    : 300px;
                 margin-bottom: 4%;
 
@@ -100,8 +105,14 @@
             }
 
             .trip-list {
-                width    : 70%;
+                width    : 90%;
                 min-width: 300px;
+
+                .table {
+                    button {
+                        font-size: 0.85vw;
+                    }
+                }
             }
 
         }
@@ -141,7 +152,9 @@
                 }
 
                 .station-list {
-                    width: 70%;
+                    button {
+                        font-size: 0.85vw;
+                    }
                 }
             }
         }
