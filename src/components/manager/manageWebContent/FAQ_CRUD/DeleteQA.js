@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { deleteQA } from "../../../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const DeleteQA = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [QA, setQA] = useState("");
 
@@ -28,7 +30,7 @@ const DeleteQA = (props) => {
   return (
     <>
       <Button variant="danger" onClick={() => handleShow(props.item)}>
-        Delete
+        {t("manageFAQ.deleteBtn")}
       </Button>
 
       <Modal
@@ -38,18 +40,18 @@ const DeleteQA = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("manageFAQ.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to delete this question? <br />
-          Title: <b>{QA.question}</b>
+          {t("manageFAQ.deleteNote")} <br />
+          {t("manageFAQ.info")} <b>{QA.question}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("manageFAQ.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeleteQA}>
-            Confirm
+            {t("manageFAQ.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

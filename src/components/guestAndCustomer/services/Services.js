@@ -3,8 +3,10 @@ import "./Services.scss";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { getAllService } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Services = () => {
+  const { t } = useTranslation();
   const [serviceList, setServiceList] = useState([]);
   const [policyList, setPolicyList] = useState([]);
 
@@ -24,14 +26,11 @@ const Services = () => {
     <Container className="service-outer">
       <div className="services-container">
         <div className="Header">
-          <h2 className="title">
-            Connecting People, Places, and Possibilities: Your Trusted
-            Transportation Partner
-          </h2>
+          <h2 className="title">{t("relocation.header")}</h2>
         </div>
         <div className="Mid">
           <div className="Content1">
-            <h3 className="contenttitle1">Our Services</h3>
+            <h3 className="contenttitle1">{t("relocation.title1")}</h3>
             {serviceList &&
               serviceList.length > 0 &&
               serviceList.map((item) => {
@@ -43,7 +42,7 @@ const Services = () => {
               })}
           </div>
           <div className="Content2">
-            <h3 className="contenttitle2">Our Policy</h3>
+            <h3 className="contenttitle2">{t("relocation.title2")}</h3>
             {policyList &&
               policyList.length > 0 &&
               policyList.map((item) => {

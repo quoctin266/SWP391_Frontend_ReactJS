@@ -11,8 +11,12 @@ import { validateEmail } from "../../../utils/reuseFunction";
 import { toast } from "react-toastify";
 import { BiHide } from "react-icons/bi";
 import { BiShow } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
+import Language from "../header/Language";
 
 const Register = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -73,37 +77,37 @@ const Register = () => {
 
     if (!username) {
       setInvalidUsername(true);
-      toast.error("Username must not be empty.");
+      toast.error(`${t("register.toast1")}`);
       return;
     }
 
     if (!email) {
       setInvalidEmail(true);
-      toast.error("Email must not be empty.");
+      toast.error(`${t("register.toast2")}`);
       return;
     }
 
     if (!validateEmail(email)) {
       setInvalidEmail(true);
-      toast.error("Invalid email format.");
+      toast.error(`${t("register.toast3")}`);
       return;
     }
 
     if (!password) {
       setInvalidPassword(true);
-      toast.error("Password must not be empty");
+      toast.error(`${t("register.toast4")}`);
       return;
     }
 
     if (!confirmPW) {
       setInvalidConfirmPW(true);
-      toast.error("Must confirm password.");
+      toast.error(`${t("register.toast5")}`);
       return;
     }
 
     if (confirmPW !== password) {
       setInvalidConfirmPW(true);
-      toast.error("Confirm password and password must be the same.");
+      toast.error(`${t("register.toast6")}`);
       return;
     }
 
@@ -130,26 +134,27 @@ const Register = () => {
         autoHideDuration={200}
       >
         <div className="background-container">
+          <Language className="language" />
           <div className="register-container">
             <div className="register-prompt">
-              <div className="title">Already have an account?</div>
+              <div className="title">{t("register.title")}</div>
               <Button
                 variant="primary"
                 className="signup-btn"
                 onClick={() => navigate("/login")}
               >
-                Login now
+                {t("register.loginBtn")}
               </Button>
             </div>
             <div className="register-form">
-              <div className="page-brand">Bird Travel</div>
-              <div className="title">Create account for free</div>
+              <div className="page-brand">{t("register.header")}</div>
+              <div className="title">{t("register.signup")}</div>
               <Form onSubmit={(e) => handleRegister(e)}>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
-                  <Form.Label>Username</Form.Label>
+                  <Form.Label>{t("register.label1")}</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter username"
+                    placeholder={t("register.note1")}
                     onChange={(e) => handleOnchangeUsername(e)}
                     value={username}
                     isInvalid={invalidUsername}
@@ -157,10 +162,10 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Email address</Form.Label>
+                  <Form.Label>{t("register.label2")}</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="Enter email"
+                    placeholder={t("register.note2")}
                     onChange={(e) => handleOnchangeEmail(e)}
                     value={email}
                     isInvalid={invalidEmail}
@@ -168,11 +173,11 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label>{t("register.label3")}</Form.Label>
                   <div className="password-container">
                     <Form.Control
                       type={passwordType}
-                      placeholder="Enter password"
+                      placeholder={t("register.note3")}
                       onChange={(e) => handleOnchangePassword(e)}
                       value={password}
                       isInvalid={invalidPassword}
@@ -194,11 +199,11 @@ const Register = () => {
                   className="mb-3"
                   controlId="formBasicConfirmPassword"
                 >
-                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Label>{t("register.label4")}</Form.Label>
                   <div className="password-container">
                     <Form.Control
                       type={confirmPasswordType}
-                      placeholder="Confirm password"
+                      placeholder={t("register.note4")}
                       onChange={(e) => handleOnchangeConfirmPW(e)}
                       value={confirmPW}
                       isInvalid={invalidConfirmPW}
@@ -220,12 +225,12 @@ const Register = () => {
 
                 <div className="register-btn">
                   <Button variant="primary" type="submit">
-                    Sign up
+                    {t("register.signupBtn")}
                   </Button>
                 </div>
                 <div className="back-btn">
                   <span onClick={() => navigate("/")}>
-                    &lt;&lt;&lt; Back to Homepage
+                    {t("register.backBtn")}
                   </span>
                 </div>
               </Form>
@@ -237,4 +242,10 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <Register />
+    </Suspense>
+  );
+}

@@ -20,12 +20,16 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { isEnglish } from "../../../utils/i18n";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [dataOverview, setDataOverview] = useState("");
   const [dataChart1, setDataChart1] = useState([]);
   const [dataChart2, setDataChart2] = useState([]);
   const [year, setYear] = useState("");
+  const [showYear, setShowYear] = useState("");
   const [invalidYear, setInvalidYear] = useState(false);
   const [revenueData, setRevenueData] = useState([]);
   const [showRevenue, setShowRevenue] = useState(false);
@@ -40,7 +44,7 @@ const Dashboard = () => {
 
     if (!year) {
       setInvalidYear(true);
-      toast.error("Please specify the year.");
+      toast.error(`${t("dashboard.toast")}`);
       return;
     }
 
@@ -48,10 +52,12 @@ const Dashboard = () => {
     if (data && data.EC === 0) {
       setRevenueData(data.DT);
       setYear("");
+      setShowYear(year);
       setShowRevenue(true);
     } else {
       setShowRevenue(false);
       setRevenueData([]);
+      setShowYear("");
     }
   };
 
@@ -80,7 +86,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="title">Dashboard</div>
+      <div className="title">{t("dashboard.header")}</div>
       <div className="dashboard-body">
         <div className="row g-3 my-2">
           <div className="col-md-6 p-1">
@@ -88,7 +94,7 @@ const Dashboard = () => {
               <i className="bi bi-people p-3 fs-1"></i>
               <div>
                 <h3 className="fs-2">{dataOverview?.customer}</h3>
-                <p className="fs-5">Customer</p>
+                <p className="fs-5">{t("dashboard.title1")}</p>
               </div>
             </div>
           </div>
@@ -97,7 +103,7 @@ const Dashboard = () => {
               <i className="bi bi-basket2 p-3 fs-1"></i>
               <div>
                 <h3 className="fs-2">{dataOverview?.orders}</h3>
-                <p className="fs-5">Total Orders</p>
+                <p className="fs-5">{t("dashboard.title2")}</p>
               </div>
             </div>
           </div>
@@ -106,7 +112,7 @@ const Dashboard = () => {
               <i className="bi bi-database-check p-3 fs-1"></i>
               <div>
                 <h3 className="fs-2">{dataOverview?.completed}</h3>
-                <p className="fs-5">Delivered Orders</p>
+                <p className="fs-5">{t("dashboard.title3")}</p>
               </div>
             </div>
           </div>
@@ -115,7 +121,7 @@ const Dashboard = () => {
               <i className="bi bi-cart-x p-3 fs-1"></i>
               <div>
                 <h3 className="fs-2">{dataOverview?.canceled}</h3>
-                <p className="fs-5">Canceled Orders</p>
+                <p className="fs-5">{t("dashboard.title4")}</p>
               </div>
             </div>
           </div>
@@ -126,16 +132,16 @@ const Dashboard = () => {
             <div className="card mb-4">
               <div className="card-header">
                 <i className="bi bi-currency-dollar fs-5 me-3"></i>
-                <span>Revenue</span>
+                <span>{t("dashboard.title5")}</span>
               </div>
               <div className="card-body">
                 <Form onSubmit={handleSearchYear}>
                   <Row className="mb-3" style={{ alignItems: "flex-end" }}>
                     <Col>
-                      <Form.Label>Enter a year</Form.Label>
+                      <Form.Label>{t("dashboard.label")}</Form.Label>
                       <Form.Control
                         type="number"
-                        placeholder="Enter year"
+                        placeholder={t("dashboard.note")}
                         min={2023}
                         max={2043}
                         isInvalid={invalidYear}
@@ -146,12 +152,19 @@ const Dashboard = () => {
 
                     <Col>
                       <Button variant="dark" type="submit">
-                        Enter
+                        {t("dashboard.enterBtn")}
                       </Button>
                     </Col>
                     <Col></Col>
                   </Row>
                 </Form>
+                {showYear && (
+                  <div className="revenue-title">
+                    {isEnglish()
+                      ? `Overall revenue in ${showYear}`
+                      : `Tổng quan thu nhập năm ${showYear}`}
+                  </div>
+                )}
                 {showRevenue && (
                   <div className="chart-revenue">
                     <ResponsiveContainer width="100%" height="100%">
@@ -184,7 +197,7 @@ const Dashboard = () => {
 
         <div className="chart-outer">
           <div className="chart-container">
-            <div className="chart-title">Top 10 depart locations</div>
+            <div className="chart-title">{t("dashboard.title6")}</div>
             <ResponsiveContainer height="100%" className="barchart-container">
               <BarChart
                 height={300}
@@ -210,7 +223,7 @@ const Dashboard = () => {
           </div>
 
           <div className="chart-container">
-            <div className="chart-title">Top 10 arrive locations</div>
+            <div className="chart-title">{t("dashboard.title7")}</div>
             <ResponsiveContainer height="100%" className="barchart-container">
               <BarChart
                 width={500}

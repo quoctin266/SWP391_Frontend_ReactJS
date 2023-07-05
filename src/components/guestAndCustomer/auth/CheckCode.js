@@ -8,8 +8,11 @@ import {
   recoverPassword,
 } from "../../../redux/slices/authSlice";
 import { postRecoverPW } from "../../../service/APIservice";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
 
 const CheckCode = () => {
+  const { t } = useTranslation();
   const [code, setCode] = useState("");
 
   const navigate = useNavigate();
@@ -21,19 +24,19 @@ const CheckCode = () => {
     e.preventDefault();
 
     if (!recoverEmail) {
-      toast.error("Please provide an email first.");
+      toast.error(`${t("checkcode.toast1")}`);
       return;
     }
 
     if (code && +code === resetCode) {
       dispatch(resetPassCode());
       navigate("/change-password");
-    } else toast.error("Invalid code.");
+    } else toast.error(`${t("checkcode.toast2")}`);
   };
 
   const handleResendCode = async () => {
     if (!recoverEmail) {
-      toast.error("Please provide an email first.");
+      toast.error(`${t("checkcode.toast1")}`);
       return;
     }
 
@@ -48,37 +51,37 @@ const CheckCode = () => {
     <div className="check-code-container">
       <div className="ResetPasswordBox">
         <form className="ResetPasswordForm" onSubmit={handleSubmitCode}>
-          <h1>Recover Password</h1>
+          <h1>{t("checkcode.title")}</h1>
           <div className="Input">
-            <label htmlFor="passcode">Enter Code</label>
+            <label htmlFor="passcode">{t("checkcode.label")}</label>
             <div className="password-container">
               <input
                 type="number"
                 id="passcode"
                 min={0}
-                placeholder="Enter code for password recovery"
+                placeholder={t("checkcode.note1")}
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
               />
             </div>
           </div>
           <div className="note">
-            <i>Note that each code can only be used once</i>
+            <i>{t("checkcode.note2")}</i>
             <br />
             <span onClick={handleResendCode}>
-              <b>Click here</b>
+              <b>{t("checkcode.click")}</b>
             </span>{" "}
-            to generate a new code
+            {t("checkcode.new")}
           </div>
           <div className="btn-group">
             <button
               className="back-btn"
               onClick={() => navigate("/forget-password")}
             >
-              Back
+              {t("checkcode.backBtn")}
             </button>
             <button className="Confirm" type="submit">
-              Confirm
+              {t("checkcode.confirmBtn")}
             </button>
           </div>
         </form>
@@ -87,4 +90,10 @@ const CheckCode = () => {
   );
 };
 
-export default CheckCode;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <CheckCode />
+    </Suspense>
+  );
+}

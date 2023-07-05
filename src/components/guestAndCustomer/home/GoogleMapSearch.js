@@ -17,10 +17,12 @@ import {
 } from "../../../service/APIservice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const libraries = ["places"];
 
 const GoogleMapSearch = () => {
+  const { t } = useTranslation();
   // set up google map
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
@@ -83,13 +85,13 @@ const GoogleMapSearch = () => {
 
     if (!birdCount) {
       setInvalidBirdCount(true);
-      toast.error("Must specify number of bird.");
+      toast.error(`${t("google.toast1")}`);
       return;
     }
 
     if (!cage) {
       setInvalidCage(true);
-      toast.error("Must select bird cage.");
+      toast.error(`${t("google.toast2")}`);
       return;
     }
 
@@ -140,12 +142,12 @@ const GoogleMapSearch = () => {
 
   return (
     <div className="search-location-container">
-      <div className="title">Get Your Quote</div>
+      <div className="title">{t("google.title")}</div>
       <div className="search-bar">
         <Form>
           <Row className="search-row mb-3">
             <Col>
-              <Form.Label>Start Point</Form.Label>
+              <Form.Label>{t("google.start")}</Form.Label>
               <Form.Select
                 aria-label="origin select"
                 ref={originRef}
@@ -162,9 +164,9 @@ const GoogleMapSearch = () => {
                   })}
               </Form.Select>
 
-              <Form.Label>Bird Quantity</Form.Label>
+              <Form.Label>{t("google.quantity")}</Form.Label>
               <Form.Control
-                placeholder="Enter number of birds"
+                placeholder={t("google.note1")}
                 type="number"
                 min="1"
                 value={birdCount}
@@ -174,7 +176,7 @@ const GoogleMapSearch = () => {
             </Col>
 
             <Col>
-              <Form.Label>End Point</Form.Label>
+              <Form.Label>{t("google.end")}</Form.Label>
               <Form.Select
                 aria-label="origin select"
                 ref={destinationRef}
@@ -191,7 +193,7 @@ const GoogleMapSearch = () => {
                   })}
               </Form.Select>
 
-              <Form.Label>Bird Cage</Form.Label>
+              <Form.Label>{t("google.cage")}</Form.Label>
               <Form.Select
                 defaultValue=""
                 aria-label="cage select"
@@ -199,7 +201,7 @@ const GoogleMapSearch = () => {
                 isInvalid={invalidCage}
               >
                 <option value="" disabled hidden>
-                  Choose cage
+                  {t("google.note2")}
                 </option>
                 {cageList &&
                   cageList.length > 0 &&
@@ -221,7 +223,7 @@ const GoogleMapSearch = () => {
                 className="col-1 search-btn"
                 onClick={(event) => calculateRoute(event)}
               >
-                Estimate
+                {t("google.estimateBtn")}
               </Button>
             </Col>
           </Row>
@@ -250,12 +252,12 @@ const GoogleMapSearch = () => {
             <Form>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Distance</Form.Label>
+                  <Form.Label>{t("google.distance")}</Form.Label>
                   <Form.Control type="text" value={distance} readOnly />
                 </Col>
 
                 <Col>
-                  <Form.Label>Duration</Form.Label>
+                  <Form.Label>{t("google.duration")}</Form.Label>
                   <Form.Control type="text" value={duration} readOnly />
                 </Col>
               </Row>
@@ -263,7 +265,7 @@ const GoogleMapSearch = () => {
               <Row className="mb-3">
                 <Col>
                   <Form.Label style={{ marginBottom: "3%" }}>
-                    Your estimate cost:
+                    {t("google.result")}
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -274,13 +276,12 @@ const GoogleMapSearch = () => {
                     )} VND`}
                   />
                   <div className="note-estimate">
-                    Note that this is just the base minimum cost. To get more
-                    pricing detail,{" "}
+                    {t("google.notePrice")}{" "}
                     <span
                       onClick={() => navigate("/price")}
                       style={{ cursor: "pointer" }}
                     >
-                      <b>click here</b>
+                      <b>{t("google.click")}</b>
                     </span>
                   </div>
                 </Col>
@@ -291,7 +292,7 @@ const GoogleMapSearch = () => {
                 type="button"
                 onClick={() => map.panTo(center)}
               >
-                Focus
+                {t("google.focus")}
               </Button>
               <Button
                 className="mx-2"
@@ -299,7 +300,7 @@ const GoogleMapSearch = () => {
                 type="button"
                 onClick={clearRoute}
               >
-                Clear
+                {t("google.clear")}
               </Button>
             </Form>
           </div>

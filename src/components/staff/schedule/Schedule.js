@@ -33,8 +33,11 @@ import { toTime } from "../../../utils/reuseFunction";
 import { MdAddCircle } from "react-icons/md";
 import { MdRemoveCircle } from "react-icons/md";
 import { GrView } from "react-icons/gr";
+import { useTranslation } from "react-i18next";
+import { isEnglish } from "../../../utils/i18n";
 
 const Schedule = () => {
+  const { t } = useTranslation();
   const [routeList, setRouteList] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState({
     value: 0,
@@ -131,13 +134,13 @@ const Schedule = () => {
     e.preventDefault();
     if (!newProgressDate) {
       setInvalidNewProgressDate(true);
-      toast.error("Must choose a date.");
+      toast.error(`${t("schedule.toast1")}`);
       return;
     }
 
     let newProgressDes = `${temp1}${temp2}.${temp3}${temp4}`;
     if (!newProgressDes) {
-      toast.error("Description must not be empty.");
+      toast.error(`${t("schedule.toast2")}`);
       return;
     }
 
@@ -487,10 +490,16 @@ const Schedule = () => {
           vehicleCapacity + order.total_capacity - station.totalUnit;
         if (remainUnit !== 0) {
           toast.error(
-            `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
+            isEnglish()
+              ? `Only ${remainUnit} more capacity unit can be assigned at ${station.name} station.`
+              : `Trạm ${station.name} chỉ còn trống ${remainUnit} đơn vị vận chuyển.`
           );
         } else {
-          toast.error(`${station.name} station has reached maximum capacity.`);
+          toast.error(
+            isEnglish()
+              ? `${station.name} station has reached maximum capacity.`
+              : `Trạm ${station.name} đã đạt tối đa đơn vị vận chuyển.`
+          );
         }
         return false;
       }
@@ -667,25 +676,25 @@ const Schedule = () => {
 
   return (
     <div className="schedule-container">
-      <div className="title">Schedule Transportation</div>
+      <div className="title">{t("schedule.header")}</div>
       <div className="schedule-body">
         <div className="route-and-trip">
-          <div className="route-title">Available Routes</div>
+          <div className="route-title">{t("schedule.title1")}</div>
           <div className="route-list">
             <Select
               defaultValue={selectedRoute}
               onChange={handleChangeRoute}
               options={routeList}
             />
-            <div className="detail-title">Route detail</div>
+            <div className="detail-title">{t("schedule.title2")}</div>
             <div className="route-detail">
               <Table striped hover bordered>
                 <thead>
                   <tr>
-                    <th>Index</th>
-                    <th>Station</th>
-                    <th>Driving time from departure</th>
-                    <th>Distance from departure</th>
+                    <th>{t("schedule.field1")}</th>
+                    <th>{t("schedule.field2")}</th>
+                    <th>{t("schedule.field3")}</th>
+                    <th>{t("schedule.field4")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -711,18 +720,18 @@ const Schedule = () => {
             </div>
           </div>
 
-          <div className="trip-title">Current Trips</div>
+          <div className="trip-title">{t("schedule.title3")}</div>
           <div className="trip-list">
             <Table striped hover bordered responsive="sm">
               <thead>
                 <tr>
-                  <th>Trip ID</th>
-                  <th>Departure Date</th>
-                  <th>Status</th>
-                  <th>Driver</th>
-                  <th>Vehicle</th>
-                  <th>Capacity</th>
-                  <th>Actions</th>
+                  <th>{t("schedule.field5")}</th>
+                  <th>{t("schedule.field6")}</th>
+                  <th>{t("schedule.field7")}</th>
+                  <th>{t("schedule.field8")}</th>
+                  <th>{t("schedule.field9")}</th>
+                  <th>{t("schedule.field10")}</th>
+                  <th>{t("schedule.field11")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -754,14 +763,14 @@ const Schedule = () => {
                             variant="warning"
                             onClick={() => handleShowDetailTrip(trip)}
                           >
-                            Manage
+                            {t("schedule.manageBtn")}
                           </Button>
                           <Button
                             className="mx-2"
                             variant="warning"
                             onClick={() => handleViewProgress(trip)}
                           >
-                            Track
+                            {t("schedule.trackBtn")}
                           </Button>
                         </td>
                       </tr>
@@ -783,17 +792,17 @@ const Schedule = () => {
               size="lg"
             >
               <Modal.Header closeButton>
-                <Modal.Title>Drivers Info</Modal.Title>
+                <Modal.Title>{t("schedule.driver")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Table striped hover bordered>
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Name</th>
-                      <th>Age</th>
-                      <th>Phone</th>
-                      <th>Main Driver</th>
+                      <th>{t("schedule.field12")}</th>
+                      <th>{t("schedule.field13")}</th>
+                      <th>{t("schedule.field14")}</th>
+                      <th>{t("schedule.field15")}</th>
+                      <th>{t("schedule.field16")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -819,7 +828,7 @@ const Schedule = () => {
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseDrivers}>
-                  Close
+                  {t("schedule.closeBtn")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -832,7 +841,7 @@ const Schedule = () => {
               size="lg"
             >
               <Modal.Header closeButton>
-                <Modal.Title>Progress Tracking</Modal.Title>
+                <Modal.Title>{t("schedule.trackTitle")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Scrollbars
@@ -846,9 +855,9 @@ const Schedule = () => {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th>{t("schedule.field17")}</th>
+                        <th>{t("schedule.field18")}</th>
+                        <th>{t("schedule.field19")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -864,14 +873,14 @@ const Schedule = () => {
                                   variant="warning"
                                   onClick={() => handleClickEdit(item)}
                                 >
-                                  Edit
+                                  {t("schedule.editBtn")}
                                 </Button>
                                 <Button
                                   variant="danger"
                                   className="mx-2"
                                   onClick={() => handleClickDelete(item)}
                                 >
-                                  Delete
+                                  {t("schedule.deleteBtn")}
                                 </Button>
                               </td>
                             </tr>
@@ -887,12 +896,12 @@ const Schedule = () => {
 
                   <div className="add-new-progress">
                     <div className="add-progress-title">
-                      Create Progress Info
+                      {t("schedule.addTitle")}
                     </div>
                     <Form onSubmit={(e) => handleCreateNewProgress(e)}>
                       <Row className="mb-3">
                         <Form.Group as={Col} controlId="newProgressDate">
-                          <Form.Label>Date</Form.Label>
+                          <Form.Label>{t("schedule.label1")}</Form.Label>
                           <Form.Control
                             type="datetime-local"
                             min={trip.departure_date}
@@ -906,7 +915,7 @@ const Schedule = () => {
                       </Row>
 
                       <Row className="mb-3">
-                        <Form.Label>Progress Description</Form.Label>
+                        <Form.Label>{t("schedule.label2")}</Form.Label>
                         <Col>
                           <Form.Select
                             defaultValue=""
@@ -914,7 +923,7 @@ const Schedule = () => {
                             onChange={(e) => setTemp1(e.target.value)}
                           >
                             <option value="" disabled hidden>
-                              Select template...
+                              {t("schedule.note1")}
                             </option>
                             <option value="">None</option>
                             <option value="Begin delivery">
@@ -934,7 +943,7 @@ const Schedule = () => {
                             onChange={(e) => setTemp2(e.target.value)}
                           >
                             <option value="" disabled hidden>
-                              Select station...
+                              {t("schedule.note2")}
                             </option>
                             <option value="">None</option>
                             {routeDetail &&
@@ -961,7 +970,7 @@ const Schedule = () => {
                             onChange={(e) => setTemp3(e.target.value)}
                           >
                             <option value="" disabled hidden>
-                              Select template...
+                              {t("schedule.note1")}
                             </option>
                             <option value="">None</option>
                             <option value=" Moving to ">Moving to</option>
@@ -978,7 +987,7 @@ const Schedule = () => {
                             onChange={(e) => setTemp4(e.target.value)}
                           >
                             <option value="" disabled hidden>
-                              Select station...
+                              {t("schedule.note2")}
                             </option>
                             <option value="">None</option>
                             {routeDetail &&
@@ -998,7 +1007,7 @@ const Schedule = () => {
                       </Row>
 
                       <Button variant="primary" type="submit">
-                        Confirm
+                        {t("schedule.confirmBtn")}
                       </Button>
                     </Form>
                   </div>
@@ -1006,7 +1015,7 @@ const Schedule = () => {
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseProgress}>
-                  Close
+                  {t("schedule.closeBtn")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1019,13 +1028,13 @@ const Schedule = () => {
               size="lg"
             >
               <Modal.Header closeButton>
-                <Modal.Title>Edit Progress</Modal.Title>
+                <Modal.Title>{t("schedule.editTitle")}</Modal.Title>
               </Modal.Header>
               <Form onSubmit={(e) => handleEditProgress(e)}>
                 <Modal.Body>
                   <Row className="mb-3">
                     <Form.Group as={Col} controlId="EditProgressDate">
-                      <Form.Label>Date</Form.Label>
+                      <Form.Label>{t("schedule.label3")}</Form.Label>
                       <Form.Control
                         type="datetime-local"
                         min={trip.departure_date}
@@ -1036,10 +1045,10 @@ const Schedule = () => {
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="editProgressDes">
-                      <Form.Label>Description</Form.Label>
+                      <Form.Label>{t("schedule.label4")}</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter description"
+                        placeholder={t("schedule.note3")}
                         value={editProgressDes}
                         isInvalid={invalidEditProgressDes}
                         onChange={(e) => handleChangeEditProgressDes(e)}
@@ -1049,10 +1058,10 @@ const Schedule = () => {
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="secondary" onClick={handleCloseEdit}>
-                    Close
+                    {t("schedule.closeBtn")}
                   </Button>
                   <Button variant="primary" type="submit">
-                    Confirm
+                    {t("schedule.confirmBtn")}
                   </Button>
                 </Modal.Footer>
               </Form>
@@ -1065,22 +1074,20 @@ const Schedule = () => {
               keyboard={false}
             >
               <Modal.Header closeButton>
-                <Modal.Title>Confirm Delete</Modal.Title>
+                <Modal.Title>{t("schedule.deleteTitle")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div className="delete-title">
-                  Are you sure to delete this progress info?
-                </div>
+                <div className="delete-title">{t("schedule.deleteNote")}</div>
                 <div className="timestamp">
-                  Timestamp: <b>{deleteProgress.date}</b>
+                  {t("schedule.info")} <b>{deleteProgress.date}</b>
                 </div>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseDelete}>
-                  Close
+                  {t("schedule.closeBtn")}
                 </Button>
                 <Button variant="primary" onClick={handleDeleteProgress}>
-                  Confirm
+                  {t("schedule.confirmBtn")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1093,7 +1100,7 @@ const Schedule = () => {
               dialogClassName="my-modal"
             >
               <Modal.Header closeButton>
-                <Modal.Title>Trip Detail</Modal.Title>
+                <Modal.Title>{t("schedule.manageTitle")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Tabs
@@ -1102,21 +1109,23 @@ const Schedule = () => {
                   className="mb-3"
                   justify
                 >
-                  <Tab eventKey="assignOrder" title="Assign Orders">
+                  <Tab eventKey="assignOrder" title={t("schedule.tab1")}>
                     <div className="assign-container">
                       <Row>
                         <Col lg={9}>
-                          <div className="trip-detail-title">Trip Detail</div>
+                          <div className="trip-detail-title">
+                            {t("schedule.title4")}
+                          </div>
                           <div>
                             <Table striped hover bordered responsive="md">
                               <thead>
                                 <tr>
-                                  <th>Index</th>
-                                  <th>Station</th>
-                                  <th>Estimate Arrival</th>
-                                  <th>Max Capacity</th>
-                                  <th>Current Capacity</th>
-                                  <th>Remaining Capacity</th>
+                                  <th>{t("schedule.field20")}</th>
+                                  <th>{t("schedule.field21")}</th>
+                                  <th>{t("schedule.field22")}</th>
+                                  <th>{t("schedule.field23")}</th>
+                                  <th>{t("schedule.field24")}</th>
+                                  <th>{t("schedule.field25")}</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -1163,16 +1172,18 @@ const Schedule = () => {
                       </Row>
 
                       <div className="added-container">
-                        <div className="added-list-title">Trip Orders</div>
+                        <div className="added-list-title">
+                          {t("schedule.title5")}
+                        </div>
                         <div className="added-list">
                           <Table striped hover bordered responsive="md">
                             <thead>
                               <tr>
-                                <th>Order ID</th>
-                                <th>Departure</th>
-                                <th>Destination</th>
-                                <th>Capacity Unit</th>
-                                <th>Total Cost</th>
+                                <th>{t("schedule.field26")}</th>
+                                <th>{t("schedule.field27")}</th>
+                                <th>{t("schedule.field28")}</th>
+                                <th>{t("schedule.field29")}</th>
+                                <th>{t("schedule.field30")}</th>
                                 <th></th>
                               </tr>
                             </thead>
@@ -1218,23 +1229,25 @@ const Schedule = () => {
                       <Row>
                         <Col>
                           <div className="title-btn">
-                            <div className="detail-title">Available Orders</div>
+                            <div className="detail-title">
+                              {t("schedule.title6")}
+                            </div>
                             <Button
                               variant="warning"
                               onClick={handleShowOption}
                             >
-                              Auto Assign
+                              {t("schedule.autoBtn")}
                             </Button>
                           </div>
                           <div className="order-detail">
                             <Table striped hover bordered responsive="md">
                               <thead>
                                 <tr>
-                                  <th>Order ID</th>
-                                  <th>Departure</th>
-                                  <th>Destination</th>
-                                  <th>Capacity Unit</th>
-                                  <th>Total Cost</th>
+                                  <th>{t("schedule.field26")}</th>
+                                  <th>{t("schedule.field27")}</th>
+                                  <th>{t("schedule.field28")}</th>
+                                  <th>{t("schedule.field29")}</th>
+                                  <th>{t("schedule.field30")}</th>
                                   <th></th>
                                 </tr>
                               </thead>
@@ -1279,16 +1292,16 @@ const Schedule = () => {
                     </div>
                   </Tab>
 
-                  <Tab eventKey="orderList" title="Order List">
+                  <Tab eventKey="orderList" title={t("schedule.tab2")}>
                     <div className="trip-orders">
                       <Table striped hover>
                         <thead>
                           <tr>
-                            <th>Order ID</th>
-                            <th>Departure</th>
-                            <th>Destination</th>
-                            <th>Bird Quantity</th>
-                            <th>Capacity Unit</th>
+                            <th>{t("schedule.field26")}</th>
+                            <th>{t("schedule.field27")}</th>
+                            <th>{t("schedule.field28")}</th>
+                            <th>{t("schedule.field31")}</th>
+                            <th>{t("schedule.field29")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1315,20 +1328,17 @@ const Schedule = () => {
                     </div>
                   </Tab>
 
-                  <Tab eventKey="statusUpdate" title="Update Status">
+                  <Tab eventKey="statusUpdate" title={t("schedule.tab3")}>
                     <div className="updt-status">
                       <Form onSubmit={(e) => handleUpdateStatus(e)}>
                         <Row className="mb-5">
                           <Form.Group as={Col} controlId="selectStatus">
-                            <Form.Label>Trip Status</Form.Label>
+                            <Form.Label>{t("schedule.label5")}</Form.Label>
                             <Form.Select
                               defaultValue={statusUpdate}
                               aria-label="Default select example"
                               onChange={(e) => setStatusUpdate(e.target.value)}
                             >
-                              <option value="" disabled hidden>
-                                Select status
-                              </option>
                               <option value="Standby">Standby</option>
                               <option value="Departed">Departed</option>
                               <option value="Completed">Completed</option>
@@ -1337,7 +1347,7 @@ const Schedule = () => {
 
                           <Col>
                             <Button variant="primary" type="submit">
-                              Confirm
+                              {t("schedule.confirmBtn")}
                             </Button>
                           </Col>
                         </Row>
@@ -1348,7 +1358,7 @@ const Schedule = () => {
               </Modal.Body>
               <Modal.Footer style={{ justifyContent: "flex-start" }}>
                 <Button variant="secondary" onClick={handleCloseDetailTrip}>
-                  Close
+                  {t("schedule.closeBtn")}
                 </Button>
               </Modal.Footer>
             </Modal>
@@ -1362,21 +1372,21 @@ const Schedule = () => {
               size="lg"
             >
               <Modal.Header closeButton>
-                <Modal.Title>Assign Options</Modal.Title>
+                <Modal.Title>{t("schedule.title7")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div className="auto-container">
                   <div className="option">
-                    <div className="option-title">Option 1</div>
+                    <div className="option-title">{t("schedule.opt1")}</div>
                     <div className="option-body">
                       <Table striped hover bordered responsive="md">
                         <thead>
                           <tr>
-                            <th>Order ID</th>
-                            <th>Departure</th>
-                            <th>Destination</th>
-                            <th>Capacity Unit</th>
-                            <th>Total Cost</th>
+                            <th>{t("schedule.field26")}</th>
+                            <th>{t("schedule.field27")}</th>
+                            <th>{t("schedule.field28")}</th>
+                            <th>{t("schedule.field29")}</th>
+                            <th>{t("schedule.field30")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1420,23 +1430,23 @@ const Schedule = () => {
                           variant="warning"
                           onClick={() => handleApplyOption(option1)}
                         >
-                          Apply
+                          {t("schedule.applyBtn")}
                         </Button>
                       </div>
                     </div>
                   </div>
 
                   <div className="option">
-                    <div className="option-title">Option 2</div>
+                    <div className="option-title">{t("schedule.opt2")}</div>
                     <div className="option-body">
                       <Table striped hover bordered responsive="md">
                         <thead>
                           <tr>
-                            <th>Order ID</th>
-                            <th>Departure</th>
-                            <th>Destination</th>
-                            <th>Capacity Unit</th>
-                            <th>Total Cost</th>
+                            <th>{t("schedule.field26")}</th>
+                            <th>{t("schedule.field27")}</th>
+                            <th>{t("schedule.field28")}</th>
+                            <th>{t("schedule.field29")}</th>
+                            <th>{t("schedule.field30")}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1480,7 +1490,7 @@ const Schedule = () => {
                           variant="warning"
                           onClick={() => handleApplyOption(option2)}
                         >
-                          Apply
+                          {t("schedule.applyBtn")}
                         </Button>
                       </div>
                     </div>
@@ -1489,7 +1499,7 @@ const Schedule = () => {
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseOption}>
-                  Close
+                  {t("schedule.closeBtn")}
                 </Button>
               </Modal.Footer>
             </Modal>

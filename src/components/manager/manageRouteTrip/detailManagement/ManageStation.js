@@ -12,8 +12,11 @@ import {
 } from "../../../../service/APIservice";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import _ from "lodash";
 
 const ManageStation = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [stationList, setStationList] = useState([]);
   const [pageCount, setPageCount] = useState(0);
@@ -52,13 +55,13 @@ const ManageStation = () => {
     e.preventDefault();
 
     if (!addName) {
-      toast.error("Station name must not be empty.");
+      toast.error(`${t("manageStation.toast1")}`);
       setInvalidAddName(true);
       return;
     }
 
     if (!addAddress) {
-      toast.error("Please specify address.");
+      toast.error(`${t("manageStation.toast2")}`);
       setInvalidAddAddress(true);
       return;
     }
@@ -99,7 +102,11 @@ const ManageStation = () => {
   const fetchAllStation = async () => {
     let data = await getAllStation();
     if (data && data.EC === 0) {
-      setStationList(data.DT);
+      let cloneList = _.cloneDeep(data.DT);
+      cloneList.forEach((item, index) => {
+        item.index = index + 1;
+      });
+      setStationList(cloneList);
     }
   };
 
@@ -142,13 +149,13 @@ const ManageStation = () => {
     e.preventDefault();
 
     if (!editName) {
-      toast.error("Station name must not be empty.");
+      toast.error(`${t("manageStation.toast1")}`);
       setInvalidEditName(true);
       return;
     }
 
     if (!editAddress) {
-      toast.error("Please specify address.");
+      toast.error(`${t("manageStation.toast2")}`);
       setInvalidEditAddress(true);
       return;
     }
@@ -184,22 +191,22 @@ const ManageStation = () => {
 
   return (
     <>
-      <div className="station-title">Station List</div>
+      <div className="station-title">{t("manageStation.title")}</div>
       <Button variant="primary" onClick={handleShow} className="mb-3">
-        Add new
+        {t("manageStation.addBtn")}
       </Button>
 
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Add New Station</Modal.Title>
+          <Modal.Title>{t("manageStation.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddStation}>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicStation">
-              <Form.Label>Station</Form.Label>
+              <Form.Label>{t("manageStation.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter station name"
+                placeholder={t("manageStation.note1")}
                 isInvalid={invalidAddName}
                 value={addName}
                 onChange={(e) => handleChangeAddName(e.target.value)}
@@ -207,10 +214,11 @@ const ManageStation = () => {
             </Form.Group>
 
             <Col className="mb-3">
-              <Form.Label>Address</Form.Label>
+              <Form.Label>{t("manageStation.label2")}</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter station address"
+                as="textarea"
+                rows={3}
+                placeholder={t("manageStation.note2")}
                 isInvalid={invalidAddAddress}
                 value={addAddress}
                 onChange={(e) => handleChangeAddAddress(e.target.value)}
@@ -219,10 +227,10 @@ const ManageStation = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageStation.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageStation.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -232,10 +240,10 @@ const ManageStation = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Station</th>
-              <th>Address</th>
-              <th>Actions</th>
+              <th>{t("manageStation.field1")}</th>
+              <th>{t("manageStation.field2")}</th>
+              <th>{t("manageStation.field3")}</th>
+              <th>{t("manageStation.field4")}</th>
             </tr>
           </thead>
           <tbody>
@@ -244,7 +252,7 @@ const ManageStation = () => {
               currentItems.map((item) => {
                 return (
                   <tr key={item.station_id}>
-                    <td>{item.station_id}</td>
+                    <td>{item.index}</td>
                     <td>{item.name}</td>
                     <td>{item.address}</td>
                     <td>
@@ -252,14 +260,14 @@ const ManageStation = () => {
                         variant="warning"
                         onClick={() => handleShowEdit(item)}
                       >
-                        Edit
+                        {t("manageStation.editBtn")}
                       </Button>
                       <Button
                         variant="danger"
                         className="mx-2"
                         onClick={() => handleShowDelete(item)}
                       >
-                        Delete
+                        {t("manageStation.deleteBtn")}
                       </Button>
                     </td>
                   </tr>
@@ -271,15 +279,15 @@ const ManageStation = () => {
 
       <Modal show={showEdit} onHide={handleCloseEdit} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Edit Station Info</Modal.Title>
+          <Modal.Title>{t("manageStation.editTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditStation}>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Station</Form.Label>
+              <Form.Label>{t("manageStation.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter station name"
+                placeholder={t("manageStation.note1")}
                 isInvalid={invalidEditName}
                 value={editName}
                 onChange={(e) => handleChangeEditName(e.target.value)}
@@ -287,10 +295,11 @@ const ManageStation = () => {
             </Col>
 
             <Col className="mb-3">
-              <Form.Label>Address</Form.Label>
+              <Form.Label>{t("manageStation.label2")}</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter station address"
+                as="textarea"
+                rows={3}
+                placeholder={t("manageStation.note2")}
                 isInvalid={invalidEditAddress}
                 value={editAddress}
                 onChange={(e) => handleChangeEditAddress(e.target.value)}
@@ -299,10 +308,10 @@ const ManageStation = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseEdit}>
-              Close
+              {t("manageStation.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageStation.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -315,33 +324,33 @@ const ManageStation = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("manageStation.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to remove this station?
+          {t("manageStation.deleteNote")}
           <br />
-          Station Name: <b>{deleteItem.name}</b>
+          {t("manageStation.info1")} <b>{deleteItem.name}</b>
           <br />
-          Address: <b>{deleteItem.address}</b>
+          {t("manageStation.info2")} <b>{deleteItem.address}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseDelete}>
-            Close
+            {t("manageStation.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeleteStation}>
-            Confirm
+            {t("manageStation.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>
 
       <div className="d-flex justify-content-center mt-5">
         <ReactPaginate
-          nextLabel="Next >"
+          nextLabel={t("manageStation.next")}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="< Previous"
+          previousLabel={t("manageStation.pre")}
           pageClassName="page-item"
           pageLinkClassName="page-link"
           previousClassName="page-item"

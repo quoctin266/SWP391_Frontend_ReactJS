@@ -5,8 +5,10 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import { toast } from "react-toastify";
 import { putUpdateQA } from "../../../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const EditQA = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -41,13 +43,13 @@ const EditQA = (props) => {
 
     if (question.length < 20) {
       setInvalidQuestion(true);
-      toast.error("Must be at least 20 characters.");
+      toast.error(`${t("manageFAQ.toast1")}`);
       return;
     }
 
     if (answer.length < 10) {
       setInvalidAnswer(true);
-      toast.error("Must be at least 10 characters.");
+      toast.error(`${t("manageFAQ.toast2")}`);
       return;
     }
 
@@ -66,7 +68,7 @@ const EditQA = (props) => {
         className="mx-2"
         onClick={() => handleShow(props.item)}
       >
-        Edit
+        {t("manageFAQ.editBtn")}
       </Button>
 
       <Modal
@@ -77,15 +79,15 @@ const EditQA = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit QA</Modal.Title>
+          <Modal.Title>{t("manageFAQ.editTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditQA}>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Question</Form.Label>
+              <Form.Label>{t("manageFAQ.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter question"
+                placeholder={t("manageFAQ.note1")}
                 isInvalid={invalidQuestion}
                 value={question}
                 onChange={(e) => handleChangeQuestion(e.target.value)}
@@ -93,7 +95,7 @@ const EditQA = (props) => {
             </Col>
 
             <Col className="mb-3">
-              <Form.Label>Answer</Form.Label>
+              <Form.Label>{t("manageFAQ.label2")}</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -105,10 +107,10 @@ const EditQA = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageFAQ.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageFAQ.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>

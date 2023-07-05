@@ -16,8 +16,10 @@ import {
 import { useEffect } from "react";
 import ManagePrice from "./ManagePrice";
 import ManagePackage from "./ManagePackage";
+import { useTranslation } from "react-i18next";
 
 const ManageService = () => {
+  const { t } = useTranslation();
   const [showPayment, setShowPayment] = useState(false);
   const [paymentType, setPaymentType] = useState("");
   const [paymentName, setPaymentName] = useState("");
@@ -72,13 +74,13 @@ const ManageService = () => {
     e.preventDefault();
 
     if (!paymentType) {
-      toast.error("Must choose payment type.");
+      toast.error(`${t("manageService.toast1")}`);
       setInvalidType(true);
       return;
     }
 
     if (!paymentName) {
-      toast.error("Please fill in payment method name.");
+      toast.error(`${t("manageService.toast2")}`);
       setInvalidName(true);
       return;
     }
@@ -100,7 +102,7 @@ const ManageService = () => {
     e.preventDefault();
 
     if (!EditPaymentName) {
-      toast.error("Please fill in payment method name.");
+      toast.error(`${t("manageService.toast2")}`);
       setInvalidEditPaymentName(true);
       return;
     }
@@ -139,18 +141,18 @@ const ManageService = () => {
 
   return (
     <div className="manage-service-container">
-      <div className="title">Manage Price & Payment</div>
+      <div className="title">{t("manageService.header")}</div>
       <div className="service-body">
         <Accordion defaultActiveKey={["0"]} alwaysOpen>
           <Accordion.Item eventKey="0" className="manage-payment">
-            <Accordion.Header>Manage Payment Method</Accordion.Header>
+            <Accordion.Header>{t("manageService.title1")}</Accordion.Header>
             <Accordion.Body>
               <Button
                 variant="primary"
                 onClick={handleShowPayment}
                 className="add-btn"
               >
-                Add new
+                {t("manageService.addBtn")}
               </Button>
 
               <Modal
@@ -159,12 +161,12 @@ const ManageService = () => {
                 backdrop="static"
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Add New Payment Method</Modal.Title>
+                  <Modal.Title>{t("manageService.addTitle")}</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={handleCreatePayment}>
                   <Modal.Body>
                     <Form.Group className="mb-3" controlId="formBasicType">
-                      <Form.Label>Payment Type</Form.Label>
+                      <Form.Label>{t("manageService.label3")}</Form.Label>
                       <Form.Select
                         aria-label="payment type select"
                         defaultValue=""
@@ -172,7 +174,7 @@ const ManageService = () => {
                         onChange={(e) => handleChangeType(e.target.value)}
                       >
                         <option value="" disabled hidden>
-                          Select payment type
+                          {t("manageService.note1")}
                         </option>
                         <option value="COD">COD</option>
                         <option value="Online">Online</option>
@@ -180,10 +182,10 @@ const ManageService = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicName">
-                      <Form.Label>Payment method name</Form.Label>
+                      <Form.Label>{t("manageService.label4")}</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter payment method name"
+                        placeholder={t("manageService.note2")}
                         value={paymentName}
                         isInvalid={invalidName}
                         disabled={!paymentType || paymentType === "COD"}
@@ -193,10 +195,10 @@ const ManageService = () => {
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={handleClosePayment}>
-                      Close
+                      {t("manageService.closeBtn")}
                     </Button>
                     <Button variant="primary" type="submit">
-                      Confirm
+                      {t("manageService.confirmBtn")}
                     </Button>
                   </Modal.Footer>
                 </Form>
@@ -205,10 +207,10 @@ const ManageService = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th>No</th>
-                    <th>Payment type</th>
-                    <th>Payment method</th>
-                    <th>Actions</th>
+                    <th>{t("manageService.field1")}</th>
+                    <th>{t("manageService.field2")}</th>
+                    <th>{t("manageService.field3")}</th>
+                    <th>{t("manageService.field4")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -229,14 +231,14 @@ const ManageService = () => {
                               variant="warning"
                               onClick={() => handleShowEditPayment(item)}
                             >
-                              Edit
+                              {t("manageService.editBtn")}
                             </Button>
                             <Button
                               variant="danger"
                               className="mx-2"
                               onClick={() => handleShowDeletePayment(item)}
                             >
-                              Delete
+                              {t("manageService.deleteBtn")}
                             </Button>
                           </td>
                         </tr>
@@ -252,12 +254,12 @@ const ManageService = () => {
                 keyboard={false}
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Edit payment info</Modal.Title>
+                  <Modal.Title>{t("manageService.editTitle")}</Modal.Title>
                 </Modal.Header>
                 <Form onSubmit={handleEditPayment}>
                   <Modal.Body>
                     <Col className="mb-3">
-                      <Form.Label>Payment Type</Form.Label>
+                      <Form.Label>{t("manageService.label1")}</Form.Label>
                       <Form.Select
                         aria-label="payment type select"
                         defaultValue={EditPaymentType}
@@ -269,10 +271,10 @@ const ManageService = () => {
                     </Col>
 
                     <Col className="mb-3">
-                      <Form.Label>Payment method name</Form.Label>
+                      <Form.Label>{t("manageService.label2")}</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter payment method name"
+                        placeholder={t("manageService.note2")}
                         value={EditPaymentName}
                         isInvalid={InvalidEditPaymentName}
                         disabled={EditPaymentType === "COD"}
@@ -287,10 +289,10 @@ const ManageService = () => {
                       variant="secondary"
                       onClick={handleCloseEditPayment}
                     >
-                      Close
+                      {t("manageService.closeBtn")}
                     </Button>
                     <Button variant="primary" type="submit">
-                      Confirm
+                      {t("manageService.confirmBtn")}
                     </Button>
                   </Modal.Footer>
                 </Form>
@@ -303,14 +305,15 @@ const ManageService = () => {
                 keyboard={false}
               >
                 <Modal.Header closeButton>
-                  <Modal.Title>Confirm Delete</Modal.Title>
+                  <Modal.Title>{t("manageService.deleteTitle")}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  Are you sure to delete this item?
+                  {t("manageService.deleteNote")}
                   <br />
-                  Payment type: <b>{deletePaymentItem.payment_type}</b>
+                  {t("manageService.info1")}{" "}
+                  <b>{deletePaymentItem.payment_type}</b>
                   <br />
-                  Name:{" "}
+                  {t("manageService.info2")}{" "}
                   <b>
                     {deletePaymentItem.method_name
                       ? deletePaymentItem.method_name
@@ -322,10 +325,10 @@ const ManageService = () => {
                     variant="secondary"
                     onClick={handleCloseDeletePayment}
                   >
-                    Close
+                    {t("manageService.closeBtn")}
                   </Button>
                   <Button variant="primary" onClick={handleDeletePayment}>
-                    Confirm
+                    {t("manageService.confirmBtn")}
                   </Button>
                 </Modal.Footer>
               </Modal>
@@ -333,14 +336,14 @@ const ManageService = () => {
           </Accordion.Item>
 
           <Accordion.Item eventKey="1" className="manage-price">
-            <Accordion.Header>Manage Price</Accordion.Header>
+            <Accordion.Header>{t("manageService.title2")}</Accordion.Header>
             <Accordion.Body>
               <ManagePrice />
             </Accordion.Body>
           </Accordion.Item>
 
           <Accordion.Item eventKey="2" className="manage-package">
-            <Accordion.Header>Manage Package</Accordion.Header>
+            <Accordion.Header>{t("manageService.title3")}</Accordion.Header>
             <Accordion.Body>
               <ManagePackage />
             </Accordion.Body>

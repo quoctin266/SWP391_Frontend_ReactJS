@@ -8,8 +8,10 @@ import Row from "react-bootstrap/Row";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { putUpdateArticle } from "../../../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const EditArticle = (props) => {
+  const { t } = useTranslation();
   const [article, setArticle] = useState("");
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
@@ -63,25 +65,25 @@ const EditArticle = (props) => {
 
     if (!title) {
       setInvalidTitle(true);
-      toast.error("Title must not be empty.");
+      toast.error(`${t("manageNews.toast1")}`);
       return;
     }
 
     if (!source) {
       setInvalidSource(true);
-      toast.error("Author name must not be empty.");
+      toast.error(`${t("manageNews.toast2")}`);
       return;
     }
 
     if (!date) {
       setInvalidDate(true);
-      toast.error("Please specify a date.");
+      toast.error(`${t("manageNews.toast3")}`);
       return;
     }
 
     if (!link) {
       setInvalidLink(true);
-      toast.error("Please specify the article link.");
+      toast.error(`${t("manageNews.toast4")}`);
       return;
     }
 
@@ -104,17 +106,18 @@ const EditArticle = (props) => {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Article</Modal.Title>
+          <Modal.Title>{t("manageNews.editTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditArticle}>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>{t("manageNews.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter title"
+                placeholder={t("manageNews.note1")}
                 isInvalid={invalidTitle}
                 value={title}
                 onChange={(e) => handleChangeTitle(e.target.value)}
@@ -123,10 +126,10 @@ const EditArticle = (props) => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Author</Form.Label>
+                <Form.Label>{t("manageNews.label2")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter author name"
+                  placeholder={t("manageNews.note2")}
                   isInvalid={invalidSource}
                   value={source}
                   onChange={(e) => handleChangeSourse(e.target.value)}
@@ -134,7 +137,7 @@ const EditArticle = (props) => {
               </Col>
 
               <Col>
-                <Form.Label>Date</Form.Label>
+                <Form.Label>{t("manageNews.label3")}</Form.Label>
                 <Form.Control
                   type="date"
                   min="1975-04-30"
@@ -146,10 +149,10 @@ const EditArticle = (props) => {
             </Row>
 
             <Col className="mb-3">
-              <Form.Label>Article Link</Form.Label>
+              <Form.Label>{t("manageNews.label4")}</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter link"
+                as="textarea"
+                rows={3}
                 isInvalid={invalidLink}
                 value={link}
                 onChange={(e) => handleChangeLink(e.target.value)}
@@ -158,10 +161,10 @@ const EditArticle = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageNews.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageNews.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>

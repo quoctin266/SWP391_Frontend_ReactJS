@@ -1,0 +1,50 @@
+.review-outer {
+    border          : 1px solid white;
+    padding-bottom  : 8%;
+    background-color: #fff;
+    border-bottom   : 4px solid #087c06;
+
+    .review-container {
+        .Header {
+            border-radius   : 10px;
+            background-color: #13470A;
+            margin          : 3% 0;
+            font-size       : 2em;
+            font-weight     : 600;
+            padding         : 1% 0;
+            color           : #fff;
+            width           : 60%;
+            text-align      : center;
+
+            @media screen and (max-width: 990px) {
+                font-size: 1.5em;
+            }
+        }
+
+        .review-list {
+            display        : flex;
+            justify-content: space-around;
+            flex-wrap      : wrap;
+
+            .card {
+                width: 30%;
+
+                img {
+                    height    : 50%;
+                    object-fit: cover;
+                }
+
+                .header {
+                    display        : flex;
+                    justify-content: space-between;
+
+                    .time {
+                        color      : rgb(94, 94, 94);
+                        font-weight: 500;
+                    }
+                }
+
+            }
+        }
+    }
+}

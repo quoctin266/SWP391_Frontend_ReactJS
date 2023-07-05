@@ -10,8 +10,10 @@ import ReactPaginate from "react-paginate";
 import Row from "react-bootstrap/Row";
 import EditArticle from "./EditArticle";
 import DeleteArticle from "./DeleteArticle";
+import { useTranslation } from "react-i18next";
 
 const ManageNews = (props) => {
+  const { t } = useTranslation();
   const { newsList } = props;
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
@@ -76,25 +78,25 @@ const ManageNews = (props) => {
 
     if (!title) {
       setInvalidTitle(true);
-      toast.error("Title must not be empty.");
+      toast.error(`${t("manageNews.toast1")}`);
       return;
     }
 
     if (!source) {
       setInvalidSource(true);
-      toast.error("Author name must not be empty.");
+      toast.error(`${t("manageNews.toast2")}`);
       return;
     }
 
     if (!date) {
       setInvalidDate(true);
-      toast.error("Please specify a date.");
+      toast.error(`${t("manageNews.toast3")}`);
       return;
     }
 
     if (!link) {
       setInvalidLink(true);
-      toast.error("Please specify the article link.");
+      toast.error(`${t("manageNews.toast4")}`);
       return;
     }
 
@@ -128,7 +130,7 @@ const ManageNews = (props) => {
   return (
     <>
       <Button variant="primary" className="my-3" onClick={handleShow}>
-        Add new
+        {t("manageNews.addBtn")}
       </Button>
 
       <div className="news-list">
@@ -156,7 +158,7 @@ const ManageNews = (props) => {
                   <Card.Text>Published {item.date}</Card.Text>
                   <Button variant="warning">
                     <a href={item.link} target="_blank" rel="noreferrer">
-                      View
+                      {t("manageNews.viewBtn")}
                     </a>
                   </Button>
                 </Card.Body>
@@ -167,12 +169,12 @@ const ManageNews = (props) => {
 
       <div className="d-flex justify-content-center mt-5">
         <ReactPaginate
-          nextLabel="Next >"
+          nextLabel={t("manageNews.next")}
           onPageChange={handlePageClick}
           pageRangeDisplayed={3}
           marginPagesDisplayed={2}
           pageCount={pageCount}
-          previousLabel="< Previous"
+          previousLabel={t("manageNews.pre")}
           pageClassName="page-item"
           pageLinkClassName="page-link"
           previousClassName="page-item"
@@ -194,17 +196,18 @@ const ManageNews = (props) => {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Article</Modal.Title>
+          <Modal.Title>{t("manageNews.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddArticle}>
           <Modal.Body>
             <Col className="mb-3">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>{t("manageNews.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter title"
+                placeholder={t("manageNews.note1")}
                 isInvalid={invalidTitle}
                 value={title}
                 onChange={(e) => handleChangeTitle(e.target.value)}
@@ -213,10 +216,10 @@ const ManageNews = (props) => {
 
             <Row className="mb-3">
               <Col>
-                <Form.Label>Author</Form.Label>
+                <Form.Label>{t("manageNews.label2")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter author name"
+                  placeholder={t("manageNews.note2")}
                   isInvalid={invalidSource}
                   value={source}
                   onChange={(e) => handleChangeSourse(e.target.value)}
@@ -224,7 +227,7 @@ const ManageNews = (props) => {
               </Col>
 
               <Col>
-                <Form.Label>Date</Form.Label>
+                <Form.Label>{t("manageNews.label3")}</Form.Label>
                 <Form.Control
                   type="date"
                   min="1975-04-30"
@@ -236,10 +239,10 @@ const ManageNews = (props) => {
             </Row>
 
             <Col className="mb-3">
-              <Form.Label>Article Link</Form.Label>
+              <Form.Label>{t("manageNews.label4")}</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Enter link"
+                as="textarea"
+                rows={3}
                 isInvalid={invalidLink}
                 value={link}
                 onChange={(e) => handleChangeLink(e.target.value)}
@@ -248,10 +251,10 @@ const ManageNews = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageNews.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageNews.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>

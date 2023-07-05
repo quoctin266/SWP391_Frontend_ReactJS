@@ -37,6 +37,7 @@ import ManageSender from "../components/guestAndCustomer/profile/ManageSender";
 import ChangePassword from "../components/guestAndCustomer/auth/ChangePassword";
 import CheckCode from "../components/guestAndCustomer/auth/CheckCode";
 import Protected from "../components/private-route/Protected";
+import Review from "../components/guestAndCustomer/review/Review";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "faqs",
         element: <FAQs />,
+      },
+      {
+        path: "review",
+        element: <Review />,
       },
       {
         path: "about-us",

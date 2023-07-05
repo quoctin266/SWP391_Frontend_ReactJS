@@ -12,6 +12,14 @@
             top     : 0;
         }
 
+        .language {
+            float       : right;
+            margin-right: 5%;
+            margin-top  : 1%;
+            font-weight : 500;
+            font-size   : 1.1em;
+        }
+
         .signin-button {
             background-color: #00770c;
             position        : absolute;
@@ -177,6 +185,18 @@
 
                                 &.active {
                                     background-color: #468C4D;
+                                }
+                            }
+
+                            &.home {
+                                @media screen and (min-width: 1000px) {
+                                    width: 106px;
+                                }
+                            }
+
+                            &.aboutus {
+                                @media screen and (min-width: 1000px) {
+                                    width: 130px;
                                 }
                             }
                         }

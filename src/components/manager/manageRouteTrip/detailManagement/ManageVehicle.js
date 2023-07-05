@@ -11,8 +11,10 @@ import {
 } from "../../../../service/APIservice";
 import { toast } from "react-toastify";
 import { Col } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const ManageVehicle = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [vehicleList, setVehicleList] = useState([]);
   const [addName, setAddName] = useState("");
@@ -74,13 +76,13 @@ const ManageVehicle = () => {
 
     if (!addName) {
       setInvalidAddName(true);
-      toast.error("Please fill in vehicle name.");
+      toast.error(`${t("manageVehicle.toast1")}`);
       return;
     }
 
     if (!addCapacity || +addCapacity === 0) {
       setInvalidAddCapacity(true);
-      toast.error("Invalid vehicle capacity.");
+      toast.error(`${t("manageVehicle.toast2")}`);
       return;
     }
 
@@ -107,13 +109,13 @@ const ManageVehicle = () => {
 
     if (!editName) {
       setInvalidEditName(true);
-      toast.error("Please fill in vehicle name.");
+      toast.error(`${t("manageVehicle.toast1")}`);
       return;
     }
 
     if (!editCapacity || +editCapacity === 0) {
       setInvalidEditCapacity(true);
-      toast.error("Invalid vehicle capacity.");
+      toast.error(`${t("manageVehicle.toast2")}`);
       return;
     }
 
@@ -151,21 +153,21 @@ const ManageVehicle = () => {
 
   return (
     <>
-      <div className="vehicle-title">Vehicle List</div>
+      <div className="vehicle-title">{t("manageVehicle.title")}</div>
       <Button variant="primary" onClick={handleShow} className="mb-3">
-        Add new
+        {t("manageVehicle.addBtn")}
       </Button>
       <Modal show={show} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Add New Vehicle</Modal.Title>
+          <Modal.Title>{t("manageVehicle.addTitle")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleAddVehicle}>
           <Modal.Body>
             <Form.Group className="mb-3" controlId="formBasicVehicle">
-              <Form.Label>Vehicle Name</Form.Label>
+              <Form.Label>{t("manageVehicle.label1")}</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter vehicle name"
+                placeholder={t("manageVehicle.note1")}
                 isInvalid={invalidAddName}
                 value={addName}
                 onChange={(e) => handleChangeAddName(e.target.value)}
@@ -173,10 +175,10 @@ const ManageVehicle = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCarryLimit">
-              <Form.Label>Carry Limit</Form.Label>
+              <Form.Label>{t("manageVehicle.label2")}</Form.Label>
               <Form.Control
                 type="number"
-                placeholder="Enter carry limit"
+                placeholder={t("manageVehicle.note2")}
                 min="0"
                 isInvalid={invalidAddCapacity}
                 value={addCapacity}
@@ -186,10 +188,10 @@ const ManageVehicle = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("manageVehicle.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("manageVehicle.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
@@ -199,10 +201,10 @@ const ManageVehicle = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Carry Limit</th>
-              <th>Actions</th>
+              <th>{t("manageVehicle.field1")}</th>
+              <th>{t("manageVehicle.field2")}</th>
+              <th>{t("manageVehicle.field3")}</th>
+              <th>{t("manageVehicle.field4")}</th>
             </tr>
           </thead>
           <tbody>
@@ -219,14 +221,14 @@ const ManageVehicle = () => {
                         variant="warning"
                         onClick={() => handleShowEdit(item)}
                       >
-                        Edit
+                        {t("manageVehicle.editBtn")}
                       </Button>
                       <Button
                         variant="danger"
                         className="mx-2"
                         onClick={() => handleShowDelete(item)}
                       >
-                        Delete
+                        {t("manageVehicle.deleteBtn")}
                       </Button>
                     </td>
                   </tr>
@@ -237,15 +239,15 @@ const ManageVehicle = () => {
 
         <Modal show={showEdit} onHide={handleCloseEdit} backdrop="static">
           <Modal.Header closeButton>
-            <Modal.Title>Edit Vehicle Info</Modal.Title>
+            <Modal.Title>{t("manageVehicle.editTitle")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleEditVehicle}>
             <Modal.Body>
-              <Col>
-                <Form.Label>Vehicle Name</Form.Label>
+              <Col className="mb-3">
+                <Form.Label>{t("manageVehicle.label1")}</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter vehicle name"
+                  placeholder={t("manageVehicle.note1")}
                   isInvalid={invalidEditName}
                   value={editName}
                   onChange={(e) => handleChangeEditName(e.target.value)}
@@ -253,10 +255,10 @@ const ManageVehicle = () => {
               </Col>
 
               <Col>
-                <Form.Label>Carry Limit</Form.Label>
+                <Form.Label>{t("manageVehicle.label2")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Enter carry limit"
+                  placeholder={t("manageVehicle.note2")}
                   min="0"
                   isInvalid={invalidEditCapacity}
                   value={editCapacity}
@@ -266,10 +268,10 @@ const ManageVehicle = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEdit}>
-                Close
+                {t("manageVehicle.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Confirm
+                {t("manageVehicle.confirmBtn")}
               </Button>
             </Modal.Footer>
           </Form>
@@ -282,21 +284,21 @@ const ManageVehicle = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("manageVehicle.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to delete this vehicle?
+            {t("manageVehicle.deleteNote")}
             <br />
-            Vehicle Name: <b>{deleteItem.vehicle_name}</b>
+            {t("manageVehicle.info1")} <b>{deleteItem.vehicle_name}</b>
             <br />
-            Capacity: <b>{deleteItem.capacity}</b>
+            {t("manageVehicle.info2")} <b>{deleteItem.capacity}</b>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("manageVehicle.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleDeleteVehicle}>
-              Confirm
+              {t("manageVehicle.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
