@@ -536,6 +536,79 @@ const deleteFeedback = async (id) => {
   return await axios.delete(`api/v1/delete-feedback/${id}`);
 };
 
+const postCreateMail = async (
+  name,
+  senderMail,
+  phone,
+  note,
+  receiverMail,
+  title
+) => {
+  return await axios.post("api/v1/create-mail", {
+    name: name,
+    senderMail: senderMail,
+    phone: phone,
+    note: note,
+    receiverMail: receiverMail,
+    title: title,
+  });
+};
+
+const getStaffInbox = async (email) => {
+  return await axios.get(`api/v1/staff-inbox/${email}`);
+};
+
+const deleteInbox = async (id) => {
+  return await axios.delete(`api/v1/delete-inbox/${id}`);
+};
+
+const getStaffTrash = async (email) => {
+  return await axios.get(`api/v1/staff-trash/${email}`);
+};
+
+const putRecoverMail = async (email, id) => {
+  return await axios.put("api/v1/recover-mail", {
+    email: email,
+    id: id,
+  });
+};
+
+const getSentMail = async (email) => {
+  return await axios.get(`api/v1/sent-mail/${email}`);
+};
+
+const deleteSent = async (id) => {
+  return await axios.delete(`api/v1/delete-sent/${id}`);
+};
+
+const getAllInbox = async (email) => {
+  return await axios.get(`api/v1/all-inbox/${email}`);
+};
+
+const getAllTrash = async (email) => {
+  return await axios.get(`api/v1/all-trash/${email}`);
+};
+
+const postReplyMail = async (
+  name,
+  senderMail,
+  phone,
+  note,
+  receiverMail,
+  title,
+  replyMailID
+) => {
+  return await axios.post("api/v1/reply-mail", {
+    name: name,
+    senderMail: senderMail,
+    phone: phone,
+    note: note,
+    receiverMail: receiverMail,
+    title: title,
+    replyMailID: replyMailID,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -623,4 +696,14 @@ export {
   putUpdateArticle,
   deleteArticle,
   deleteFeedback,
+  postCreateMail,
+  getStaffInbox,
+  deleteInbox,
+  getStaffTrash,
+  putRecoverMail,
+  getSentMail,
+  deleteSent,
+  getAllInbox,
+  getAllTrash,
+  postReplyMail,
 };
