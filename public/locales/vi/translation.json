@@ -32,17 +32,30 @@
         "confirmBtn": "Xác Nhận"
     },
     "header": {
+        "toast1": "Vui lòng cung cấp email hợp lệ.",
+        "toast2": "Hãy theo dõi các cập nhật mới nhất!",
+        "title": "Thông Báo",
+        "text1": "Dịch vụ này vẫn đang trong quá trình phát triển.",
+        "text2": "Đăng Ký",
+        "text3": "để nhận tin tức và cập nhật mới nhất từ chúng tôi qua email.",
+        "label1": "Địa Chỉ Email",
+        "note1": "Nhập email",
+        "closeBtn":"Đóng",
+        "subscribeBtn": "Đăng Ký",
         "loginBtn": "Đăng nhập",
         "logoutBtn": "Đăng xuất",
         "home": "Trang chủ",
         "track": "Theo dõi",
         "services": "Dịch vụ",
         "relocation": "Vận chuyển chim",
+        "route": "Danh sách lộ trình",
         "air": "Đường hàng không",
         "ground": "Đường bộ",
-        "faqs": "FAQs",
+        "support": "Hỗ Trợ",
+        "contact": "Liên hệ",
+        "faqs": "Câu hỏi thường gặp",
         "review": "Đánh giá",
-        "about": "Về chúng tôi",
+        "about": "Giới Thiệu",
         "bookBtn": "ĐẶT NGAY",
         "workBtn": "WORKSPACE"
     },
@@ -98,6 +111,18 @@
         "title1": "Dịch Vụ",
         "title2": "Chính Sách"
     },
+    "allroute": {
+        "header": "Danh Sách Lộ Trình",
+        "field1": "STT",
+        "field2": "Khởi Hành",
+        "field3": "Đích Đến",
+        "field4": "Lộ Trình",
+        "field5": "STT",
+        "field6": "Trạm",
+        "field7": "Địa Chỉ",
+        "closeBtn": "Đóng",
+        "title": "Chi Tiết Lộ Trình"
+    },
     "ground": {
         "text1": "Đây là chi phí cơ bản để trả",
         "text2": "cho thời gian của chúng tôi trong khi chúng tôi nghiên cứu, chuẩn bị và lên lịch cho việc di dời thú cưng của bạn từ đầu đến cuối. Nó bao gồm chuyên gia chăm sóc cho thú cưng của bạn làm việc với những tài xế đáng tin cậy của chúng tôi để sắp xếp vận chuyển một cách an toàn và thoải mái cho thú cưng của bạn.",
@@ -110,6 +135,27 @@
     },
     "faq": {
         "title": "Câu Hỏi Thường Gặp"
+    },
+    "contact": {
+        "toast1": "Vui lòng điền tên.",
+        "toast2": "Vui lòng điền số điện thoại.",
+        "toast3": "Vui lòng điền email.",
+        "toast4": "Email không hợp lệ.",
+        "toast5": "Vui lòng điền ghi chú.",
+        "toast6": "Vui lòng nhập tiêu đề.",
+        "header": "Thông Tin Liên Hệ",
+        "title1": "Công Ty Cổ Phần Bird Travel",
+        "info1": "Trụ Sở Chính:",
+        "info2": "Số Điện Thoại:",
+        "title2": "LIÊN HỆ NGAY VỚI BIRD TRAVEL",
+        "label1": "Tên",
+        "note1": "Nhập tên của bạn",
+        "label2": "Số Điện Thoại",
+        "label4": "Tiêu Đề",
+        "note2": "Nhập email",
+        "note3": "Nhập tiêu đề",
+        "label3": "Ghi Chú",
+        "sendBtn": "Gửi Ngay"
     },
     "review": {
         "title": "Khách Hàng Nói Gì Về Chúng Tôi"

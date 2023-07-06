@@ -1,0 +1,60 @@
+.mail-sidebar-container {
+    margin-right: 30px;
+
+    .pro-sidebar {
+        .sc-bbSZdi {
+            overflow: hidden;
+
+            .sc-hCPjZK {
+                a {
+                    .sc-cfxfcM {
+                        margin: 10px 0;
+
+                        &:hover {
+                            background-color: gray;
+                        }
+                    }
+
+                    &.active {
+                        color: aquamarine;
+                    }
+                }
+
+            }
+
+            .composeBtn {
+                border-radius   : 20px;
+                background-color: #198754;
+                width           : 70%;
+                padding         : 2% 0;
+
+                &:hover {
+                    background-color: #126941;
+                }
+            }
+
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
+            }
+
+        }
+
+        &.toggled {
+            .sidebar-footer {
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                gap            : 5px;
+                font-size      : 1.2em;
+                cursor         : pointer;
+                flex-direction : column-reverse;
+            }
+        }
+    }
+
+}
