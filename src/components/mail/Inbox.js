@@ -26,8 +26,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Inbox = () => {
+  const { t } = useTranslation();
   let role = useSelector((state) => state.auth.role);
   let email = useSelector((state) => state.auth.email);
   let username = useSelector((state) => state.auth.username);
@@ -66,7 +68,7 @@ const Inbox = () => {
     e.preventDefault();
 
     if (!note) {
-      toast.error("Please enter mail content.");
+      toast.error(`${t("inbox.toast1")}`);
       setInvalidNote(true);
       return;
     }
@@ -150,7 +152,7 @@ const Inbox = () => {
 
   return (
     <div className="inbox-container">
-      <div className="title">Inbox</div>
+      <div className="title">{t("inbox.header")}</div>
       <div className="mail-list">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -161,19 +163,19 @@ const Inbox = () => {
                 }}
               >
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Sender
+                  {t("inbox.field1")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Subject
+                  {t("inbox.field2")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Date
+                  {t("inbox.field3")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Status
+                  {t("inbox.field4")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Actions
+                  {t("inbox.field5")}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -194,23 +196,22 @@ const Inbox = () => {
                       {row.created_time}
                     </TableCell>
                     <TableCell sx={{ fontSize: 16 }}>
-                      {row.replied ? "Replied" : "Not Replied"}
+                      {row.replied
+                        ? `${t("inbox.status1")}`
+                        : `${t("inbox.status2")}`}
                     </TableCell>
                     <TableCell>
-                      <Tooltip title="Delete">
+                      <Tooltip title={t("inbox.tip3")}>
                         <IconButton onClick={() => handleShowDelete(row)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip
-                        title="Reply"
-                        onClick={() => handleShowReply(row)}
-                      >
-                        <IconButton>
+                      <Tooltip title={t("inbox.tip1")}>
+                        <IconButton onClick={() => handleShowReply(row)}>
                           <ReplyIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="View">
+                      <Tooltip title={t("inbox.tip2")}>
                         <IconButton onClick={() => handleView(row)}>
                           <RemoveRedEyeIcon />
                         </IconButton>
@@ -250,7 +251,7 @@ const Inbox = () => {
           <Modal.Body style={{ padding: "3% 5%", fontSize: "1.1em" }}>
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>From:</Form.Label>
+                <Form.Label>{t("inbox.label1")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -267,7 +268,7 @@ const Inbox = () => {
 
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>Tel:</Form.Label>
+                <Form.Label>{t("inbox.label2")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -280,7 +281,7 @@ const Inbox = () => {
 
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>To:</Form.Label>
+                <Form.Label>{t("inbox.label3")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control type="text" value={`Me <${email}>`} readOnly />
@@ -298,10 +299,10 @@ const Inbox = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("inbox.closeBtn")}
             </Button>
             <Button variant="primary" onClick={() => handleShowReply(mail)}>
-              Reply
+              {t("inbox.replyBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -313,12 +314,12 @@ const Inbox = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("inbox.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to remove this mail? <br />
+            {t("inbox.deleteNote")} <br />
             <Row className="mt-3">
-              <Col className="col-3">Sender:</Col>
+              <Col className="col-3">{t("inbox.info1")}</Col>
               <Col>
                 <b>{deleteMail.sender_name}</b>
               </Col>
@@ -330,13 +331,13 @@ const Inbox = () => {
               </Col>
             </Row>
             <Row>
-              <Col className="col-3">Date:</Col>
+              <Col className="col-3">{t("inbox.info2")}</Col>
               <Col>
                 <b> {deleteMail.created_time} </b>
               </Col>
             </Row>
             <Row>
-              <Col className="col-3">Subject:</Col>
+              <Col className="col-3">{t("inbox.info3")}</Col>
               <Col>
                 <b> {deleteMail.title} </b>
               </Col>
@@ -344,10 +345,10 @@ const Inbox = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("inbox.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleRemoveInbox}>
-              Confirm
+              {t("inbox.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -360,18 +361,17 @@ const Inbox = () => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Reply Message</Modal.Title>
+            <Modal.Title>{t("inbox.title")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleReply}>
             <Modal.Body style={{ padding: "3% 5%", fontSize: "1.1em" }}>
               <Row className="mb-3" style={{ alignItems: "baseline" }}>
-                <Col className="col-2">
-                  <Form.Label>Recipient:</Form.Label>
+                <Col className="col-3">
+                  <Form.Label>{t("inbox.label4")}</Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
                     type="text"
-                    placeholder="Recipient email address"
                     readOnly
                     value={replyMail.sender_email ? replyMail.sender_email : ""}
                   />
@@ -379,13 +379,12 @@ const Inbox = () => {
               </Row>
 
               <Row className="mb-3" style={{ alignItems: "baseline" }}>
-                <Col className="col-2">
-                  <Form.Label>Subject:</Form.Label>
+                <Col className="col-3">
+                  <Form.Label>{t("inbox.label5")}</Form.Label>
                 </Col>
                 <Col>
                   <Form.Control
                     type="text"
-                    placeholder="Subject"
                     readOnly
                     value={replyMail.title ? `Reply: ${replyMail.title}` : ""}
                   />
@@ -404,10 +403,10 @@ const Inbox = () => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseReply}>
-                Cancel
+                {t("inbox.cancelBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Send
+                {t("inbox.sendBtn")}
               </Button>
             </Modal.Footer>
           </Form>

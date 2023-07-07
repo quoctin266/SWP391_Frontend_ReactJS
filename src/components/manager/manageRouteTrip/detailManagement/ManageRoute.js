@@ -10,8 +10,10 @@ import { toTime } from "../../../../utils/reuseFunction";
 import { toast } from "react-toastify";
 import EditRoute from "./RouteCRUD/EditRoute";
 import DeleteRoute from "./RouteCRUD/DeleteRoute";
+import { useTranslation } from "react-i18next";
 
 const ManageRoute = () => {
+  const { t } = useTranslation();
   const [routeList, setRouteList] = useState([]);
   const [routeDetail, setRouteDetail] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
@@ -54,11 +56,11 @@ const ManageRoute = () => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Departure</th>
-            <th>Destination</th>
-            <th>Description</th>
-            <th>Actions</th>
+            <th>{t("manageRoute.field1")}</th>
+            <th>{t("manageRoute.field2")}</th>
+            <th>{t("manageRoute.field3")}</th>
+            <th>{t("manageRoute.field4")}</th>
+            <th>{t("manageRoute.field5")}</th>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +80,7 @@ const ManageRoute = () => {
                       className="mx-2"
                       onClick={() => handleClickEdit(route)}
                     >
-                      Edit
+                      {t("manageRoute.editBtn")}
                     </Button>
                     <DeleteRoute route={route} fetchAllRoute={fetchAllRoute} />
                   </td>

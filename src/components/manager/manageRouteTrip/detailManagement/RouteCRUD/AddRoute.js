@@ -12,8 +12,10 @@ import {
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { toMinutes, toTime } from "../../../../../utils/reuseFunction";
+import { useTranslation } from "react-i18next";
 
 const AddRoute = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
   const [stationList, setStationList] = useState([]);
@@ -31,13 +33,23 @@ const AddRoute = (props) => {
   const [routeDetail, setRouteDetail] = useState([]);
   const [description, setDescription] = useState("");
   const [invalidDes, setInvalidDes] = useState(false);
+  const [isFirst, setIsFirst] = useState(false);
 
   const handleClose = () => {
     setDay("");
     setHour("");
     setMinute("");
     setDistance("");
+    setStation("");
+    setDescription("");
+    setInvalidDay(false);
+    setInvalidHour(false);
+    setInvalidMinute(false);
+    setInvalidStation(false);
+    setInvalidDistance(false);
+    setInvalidDes(false);
     setRouteDetail([]);
+    setIsFirst(false);
     setShow(false);
   };
   const handleShow = () => setShow(true);
@@ -74,6 +86,13 @@ const AddRoute = (props) => {
         setStation(station);
       }
     });
+    if (routeDetail.length === 0) {
+      setIsFirst(true);
+      setDay(0);
+      setHour(0);
+      setMinute(0);
+      setDistance(0);
+    }
     setInvalidStation(false);
   };
 
@@ -86,7 +105,7 @@ const AddRoute = (props) => {
     e.preventDefault();
 
     if (!station) {
-      toast.error("Must select a station.");
+      toast.error(`${t("manageRoute.toast1")}`);
       setInvalidStation(true);
       return;
     }
@@ -95,7 +114,7 @@ const AddRoute = (props) => {
     if (routeDetail.length > 0) {
       routeDetail.forEach((item) => {
         if (item.stationID === station.station_id) {
-          toast.warning("Duplicated station detected.");
+          toast.warning(`${t("manageRoute.toast2")}`);
           setInvalidStation(true);
           duplicateStation = true;
         }
@@ -106,7 +125,7 @@ const AddRoute = (props) => {
 
     if (day !== 0) {
       if (!day) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("manageRoute.toast3")}`);
         setInvalidDay(true);
         return;
       }
@@ -114,7 +133,7 @@ const AddRoute = (props) => {
 
     if (hour !== 0) {
       if (!hour) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("manageRoute.toast3")}`);
         setInvalidHour(true);
         return;
       }
@@ -122,7 +141,7 @@ const AddRoute = (props) => {
 
     if (minute !== 0) {
       if (!minute) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("manageRoute.toast3")}`);
         setInvalidMinute(true);
         return;
       }
@@ -130,7 +149,7 @@ const AddRoute = (props) => {
 
     if (distance !== 0) {
       if (!distance) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("manageRoute.toast3")}`);
         setInvalidDistance(true);
         return;
       }
@@ -175,6 +194,12 @@ const AddRoute = (props) => {
       });
     }
     setRouteDetail(newRouteDetail);
+    setIsFirst(false);
+    setDay("");
+    setHour("");
+    setMinute("");
+    setDistance("");
+    setStation("");
   };
 
   const handleChangeDes = (value) => {
@@ -184,12 +209,13 @@ const AddRoute = (props) => {
 
   const handleCreateRoute = async () => {
     if (routeDetail.length < 2) {
-      toast.error("Route must contain more than 1 station.");
+      toast.error(`${t("manageRoute.toast4")}`);
       return;
     }
 
     if (!description) {
-      toast.error("Description must not be empty.");
+      toast.error(`${t("manageRoute.toast5")}`);
+      setInvalidDes(true);
       return;
     }
 
@@ -204,24 +230,24 @@ const AddRoute = (props) => {
   return (
     <>
       <Button variant="primary" onClick={handleShow} className="add-btn">
-        Add new
+        {t("manageRoute.addBtn")}
       </Button>
 
       <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Add New Route</Modal.Title>
+          <Modal.Title>{t("manageRoute.addTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="formBasicStation">
-            <Form.Label>Add Station</Form.Label>
+            <Form.Label>{t("manageRoute.label1")}</Form.Label>
             <Form.Select
               aria-label="select station"
-              defaultValue=""
+              value={station.station_id ? station.station_id : ""}
               isInvalid={invalidStation}
               onChange={(e) => handleChangeStation(e.target.value)}
             >
               <option value="" disabled hidden>
-                Select station
+                {t("manageRoute.note1")}
               </option>
               {stationList &&
                 stationList.length > 0 &&
@@ -238,13 +264,14 @@ const AddRoute = (props) => {
           <Form>
             <Row>
               <Col>
-                <Form.Label>Driving Time From Previous Station</Form.Label>
+                <Form.Label>{t("manageRoute.label2")}</Form.Label>
                 <Row>
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Days"
+                      placeholder={t("manageRoute.note2")}
                       min="0"
+                      readOnly={isFirst}
                       value={day}
                       isInvalid={invalidDay}
                       onChange={(e) => handleChangeDay(e.target.value)}
@@ -254,9 +281,10 @@ const AddRoute = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Hours"
+                      placeholder={t("manageRoute.note3")}
                       min="0"
                       max="24"
+                      readOnly={isFirst}
                       isInvalid={invalidHour}
                       value={hour}
                       onChange={(e) => handleChangeHour(e.target.value)}
@@ -266,9 +294,10 @@ const AddRoute = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Minutes"
+                      placeholder={t("manageRoute.note4")}
                       min="0"
                       max="60"
+                      readOnly={isFirst}
                       isInvalid={invalidMinute}
                       value={minute}
                       onChange={(e) => handleChangeMinute(e.target.value)}
@@ -282,12 +311,13 @@ const AddRoute = (props) => {
                 controlId="formBasicDistance"
                 as={Col}
               >
-                <Form.Label>Distance From Previous Station</Form.Label>
+                <Form.Label>{t("manageRoute.label3")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Distance from previous station in Km"
+                  placeholder={t("manageRoute.note5")}
                   min="0"
                   step="0.1"
+                  readOnly={isFirst}
                   value={distance}
                   isInvalid={invalidDistance}
                   onChange={(e) => handleChangeDistance(e.target.value)}
@@ -300,7 +330,7 @@ const AddRoute = (props) => {
               type="submit"
               onClick={(e) => handleAddStation(e)}
             >
-              Add station
+              {t("manageRoute.addBtn2")}
             </Button>
           </Form>
 
@@ -308,9 +338,9 @@ const AddRoute = (props) => {
             <thead>
               <tr>
                 <th></th>
-                <th>Station</th>
-                <th>Driving Time From First Station</th>
-                <th>Distance From First Station</th>
+                <th>{t("manageRoute.field6")}</th>
+                <th>{t("manageRoute.field7")}</th>
+                <th>{t("manageRoute.field8")}</th>
               </tr>
             </thead>
             <tbody>
@@ -345,11 +375,11 @@ const AddRoute = (props) => {
             controlId="formBasicDescription"
             as={Col}
           >
-            <Form.Label>Description</Form.Label>
+            <Form.Label>{t("manageRoute.label4")}</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Enter route description"
+              placeholder={t("manageRoute.note6")}
               value={description}
               isInvalid={invalidDes}
               onChange={(e) => handleChangeDes(e.target.value)}
@@ -358,10 +388,10 @@ const AddRoute = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("manageRoute.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleCreateRoute}>
-            Confirm
+            {t("manageRoute.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>
