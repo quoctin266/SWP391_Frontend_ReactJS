@@ -32,14 +32,27 @@
         "confirmBtn": "Confirm"
     },
     "header": {
+        "toast1": "Please provide a valid email.",
+        "toast2": "Stay tuned for updates!",
+        "title": "Notice",
+        "text1": "This service is still under development.",
+        "text2": "Subscribe",
+        "text3": "to receive news and updates from us through email.",
+        "label1": "Email Address",
+        "note1": "Enter email",
+        "closeBtn":"Close",
+        "subscribeBtn": "Subscribe",
         "loginBtn": "Log in",
         "logoutBtn": "Log out",
         "home": "Home",
         "track": "Track",
         "services": "Services",
         "relocation": "Pet Relocation",
+        "route": "Available Routes",
         "air": "Air Travel",
         "ground": "Ground Travel",
+        "support": "Support",
+        "contact": "Contact us",
         "faqs": "FAQs",
         "review": "Review",
         "about": "About us",
@@ -98,6 +111,18 @@
         "title1": "Our Services",
         "title2": "Our policy"
     },
+    "allroute": {
+        "header": "Available Routes",
+        "field1": "No",
+        "field2": "Departure",
+        "field3": "Destination",
+        "field4": "Route",
+        "field5": "Index",
+        "field6": "Station",
+        "field7": "Address",
+        "closeBtn": "Close",
+        "title": "Route Detail"
+    },
     "ground": {
         "text1": "This is the base fee that pays",
         "text2": "for our time while we research, prepare for, and schedule your pet's relocation from start to finish. It includes your Pet Travel Specialist working with our trusted drivers to arrange for your pets’ safe and comfortable ground transportation.",
@@ -110,6 +135,27 @@
     },
     "faq": {
         "title": "Frequently Asked Questions"
+    },
+    "contact": {
+        "toast1": "Please enter your name.",
+        "toast2": "Please enter your phone number.",
+        "toast3": "Please enter your email.",
+        "toast4": "Invalid email format.",
+        "toast5": "Please enter note.",
+        "toast6": "Please enter title.",
+        "header": "Contact Us",
+        "title1": "Bird Travel Joint Stock Company",
+        "info1": "Headquarters:",
+        "info2": "Phone Number:",
+        "title2": "CONTACT NOW WITH BIRD TRAVEL",
+        "label1": "Your Name",
+        "note1": "Enter your name",
+        "label2": "Phone Number",
+        "label4": "Title",
+        "note2": "Enter email",
+        "note3": "Enter title",
+        "label3": "Note",
+        "sendBtn": "Send Now"
     },
     "review": {
         "title": "What Our Customers Say About Us"

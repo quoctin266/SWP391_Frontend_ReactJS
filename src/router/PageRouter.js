@@ -38,6 +38,12 @@ import ChangePassword from "../components/guestAndCustomer/auth/ChangePassword";
 import CheckCode from "../components/guestAndCustomer/auth/CheckCode";
 import Protected from "../components/private-route/Protected";
 import Review from "../components/guestAndCustomer/review/Review";
+import AllRoute from "../components/guestAndCustomer/all_route/AllRoute";
+import Contact from "../components/guestAndCustomer/contact/Contact";
+import Mail from "../components/mail/Mail";
+import Inbox from "../components/mail/Inbox";
+import Trash from "../components/mail/Trash";
+import Sent from "../components/mail/Sent";
 
 const router = createBrowserRouter([
   {
@@ -57,12 +63,20 @@ const router = createBrowserRouter([
         element: <Services />,
       },
       {
+        path: "view-route",
+        element: <AllRoute />,
+      },
+      {
         path: "price",
         element: <Price />,
       },
       {
         path: "faqs",
         element: <FAQs />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
       },
       {
         path: "review",
@@ -245,6 +259,32 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard />,
+      },
+    ],
+  },
+  {
+    path: "/mail",
+    element: (
+      <PrivateRoute>
+        <Mail />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Inbox />,
+      },
+      {
+        path: "inbox",
+        element: <Inbox />,
+      },
+      {
+        path: "sent",
+        element: <Sent />,
+      },
+      {
+        path: "trash",
+        element: <Trash />,
       },
     ],
   },
