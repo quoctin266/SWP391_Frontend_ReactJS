@@ -20,8 +20,10 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { toast } from "react-toastify";
 import { getSentMail, deleteSent } from "../../service/APIservice";
+import { useTranslation } from "react-i18next";
 
 const Sent = () => {
+  const { t } = useTranslation();
   let email = useSelector((state) => state.auth.email);
   let role = useSelector((state) => state.auth.role);
   const [mailList, setMailList] = useState([]);
@@ -73,7 +75,7 @@ const Sent = () => {
 
   return (
     <div className="sent-container">
-      <div className="title">Sent Mail</div>
+      <div className="title">{t("sent.header")}</div>
       <div className="mail-list">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -84,19 +86,19 @@ const Sent = () => {
                 }}
               >
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Recipient
+                  {t("sent.field1")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Subject
+                  {t("sent.field2")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Date
+                  {t("sent.field3")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Status
+                  {t("sent.field4")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Actions
+                  {t("sent.field5")}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -117,15 +119,17 @@ const Sent = () => {
                       {row.created_time}
                     </TableCell>
                     <TableCell sx={{ fontSize: 16 }}>
-                      {row.replied ? "Replied" : "Not Replied"}
+                      {row.replied
+                        ? `${t("sent.status1")}`
+                        : `${t("sent.status2")}`}
                     </TableCell>
                     <TableCell>
-                      <Tooltip title="Delete">
+                      <Tooltip title={t("sent.tip2")}>
                         <IconButton onClick={() => handleShowDelete(row)}>
                           <DeleteIcon />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip title="View">
+                      <Tooltip title={t("sent.tip1")}>
                         <IconButton onClick={() => handleView(row)}>
                           <RemoveRedEyeIcon />
                         </IconButton>
@@ -165,7 +169,7 @@ const Sent = () => {
           <Modal.Body style={{ padding: "3% 5%", fontSize: "1.1em" }}>
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>From:</Form.Label>
+                <Form.Label>{t("sent.label1")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -182,7 +186,7 @@ const Sent = () => {
 
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>To:</Form.Label>
+                <Form.Label>{t("sent.label2")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -210,7 +214,7 @@ const Sent = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("sent.closeBtn")}
             </Button>
           </Modal.Footer>
         </Modal>
@@ -222,12 +226,12 @@ const Sent = () => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Delete</Modal.Title>
+            <Modal.Title>{t("sent.deleteTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to remove this mail? <br />
+            {t("sent.deleteNote")} <br />
             <Row className="mt-3">
-              <Col className="col-3">Recipient:</Col>
+              <Col className="col-3">{t("sent.info1")}</Col>
               <Col>
                 <b>{deleteMail.receiver_name}</b>
               </Col>
@@ -244,13 +248,13 @@ const Sent = () => {
               </Col>
             </Row>
             <Row>
-              <Col className="col-3">Date:</Col>
+              <Col className="col-3">{t("sent.info2")}</Col>
               <Col>
                 <b> {deleteMail.created_time} </b>
               </Col>
             </Row>
             <Row>
-              <Col className="col-3">Subject:</Col>
+              <Col className="col-3">{t("sent.info3")}</Col>
               <Col>
                 <b> {deleteMail.title} </b>
               </Col>
@@ -258,10 +262,10 @@ const Sent = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseDelete}>
-              Close
+              {t("sent.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleRemoveSent}>
-              Confirm
+              {t("sent.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Modal>

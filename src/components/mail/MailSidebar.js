@@ -71,26 +71,26 @@ const MailSidebar = () => {
 
     if (role !== "customer") {
       if (!recipient) {
-        toast.error("Please specify recipient email.");
+        toast.error(`${t("mailSidebar.toast1")}`);
         setInvalidRecipient(true);
         return;
       }
 
       if (!validateEmail(recipient)) {
-        toast.error("Invalid email format.");
+        toast.error(`${t("mailSidebar.toast2")}`);
         setInvalidRecipient(true);
         return;
       }
     }
 
     if (!title) {
-      toast.error("Please fill in subject.");
+      toast.error(`${t("mailSidebar.toast3")}`);
       setInvalidTitle(true);
       return;
     }
 
     if (!note) {
-      toast.error("Please enter mail content.");
+      toast.error(`${t("mailSidebar.toast4")}`);
       setInvalidNote(true);
       return;
     }
@@ -142,20 +142,26 @@ const MailSidebar = () => {
                 className="composeBtn"
                 onClick={handleShow}
               >
-                Compose
+                {t("mailSidebar.composeBtn")}
               </CDBSidebarMenuItem>
               <NavLink to="/mail/inbox">
-                <CDBSidebarMenuItem icon="inbox">Inbox</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="inbox">
+                  {t("mailSidebar.item1")}
+                </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/mail/sent">
-                <CDBSidebarMenuItem icon="paper-plane">Sent</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="paper-plane">
+                  {t("mailSidebar.item2")}
+                </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/mail/trash">
-                <CDBSidebarMenuItem icon="trash">Trash</CDBSidebarMenuItem>
+                <CDBSidebarMenuItem icon="trash">
+                  {t("mailSidebar.item3")}
+                </CDBSidebarMenuItem>
               </NavLink>
               <NavLink to="/login">
                 <CDBSidebarMenuItem icon="power-off" onClick={handleLogout}>
-                  Logout
+                  {t("mailSidebar.item4")}
                 </CDBSidebarMenuItem>
               </NavLink>
             </CDBSidebarMenu>
@@ -184,18 +190,18 @@ const MailSidebar = () => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Message</Modal.Title>
+          <Modal.Title>{t("mailSidebar.title")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSend}>
           <Modal.Body style={{ padding: "3% 5%", fontSize: "1.1em" }}>
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
-              <Col className="col-2">
-                <Form.Label>Recipient:</Form.Label>
+              <Col className="col-3">
+                <Form.Label>{t("mailSidebar.label1")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
                   type="text"
-                  placeholder="Recipient email address"
+                  placeholder={t("mailSidebar.note1")}
                   readOnly={role === "customer"}
                   isInvalid={invalidRecipient}
                   value={role === "customer" ? "All Staff" : recipient}
@@ -205,13 +211,13 @@ const MailSidebar = () => {
             </Row>
 
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
-              <Col className="col-2">
-                <Form.Label>Subject:</Form.Label>
+              <Col className="col-3">
+                <Form.Label>{t("mailSidebar.label2")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
                   type="text"
-                  placeholder="Subject"
+                  placeholder={t("mailSidebar.note2")}
                   isInvalid={invalidTitle}
                   value={title}
                   onChange={(e) => handleChangeTitle(e.target.value)}
@@ -231,10 +237,10 @@ const MailSidebar = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Cancel
+              {t("mailSidebar.cancelBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Send
+              {t("mailSidebar.sendBtn")}
             </Button>
           </Modal.Footer>
         </Form>

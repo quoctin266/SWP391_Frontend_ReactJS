@@ -23,8 +23,10 @@ import {
   getAllTrash,
 } from "../../service/APIservice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Trash = () => {
+  const { t } = useTranslation();
   let role = useSelector((state) => state.auth.role);
   let email = useSelector((state) => state.auth.email);
   let username = useSelector((state) => state.auth.username);
@@ -88,7 +90,7 @@ const Trash = () => {
 
   return (
     <div className="trash-container">
-      <div className="title">Removed Mail</div>
+      <div className="title">{t("trash.header")}</div>
       <div className="mail-list">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -99,19 +101,19 @@ const Trash = () => {
                 }}
               >
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Sender
+                  {t("trash.field1")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Subject
+                  {t("trash.field2")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Date
+                  {t("trash.field3")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Status
+                  {t("trash.field4")}
                 </TableCell>
                 <TableCell sx={{ fontWeight: "bolder", fontSize: 16 }}>
-                  Actions
+                  {t("trash.field5")}
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -132,7 +134,9 @@ const Trash = () => {
                       {row.created_time}
                     </TableCell>
                     <TableCell sx={{ fontSize: 16 }}>
-                      {row.replied ? "Replied" : "Not Replied"}
+                      {row.replied
+                        ? `${t("trash.status1")}`
+                        : `${t("trash.status2")}`}
                     </TableCell>
                     <TableCell>
                       <Tooltip title="View">
@@ -175,7 +179,7 @@ const Trash = () => {
           <Modal.Body style={{ padding: "3% 5%", fontSize: "1.1em" }}>
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>From:</Form.Label>
+                <Form.Label>{t("trash.label1")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -192,7 +196,7 @@ const Trash = () => {
 
             <Row className="mb-3" style={{ alignItems: "baseline" }}>
               <Col className="col-2">
-                <Form.Label>To:</Form.Label>
+                <Form.Label>{t("trash.label2")}</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -220,10 +224,10 @@ const Trash = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("trash.closeBtn")}
             </Button>
             <Button variant="primary" onClick={handleRecover}>
-              Recover
+              {t("trash.recoverBtn")}
             </Button>
           </Modal.Footer>
         </Modal>

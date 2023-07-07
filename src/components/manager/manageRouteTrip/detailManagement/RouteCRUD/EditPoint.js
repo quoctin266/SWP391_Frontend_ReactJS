@@ -7,8 +7,11 @@ import { useState } from "react";
 import { toMinutes, toTime } from "../../../../../utils/reuseFunction";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const EditPoint = (props) => {
+  const { t } = useTranslation();
+  let { routeDetail, station, stationList } = props;
   const [show, setShow] = useState(false);
   const [newStation, setNewStation] = useState("");
   const [stationListClone, setStationListClone] = useState([]);
@@ -92,8 +95,6 @@ const EditPoint = (props) => {
     setStationListClone(cloneList);
     setShow(true);
   };
-
-  let { routeDetail, station, stationList } = props;
 
   const handleChangeStation = (value) => {
     stationListClone.forEach((station) => {
@@ -216,14 +217,14 @@ const EditPoint = (props) => {
       item.driving_time_text = `${timeObj.day} Days ${timeObj.hour} Hours ${timeObj.minute} Minutes`;
     });
     props.setRouteDetail(cloneRoute);
-    toast.success("Changes have been saved.");
+    toast.success(`${t("editRoute.toast4")}`);
     handleClose();
   };
 
   return (
     <>
       <Button variant="warning" onClick={handleShow}>
-        Change
+        {t("editRoute.changeBtn")}
       </Button>
 
       <Modal
@@ -234,13 +235,13 @@ const EditPoint = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Station</Modal.Title>
+          <Modal.Title>{t("editRoute.title2")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleEditPoint}>
           <Modal.Body>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Select New Station</Form.Label>
+                <Form.Label>{t("editRoute.label1")}</Form.Label>
                 <Form.Select
                   aria-label="select station"
                   defaultValue={
@@ -268,12 +269,12 @@ const EditPoint = (props) => {
 
             <Row>
               <Col>
-                <Form.Label>Driving Time From Previous Station</Form.Label>
+                <Form.Label>{t("editRoute.label4")}</Form.Label>
                 <Row>
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Days"
+                      placeholder={t("editRoute.note3")}
                       min="0"
                       disabled={isFirst}
                       value={day}
@@ -284,7 +285,7 @@ const EditPoint = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Hours"
+                      placeholder={t("editRoute.note4")}
                       min="0"
                       max="24"
                       disabled={isFirst}
@@ -296,7 +297,7 @@ const EditPoint = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Minutes"
+                      placeholder={t("editRoute.note5")}
                       min="0"
                       max="60"
                       disabled={isFirst}
@@ -308,10 +309,10 @@ const EditPoint = (props) => {
               </Col>
 
               <Form.Group className="mb-3" controlId="formPreDistance" as={Col}>
-                <Form.Label>Distance From Previous Station</Form.Label>
+                <Form.Label>{t("editRoute.label5")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Distance from previous station in Km"
+                  placeholder={t("editRoute.note6")}
                   min="0"
                   step="0.1"
                   disabled={isFirst}
@@ -323,12 +324,12 @@ const EditPoint = (props) => {
 
             <Row>
               <Col>
-                <Form.Label>Driving Time To Next Station</Form.Label>
+                <Form.Label>{t("editRoute.label6")}</Form.Label>
                 <Row>
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Days"
+                      placeholder={t("editRoute.note3")}
                       min="0"
                       disabled={isLast || firstStation}
                       value={dayN}
@@ -339,7 +340,7 @@ const EditPoint = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Hours"
+                      placeholder={t("editRoute.note4")}
                       min="0"
                       max="24"
                       disabled={isLast || firstStation}
@@ -351,7 +352,7 @@ const EditPoint = (props) => {
                   <Col>
                     <Form.Control
                       type="number"
-                      placeholder="Minutes"
+                      placeholder={t("editRoute.note5")}
                       min="0"
                       max="60"
                       disabled={isLast || firstStation}
@@ -367,10 +368,10 @@ const EditPoint = (props) => {
                 controlId="formNextDistance"
                 as={Col}
               >
-                <Form.Label>Distance To Next Station</Form.Label>
+                <Form.Label>{t("editRoute.label7")}</Form.Label>
                 <Form.Control
                   type="number"
-                  placeholder="Distance to next station in Km"
+                  placeholder={t("editRoute.note7")}
                   min="0"
                   step="0.1"
                   disabled={isLast || firstStation}
@@ -382,10 +383,10 @@ const EditPoint = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("editRoute.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("editRoute.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
