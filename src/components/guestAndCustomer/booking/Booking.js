@@ -26,6 +26,8 @@ import {
 import { useSelector } from "react-redux";
 import nprogress from "nprogress";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { saveBooking } from "../../../redux/slices/bookSlice";
 
 nprogress.configure({ showSpinner: false, trickleSpeed: 40 });
 
@@ -33,11 +35,12 @@ const libraries = ["places"];
 
 const Booking = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   let currentTime = moment().format("YYYY-MM-DD").toString();
   const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
+    googleMapsApiKey: "AIzaSyBC8mWV1x70IBoNqcLxapXKX38iQJ3B-rc",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
@@ -416,9 +419,11 @@ const Booking = () => {
           state: { orderRes: data.DT },
         });
       } else if (paymentMethod === "VNPAY") {
-        navigate("/vnpay", {
-          state: { orderRes: data.DT },
-        });
+        dispatch(saveBooking(data.DT));
+        window.open(
+          `http://localhost:8888/order/create_payment_url?amount=${data.DT.totalCost}&orderId=${data.DT.orderID}`,
+          "_self"
+        );
       } else
         navigate("/booking-success", {
           state: { orderRes: data.DT },

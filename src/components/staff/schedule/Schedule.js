@@ -265,8 +265,10 @@ const Schedule = () => {
       let dataNew = await getTripList(selectedRoute.value);
       if (dataNew && dataNew.EC === 0) {
         setTripList(dataNew.DT);
+        handleCloseDetailTrip();
       } else if (dataNew && dataNew.EC === 107) {
         setTripList([]);
+        handleCloseDetailTrip();
       }
     } else toast.error(data.EM);
   };
@@ -462,6 +464,10 @@ const Schedule = () => {
   };
 
   const handleTempAdd = async (order) => {
+    if (trip.status !== "Standby") {
+      toast.error("Trip orders can no longer be modified.");
+      return;
+    }
     let vehicleCapacity = trip.capacity;
 
     let cloneRoute = _.cloneDeep(routeEstimate);
@@ -524,6 +530,11 @@ const Schedule = () => {
   };
 
   const handleRemoveTemp = async (item) => {
+    if (trip.status !== "Standby") {
+      toast.error("Trip orders can no longer be modified.");
+      return;
+    }
+
     let cloneRoute = _.cloneDeep(routeEstimate);
 
     cloneRoute.forEach((station, index) => {
@@ -1235,6 +1246,7 @@ const Schedule = () => {
                             <Button
                               variant="warning"
                               onClick={handleShowOption}
+                              disabled={trip.status !== "Standby"}
                             >
                               {t("schedule.autoBtn")}
                             </Button>

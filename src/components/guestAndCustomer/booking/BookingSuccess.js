@@ -3,11 +3,15 @@ import cele from "../../../assets/image/cele.png";
 import cargo from "../../../assets/image/cargo.png";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const BookingSuccess = () => {
-  const location = useLocation();
+  const orderID = useSelector((state) => state.book.orderID);
+  const estimate = useSelector((state) => state.book.estimate);
+  const created = useSelector((state) => state.book.created);
 
   return (
     <Container className="booking-success-outer">
@@ -21,20 +25,18 @@ const BookingSuccess = () => {
         <div className="booking-success-info">
           <div className="id">
             <div className="transaction-title">Booking ID</div>
-            <div className="transaction-info">
-              {location?.state?.orderRes?.orderID}
-            </div>
+            <div className="transaction-info">{orderID}</div>
           </div>
           <div className="Date">
-            <div className="date-title">Created Time</div>
+            <div className="date-title">Order Date</div>
             <div className="date-info">
-              {location?.state?.orderRes?.created}
+              {moment(created).format("MMM DD YYYY HH:mm")}
             </div>
           </div>
           <div className="estimated-time">
-            <div className="estimated-title">Estimated arrival time</div>
+            <div className="estimated-title">Estimated arrival date</div>
             <div className="estimated-info">
-              {location?.state?.orderRes?.estimate}
+              {moment(estimate).format("DD-MM-YYYY")}
             </div>
           </div>
           <div className="pic" style={{ width: "20%", display: "grid" }}>
