@@ -41,6 +41,11 @@
         .accordion-button::after{
             transition: all 0.3s ease-in-out;
         }
+        .accordion-button:not(.collapsed) {
+            color: #ffffff;
+            background-color: #699d78;
+            box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+        }
         
         }
     }
