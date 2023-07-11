@@ -44,6 +44,7 @@ import Mail from "../components/mail/Mail";
 import Inbox from "../components/mail/Inbox";
 import Trash from "../components/mail/Trash";
 import Sent from "../components/mail/Sent";
+import Blog from "../components/guestAndCustomer/blog/Blog";
 
 const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "blog",
+        element: <Blog />,
       },
       {
         path: "booking",
