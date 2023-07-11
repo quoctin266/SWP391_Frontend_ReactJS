@@ -419,15 +419,15 @@ const Booking = () => {
           state: { orderRes: data.DT },
         });
       } else if (paymentMethod === "VNPAY") {
-        dispatch(saveBooking(data.DT));
+        dispatch(saveBooking({ ...data.DT, ...customer, ...costSummary }));
         window.open(
           `http://localhost:8888/order/create_payment_url?amount=${data.DT.totalCost}&orderId=${data.DT.orderID}`,
           "_self"
         );
-      } else
-        navigate("/booking-success", {
-          state: { orderRes: data.DT },
-        });
+      } else {
+        dispatch(saveBooking({ ...data.DT, ...customer, ...costSummary }));
+        navigate("/booking-success/ok");
+      }
     }
   };
 

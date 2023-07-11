@@ -609,6 +609,22 @@ const postReplyMail = async (
   });
 };
 
+const postSendBill = async (
+  costSummary,
+  customerInfo,
+  orderID,
+  created,
+  email
+) => {
+  return await axios.post("api/v1/send-bill", {
+    costSummary: costSummary,
+    customerInfo: customerInfo,
+    orderID: orderID,
+    created: created,
+    email: email,
+  });
+};
+
 export {
   getAllNews,
   getAllServicesIntro,
@@ -706,4 +722,5 @@ export {
   getAllInbox,
   getAllTrash,
   postReplyMail,
+  postSendBill,
 };
