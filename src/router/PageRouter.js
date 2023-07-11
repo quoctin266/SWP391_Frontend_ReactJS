@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "booking-success",
+        path: "booking-success/:status",
         element: (
           <PrivateRoute>
             <BookingSuccess />

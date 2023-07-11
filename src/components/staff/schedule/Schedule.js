@@ -259,6 +259,34 @@ const Schedule = () => {
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
 
+    if (statusUpdate === "Standby") {
+      toast.error("Trip in progress or completed.");
+      return;
+    }
+
+    if (statusUpdate === "Departed") {
+      if (
+        trip.status === "Completed" ||
+        moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss").isAfter(
+          moment(),
+          "day"
+        )
+      ) {
+        toast.error("Trip is either completed or not yet time to depart.");
+        return;
+      }
+    }
+
+    if (statusUpdate === "Completed") {
+      if (
+        trip.status === "Standby" ||
+        moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss").isAfter(moment())
+      ) {
+        toast.error("Trip has not departed yet or still in progress.");
+        return;
+      }
+    }
+
     let data = await putUpdateTripStatus(trip.trip_id, statusUpdate);
     if (data && data.EC === 0) {
       toast.success(data.EM);
