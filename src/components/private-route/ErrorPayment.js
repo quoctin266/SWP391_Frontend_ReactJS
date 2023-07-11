@@ -2,9 +2,27 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import "./ErrorPayment.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { removeBookingData } from "../../redux/slices/bookSlice";
+import { putCancelOrder } from "../../service/APIservice";
+import { toast } from "react-toastify";
 
 const ErrorPayment = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const orderID = useSelector((state) => state.book.orderID);
+
+  useEffect(() => {
+    const cancelOrder = async () => {
+      let data = await putCancelOrder(orderID);
+      if (data && data.EC === 0) {
+        dispatch(removeBookingData());
+      } else toast.error(data.EM);
+    };
+    cancelOrder();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="error-payment-container">

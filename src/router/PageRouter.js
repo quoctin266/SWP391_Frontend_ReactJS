@@ -45,6 +45,7 @@ import Inbox from "../components/mail/Inbox";
 import Trash from "../components/mail/Trash";
 import Sent from "../components/mail/Sent";
 import Blog from "../components/guestAndCustomer/blog/Blog";
+import ErrorPayment from "../components/private-route/ErrorPayment";
 
 const router = createBrowserRouter([
   {
@@ -296,6 +297,10 @@ const router = createBrowserRouter([
   {
     path: "/access-not-allowed",
     element: <LimitedAccess />,
+  },
+  {
+    path: "/error-payment",
+    element: <ErrorPayment />,
   },
   {
     path: "*",
