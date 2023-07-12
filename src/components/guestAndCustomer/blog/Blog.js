@@ -2,6 +2,7 @@ import React from 'react'
 import Image from '../../../assets/image/BlogBanner.jpg'
 import './Blog.scss'
 import { VscDebugBreakpointLog } from 'react-icons/vsc'
+import { Facts } from './RandomFact'
 
 const Blog = () => {
   return (
@@ -60,6 +61,11 @@ const Blog = () => {
                     health, happiness, and overall quality of life.
                     </p>
                 </div>
+            </div>
+            {/* This code runs on map. No need to pay attention to this */}
+            <div className='RandomFact'>
+                    <h1>Random Bird Fact</h1>
+                    <p>{Facts[Math.floor(Math.random() * Facts.length)].Message}</p>
             </div>
         </div>
     </div>
