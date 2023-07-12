@@ -28,7 +28,7 @@ const Staff = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedStaff() {
   return (
     <Suspense fallback="...is loading">
       <Staff />

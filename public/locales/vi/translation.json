@@ -1034,5 +1034,21 @@
         "note9": "Khoảng cách giữa hai trạm theo km",
         "changeBtn": "Thay Đổi",
         "removeBtn":"Xóa"
+    },
+    "notfound": {
+        "text1": "Trang Không Tồn Tại ",
+        "text2": "Liên kết có thể bị hỏng hoặc trang có thể đã bị xóa. Kiểm tra xem liên kết bạn đang cố mở có đúng không.",
+        "backBtn":"Về Trang Chủ"
+    },
+    "limited": {
+        "text1": "Truy Cập Bị Từ Chối",
+        "text2": "Bạn không có quyền truy cập trang này.",
+        "text3": "Liên hệ với quản trị viên để nhận quyền hoặc quay về trang chủ và xem các trang khác.",
+        "backBtn": "Về Trang Chủ"
+    },
+    "errorpayment": {
+        "text1": "Thanh Toán Thất Bại",
+        "text2": "Quá trình thanh toán không thành công do có sự bất thường. Vui lòng thử lại sau hoặc sử dụng phương thức thanh toán khác.",
+        "backBtn":"Về Trang Chủ"
     }
 }

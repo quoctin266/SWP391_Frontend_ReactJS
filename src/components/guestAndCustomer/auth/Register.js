@@ -242,7 +242,7 @@ const Register = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedRegister() {
   return (
     <Suspense fallback="...is loading">
       <Register />

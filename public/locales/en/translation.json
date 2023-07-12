@@ -1034,5 +1034,21 @@
         "note9": "Distance between two station in km",
         "changeBtn": "Change",
         "removeBtn":"Remove"
+    },
+    "notfound": {
+        "text1": "This Page Isn't Available",
+        "text2": "The link may be broken, or the page may have been removed. Check to see if the link you're trying to open is correct.",
+        "backBtn":"Go to Homepage"
+    },
+    "limited": {
+        "text1": "Access denied",
+        "text2": "You don't have permissions to access this page.",
+        "text3": "Contact an administrator to get permissions or go to the home page and browse other pages.",
+        "backBtn": "Go to Homepage"
+    },
+    "errorpayment": {
+        "text1": "Payment Failed",
+        "text2": "The payment was unsuccessful due to an abnormality. Please try again later or use another payment method.",
+        "backBtn":"Go to Homepage"
     }
 }

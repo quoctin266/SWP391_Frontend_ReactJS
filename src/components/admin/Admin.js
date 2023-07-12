@@ -28,7 +28,7 @@ const Admin = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedAdmin() {
   return (
     <Suspense fallback="...is loading">
       <Admin />

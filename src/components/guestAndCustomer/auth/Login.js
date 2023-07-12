@@ -188,7 +188,7 @@ const Login = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedLogin() {
   return (
     <Suspense fallback="...is loading">
       <Login />

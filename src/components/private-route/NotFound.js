@@ -2,19 +2,19 @@ import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import "./NotFound.scss";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
 
 const NotFound = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <div className="not-found-container">
       <Alert variant="secondary" className="alert-message">
         <div>
-          <div className="text1">This Page Isn't Available</div>
-          <div className="text2">
-            The link may be broken, or the page may have been removed. Check to
-            see if the link you're trying to open is correct.
-          </div>
+          <div className="text1">{t("notfound.text1")}</div>
+          <div className="text2">{t("notfound.text2")}</div>
         </div>
         <Button
           variant="primary"
@@ -22,11 +22,17 @@ const NotFound = () => {
             navigate("/");
           }}
         >
-          Go to HomePage
+          {t("notfound.backBtn")}
         </Button>
       </Alert>
     </div>
   );
 };
 
-export default NotFound;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <NotFound />
+    </Suspense>
+  );
+}
