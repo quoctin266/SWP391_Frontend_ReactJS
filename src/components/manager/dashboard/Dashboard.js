@@ -22,6 +22,7 @@ import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { isEnglish } from "../../../utils/i18n";
+import moment from "moment";
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -59,10 +60,11 @@ const Dashboard = () => {
       setRevenueData([]);
       setShowYear("");
     }
+    fetchDashboard();
   };
 
   const fetchDashboard = async () => {
-    let data = await getDashboard();
+    let data = await getDashboard(year);
     if (data && data.EC === 0) {
       setDataOverview(data.DT);
 
@@ -81,13 +83,78 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    let currentYear = moment().year();
+
+    const fetchRevenue = async () => {
+      let data = await getRevenue(currentYear);
+
+      if (data && data.EC === 0) {
+        setRevenueData(data.DT);
+        setYear("");
+        setShowYear(currentYear);
+        setShowRevenue(true);
+      } else {
+        setShowRevenue(false);
+        setRevenueData([]);
+        setShowYear("");
+      }
+    };
+
+    const fetchDashboard = async () => {
+      let data = await getDashboard(currentYear);
+      if (data && data.EC === 0) {
+        setDataOverview(data.DT);
+
+        let cloneDepart = _.cloneDeep(data.DT.stationDepart);
+        let cloneArrive = _.cloneDeep(data.DT.stationArrive);
+
+        cloneDepart = cloneDepart.toSorted((a, b) => b.Depart - a.Depart);
+        cloneDepart = cloneDepart.slice(0, 10);
+
+        cloneArrive = cloneArrive.toSorted((a, b) => b.Arrive - a.Arrive);
+        cloneArrive = cloneArrive.slice(0, 10);
+
+        setDataChart1(cloneDepart);
+        setDataChart2(cloneArrive);
+      }
+    };
+
     fetchDashboard();
+    fetchRevenue();
   }, []);
 
   return (
     <div className="dashboard-container">
       <div className="title">{t("dashboard.header")}</div>
       <div className="dashboard-body">
+        <div className="row g-3 my-2 px-1">
+          <div className="p-3 bg-white shadow-sm rounded">
+            <Form onSubmit={handleSearchYear}>
+              <Row className="mb-3" style={{ alignItems: "flex-end" }}>
+                <Col>
+                  <Form.Label>{t("dashboard.label")}</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder={t("dashboard.note")}
+                    min={2023}
+                    max={2043}
+                    isInvalid={invalidYear}
+                    value={year}
+                    onChange={(e) => handleChangeYear(e.target.value)}
+                  />
+                </Col>
+
+                <Col>
+                  <Button variant="dark" type="submit">
+                    {t("dashboard.enterBtn")}
+                  </Button>
+                </Col>
+                <Col></Col>
+              </Row>
+            </Form>
+          </div>
+        </div>
+
         <div className="row g-3 my-2">
           <div className="col-md-6 p-1">
             <div className="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
@@ -135,29 +202,6 @@ const Dashboard = () => {
                 <span>{t("dashboard.title5")}</span>
               </div>
               <div className="card-body">
-                <Form onSubmit={handleSearchYear}>
-                  <Row className="mb-3" style={{ alignItems: "flex-end" }}>
-                    <Col>
-                      <Form.Label>{t("dashboard.label")}</Form.Label>
-                      <Form.Control
-                        type="number"
-                        placeholder={t("dashboard.note")}
-                        min={2023}
-                        max={2043}
-                        isInvalid={invalidYear}
-                        value={year}
-                        onChange={(e) => handleChangeYear(e.target.value)}
-                      />
-                    </Col>
-
-                    <Col>
-                      <Button variant="dark" type="submit">
-                        {t("dashboard.enterBtn")}
-                      </Button>
-                    </Col>
-                    <Col></Col>
-                  </Row>
-                </Form>
                 {showYear && (
                   <div className="revenue-title">
                     {isEnglish()

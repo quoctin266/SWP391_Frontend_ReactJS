@@ -555,7 +555,7 @@
     },
     "managerSidebar": {
         "item1": "Dashboard",
-        "item2": "Manage price and payment",
+        "item2": "Price and payment",
         "item3": "Manage transportation",
         "item4": "Manage web content",
         "item5": "Logout"

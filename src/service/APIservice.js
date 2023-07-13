@@ -435,8 +435,8 @@ const postCreateAccount = async (email, username, password, role) => {
   });
 };
 
-const getDashboard = async () => {
-  return await axios.get(`api/v1/dashboard`);
+const getDashboard = async (year) => {
+  return await axios.get(`api/v1/dashboard/${year}`);
 };
 
 const deleteRoute = async (id) => {

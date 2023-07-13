@@ -1,5 +1,4 @@
 import "./ManageService.scss";
-import Accordion from "react-bootstrap/Accordion";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -17,6 +16,11 @@ import { useEffect } from "react";
 import ManagePrice from "./ManagePrice";
 import ManagePackage from "./ManagePackage";
 import { useTranslation } from "react-i18next";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import { TabContext } from "@mui/lab";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 const ManageService = () => {
   const { t } = useTranslation();
@@ -33,6 +37,12 @@ const ManageService = () => {
   const [editPayment, setEditPayment] = useState("");
   const [showDeletePayment, setShowDeletePayment] = useState(false);
   const [deletePaymentItem, setDeletePaymentItem] = useState("");
+
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleCloseDeletePayment = () => {
     setShowDeletePayment(false);
@@ -143,10 +153,20 @@ const ManageService = () => {
     <div className="manage-service-container">
       <div className="title">{t("manageService.header")}</div>
       <div className="service-body">
-        <Accordion defaultActiveKey={["0"]} alwaysOpen>
-          <Accordion.Item eventKey="0" className="manage-payment">
-            <Accordion.Header>{t("manageService.title1")}</Accordion.Header>
-            <Accordion.Body>
+        <Box sx={{ width: "100%", typography: "body1" }} className="box-mui">
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+                variant="fullWidth"
+              >
+                <Tab label={t("manageService.title1")} value="1" />
+                <Tab label={t("manageService.title2")} value="2" />
+                <Tab label={t("manageService.title3")} value="3" />
+              </TabList>
+            </Box>
+            <TabPanel value="1" className="manage-payment">
               <Button
                 variant="primary"
                 onClick={handleShowPayment}
@@ -332,23 +352,15 @@ const ManageService = () => {
                   </Button>
                 </Modal.Footer>
               </Modal>
-            </Accordion.Body>
-          </Accordion.Item>
-
-          <Accordion.Item eventKey="1" className="manage-price">
-            <Accordion.Header>{t("manageService.title2")}</Accordion.Header>
-            <Accordion.Body>
+            </TabPanel>
+            <TabPanel value="2" className="manage-price">
               <ManagePrice />
-            </Accordion.Body>
-          </Accordion.Item>
-
-          <Accordion.Item eventKey="2" className="manage-package">
-            <Accordion.Header>{t("manageService.title3")}</Accordion.Header>
-            <Accordion.Body>
+            </TabPanel>
+            <TabPanel value="3" className="manage-package">
               <ManagePackage />
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+            </TabPanel>
+          </TabContext>
+        </Box>
       </div>
     </div>
   );
