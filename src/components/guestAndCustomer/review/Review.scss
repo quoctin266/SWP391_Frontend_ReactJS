@@ -22,13 +22,14 @@
         }
 
         .review-list {
-            display        : flex;
-            justify-content: space-around;
-            flex-wrap      : wrap;
+            display              : grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap                  : 30px;
 
             .card {
-                width: 30%;
                 box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+                height    : 80vh;
+
                 img {
                     height    : 50%;
                     object-fit: cover;
@@ -43,7 +44,8 @@
                         font-weight: 500;
                     }
                 }
-                .card-body{
+
+                .card-body {
                     background-color: #8bbf8a;
                 }
 
