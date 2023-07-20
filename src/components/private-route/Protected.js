@@ -9,7 +9,7 @@ const Protected = (props) => {
   if (
     !(!resetCode && recoverEmail) &&
     !isAuthenticated &&
-    props.children.type.name === "ChangePassword"
+    props.children.type.name === "WrappedChangePassword"
   ) {
     return <Navigate to="/login" />;
   }
@@ -17,15 +17,15 @@ const Protected = (props) => {
   if (
     !(!resetCode && recoverEmail) &&
     isAuthenticated &&
-    props.children.type.name === "ChangePassword"
+    props.children.type.name === "WrappedChangePassword"
   ) {
     return <Navigate to="/" />;
   }
 
   if (
     isAuthenticated &&
-    (props.children.type.name === "Login" ||
-      props.children.type.name === "Register")
+    (props.children.type.name === "WrappedLogin" ||
+      props.children.type.name === "WrappedRegister")
   ) {
     return <Navigate to="/" />;
   }

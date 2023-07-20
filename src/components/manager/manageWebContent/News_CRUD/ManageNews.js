@@ -7,29 +7,54 @@ import Col from "react-bootstrap/Col";
 import { toast } from "react-toastify";
 import { postCreateArticle } from "../../../../service/APIservice";
 import ReactPaginate from "react-paginate";
-import Row from "react-bootstrap/Row";
 import EditArticle from "./EditArticle";
 import DeleteArticle from "./DeleteArticle";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import _ from "lodash";
+import Image from "react-bootstrap/Image";
+import { toBase64 } from "../../../../utils/reuseFunction";
 
 const ManageNews = (props) => {
   const { t } = useTranslation();
   const { newsList } = props;
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
-  const [source, setSource] = useState("");
-  const [date, setDate] = useState("");
-  const [link, setLink] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [intro, setIntro] = useState("");
+  const [conclusion, setConclusion] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [image, setImage] = useState("");
+
   const [invalidTitle, setInvalidTitle] = useState(false);
-  const [invalidSource, setInvalidSource] = useState(false);
-  const [invalidDate, setInvalidDate] = useState(false);
-  const [invalidLink, setInvalidLink] = useState(false);
+  const [invalidSubtitle, setInvalidSubtitle] = useState(false);
+  const [invalidIntro, setInvalidIntro] = useState(false);
+  const [invalidConclusion, setInvalidConclusion] = useState(false);
+  const [invalidImage, setInvalidImage] = useState(false);
+
+  let initSection = [
+    {
+      id: uuidv4(),
+      title: "",
+      content: "",
+      isInvalidTitle: false,
+      isInvalidContent: false,
+    },
+  ];
+  const [sectionList, setSectionList] = useState(initSection);
 
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemOffset, setItemOffset] = useState(0);
   const [currentItems, setCurrentItems] = useState(null);
 
+  const navigate = useNavigate();
   const PAGE_LIMIT = 4;
 
   const handlePageClick = (event) => {
@@ -39,13 +64,16 @@ const ManageNews = (props) => {
   };
 
   const handleClose = () => {
-    setDate("");
-    setLink("");
-    setSource("");
+    setIntro("");
+    setConclusion("");
+    setSubtitle("");
     setTitle("");
-    setInvalidDate(false);
-    setInvalidLink(false);
-    setInvalidSource(false);
+    setPreviewImage("");
+    setImage("");
+    setSectionList(initSection);
+    setInvalidIntro(false);
+    setInvalidConclusion(false);
+    setInvalidSubtitle(false);
     setInvalidTitle(false);
     setShow(false);
   };
@@ -58,23 +86,80 @@ const ManageNews = (props) => {
     setTitle(value);
   };
 
-  const handleChangeSourse = (value) => {
-    setInvalidSource(false);
-    setSource(value);
+  const handleChangeSubtitle = (value) => {
+    setInvalidSubtitle(false);
+    setSubtitle(value);
   };
 
-  const handleChangeDate = (value) => {
-    setInvalidDate(false);
-    setDate(value);
+  const handleChangeIntro = (value) => {
+    setInvalidIntro(false);
+    setIntro(value);
   };
 
-  const handleChangeLink = (value) => {
-    setInvalidLink(false);
-    setLink(value);
+  const handleChangeConclusion = (value) => {
+    setInvalidConclusion(false);
+    setConclusion(value);
+  };
+
+  const handleAddSection = () => {
+    let section = {
+      id: uuidv4(),
+      title: "",
+      content: "",
+      isInvalidTitle: false,
+      isInvalidContent: false,
+    };
+    setSectionList([...sectionList, section]);
+  };
+
+  const handleRemoveSection = (id) => {
+    let sectionClone = _.cloneDeep(sectionList);
+    sectionClone = sectionClone.filter((section) => section.id !== id);
+    setSectionList(sectionClone);
+  };
+
+  const handleChangeSection = (id, value, field) => {
+    let sectionClone = _.cloneDeep(sectionList);
+    let index = sectionClone.findIndex((item) => item.id === id);
+
+    if (index > -1) {
+      switch (field) {
+        case "heading":
+          sectionClone[index].title = value;
+          if (sectionClone[index].title) {
+            sectionClone[index].isInvalidTitle = false;
+          }
+          setSectionList(sectionClone);
+          break;
+        case "content":
+          sectionClone[index].content = value;
+          if (sectionClone[index].content) {
+            sectionClone[index].isInvalidContent = false;
+          }
+          setSectionList(sectionClone);
+          break;
+        default:
+          setSectionList(sectionClone);
+      }
+    }
+  };
+
+  const handleOnchangeImage = async (e) => {
+    if (e.target.files.length > 0) {
+      setPreviewImage(URL.createObjectURL(e.target.files[0]));
+
+      let base64img = "";
+      if (e.target.files[0]) {
+        base64img = await toBase64(e.target.files[0]);
+        setImage(base64img);
+      }
+      setInvalidImage(false);
+    }
   };
 
   const handleAddArticle = async (e) => {
     e.preventDefault();
+    let sectionClone = _.cloneDeep(sectionList);
 
     if (!title) {
       setInvalidTitle(true);
@@ -82,25 +167,58 @@ const ManageNews = (props) => {
       return;
     }
 
-    if (!source) {
-      setInvalidSource(true);
+    if (!subtitle) {
+      setInvalidSubtitle(true);
       toast.error(`${t("manageNews.toast2")}`);
       return;
     }
 
-    if (!date) {
-      setInvalidDate(true);
+    if (!intro) {
+      setInvalidIntro(true);
       toast.error(`${t("manageNews.toast3")}`);
       return;
     }
 
-    if (!link) {
-      setInvalidLink(true);
+    let validTitle = sectionClone.every((section) => {
+      if (!section.title) {
+        toast.error(`${t("manageNews.toast5")}`);
+        section.isInvalidTitle = true;
+        setSectionList(sectionClone);
+        return false;
+      } else return true;
+    });
+    if (!validTitle) return;
+
+    let validContent = sectionClone.every((section) => {
+      if (!section.content) {
+        toast.error(`${t("manageNews.toast6")}`);
+        section.isInvalidContent = true;
+        setSectionList(sectionClone);
+        return false;
+      } else return true;
+    });
+    if (!validContent) return;
+
+    if (!conclusion) {
+      setInvalidConclusion(true);
       toast.error(`${t("manageNews.toast4")}`);
       return;
     }
 
-    let data = await postCreateArticle(title, source, date, link);
+    if (!image) {
+      setInvalidImage(true);
+      toast.error(`${t("manageNews.toast7")}`);
+      return;
+    }
+
+    let data = await postCreateArticle(
+      title,
+      subtitle,
+      intro,
+      conclusion,
+      image,
+      sectionList
+    );
     if (data && data.EC === 0) {
       toast.success(data.EM);
       props.fetchAllNews();
@@ -154,12 +272,16 @@ const ManageNews = (props) => {
                   </div>
                 </Card.Header>
                 <Card.Body className="news-body">
-                  <Card.Title>By {item.source}</Card.Title>
-                  <Card.Text>Published {item.date}</Card.Text>
-                  <Button variant="warning">
-                    <a href={item.link} target="_blank" rel="noreferrer">
-                      {t("manageNews.viewBtn")}
-                    </a>
+                  <Card.Text>{item.sub_title}</Card.Text>
+                  <Button
+                    variant="warning"
+                    onClick={() =>
+                      navigate(`/blog/${item.id}`, {
+                        state: { blog: item },
+                      })
+                    }
+                  >
+                    {t("manageNews.viewBtn")}
                   </Button>
                 </Card.Body>
               </Card>
@@ -192,6 +314,7 @@ const ManageNews = (props) => {
       </div>
 
       <Modal
+        className="add-article"
         show={show}
         onHide={handleClose}
         backdrop="static"
@@ -214,39 +337,125 @@ const ManageNews = (props) => {
               />
             </Col>
 
-            <Row className="mb-3">
-              <Col>
-                <Form.Label>{t("manageNews.label2")}</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder={t("manageNews.note2")}
-                  isInvalid={invalidSource}
-                  value={source}
-                  onChange={(e) => handleChangeSourse(e.target.value)}
-                />
-              </Col>
+            <Col className="mb-3">
+              <Form.Label>{t("manageNews.label2")}</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={t("manageNews.note2")}
+                isInvalid={invalidSubtitle}
+                value={subtitle}
+                onChange={(e) => handleChangeSubtitle(e.target.value)}
+              />
+            </Col>
 
-              <Col>
-                <Form.Label>{t("manageNews.label3")}</Form.Label>
-                <Form.Control
-                  type="date"
-                  min="1975-04-30"
-                  isInvalid={invalidDate}
-                  value={date}
-                  onChange={(e) => handleChangeDate(e.target.value)}
-                />
-              </Col>
-            </Row>
+            <Col className="mb-3">
+              <Form.Label>{t("manageNews.label3")}</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                isInvalid={invalidIntro}
+                value={intro}
+                onChange={(e) => handleChangeIntro(e.target.value)}
+              />
+            </Col>
+
+            <div className="mb-3">
+              <Form.Label>{t("manageNews.label5")}</Form.Label>
+              {sectionList &&
+                sectionList.length > 0 &&
+                sectionList.map((item, index) => {
+                  return (
+                    <div className="section" key={item.id}>
+                      <div className="section-index">
+                        {t("manageNews.label6")} {index + 1}
+                      </div>
+                      <FloatingLabel
+                        controlId={`floatingHeading-${item.id}`}
+                        label={t("manageNews.note3")}
+                        className="mb-3"
+                      >
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter heading"
+                          value={item.title}
+                          isInvalid={item.isInvalidTitle}
+                          onChange={(e) =>
+                            handleChangeSection(
+                              item.id,
+                              e.target.value,
+                              "heading"
+                            )
+                          }
+                        />
+                      </FloatingLabel>
+
+                      <FloatingLabel
+                        controlId={`floatingContent-${item.id}`}
+                        label={t("manageNews.note4")}
+                      >
+                        <Form.Control
+                          as="textarea"
+                          rows={4}
+                          placeholder="Enter content"
+                          value={item.content}
+                          isInvalid={item.isInvalidContent}
+                          onChange={(e) =>
+                            handleChangeSection(
+                              item.id,
+                              e.target.value,
+                              "content"
+                            )
+                          }
+                        />
+                      </FloatingLabel>
+                      <div className="section-btn-group">
+                        {sectionList && sectionList.length > 1 && (
+                          <Tooltip title="Remove">
+                            <IconButton
+                              onClick={() => handleRemoveSection(item.id)}
+                            >
+                              <RemoveCircleIcon color="error" />
+                            </IconButton>
+                          </Tooltip>
+                        )}
+
+                        <Tooltip title="Add">
+                          <IconButton onClick={handleAddSection}>
+                            <AddCircleIcon color="success" />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
 
             <Col className="mb-3">
               <Form.Label>{t("manageNews.label4")}</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
-                isInvalid={invalidLink}
-                value={link}
-                onChange={(e) => handleChangeLink(e.target.value)}
+                rows={4}
+                isInvalid={invalidConclusion}
+                value={conclusion}
+                onChange={(e) => handleChangeConclusion(e.target.value)}
               />
+            </Col>
+
+            <Col className="mb-3">
+              <Form.Label>{t("manageNews.label7")}</Form.Label>
+              <Form.Control
+                type="file"
+                id="file-input"
+                isInvalid={invalidImage}
+                onChange={(e) => handleOnchangeImage(e)}
+              />
+              <div className="banner-image-preview mt-3">
+                {previewImage ? (
+                  <Image src={previewImage} />
+                ) : (
+                  <span style={{ color: "rgb(180, 177, 177)" }}>Preview</span>
+                )}
+              </div>
             </Col>
           </Modal.Body>
           <Modal.Footer>

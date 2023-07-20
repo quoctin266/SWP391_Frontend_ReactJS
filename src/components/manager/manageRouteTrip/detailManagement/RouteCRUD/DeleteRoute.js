@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { deleteRoute } from "../../../../../service/APIservice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const DeleteRoute = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
   const { route } = props;
@@ -24,7 +26,7 @@ const DeleteRoute = (props) => {
   return (
     <>
       <Button variant="danger" onClick={handleShow}>
-        Delete
+        {t("manageRoute.deleteBtn")}
       </Button>
 
       <Modal
@@ -34,20 +36,20 @@ const DeleteRoute = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Delete</Modal.Title>
+          <Modal.Title>{t("manageRoute.deleteTitle")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure to delete this route? <br />
-          Departure: <b>{route.departure}</b> <br />
-          Destination: <b>{route.destination}</b> <br />
-          Detail: <b>{route.description}</b>
+          {t("manageRoute.deleteNote")} <br />
+          {t("manageRoute.info1")} <b>{route.departure}</b> <br />
+          {t("manageRoute.info2")} <b>{route.destination}</b> <br />
+          {t("manageRoute.info3")} <b>{route.description}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("manageRoute.closeBtn")}
           </Button>
           <Button variant="primary" onClick={handleDeleteRoute}>
-            Confirm
+            {t("manageRoute.confirmBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -13,9 +13,9 @@ const PrivateRoute = (props) => {
   //   restrict access of customer
   if (
     role === "customer" &&
-    (props.children.type.name === "Staff" ||
-      props.children.type.name === "Manager" ||
-      props.children.type.name === "Admin")
+    (props.children.type.name === "WrappedStaff" ||
+      props.children.type.name === "WrappedManager" ||
+      props.children.type.name === "WrappedAdmin")
   ) {
     return <Navigate to="/access-not-allowed" />;
   }
@@ -34,8 +34,8 @@ const PrivateRoute = (props) => {
     role === "staff" &&
     (props.children.type.name === "Booking" ||
       props.children.type.name === "BookingSuccess" ||
-      props.children.type.name === "Manager" ||
-      props.children.type.name === "Admin")
+      props.children.type.name === "WrappedManager" ||
+      props.children.type.name === "WrappedAdmin")
   ) {
     return <Navigate to="/access-not-allowed" />;
   }
@@ -45,8 +45,8 @@ const PrivateRoute = (props) => {
     role === "manager" &&
     (props.children.type.name === "Booking" ||
       props.children.type.name === "BookingSuccess" ||
-      props.children.type.name === "Staff" ||
-      props.children.type.name === "Admin")
+      props.children.type.name === "WrappedStaff" ||
+      props.children.type.name === "WrappedAdmin")
   ) {
     return <Navigate to="/access-not-allowed" />;
   }
@@ -56,8 +56,8 @@ const PrivateRoute = (props) => {
     role === "admin" &&
     (props.children.type.name === "Booking" ||
       props.children.type.name === "BookingSuccess" ||
-      props.children.type.name === "Staff" ||
-      props.children.type.name === "Manager")
+      props.children.type.name === "WrappedStaff" ||
+      props.children.type.name === "WrappedManager")
   ) {
     return <Navigate to="/access-not-allowed" />;
   }

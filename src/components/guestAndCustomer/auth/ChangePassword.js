@@ -169,7 +169,7 @@ const ChangePassword = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedChangePassword() {
   return (
     <Suspense fallback="...is loading">
       <ChangePassword />

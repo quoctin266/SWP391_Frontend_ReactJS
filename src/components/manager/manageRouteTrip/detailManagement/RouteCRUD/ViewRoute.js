@@ -6,8 +6,10 @@ import { getRouteDetail } from "../../../../../service/APIservice";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import { toTime } from "../../../../../utils/reuseFunction";
+import { useTranslation } from "react-i18next";
 
 const ViewRoute = (props) => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [routeDetail, setRouteDetail] = useState([]);
 
@@ -34,21 +36,21 @@ const ViewRoute = (props) => {
   return (
     <>
       <Button variant="secondary" onClick={handleShow} className="add-btn">
-        Detail
+        {t("manageRoute.detailBtn")}
       </Button>
 
       <Modal show={show} onHide={handleClose} backdrop="static" size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Route Detail</Modal.Title>
+          <Modal.Title>{t("manageRoute.title")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Index</th>
-                <th>Station</th>
-                <th>Driving Time From First Station</th>
-                <th>Distance From First Station</th>
+                <th>{t("manageRoute.field9")}</th>
+                <th>{t("manageRoute.field10")}</th>
+                <th>{t("manageRoute.field11")}</th>
+                <th>{t("manageRoute.field12")}</th>
               </tr>
             </thead>
             <tbody>
@@ -74,7 +76,7 @@ const ViewRoute = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            {t("manageRoute.closeBtn")}
           </Button>
         </Modal.Footer>
       </Modal>

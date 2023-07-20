@@ -1,0 +1,87 @@
+.blog-outer {
+    border          : 1px solid white;
+    padding         : 0 6%;
+    padding-bottom  : 8%;
+    background-color: #fff;
+    border-bottom   : 4px solid #087c06;
+
+    .Blog-Container {
+        margin-top: 5%;
+
+        .Blog-Box {
+            .Blog-Header {
+                background-color: #9ECE9D;
+                padding-top     : 2rem;
+                border          : solid 5px #13470A;
+                border-bottom   : none;
+                border-radius   : 1.5rem 1.5rem 0 0;
+
+                .Header {
+                    text-align : center;
+                    font-weight: bold;
+                }
+
+                .Subtext {
+                    text-align   : center;
+                    margin-bottom: 3%;
+                    font-size    : 1.2rem;
+                    font-weight  : 600;
+                }
+
+                .Blog-Banner {
+                    width     : 100%;
+                    max-height: 40vh;
+                    object-fit: contain;
+                }
+            }
+
+            .Blog-Content {
+                padding         : 0 2rem;
+                background-color: #9ECE9D;
+                padding-bottom  : 2rem;
+                padding-top     : 4rem;
+                border          : solid 5px #13470A;
+                border-top      : 0;
+                border-radius   : 0 0 1.5rem 1.5rem;
+                margin-top      : -0.3rem;
+
+                .Introduction {
+
+                    .Introduction-Header {
+                        font-weight: bold;
+                        font-size  : 2rem;
+                    }
+
+                    .Introduction-Content {
+                        font-weight: 400;
+                        font-size  : 1.5rem;
+                    }
+                }
+
+                .Content {
+                    .Content-Header {
+                        font-weight: bold;
+                        font-size  : 2rem;
+                    }
+
+                    .Content-Content {
+                        font-weight: 400;
+                        font-size  : 1.5rem;
+                    }
+                }
+
+                .Conclusion {
+                    .Conclusion-Header {
+                        font-weight: bold;
+                        font-size  : 2rem;
+                    }
+
+                    .Conclusion-Content {
+                        font-weight: 400;
+                        font-size  : 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+}

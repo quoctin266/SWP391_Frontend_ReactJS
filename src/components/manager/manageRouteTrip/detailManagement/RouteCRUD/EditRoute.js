@@ -15,8 +15,10 @@ import { useEffect } from "react";
 import { toMinutes, toTime } from "../../../../../utils/reuseFunction";
 import EditPoint from "./EditPoint";
 import DeletePoint from "./DeletePoint";
+import { useTranslation } from "react-i18next";
 
 const EditRoute = (props) => {
+  const { t } = useTranslation();
   const [showAdd, setShowAdd] = useState(false);
   const [stationList, setStationList] = useState([]);
 
@@ -233,19 +235,19 @@ const EditRoute = (props) => {
 
     if (!station) {
       setInvalidStation(true);
-      toast.error("Must select a station.");
+      toast.error(`${t("editRoute.toast1")}`);
       return;
     }
 
     if (!addPreStation) {
       setInvalidAddPre(true);
-      toast.error("Please specify the previous station.");
+      toast.error(`${t("editRoute.toast2")}`);
       return;
     }
 
     if (day !== 0) {
       if (!day) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidDay(true);
         return;
       }
@@ -253,7 +255,7 @@ const EditRoute = (props) => {
 
     if (hour !== 0) {
       if (!hour) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidHour(true);
         return;
       }
@@ -261,7 +263,7 @@ const EditRoute = (props) => {
 
     if (minute !== 0) {
       if (!minute) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidMinute(true);
         return;
       }
@@ -269,7 +271,7 @@ const EditRoute = (props) => {
 
     if (distance !== 0) {
       if (!distance) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidDistance(true);
         return;
       }
@@ -277,7 +279,7 @@ const EditRoute = (props) => {
 
     if (dayN !== 0) {
       if (!dayN) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidDayN(true);
         return;
       }
@@ -285,7 +287,7 @@ const EditRoute = (props) => {
 
     if (hourN !== 0) {
       if (!hourN) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidHourN(true);
         return;
       }
@@ -293,7 +295,7 @@ const EditRoute = (props) => {
 
     if (minuteN !== 0) {
       if (!minuteN) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidMinuteN(true);
         return;
       }
@@ -301,7 +303,7 @@ const EditRoute = (props) => {
 
     if (distanceN !== 0) {
       if (!distanceN) {
-        toast.error("Please specify a valid number.");
+        toast.error(`${t("editRoute.toast3")}`);
         setInvalidDistanceN(true);
         return;
       }
@@ -412,7 +414,7 @@ const EditRoute = (props) => {
     });
 
     props.setRouteDetail(newRouteDetail);
-    toast.success("Changes have been saved.");
+    toast.success(`${t("editRoute.toast4")}`);
     handleCloseAdd();
   };
 
@@ -423,7 +425,7 @@ const EditRoute = (props) => {
 
   const handleSaveChange = async () => {
     if (!description) {
-      toast.error("Description must not be empty.");
+      toast.error(`${t("editRoute.toast5")}`);
       setInvalidDescription(true);
       return;
     }
@@ -442,23 +444,23 @@ const EditRoute = (props) => {
 
   return (
     <div className="edit-route">
-      <div className="edit-route-title">Edit Route Info</div>
+      <div className="edit-route-title">{t("editRoute.title")}</div>
       <div className="edit-body">
         <Button
           variant="primary"
           className="add-station-btn"
           onClick={handleShowAdd}
         >
-          Add Station
+          {t("editRoute.addBtn")}
         </Button>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Index</th>
-              <th>Station</th>
-              <th>Driving Time From Departure</th>
-              <th>Distance From Departure</th>
-              <th>Actions</th>
+              <th>{t("editRoute.field1")}</th>
+              <th>{t("editRoute.field2")}</th>
+              <th>{t("editRoute.field3")}</th>
+              <th>{t("editRoute.field4")}</th>
+              <th>{t("editRoute.field5")}</th>
             </tr>
           </thead>
           <tbody>
@@ -497,11 +499,13 @@ const EditRoute = (props) => {
 
         <Row className="mb-3" style={{ marginTop: "4%" }}>
           <Col>
-            <Form.Label>Description</Form.Label>
+            <Form.Label style={{ fontWeight: "600" }}>
+              {t("editRoute.label9")}
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
-              placeholder="Description"
+              placeholder={t("editRoute.note8")}
               isInvalid={invalidDescription}
               value={description}
               onChange={(e) => handleChangeDes(e.target.value)}
@@ -519,13 +523,13 @@ const EditRoute = (props) => {
           size="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add Station</Modal.Title>
+            <Modal.Title>{t("editRoute.title1")}</Modal.Title>
           </Modal.Header>
           <Form onSubmit={handleAddStation}>
             <Modal.Body>
               <Row className="mb-3">
                 <Col>
-                  <Form.Label>Select New Station</Form.Label>
+                  <Form.Label>{t("editRoute.label1")}</Form.Label>
                   <Form.Select
                     aria-label="select station"
                     defaultValue=""
@@ -533,7 +537,7 @@ const EditRoute = (props) => {
                     onChange={(e) => handleChangeStation(e.target.value)}
                   >
                     <option value="" disabled hidden>
-                      Select station
+                      {t("editRoute.note1")}
                     </option>
                     {stationList &&
                       stationList.length > 0 &&
@@ -555,7 +559,7 @@ const EditRoute = (props) => {
 
               <Row className="mb-5">
                 <Col>
-                  <Form.Label>Previous Station</Form.Label>
+                  <Form.Label>{t("editRoute.label2")}</Form.Label>
                   <Form.Select
                     aria-label="select station"
                     defaultValue=""
@@ -563,7 +567,7 @@ const EditRoute = (props) => {
                     onChange={(e) => handleChangeAddPre(e.target.value)}
                   >
                     <option value="" disabled hidden>
-                      Select station
+                      {t("editRoute.note1")}
                     </option>
                     {preOption &&
                       preOption.length > 0 &&
@@ -581,11 +585,11 @@ const EditRoute = (props) => {
                 </Col>
 
                 <Col>
-                  <Form.Label>Next Station</Form.Label>
+                  <Form.Label>{t("editRoute.label3")}</Form.Label>
                   <Form.Control
                     type="text"
                     aria-label="next station"
-                    placeholder="Next station"
+                    placeholder={t("editRoute.note2")}
                     disabled
                     value={addNextStation.name ? addNextStation.name : ""}
                   />
@@ -594,12 +598,12 @@ const EditRoute = (props) => {
 
               <Row>
                 <Col>
-                  <Form.Label>Driving Time From Previous Station</Form.Label>
+                  <Form.Label>{t("editRoute.label4")}</Form.Label>
                   <Row>
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Days"
+                        placeholder={t("editRoute.note3")}
                         min="0"
                         disabled={isFirst}
                         value={day}
@@ -611,7 +615,7 @@ const EditRoute = (props) => {
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Hours"
+                        placeholder={t("editRoute.note4")}
                         min="0"
                         max="24"
                         disabled={isFirst}
@@ -624,7 +628,7 @@ const EditRoute = (props) => {
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Minutes"
+                        placeholder={t("editRoute.note5")}
                         min="0"
                         max="60"
                         disabled={isFirst}
@@ -641,10 +645,10 @@ const EditRoute = (props) => {
                   controlId="formPreDistanceAdd"
                   as={Col}
                 >
-                  <Form.Label>Distance From Previous Station</Form.Label>
+                  <Form.Label>{t("editRoute.label5")}</Form.Label>
                   <Form.Control
                     type="number"
-                    placeholder="Distance from previous station in Km"
+                    placeholder={t("editRoute.note6")}
                     min="0"
                     step="0.1"
                     disabled={isFirst}
@@ -657,12 +661,12 @@ const EditRoute = (props) => {
 
               <Row>
                 <Col>
-                  <Form.Label>Driving Time To Next Station</Form.Label>
+                  <Form.Label>{t("editRoute.label6")}</Form.Label>
                   <Row>
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Days"
+                        placeholder={t("editRoute.note3")}
                         min="0"
                         disabled={isLast || firstStation}
                         value={dayN}
@@ -674,7 +678,7 @@ const EditRoute = (props) => {
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Hours"
+                        placeholder={t("editRoute.note4")}
                         min="0"
                         max="24"
                         disabled={isLast || firstStation}
@@ -687,7 +691,7 @@ const EditRoute = (props) => {
                     <Col>
                       <Form.Control
                         type="number"
-                        placeholder="Minutes"
+                        placeholder={t("editRoute.note5")}
                         min="0"
                         max="60"
                         disabled={isLast || firstStation}
@@ -704,10 +708,10 @@ const EditRoute = (props) => {
                   controlId="formNextDistanceAdd"
                   as={Col}
                 >
-                  <Form.Label>Distance To Next Station</Form.Label>
+                  <Form.Label>{t("editRoute.label7")}</Form.Label>
                   <Form.Control
                     type="number"
-                    placeholder="Distance to next station in Km"
+                    placeholder={t("editRoute.note7")}
                     min="0"
                     step="0.1"
                     disabled={isLast || firstStation}
@@ -720,24 +724,24 @@ const EditRoute = (props) => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseAdd}>
-                Close
+                {t("editRoute.closeBtn")}
               </Button>
               <Button variant="primary" type="submit">
-                Add Station
+                {t("editRoute.addBtn")}
               </Button>
             </Modal.Footer>
           </Form>
         </Modal>
 
         <Button variant="primary" className="mt-3" onClick={handleSaveChange}>
-          Confirm
+          {t("editRoute.confirmBtn")}
         </Button>
         <Button
           variant="secondary"
           className="mx-2 mt-3"
           onClick={() => setShowCancel(true)}
         >
-          Cancel
+          {t("editRoute.cancelBtn")}
         </Button>
 
         <Modal
@@ -747,18 +751,18 @@ const EditRoute = (props) => {
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Confirm Cancel</Modal.Title>
+            <Modal.Title>{t("editRoute.cancelTitle")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure to cancel the current operation? <br />
-            All the changes you made will be lost and can't be recovered.
+            {t("editRoute.cancelNote1")} <br />
+            {t("editRoute.cancelNote2")}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseCancel}>
-              No, Go back
+              {t("editRoute.backBtn")}
             </Button>
             <Button variant="primary" onClick={handleCancel}>
-              Yes, Continue
+              {t("editRoute.contBtn")}
             </Button>
           </Modal.Footer>
         </Modal>

@@ -259,14 +259,44 @@ const Schedule = () => {
   const handleUpdateStatus = async (e) => {
     e.preventDefault();
 
+    if (statusUpdate === "Standby") {
+      toast.error("Trip in progress or completed.");
+      return;
+    }
+
+    if (statusUpdate === "Departed") {
+      if (
+        trip.status === "Completed" ||
+        moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss").isAfter(
+          moment(),
+          "day"
+        )
+      ) {
+        toast.error("Trip is either completed or not yet time to depart.");
+        return;
+      }
+    }
+
+    if (statusUpdate === "Completed") {
+      if (
+        trip.status === "Standby" ||
+        moment(trip.departure_date, "DD-MM-YYYY HH:mm:ss").isAfter(moment())
+      ) {
+        toast.error("Trip has not departed yet or still in progress.");
+        return;
+      }
+    }
+
     let data = await putUpdateTripStatus(trip.trip_id, statusUpdate);
     if (data && data.EC === 0) {
       toast.success(data.EM);
       let dataNew = await getTripList(selectedRoute.value);
       if (dataNew && dataNew.EC === 0) {
         setTripList(dataNew.DT);
+        handleCloseDetailTrip();
       } else if (dataNew && dataNew.EC === 107) {
         setTripList([]);
+        handleCloseDetailTrip();
       }
     } else toast.error(data.EM);
   };
@@ -462,6 +492,10 @@ const Schedule = () => {
   };
 
   const handleTempAdd = async (order) => {
+    if (trip.status !== "Standby") {
+      toast.error("Trip orders can no longer be modified.");
+      return;
+    }
     let vehicleCapacity = trip.capacity;
 
     let cloneRoute = _.cloneDeep(routeEstimate);
@@ -524,6 +558,11 @@ const Schedule = () => {
   };
 
   const handleRemoveTemp = async (item) => {
+    if (trip.status !== "Standby") {
+      toast.error("Trip orders can no longer be modified.");
+      return;
+    }
+
     let cloneRoute = _.cloneDeep(routeEstimate);
 
     cloneRoute.forEach((station, index) => {
@@ -1235,6 +1274,7 @@ const Schedule = () => {
                             <Button
                               variant="warning"
                               onClick={handleShowOption}
+                              disabled={trip.status !== "Standby"}
                             >
                               {t("schedule.autoBtn")}
                             </Button>

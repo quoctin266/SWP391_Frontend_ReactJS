@@ -25,7 +25,7 @@ const GoogleMapSearch = () => {
   const { t } = useTranslation();
   // set up google map
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBjepaAEdcoiKVQPC8VUo-DkKSikflLkmo",
+    googleMapsApiKey: "AIzaSyCHeC4_Ukbb7wnAgAOASYhymXpcFOaf2fE",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });

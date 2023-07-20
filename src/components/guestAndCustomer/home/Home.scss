@@ -309,8 +309,8 @@
                         font-weight  : 600;
 
                         .news-link {
-                            text-decoration: none;
-                            color          : #404040;
+                            cursor: pointer;
+                            color : #404040;
 
                             &:hover {
                                 color: rgb(43, 116, 75);

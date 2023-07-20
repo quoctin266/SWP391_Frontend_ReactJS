@@ -43,7 +43,7 @@ const AllRoute = () => {
         <div className="Header">{t("allroute.header")}</div>
         <div className="route-list">
           <Table striped bordered hover>
-            <thead>
+            <thead >
               <tr>
                 <th>{t("allroute.field1")}</th>
                 <th>{t("allroute.field2")}</th>

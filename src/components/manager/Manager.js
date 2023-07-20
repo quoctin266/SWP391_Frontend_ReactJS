@@ -28,7 +28,7 @@ const Manager = () => {
   );
 };
 
-export default function WrappedApp() {
+export default function WrappedManager() {
   return (
     <Suspense fallback="...is loading">
       <Manager />

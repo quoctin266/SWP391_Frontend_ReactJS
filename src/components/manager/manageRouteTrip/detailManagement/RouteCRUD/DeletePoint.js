@@ -7,8 +7,10 @@ import { useState } from "react";
 import { toMinutes, toTime } from "../../../../../utils/reuseFunction";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const DeletePoint = (props) => {
+  const { t } = useTranslation();
   let { routeDetail, station } = props;
   const [show, setShow] = useState(false);
   const [removeStation, setRemoveStation] = useState("");
@@ -79,7 +81,7 @@ const DeletePoint = (props) => {
     if (!isFirst && !isLast) {
       if (day !== 0) {
         if (!day) {
-          toast.error("Please specify a valid number.");
+          toast.error(`${t("editRoute.toast3")}`);
           setInvalidDay(true);
           return;
         }
@@ -87,7 +89,7 @@ const DeletePoint = (props) => {
 
       if (hour !== 0) {
         if (!hour) {
-          toast.error("Please specify a valid number.");
+          toast.error(`${t("editRoute.toast3")}`);
           setInvalidHour(true);
           return;
         }
@@ -95,7 +97,7 @@ const DeletePoint = (props) => {
 
       if (minute !== 0) {
         if (!minute) {
-          toast.error("Please specify a valid number.");
+          toast.error(`${t("editRoute.toast3")}`);
           setInvalidMinute(true);
           return;
         }
@@ -103,7 +105,7 @@ const DeletePoint = (props) => {
 
       if (distance !== 0) {
         if (!distance) {
-          toast.error("Please specify a valid number.");
+          toast.error(`${t("editRoute.toast3")}`);
           setInvalidDistance(true);
           return;
         }
@@ -169,14 +171,14 @@ const DeletePoint = (props) => {
 
     console.log(cloneRoute);
     props.setRouteDetail(cloneRoute);
-    toast.success("Changes have been saved.");
+    toast.success(`${t("editRoute.toast4")}`);
     handleClose();
   };
 
   return (
     <>
       <Button variant="danger" className="mx-2" onClick={handleShow}>
-        Remove
+        {t("editRoute.removeBtn")}
       </Button>
 
       <Modal
@@ -187,13 +189,13 @@ const DeletePoint = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Remove Station</Modal.Title>
+          <Modal.Title>{t("editRoute.title3")}</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleRemove}>
           <Modal.Body>
             <Row className="mb-3">
               <Col>
-                <Form.Label>Removing This Station</Form.Label>
+                <Form.Label>{t("editRoute.label8")}</Form.Label>
                 <Form.Control
                   type="text"
                   aria-label="remove example"
@@ -208,7 +210,7 @@ const DeletePoint = (props) => {
               <>
                 <Row className="mb-3">
                   <Col>
-                    <Form.Label>Previous Station</Form.Label>
+                    <Form.Label>{t("editRoute.label10")}</Form.Label>
                     <Form.Control
                       type="text"
                       aria-label="pre example"
@@ -218,7 +220,7 @@ const DeletePoint = (props) => {
                   </Col>
 
                   <Col>
-                    <Form.Label>Next Station</Form.Label>
+                    <Form.Label>{t("editRoute.label11")}</Form.Label>
                     <Form.Control
                       type="text"
                       aria-label="next example"
@@ -230,12 +232,12 @@ const DeletePoint = (props) => {
 
                 <Row>
                   <Col>
-                    <Form.Label>Driving Time Between Two Station</Form.Label>
+                    <Form.Label>{t("editRoute.label12")}</Form.Label>
                     <Row>
                       <Col>
                         <Form.Control
                           type="number"
-                          placeholder="Days"
+                          placeholder={t("editRoute.note3")}
                           min="0"
                           value={day}
                           isInvalid={invalidDay}
@@ -246,7 +248,7 @@ const DeletePoint = (props) => {
                       <Col>
                         <Form.Control
                           type="number"
-                          placeholder="Hours"
+                          placeholder={t("editRoute.note4")}
                           min="0"
                           max="24"
                           value={hour}
@@ -258,7 +260,7 @@ const DeletePoint = (props) => {
                       <Col>
                         <Form.Control
                           type="number"
-                          placeholder="Minutes"
+                          placeholder={t("editRoute.note5")}
                           min="0"
                           max="60"
                           value={minute}
@@ -274,10 +276,10 @@ const DeletePoint = (props) => {
                     controlId="formPreDistance"
                     as={Col}
                   >
-                    <Form.Label>Distance Between Two Station</Form.Label>
+                    <Form.Label>{t("editRoute.label13")}</Form.Label>
                     <Form.Control
                       type="number"
-                      placeholder="Distance from previous station in Km"
+                      placeholder={t("editRoute.note9")}
                       min="0"
                       step="0.1"
                       value={distance}
@@ -291,10 +293,10 @@ const DeletePoint = (props) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t("editRoute.closeBtn")}
             </Button>
             <Button variant="primary" type="submit">
-              Confirm
+              {t("editRoute.confirmBtn")}
             </Button>
           </Modal.Footer>
         </Form>
