@@ -46,9 +46,8 @@ const DeleteArticle = (props) => {
           {t("manageNews.deleteNote")} <br />
           {t("manageNews.info1")} <b>{article.title}</b>
           <br />
-          {t("manageNews.info2")} <b>{article.source}</b>
+          {t("manageNews.info2")} <b>{article.sub_title}</b>
           <br />
-          {t("manageNews.info3")} <b>{article.date}</b>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

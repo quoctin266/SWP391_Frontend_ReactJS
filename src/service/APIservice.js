@@ -4,6 +4,10 @@ const getAllNews = async () => {
   return await axios.get("api/v1/news");
 };
 
+const getNewsContent = async (id) => {
+  return await axios.get(`api/v1/news-content/${id}`);
+};
+
 const getAllServicesIntro = async () => {
   return await axios.get("api/v1/services-intro");
 };
@@ -509,21 +513,40 @@ const deleteQA = async (id) => {
   return await axios.delete(`api/v1/delete-qa/${id}`);
 };
 
-const postCreateArticle = async (title, source, date, link) => {
+const postCreateArticle = async (
+  title,
+  subtitle,
+  intro,
+  conclusion,
+  banner,
+  sectionList
+) => {
   return await axios.post("api/v1/create-article", {
     title: title,
-    source: source,
-    date: date,
-    link: link,
+    subtitle: subtitle,
+    intro: intro,
+    conclusion: conclusion,
+    banner: banner,
+    sectionList: sectionList,
   });
 };
 
-const putUpdateArticle = async (title, source, date, link, id) => {
+const putUpdateArticle = async (
+  title,
+  subtitle,
+  intro,
+  conclusion,
+  banner,
+  sectionList,
+  id
+) => {
   return await axios.put("api/v1/update-article", {
     title: title,
-    source: source,
-    date: date,
-    link: link,
+    subtitle: subtitle,
+    intro: intro,
+    conclusion: conclusion,
+    banner: banner,
+    sectionList: sectionList,
     id: id,
   });
 };
@@ -627,6 +650,7 @@ const postSendBill = async (
 
 export {
   getAllNews,
+  getNewsContent,
   getAllServicesIntro,
   getAllShippingCondition,
   postLogin,

@@ -19,7 +19,7 @@
         "text9": "At Bird Travel, we offer bird transportation services to various destinations. Whether you need to transport your bird locally, within the country, or even internationally, we can assist you. Our services cover a wide range of locations, ensuring that your feathered friend can reach their destination safely and comfortably. From short-distance relocations to long-haul journeys, trust Bird Travel to transport your bird wherever they need to go.",
         "text10": "Transporting a bird on the ground requires careful planning and attention to ensure the safety and comfort of your feathered friend. Here are some essential steps to follow when transporting a bird by road or other ground transportation methods:",
         "title4": "See your bird’s destination",
-        "news": "News",
+        "news": "Useful Tips",
         "service": "Bird Shipping Services",
         "condition": "Shipping Condition",
         "feedbackBtn": "Leave feedback",
@@ -671,7 +671,7 @@
     "manageWeb": {
         "header": "Manage Web Content",
         "tab1": "Manage FAQ",
-        "tab2": "Manage News"
+        "tab2": "Manage Blog"
     },
     "manageFAQ": {
         "toast1": "Must be at least 20 characters.",
@@ -694,18 +694,26 @@
     },
     "manageNews": {
         "toast1": "Title must not be empty.",
-        "toast2": "Author name must not be empty.",
-        "toast3": "Please specify a date.",
-        "toast4": "Please specify the article link.",
+        "toast2": "Subtitle must not be empty.",
+        "toast3": "Intro must not be empty.",
+        "toast4": "Conclusion must not be empty.",
+        "toast5": "Section title must not be empty.",
+        "toast6": "Section content must not be empty.",
+        "toast7": "Please provide a banner image.",
         "addBtn":"Add New",
         "viewBtn":"View",
         "addTitle":"Add New Article",
         "label1": "Title",
         "note1": "Enter title",
-        "label2": "Author",
-        "note2": "Enter author name",
-        "label3": "Date",
-        "label4": "Article Link",
+        "label2": "Subtitle",
+        "note2": "Enter subtitle",
+        "label3": "Intro",
+        "label4": "Conclusion",
+        "label5": "Body",
+        "label6": "Section",
+        "note3": "Heading",
+        "note4": "Content",
+        "label7": "Banner Image",
         "closeBtn":"Close",
         "confirmBtn":"Confirm",
         "pre":"< Previous",
@@ -714,8 +722,7 @@
         "deleteTitle":"Confirm Delete",
         "deleteNote":"Are you sure to delete this article?",
         "info1": "Title:",
-        "info2": "Author:",
-        "info3": "Date:"
+        "info2": "Subtitle:"
     },
     "manageTransportation": {
         "header": "Manage Transportation",

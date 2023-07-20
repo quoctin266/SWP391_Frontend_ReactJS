@@ -216,17 +216,16 @@ const Home = () => {
                   listNews.map((item) => {
                     return (
                       <div className="news-item" key={item.id}>
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noreferrer"
+                        <span
                           className="news-link"
+                          onClick={() =>
+                            navigate(`/blog/${item.id}`, {
+                              state: { blog: item },
+                            })
+                          }
                         >
-                          <BiNews /> {item.title} &nbsp; &nbsp;
-                          <i>{item.source}</i>
-                          &nbsp; &nbsp;
-                          <i>{moment(item.date).utc().format("DD/MM/YYYY")} </i>
-                        </a>
+                          <BiNews /> {item.title}
+                        </span>
                       </div>
                     );
                   })}

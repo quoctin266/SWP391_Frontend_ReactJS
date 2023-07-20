@@ -153,7 +153,7 @@ const ManageService = () => {
     <div className="manage-service-container">
       <div className="title">{t("manageService.header")}</div>
       <div className="service-body">
-        <Box sx={{ width: "100%", typography: "body1" }} className="box-mui">
+        <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
@@ -161,9 +161,21 @@ const ManageService = () => {
                 aria-label="lab API tabs example"
                 variant="fullWidth"
               >
-                <Tab label={t("manageService.title1")} value="1" />
-                <Tab label={t("manageService.title2")} value="2" />
-                <Tab label={t("manageService.title3")} value="3" />
+                <Tab
+                  label={t("manageService.title1")}
+                  value="1"
+                  style={{ fontWeight: "600", fontSize: "1em" }}
+                />
+                <Tab
+                  label={t("manageService.title2")}
+                  value="2"
+                  style={{ fontWeight: "600", fontSize: "1em" }}
+                />
+                <Tab
+                  label={t("manageService.title3")}
+                  value="3"
+                  style={{ fontWeight: "600", fontSize: "1em" }}
+                />
               </TabList>
             </Box>
             <TabPanel value="1" className="manage-payment">

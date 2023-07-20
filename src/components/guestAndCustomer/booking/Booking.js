@@ -40,7 +40,7 @@ const Booking = () => {
   const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyBC8mWV1x70IBoNqcLxapXKX38iQJ3B-rc",
+    googleMapsApiKey: "AIzaSyCHeC4_Ukbb7wnAgAOASYhymXpcFOaf2fE",
     // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
     libraries: libraries,
   });
