@@ -1,7 +1,8 @@
 .manage-routetrip-container {
-    width         : 90%;
+    width         : 97%;
     padding       : 2%;
     padding-bottom: 5%;
+
 
     .title {
         font-size       : 2vw;
@@ -16,65 +17,53 @@
     }
 
     .route-trip-body {
-        .manage-route {
+        background-color: white;
+        padding         : 2%;
+        border-radius   : 15px;
 
-            .accordion-button {
-                font-size  : 0.8em;
-                font-weight: 600;
-                color      : rgb(62, 54, 63);
+        .manage-route {
+            .add-btn {
+                margin: 2% 0;
             }
 
-            .accordion-body {
-                .add-btn {
-                    margin: 2% 0;
+            .table {
+                button {
+                    font-size: 0.85vw;
+                }
+            }
+
+            .edit-route {
+                margin-top      : 5%;
+                background-color: aliceblue;
+                border-radius   : 15px;
+                padding         : 2%;
+                border          : 1px solid rgb(193, 218, 240);
+
+                .edit-route-title {
+                    font-weight  : 600;
+                    font-size    : 1.4em;
+                    margin-bottom: 2%;
                 }
 
-                .table {
-                    button {
-                        font-size: 0.85vw;
-                    }
-                }
-
-                .edit-route {
-                    margin-top      : 5%;
-                    background-color: aliceblue;
-                    border-radius   : 15px;
-                    padding         : 2%;
-                    border          : 1px solid rgb(193, 218, 240);
-
-                    .edit-route-title {
-                        font-weight  : 500;
-                        font-size    : 1.4em;
+                .edit-body {
+                    .add-station-btn {
                         margin-bottom: 2%;
                     }
-
-                    .edit-body {
-                        .add-station-btn {
-                            margin-bottom: 2%;
-                        }
-                    }
                 }
             }
+
         }
 
         .manage-trip {
-            .accordion-button {
-                font-size  : 0.8em;
-                font-weight: 600;
-                color      : rgb(62, 54, 63);
+            .add-btn {
+                margin: 2% 0;
             }
 
-            .accordion-body {
-                .add-btn {
-                    margin: 2% 0;
-                }
-            }
 
             .route-title {
-                font-size    : 1.7em;
-                font-weight  : 600;
-                margin-bottom: 1%;
-                margin-top   : 2%;
+                font-size  : 1.7em;
+                font-weight: 600;
+                margin     : 2% 0;
             }
 
             .route-list {
@@ -89,7 +78,8 @@
                 .detail-title {
                     font-size  : 1.3em;
                     font-weight: 600;
-                    margin     : 3% 0;
+                    margin     : 2% 0;
+                    margin-top : 5%;
                 }
 
                 .route-detail {
@@ -118,45 +108,31 @@
         }
 
         .manage-vehicle {
-            .accordion-button {
-                font-size  : 0.8em;
+            .vehicle-title {
+                font-size  : 1.5em;
                 font-weight: 600;
-                color      : rgb(62, 54, 63);
+                margin     : 2% 0;
             }
 
-            .accordion-body {
-                .vehicle-title {
-                    font-size  : 1.5em;
-                    font-weight: 600;
-                    margin     : 2% 0;
-                }
-
-                .vehicle-list {
-                    width: 70%;
-                }
+            .vehicle-list {
+                width: 70%;
             }
+
         }
 
         .manage-station {
-            .accordion-button {
-                font-size  : 0.8em;
+            .station-title {
+                font-size  : 1.5em;
                 font-weight: 600;
-                color      : rgb(62, 54, 63);
+                margin     : 2% 0;
             }
 
-            .accordion-body {
-                .station-title {
-                    font-size  : 1.5em;
-                    font-weight: 600;
-                    margin     : 2% 0;
-                }
-
-                .station-list {
-                    button {
-                        font-size: 0.85vw;
-                    }
+            .station-list {
+                button {
+                    font-size: 0.85vw;
                 }
             }
+
         }
     }
 }

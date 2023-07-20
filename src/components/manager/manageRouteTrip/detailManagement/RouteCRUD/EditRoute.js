@@ -499,7 +499,9 @@ const EditRoute = (props) => {
 
         <Row className="mb-3" style={{ marginTop: "4%" }}>
           <Col>
-            <Form.Label>{t("editRoute.label9")}</Form.Label>
+            <Form.Label style={{ fontWeight: "600" }}>
+              {t("editRoute.label9")}
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}

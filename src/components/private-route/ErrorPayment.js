@@ -7,8 +7,11 @@ import { useEffect } from "react";
 import { removeBookingData } from "../../redux/slices/bookSlice";
 import { putCancelOrder } from "../../service/APIservice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { Suspense } from "react";
 
 const ErrorPayment = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const orderID = useSelector((state) => state.book.orderID);
@@ -20,7 +23,9 @@ const ErrorPayment = () => {
         dispatch(removeBookingData());
       } else toast.error(data.EM);
     };
-    cancelOrder();
+    if (!orderID) {
+      cancelOrder();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -28,11 +33,8 @@ const ErrorPayment = () => {
     <div className="error-payment-container">
       <Alert variant="secondary" className="alert-message">
         <div>
-          <div className="text1">Payment Failed</div>
-          <div className="text2">
-            The payment was unsuccessful due to an abnormality. Please try again
-            later or use another payment method.
-          </div>
+          <div className="text1">{t("errorpayment.text1")}</div>
+          <div className="text2">{t("errorpayment.text2")}</div>
         </div>
         <Button
           variant="primary"
@@ -40,11 +42,17 @@ const ErrorPayment = () => {
             navigate("/");
           }}
         >
-          Go to HomePage
+          {t("errorpayment.backBtn")}
         </Button>
       </Alert>
     </div>
   );
 };
 
-export default ErrorPayment;
+export default function WrappedApp() {
+  return (
+    <Suspense fallback="...is loading">
+      <ErrorPayment />
+    </Suspense>
+  );
+}
