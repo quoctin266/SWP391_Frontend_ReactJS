@@ -210,13 +210,38 @@ const ListOrder = () => {
   const handleUpdateOrderStatus = async (e) => {
     e.preventDefault();
 
+    if (statusUpdate === "Completed") {
+      if (order.status !== "Delivering" && order.status !== statusUpdate) {
+        toast.error("Order is still pending or has been canceled.");
+        return;
+      }
+    }
+
+    if (statusUpdate === "Canceled") {
+      if (order.status !== "Delivering" && order.status !== statusUpdate) {
+        toast.error("Order is still pending or has completed.");
+        return;
+      }
+    }
+
     let data = await putUpdateOrderStatus(
       order.order_id,
       statusUpdate,
       updateDepart
     );
     if (data && data.EC === 0) {
-      fetchListOrder();
+      if (selectedTrip) {
+        let dataNew = await getOrderByTrip(selectedTrip?.value);
+        if (dataNew && dataNew.EC === 0) {
+          setListOrder(dataNew.DT);
+          setFilterList(dataNew.DT);
+        } else {
+          setListOrder([]);
+          setFilterList([]);
+        }
+        setFilterStatus("");
+      } else fetchListOrder();
+
       toast.success(data.EM);
       setShowUpdate(false);
     } else toast.error(data.EM);
@@ -697,11 +722,15 @@ const ListOrder = () => {
                     <Form.Group as={Col} controlId="StatusUpdate">
                       <Form.Label>{t("orderList.label11")}</Form.Label>
                       <Form.Select
-                        defaultValue={statusUpdate}
+                        defaultValue={order.status}
                         onChange={(e) => setStatusUpdate(e.target.value)}
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="Delivering">Delivering</option>
+                        {order.status === "Completed" ||
+                        order.status === "Canceled" ? (
+                          ""
+                        ) : (
+                          <option value={order.status}>{order.status}</option>
+                        )}
                         <option value="Completed">Completed</option>
                         <option value="Canceled">Canceled</option>
                       </Form.Select>

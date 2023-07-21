@@ -335,6 +335,8 @@ const Home = () => {
                 <Form.Control
                   as="textarea"
                   rows={3}
+                  placeholder="Maximum 200 characters"
+                  maxLength={200}
                   isInvalid={invalidDes}
                   value={feedbackDes}
                   onChange={(e) => handleChangeDes(e.target.value)}
