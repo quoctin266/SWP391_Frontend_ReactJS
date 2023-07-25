@@ -36,6 +36,10 @@ const DeletePoint = (props) => {
     setShow(false);
     setPrePoint("");
     setNextPoint("");
+    setInvalidDay(false);
+    setInvalidHour(false);
+    setInvalidMinute(false);
+    setInvalidDistance(false);
   };
 
   const handleShow = () => {

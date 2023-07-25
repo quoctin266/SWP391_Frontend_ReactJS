@@ -46,6 +46,8 @@ const Schedule = () => {
   const [routeDetail, setRouteDetail] = useState([]);
 
   const [tripList, setTripList] = useState([]);
+  const [filterList, setFilterList] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("");
 
   const [showDrivers, setShowDrivers] = useState(false);
   const [driverList, setDriverList] = useState([]);
@@ -84,6 +86,20 @@ const Schedule = () => {
   const [temp2, setTemp2] = useState("");
   const [temp3, setTemp3] = useState("");
   const [temp4, setTemp4] = useState("");
+
+  const handleChangeStatus = (value) => {
+    if (!selectedRoute?.value) {
+      toast.error("Please select a route first.");
+      return;
+    }
+
+    let cloneList = _.cloneDeep(tripList);
+    if (value !== "all") {
+      cloneList = cloneList.filter((trip) => trip.status === value);
+    }
+    setFilterList(cloneList);
+    setFilterStatus(value);
+  };
 
   const handleCloseDrivers = () => setShowDrivers(false);
   const handleShowDrivers = async (tripID) => {
@@ -292,6 +308,16 @@ const Schedule = () => {
       toast.success(data.EM);
       let dataNew = await getTripList(selectedRoute.value);
       if (dataNew && dataNew.EC === 0) {
+        if (filterStatus) {
+          let cloneList = _.cloneDeep(dataNew.DT);
+          if (filterStatus !== "all") {
+            cloneList = cloneList.filter(
+              (trip) => trip.status === filterStatus
+            );
+          }
+          setFilterList(cloneList);
+        } else setFilterList(dataNew.DT);
+
         setTripList(dataNew.DT);
         handleCloseDetailTrip();
       } else if (dataNew && dataNew.EC === 107) {
@@ -340,8 +366,10 @@ const Schedule = () => {
       let data = await getTripList(selectedRoute.value);
       if (data && data.EC === 0) {
         setTripList(data.DT);
+        setFilterList(data.DT);
       } else if (data && data.EC === 107) {
         setTripList([]);
+        setFilterList([]);
       }
     };
     fetchRouteDetail();
@@ -761,6 +789,23 @@ const Schedule = () => {
 
           <div className="trip-title">{t("schedule.title3")}</div>
           <div className="trip-list">
+            <Col>
+              <Form.Label className="filter-title">Filter by status</Form.Label>
+              <Form.Select
+                value={filterStatus}
+                aria-label="Default select example"
+                onChange={(e) => handleChangeStatus(e.target.value)}
+              >
+                <option value="" disabled hidden>
+                  Select status...
+                </option>
+                <option value="all">All</option>
+                <option value="Standby">Standby</option>
+                <option value="Departed">Departed</option>
+                <option value="Completed">Completed</option>
+              </Form.Select>
+            </Col>
+
             <Table striped hover bordered responsive="sm">
               <thead>
                 <tr>
@@ -774,9 +819,9 @@ const Schedule = () => {
                 </tr>
               </thead>
               <tbody>
-                {tripList &&
-                  tripList.length > 0 &&
-                  tripList.map((trip) => {
+                {filterList &&
+                  filterList.length > 0 &&
+                  filterList.map((trip) => {
                     return (
                       <tr key={trip.trip_id}>
                         <td>{trip.trip_id}</td>
@@ -815,9 +860,9 @@ const Schedule = () => {
                       </tr>
                     );
                   })}
-                {tripList && tripList.length === 0 && (
+                {filterList && filterList.length === 0 && (
                   <tr>
-                    <td colSpan={7}>Select a route...</td>
+                    <td colSpan={7}>Empty list...</td>
                   </tr>
                 )}
               </tbody>

@@ -15,6 +15,8 @@ import {
   putUpdateTransportStatus,
   getOrderByTrip,
   getAllTrip,
+  getRouteDetail,
+  putUpdateOrderList,
 } from "../../../service/APIservice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -34,10 +36,13 @@ import { useTranslation } from "react-i18next";
 const ListOrder = () => {
   const { t } = useTranslation();
   const [listOrder, setListOrder] = useState([]);
+  const [tripList, setTripList] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const [tripOption, setTripOption] = useState([]);
   const [selectedTrip, setselectedTrip] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [filterDes, setFilterDes] = useState("");
+  const [desList, setDesList] = useState([]);
 
   const [showCustomer, setShowCustomer] = useState(false);
   const [customer, setCustomer] = useState("");
@@ -50,6 +55,7 @@ const ListOrder = () => {
 
   const [updateDepart, setUpdateDepart] = useState("");
   const [statusUpdate, setStatusUpdate] = useState("");
+  const [anticipate, setAnticipate] = useState("");
 
   const [newStatus, setNewStatus] = useState("");
   const [invalidNewStatus, setInvalidNewStatus] = useState(false);
@@ -157,6 +163,7 @@ const ListOrder = () => {
           ? moment(order.departure_date).format("YYYY-MM-DD").toString()
           : "";
         setOrder(order);
+        setAnticipate(order.anticipate_date);
         setUpdateDepart(order.departure_date);
         setStatusUpdate(order.status);
       }
@@ -175,6 +182,7 @@ const ListOrder = () => {
       setListOrder(data.DT);
       setFilterList(data.DT);
       setFilterStatus("");
+      setFilterDes("");
       setselectedTrip(null);
     }
   };
@@ -186,10 +194,11 @@ const ListOrder = () => {
       data.DT.forEach((trip) => {
         tripOption.push({
           value: trip.trip_id,
-          label: `${trip.departure_date} ${trip.departure} - ${trip.destination}`,
+          label: `${trip.departure_date} >>> ${trip.departure} - ${trip.destination} <<< Trip ID: ${trip.trip_id}`,
         });
       });
       setTripOption(tripOption);
+      setTripList(data.DT);
     }
   };
 
@@ -198,6 +207,10 @@ const ListOrder = () => {
     fetchAllTrip();
   }, []);
 
+  const handleChangeTrip = (selectedTrip) => {
+    setselectedTrip(selectedTrip);
+  };
+
   const handleChangeStatus = (value) => {
     let cloneList = _.cloneDeep(listOrder);
     if (value !== "all") {
@@ -205,6 +218,17 @@ const ListOrder = () => {
     }
     setFilterList(cloneList);
     setFilterStatus(value);
+  };
+
+  const handleChangeDes = (value) => {
+    if (!selectedTrip) {
+      toast.error("Please select a trip first.");
+      return;
+    }
+    let cloneList = _.cloneDeep(listOrder);
+    cloneList = cloneList.filter((order) => order.arrival_location === value);
+    setFilterList(cloneList);
+    setFilterDes(value);
   };
 
   const handleUpdateOrderStatus = async (e) => {
@@ -224,10 +248,16 @@ const ListOrder = () => {
       }
     }
 
+    if (!anticipate) {
+      toast.error("Anticipate date can not be empty.");
+      return;
+    }
+
     let data = await putUpdateOrderStatus(
       order.order_id,
       statusUpdate,
-      updateDepart
+      updateDepart,
+      anticipate
     );
     if (data && data.EC === 0) {
       if (selectedTrip) {
@@ -240,6 +270,7 @@ const ListOrder = () => {
           setFilterList([]);
         }
         setFilterStatus("");
+        setFilterDes("");
       } else fetchListOrder();
 
       toast.success(data.EM);
@@ -392,7 +423,57 @@ const ListOrder = () => {
       setFilterList([]);
       toast.error(data.EM);
     }
+
+    let routeID = null;
+    tripList.forEach((trip) => {
+      if (trip.trip_id === selectedTrip?.value) routeID = trip.route_id;
+    });
+
+    let dataNew = await getRouteDetail(routeID);
+    if (dataNew && dataNew.EC === 0) {
+      let destinationList = dataNew.DT.filter(
+        (item) => item.station_index !== 1
+      );
+      setDesList(destinationList);
+    } else setDesList([]);
     setFilterStatus("");
+    setFilterDes("");
+  };
+
+  const handleUpdateList = async () => {
+    if (!selectedTrip) {
+      toast.error("Please select a trip first.");
+      return;
+    }
+
+    if (!filterDes) {
+      toast.error("Please select a destination.");
+      return;
+    }
+
+    if (filterList.length === 0) {
+      toast.error("Empty order list.");
+      return;
+    }
+
+    let data = await putUpdateOrderList(filterList);
+    if (data && data.EC === 0) {
+      toast.success(data.EM);
+      if (selectedTrip) {
+        let dataNew = await getOrderByTrip(selectedTrip?.value);
+        if (dataNew && dataNew.EC === 0) {
+          setListOrder(dataNew.DT);
+          let cloneList = dataNew.DT.filter(
+            (order) => order.arrival_location === filterDes
+          );
+          setFilterList(cloneList);
+        } else {
+          setListOrder([]);
+          setFilterList([]);
+        }
+        setFilterStatus("");
+      } else fetchListOrder();
+    } else toast.error(data.EM);
   };
 
   return (
@@ -404,6 +485,7 @@ const ListOrder = () => {
             {t("orderList.title1")}
           </Form.Label>
           <Form.Select
+            className="filter-status"
             value={filterStatus}
             aria-label="Default select example"
             onChange={(e) => handleChangeStatus(e.target.value)}
@@ -419,17 +501,49 @@ const ListOrder = () => {
           </Form.Select>
         </Form.Group>
         <Form onSubmit={(e) => handleSearch(e)}>
-          <Col className="mb-3">
-            <Form.Label className="search-title">
-              {t("orderList.title2")}
-            </Form.Label>
-            <Select
-              value={selectedTrip}
-              onChange={setselectedTrip}
-              options={tripOption}
-              isClearable={true}
-            />
-          </Col>
+          <Row className="mb-3" style={{ alignItems: "flex-end" }}>
+            <Col>
+              <Form.Label className="search-title">
+                {t("orderList.title2")}
+              </Form.Label>
+              <Select
+                value={selectedTrip}
+                onChange={handleChangeTrip}
+                options={tripOption}
+                isClearable={true}
+              />
+            </Col>
+
+            <Col>
+              <Form.Label className="search-title">
+                {t("orderList.title3")}
+              </Form.Label>
+              <Form.Select
+                value={filterDes}
+                aria-label="Default select example"
+                onChange={(e) => handleChangeDes(e.target.value)}
+              >
+                <option value="" disabled hidden>
+                  {t("orderList.note6")}
+                </option>
+                {desList &&
+                  desList.length > 0 &&
+                  desList.map((item) => {
+                    return (
+                      <option value={item.name} key={item.station_id}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+            </Col>
+
+            <Col className="col-2">
+              <Button variant="warning" onClick={handleUpdateList}>
+                Complete
+              </Button>
+            </Col>
+          </Row>
           <Button variant="primary" type="submit">
             {t("orderList.searchBtn")}
           </Button>
@@ -711,7 +825,7 @@ const ListOrder = () => {
           </Modal.Header>
           <Modal.Body>
             <Tabs
-              defaultActiveKey="transportStatus"
+              defaultActiveKey="departAndStatus"
               id="justify-tab-example"
               className="mb-3"
               justify
@@ -736,7 +850,14 @@ const ListOrder = () => {
                       </Form.Select>
                     </Form.Group>
 
-                    <Col></Col>
+                    <Col>
+                      <Form.Label>Anticipate Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={anticipate}
+                        onChange={(e) => setAnticipate(e.target.value)}
+                      />
+                    </Col>
                   </Row>
 
                   <Row className="mb-5">
@@ -760,6 +881,7 @@ const ListOrder = () => {
                   </div>
                 </Form>
               </Tab>
+
               <Tab eventKey="transportStatus" title={t("orderList.tab2")}>
                 <Scrollbars
                   style={{ height: "75vh" }}

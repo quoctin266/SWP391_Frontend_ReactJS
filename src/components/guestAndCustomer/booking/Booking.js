@@ -40,8 +40,7 @@ const Booking = () => {
   const account_id = useSelector((state) => state.auth.account_id);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCHeC4_Ukbb7wnAgAOASYhymXpcFOaf2fE",
-    // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: libraries,
   });
 
@@ -239,6 +238,11 @@ const Booking = () => {
       return;
     }
 
+    if (destinationRef?.current?.value === originRef?.current?.value) {
+      toast.error("Departure and destination must be different.");
+      return;
+    }
+
     if (!paymentID) {
       setInvalidPayment(true);
       toast.error(`${t("booking.toast11")}`);
@@ -297,6 +301,11 @@ const Booking = () => {
   };
 
   const handleAddBird = () => {
+    if (birdList.length === 3) {
+      toast.error("You can only register up to 3 birds per order.");
+      return;
+    }
+
     let bird = {
       birdID: uuidv4(),
       name: "",
@@ -439,6 +448,10 @@ const Booking = () => {
     <Container className="booking-outer">
       <div className="booking-container">
         <div className="title">{t("booking.header")}</div>
+        <div className="note">
+          Note that you can register up to 3 birds per order. Please create
+          another form if you want to register more birds.
+        </div>
         <div className="booking-body">
           <div className="bird-customer-body">
             <div className="customer-info">
@@ -679,7 +692,7 @@ const Booking = () => {
           </div>
           <div className="package-body">
             <div className="package-title">{t("booking.title3")}</div>
-            <Table striped hover>
+            <Table striped hover responsive="md">
               <thead>
                 <tr>
                   <th>{t("booking.package")}</th>
@@ -795,7 +808,7 @@ const Booking = () => {
                   </Form.Select>
                 </Form.Group>
 
-                <Form.Group as={Col} className="col-4">
+                <Form.Group as={Col} className="col-md-4">
                   <Form.Label>{t("booking.label15")}</Form.Label>
                   <Col sm={10}>
                     {paymentList &&

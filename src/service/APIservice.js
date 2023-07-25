@@ -112,11 +112,17 @@ const getBirdList = async (orderID) => {
   return await axios.get(`api/v1/bird/${orderID}`);
 };
 
-const putUpdateOrderStatus = async (orderID, status, departDate) => {
+const putUpdateOrderStatus = async (
+  orderID,
+  status,
+  departDate,
+  anticipate
+) => {
   return await axios.put("api/v1/update-order-status", {
     orderID: orderID,
     status: status,
     departDate: departDate,
+    anticipate: anticipate,
   });
 };
 
@@ -648,6 +654,12 @@ const postSendBill = async (
   });
 };
 
+const putUpdateOrderList = async (orderList) => {
+  return await axios.put("api/v1/update-orderlist", {
+    orderList: orderList,
+  });
+};
+
 export {
   getAllNews,
   getNewsContent,
@@ -747,4 +759,5 @@ export {
   getAllTrash,
   postReplyMail,
   postSendBill,
+  putUpdateOrderList,
 };
