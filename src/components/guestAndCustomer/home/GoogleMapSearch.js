@@ -25,8 +25,7 @@ const GoogleMapSearch = () => {
   const { t } = useTranslation();
   // set up google map
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyCHeC4_Ukbb7wnAgAOASYhymXpcFOaf2fE",
-    // googleMapsApiKey: "AIzaSyAOd56WYDxHrJAhOvngce5eaEIcryQ-ZBE",
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: libraries,
   });
 
@@ -80,6 +79,11 @@ const GoogleMapSearch = () => {
   // calculate route distance and duration
   const calculateRoute = async (event) => {
     if (!originRef.current.value || !destinationRef.current.value) {
+      return;
+    }
+
+    if (originRef.current.value === destinationRef.current.value) {
+      toast.error("Departure and destination must be different.");
       return;
     }
 
