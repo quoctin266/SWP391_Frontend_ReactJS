@@ -452,6 +452,12 @@ const Booking = () => {
           Note that you can register up to 3 birds per order. Please create
           another form if you want to register more birds.
         </div>
+        <div className="tip">
+          Please make sure to check out available routes before start booking.{" "}
+          <span onClick={() => navigate("/view-route")}>
+            <i>Click here</i>
+          </span>
+        </div>
         <div className="booking-body">
           <div className="bird-customer-body">
             <div className="customer-info">
