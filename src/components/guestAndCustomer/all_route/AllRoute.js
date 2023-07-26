@@ -42,8 +42,8 @@ const AllRoute = () => {
       <div className="allroute-container">
         <div className="Header">{t("allroute.header")}</div>
         <div className="route-list">
-          <Table striped bordered hover>
-            <thead >
+          <Table striped bordered hover responsive="md">
+            <thead>
               <tr>
                 <th>{t("allroute.field1")}</th>
                 <th>{t("allroute.field2")}</th>
@@ -80,6 +80,11 @@ const AllRoute = () => {
               )}
             </tbody>
           </Table>
+
+          <div className="note">
+            Note: If you want to travel outside of these routes, please contact
+            our staff for more information.
+          </div>
 
           <Modal
             show={show}

@@ -212,10 +212,10 @@
         "price": "Price",
         "label11": "Choose your package",
         "title4": "Transport Information",
-        "label12": "Bird's Anticipate Travel Date",
-        "label13": "Bird's Departure City",
+        "label12": "Anticipate Travel Date",
+        "label13": "Departure City",
         "note7": "Choose departure",
-        "label14": "Bird's Arrival City",
+        "label14": "Arrival City",
         "note8": "Choose destination",
         "label15": "Payment Option",
         "nextBtn": "Next",
@@ -403,6 +403,7 @@
         "title1": "Filter by order status",
         "note1": "Select status",
         "title2": "Search By Trip",
+        "title3": "Filter By Destination",
         "searchBtn": "Search",
         "refreshBtn": "Refresh",
         "field1": "Order ID",
@@ -462,7 +463,8 @@
         "deleteNote":"Are you sure to delete this status?",
         "info": "Timestamp:",
         "pre": "< Previous",
-        "next":"Next >"
+        "next":"Next >",
+        "note6": "Select destination"
     },
     "schedule": {
         "toast1": "Must choose a date.",

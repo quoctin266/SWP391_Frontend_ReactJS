@@ -74,6 +74,17 @@
             .trip-list {
                 width: 96%;
 
+                .filter-title {
+                    font-size    : 1.1em;
+                    font-weight  : 500;
+                    margin-bottom: 1%;
+                }
+
+                .form-select {
+                    width        : 30%;
+                    margin-bottom: 3%;
+                }
+
                 .table {
                     background-color: white;
 
