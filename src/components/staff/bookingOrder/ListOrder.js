@@ -209,6 +209,9 @@ const ListOrder = () => {
 
   const handleChangeTrip = (selectedTrip) => {
     setselectedTrip(selectedTrip);
+    setFilterList([]);
+    setDesList([]);
+    setFilterDes("");
   };
 
   const handleChangeStatus = (value) => {
@@ -239,6 +242,18 @@ const ListOrder = () => {
         toast.error("Order is still pending or has been canceled.");
         return;
       }
+
+      let valid = tripList.every((trip) => {
+        if (trip.trip_id === order.trip_id) {
+          if (trip.status === "Standby") {
+            toast.error("Trip has not departed yet.");
+            return false;
+          }
+        }
+        return true;
+      });
+
+      if (!valid) return;
     }
 
     if (statusUpdate === "Canceled") {
@@ -455,6 +470,18 @@ const ListOrder = () => {
       toast.error("Empty order list.");
       return;
     }
+
+    let valid = tripList.every((trip) => {
+      if (trip.trip_id === selectedTrip?.value) {
+        if (trip.status === "Standby") {
+          toast.error("Trip has not departed yet.");
+          return false;
+        }
+      }
+      return true;
+    });
+
+    if (!valid) return;
 
     let data = await putUpdateOrderList(filterList);
     if (data && data.EC === 0) {
@@ -854,6 +881,7 @@ const ListOrder = () => {
                       <Form.Label>Anticipate Date</Form.Label>
                       <Form.Control
                         type="date"
+                        readOnly={order.status !== "Pending"}
                         value={anticipate}
                         onChange={(e) => setAnticipate(e.target.value)}
                       />
@@ -875,7 +903,14 @@ const ListOrder = () => {
                   </Row>
                   <hr />
                   <div style={{ textAlign: "right" }}>
-                    <Button type="submit" variant="primary">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      disabled={
+                        order.status === "Completed" ||
+                        order.status === "Canceled"
+                      }
+                    >
                       {t("orderList.confirmBtn")}
                     </Button>
                   </div>

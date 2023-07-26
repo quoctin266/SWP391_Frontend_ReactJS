@@ -21,6 +21,21 @@
             margin-bottom: 20px;
         }
 
+        .tip {
+            text-align   : center;
+            font-size    : 1.2em;
+            margin-bottom: 20px;
+            font-weight  : 500;
+
+            span {
+                cursor: pointer;
+
+                &:hover {
+                    color: #707070;
+                }
+            }
+        }
+
         .booking-body {
             display       : flex;
             padding       : 2% 0;

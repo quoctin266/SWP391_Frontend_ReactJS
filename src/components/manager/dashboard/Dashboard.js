@@ -136,8 +136,8 @@ const Dashboard = () => {
                   <Form.Control
                     type="number"
                     placeholder={t("dashboard.note")}
-                    min={2023}
-                    max={2043}
+                    min={2022}
+                    max={2042}
                     isInvalid={invalidYear}
                     value={year}
                     onChange={(e) => handleChangeYear(e.target.value)}
